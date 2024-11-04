@@ -14,6 +14,8 @@ namespace IT_Institute_Management.Entity
         public DateTime Date { get; set; }
 
         [Required(ErrorMessage = "Student NIC is required.")]
-        public Guid StudentNIC { get; set; }  // Foreign key to Student
+        public string StudentNIC { get; set; }  // Foreign key to Student
+
+        public Student Student { get; set; }
     }
 }

@@ -25,5 +25,8 @@ namespace IT_Institute_Management.Entity
 
         [Required(ErrorMessage = "Course ID is required.")]
         public Guid CourseId { get; set; }  // Foreign key to Course
+
+
+        public ICollection<Payment>? payments { get; set; }
     }
 }

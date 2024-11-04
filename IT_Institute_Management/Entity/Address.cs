@@ -21,8 +21,8 @@
 
         [Required(ErrorMessage = "Student NIC is required.")]
 
-        public Student Student { get; set; }
-        public Guid StudentNIC { get; set; }  // Foreign key to Student
+        public Student? Student { get; set; }
+        public string? StudentNIC { get; set; }  // Foreign key to Student
     }
 
 }
