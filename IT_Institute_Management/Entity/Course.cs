@@ -22,6 +22,6 @@ namespace IT_Institute_Management.Entity
         [Required(ErrorMessage = "Image path is required.")]
         public string ImagePath { get; set; }
 
-        public ICollection<Enrollment> Enrollments { get; set; }
+        public ICollection<Enrollment>? Enrollments { get; set; }
     }
 }

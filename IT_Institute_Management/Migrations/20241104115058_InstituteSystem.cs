@@ -143,7 +143,7 @@ namespace IT_Institute_Management.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StudentNIC = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    StudentNIC = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -152,8 +152,7 @@ namespace IT_Institute_Management.Migrations
                         name: "FK_Notification_Students_StudentNIC",
                         column: x => x.StudentNIC,
                         principalTable: "Students",
-                        principalColumn: "NIC",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "NIC");
                 });
 
             migrationBuilder.CreateTable(
@@ -165,7 +164,7 @@ namespace IT_Institute_Management.Migrations
                     PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FullAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DueAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    EnrollmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    EnrollmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -174,8 +173,7 @@ namespace IT_Institute_Management.Migrations
                         name: "FK_Payment_Enrollment_EnrollmentId",
                         column: x => x.EnrollmentId,
                         principalTable: "Enrollment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

@@ -192,7 +192,6 @@ namespace IT_Institute_Management.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StudentNIC")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -214,7 +213,7 @@ namespace IT_Institute_Management.Migrations
                     b.Property<decimal>("DueAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("EnrollmentId")
+                    b.Property<Guid?>("EnrollmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("FullAmount")
@@ -303,9 +302,7 @@ namespace IT_Institute_Management.Migrations
                 {
                     b.HasOne("IT_Institute_Management.Entity.Student", "Student")
                         .WithMany("Notifications")
-                        .HasForeignKey("StudentNIC")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StudentNIC");
 
                     b.Navigation("Student");
                 });
@@ -314,9 +311,7 @@ namespace IT_Institute_Management.Migrations
                 {
                     b.HasOne("IT_Institute_Management.Entity.Enrollment", "Enrollment")
                         .WithMany("payments")
-                        .HasForeignKey("EnrollmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EnrollmentId");
 
                     b.Navigation("Enrollment");
                 });

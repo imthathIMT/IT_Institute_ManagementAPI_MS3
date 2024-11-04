@@ -19,10 +19,9 @@ namespace IT_Institute_Management.Entity
         [Required(ErrorMessage = "Due amount is required.")]
         public decimal DueAmount { get; set; }
 
-        public Enrollment Enrollment { get; set; } // Navigation property
+        public Enrollment? Enrollment { get; set; } // Navigation property
 
-        [Required(ErrorMessage = "Enrollment ID is required.")]
-        public Guid EnrollmentId { get; set; }  // Foreign key to Enrollment
+        public Guid? EnrollmentId { get; set; }  // Foreign key to Enrollment
 
     }
 }
