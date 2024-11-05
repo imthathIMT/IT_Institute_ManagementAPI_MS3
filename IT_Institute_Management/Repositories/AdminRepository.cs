@@ -25,6 +25,21 @@ namespace IT_Institute_Management.Repositories
         }
 
 
+        public async Task UpdateAsync(Admin admin)
+        {
+            _instituteDbContext.Admins.Update(admin);
+            await _instituteDbContext.SaveChangesAsync();
+        }
+        public async Task DeleteAsync(string nic)
+        {
+            var admin = await _instituteDbContext.Admins.FindAsync(nic);
+            if (admin != null)
+            {
+                _instituteDbContext.Admins.Remove(admin);
+                await _instituteDbContext.SaveChangesAsync();
+            }
+        }
+
 
 
     }

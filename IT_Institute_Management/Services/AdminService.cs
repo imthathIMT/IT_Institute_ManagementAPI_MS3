@@ -34,6 +34,16 @@ namespace IT_Institute_Management.Services
             var admin = new Admin { NIC = adminDto.NIC, Password = adminDto.Password };
             await _adminRepository.AddAsync(admin);
         }
+        public async Task UpdateAsync(AdminRequestDto adminDto)
+        {
+            var admin = new Admin { NIC = adminDto.NIC, Password = adminDto.Password };
+            await _adminRepository.UpdateAsync(admin);
+        }
+        public async Task DeleteAsync(string nic)
+        {
+            await _adminRepository.DeleteAsync(nic);
+        }
+
 
 
     }

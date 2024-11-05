@@ -34,7 +34,20 @@ namespace IT_Institute_Management.Controllers
         }
 
 
-        .
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] AdminRequestDto adminDto)
+        {
+            await _adminService.UpdateAsync(adminDto);
+            return NoContent();
+        }
+
+        [HttpDelete("{nic}")]
+        public async Task<IActionResult> Delete(string nic)
+        {
+            await _adminService.DeleteAsync(nic);
+            return NoContent();
+        }
+
 
     }
 }
