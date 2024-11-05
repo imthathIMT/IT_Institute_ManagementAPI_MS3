@@ -29,5 +29,23 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPayment(Guid id)
+        {
+            try
+            {
+                var payment = await _paymentService.GetPaymentByIdAsync(id);
+                return Ok(payment);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { message = "Payment not found" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
     }
 }
