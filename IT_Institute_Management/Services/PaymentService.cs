@@ -27,5 +27,24 @@ namespace IT_Institute_Management.Services
                 EnrollmentId = (Guid)p.EnrollmentId
             });
         }
+
+
+        public async Task<PaymentResponseDto> GetPaymentByIdAsync(Guid id)
+        {
+            var payment = await _paymentRepository.GetPaymentByIdAsync(id);
+
+            if (payment == null)
+                throw new KeyNotFoundException("Payment not found.");
+
+            return new PaymentResponseDto
+            {
+                Id = payment.Id,
+                Amount = payment.Amount,
+                PaymentDate = payment.PaymentDate,
+                FullAmount = payment.FullAmount,
+                DueAmount = payment.DueAmount,
+                EnrollmentId = (Guid)payment.EnrollmentId
+            };
+        }
     }
 }
