@@ -24,5 +24,11 @@ namespace IT_Institute_Management.Repositories
             return await _context.Payments.Include(p => p.Enrollment).FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task CreatePaymentAsync(Payment payment)
+        {
+            await _context.Payments.AddAsync(payment);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }
