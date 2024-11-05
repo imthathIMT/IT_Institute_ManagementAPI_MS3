@@ -6,5 +6,6 @@ namespace IT_Institute_Management.IRepositories
     {
         Task<IEnumerable<Notification>> GetAllNotificationsAsync();
         Task<Notification> GetNotificationByIdAsync(Guid id);
+        Task AddNotificationAsync(Notification notification);
     }
 }
