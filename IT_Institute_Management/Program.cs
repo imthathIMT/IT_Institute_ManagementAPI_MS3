@@ -23,7 +23,8 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 
-<<<<<<< HEAD
+builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
+builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
@@ -32,12 +33,8 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IAdminRepository,AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
-
-=======
 builder.Services.AddScoped<IAdminRepository,AdminRepository>();
-builder.Services.AddScoped<IAdminService, AdminService>();
-
->>>>>>> 996be373217021b94823b8e77fa727e3e6e98672
+builder.Services.AddScoped<IAdminService, AdminService>(); 
 builder.Services.AddCors(option =>
 {
     option.AddPolicy("AllowSpecificOrigins",
