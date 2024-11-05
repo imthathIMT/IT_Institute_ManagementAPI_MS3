@@ -24,14 +24,22 @@ namespace IT_Institute_Management.Entity
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Phone number is required.")]
-        [RegularExpression(@"^07\d{8}$",
-            ErrorMessage = "Phone number must be exactly 10 digits and start with 07.")]
-        public string Phone { get; set; }
+        [RegularExpression(@"^\+?(\d{1,4})?[\s\-]?\(?\d{1,4}?\)?[\s\-]?\d{1,4}[\s\-]?\d{1,4}[\s\-]?\d{1,4}$",
+            ErrorMessage = "Phone number must be in a valid international format. Example format: +44 20 7946 0958.")]
+        public string? Phone { get; set; }
+
+        // Whatsapp Number
+        [Required(ErrorMessage = "Phone number is required.")]
+        [RegularExpression(@"^\+?(\d{1,4})?[\s\-]?\(?\d{1,4}?\)?[\s\-]?\d{1,4}[\s\-]?\d{1,4}[\s\-]?\d{1,4}$",
+    ErrorMessage = "Phone number must be in a valid international format. Example format: +44 20 7946 0958.")]
+        public string? WhatsappNuber { get; set; }
+
+
 
         [Required(ErrorMessage = "Password is required.")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$",
-            ErrorMessage = "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, and 1 special character.")]
-        public string Password { get; set; }
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$",
+            ErrorMessage = "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.")]
+        public string? Password { get; set; }
 
         public string? ImagePath { get; set; }
 
@@ -40,7 +48,12 @@ namespace IT_Institute_Management.Entity
  
 
         public Address? Address { get; set; }
+<<<<<<< HEAD
         public ICollection<Notification>? Notification { get; set; }
         public ICollection<Enrollment>? Enrollments { get; set; }
+=======
+        public ICollection<Notification>? Notifications { get; set; }  //Navigation property
+        public ICollection<Enrollment>? Enrollments { get; set; } //Navigation property
+>>>>>>> 53e39be4f080607cd798ad1ce2cfc963db3c3c24
     }
 }
