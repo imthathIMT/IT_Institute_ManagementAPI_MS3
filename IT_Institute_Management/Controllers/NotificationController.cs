@@ -63,5 +63,25 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateNotification(Guid id, NotificationRequestDTO notificationRequest)
+        {
+            try
+            {
+                await _notificationService.UpdateNotificationAsync(id, notificationRequest);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { message = "Notification not found." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 }
