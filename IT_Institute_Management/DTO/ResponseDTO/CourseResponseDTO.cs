@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IT_Institute_Management.Entity
+namespace IT_Institute_Management.DTO.ResponseDTO
 {
-    public class Course
+    public class CourseResponseDTO
     {
         [Key]
         public Guid Id { get; set; }
@@ -24,7 +24,5 @@ namespace IT_Institute_Management.Entity
         [Required(ErrorMessage = "Image path is required.")]
         [MaxLength(255, ErrorMessage = "Image path cannot exceed 255 characters.")]
         public string ImagePath { get; set; }
-
-        public ICollection<Enrollment>? Enrollments { get; set; }
     }
 }
