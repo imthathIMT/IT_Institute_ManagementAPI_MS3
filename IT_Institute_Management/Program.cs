@@ -23,6 +23,9 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 
+builder.Services.AddScoped<IAdminRepository,AdminRepository>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+
 builder.Services.AddCors(option =>
 {
     option.AddPolicy("AllowSpecificOrigins",
