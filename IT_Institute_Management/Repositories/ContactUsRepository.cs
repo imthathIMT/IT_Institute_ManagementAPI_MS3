@@ -29,6 +29,12 @@ namespace IT_Institute_Management.Repositories
             await _instituteDbContext.ContactUs.AddAsync(contactUs);
             await _instituteDbContext.SaveChangesAsync();
         }
+        public async Task UpdateAsync(ContactUs contactUs)
+        {
+            _instituteDbContext.ContactUs.Update(contactUs);
+            await _instituteDbContext.SaveChangesAsync();
+        }
+
 
     }
 }

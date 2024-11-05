@@ -51,6 +51,18 @@ namespace IT_Institute_Management.Services
             };
             await _contactUsRepository.AddAsync(contactUs);
         }
+        public async Task UpdateAsync(Guid id, ContactUsRequestDto contactUsDto)
+        {
+            var contactUs = new ContactUs
+            {
+                Id = id,
+                Name = contactUsDto.Name,
+                Email = contactUsDto.Email,
+                Message = contactUsDto.Message,
+                Date = contactUsDto.Date
+            };
+            await _contactUsRepository.UpdateAsync(contactUs);
+        }
 
 
     }

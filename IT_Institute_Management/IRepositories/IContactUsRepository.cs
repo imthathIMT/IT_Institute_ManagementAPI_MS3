@@ -7,6 +7,6 @@ namespace IT_Institute_Management.IRepositories
         Task<IEnumerable<ContactUs>> GetAllAsync();
         Task<ContactUs> GetByIdAsync(Guid id);
         Task AddAsync(ContactUs contactUs);
-
+        Task UpdateAsync(ContactUs contactUs);
     }
 }

@@ -39,6 +39,13 @@ namespace IT_Institute_Management.Controllers
             await _contactUsService.AddAsync(contactUsDto);
             return CreatedAtAction(nameof(GetById), new { id = Guid.NewGuid() }, contactUsDto);
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] ContactUsRequestDto contactUsDto)
+        {
+            await _contactUsService.UpdateAsync(id, contactUsDto);
+            return NoContent();
+        }
+
 
     }
 }
