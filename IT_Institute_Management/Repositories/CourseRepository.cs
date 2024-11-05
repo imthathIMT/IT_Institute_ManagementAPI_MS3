@@ -60,5 +60,10 @@ namespace IT_Institute_Management.Repositories
                 throw new KeyNotFoundException("Course not found.");
             }
         }
+
+        public async Task<bool> CourseExistsAsync(Guid id)
+        {
+            return await _context.Courses.AnyAsync(c => c.Id == id);
+        }
     }
 }
