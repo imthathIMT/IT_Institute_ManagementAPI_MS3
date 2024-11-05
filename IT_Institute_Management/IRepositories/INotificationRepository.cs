@@ -8,5 +8,6 @@ namespace IT_Institute_Management.IRepositories
         Task<Notification> GetNotificationByIdAsync(Guid id);
         Task AddNotificationAsync(Notification notification);
         Task UpdateNotificationAsync(Notification notification);
+        Task DeleteNotificationAsync(Guid id);
     }
 }
