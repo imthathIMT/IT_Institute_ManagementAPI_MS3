@@ -15,7 +15,7 @@ namespace IT_Institute_Management.Database
         public DbSet<Student> Students { get; set; }
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Notification> Notification { get; set; }
-        public DbSet<Enrollment> Enrollments { get; set; } 
+        public DbSet<Enrollment> Enrollment { get; set; } 
         public DbSet<Payment> Payments { get; set; }
 
 
@@ -30,12 +30,12 @@ namespace IT_Institute_Management.Database
                .HasForeignKey<Address>(a => a.StudentNIC);
 
             modelBuilder.Entity<Student>()
-                .HasMany(e => e.Enrollments)
+                .HasMany(e => e.Enrollment)
                 .WithOne(s=> s.Student)
                 .HasForeignKey(e => e.StudentNIC);
 
             modelBuilder.Entity<Course>()
-                .HasMany(e => e.Enrollments)
+                .HasMany(e => e.Enrollment)
                 .WithOne(c => c.Course)
                 .HasForeignKey(e => e.CourseId);
 

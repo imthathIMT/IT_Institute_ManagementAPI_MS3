@@ -28,7 +28,7 @@ namespace IT_Institute_Management.Entity
             ErrorMessage = "Phone number must be in a valid international format. Example format: +44 20 7946 0958.")]
         public string? Phone { get; set; }
 
-        // Whatsapp Number
+        
         [Required(ErrorMessage = "Phone number is required.")]
         [RegularExpression(@"^\+?(\d{1,4})?[\s\-]?\(?\d{1,4}?\)?[\s\-]?\d{1,4}[\s\-]?\d{1,4}[\s\-]?\d{1,4}$",
     ErrorMessage = "Phone number must be in a valid international format. Example format: +44 20 7946 0958.")]
@@ -48,12 +48,11 @@ namespace IT_Institute_Management.Entity
  
 
         public Address? Address { get; set; }
-<<<<<<< HEAD
+
         public ICollection<Notification>? Notification { get; set; }
-        public ICollection<Enrollment>? Enrollments { get; set; }
-=======
-        public ICollection<Notification>? Notifications { get; set; }  //Navigation property
-        public ICollection<Enrollment>? Enrollments { get; set; } //Navigation property
->>>>>>> 53e39be4f080607cd798ad1ce2cfc963db3c3c24
+        public ICollection<Enrollment>? Enrollment { get; set; }
+
+       
+
     }
 }
