@@ -23,8 +23,12 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 
+<<<<<<< HEAD
 builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
 builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
+=======
+
+>>>>>>> 3b58c52e2884d1fbfcd43ef91c5244e23ef15bf5
 
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
@@ -33,8 +37,17 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IAdminRepository,AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
+<<<<<<< HEAD
 builder.Services.AddScoped<IAdminRepository,AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>(); 
+=======
+
+
+builder.Services.AddScoped<IAdminRepository,AdminRepository>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+
+
+>>>>>>> 3b58c52e2884d1fbfcd43ef91c5244e23ef15bf5
 builder.Services.AddCors(option =>
 {
     option.AddPolicy("AllowSpecificOrigins",

@@ -4,6 +4,7 @@ using IT_Institute_Management.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IT_Institute_Management.Migrations
 {
     [DbContext(typeof(InstituteDbContext))]
-    partial class InstituteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241105081240_debugs")]
+    partial class debugs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,30 +38,22 @@ namespace IT_Institute_Management.Migrations
                     b.Property<string>("AddressLine2")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("City")
+                    b.Property<string>("District")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
+                    b.Property<string>("Province")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StudentNIC")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ZipCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("StudentNIC")
-                        .IsUnique()
-                        .HasFilter("[StudentNIC] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Address");
                 });
@@ -238,7 +233,7 @@ namespace IT_Institute_Management.Migrations
 
                     b.HasIndex("EnrollmentId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("IT_Institute_Management.Entity.Student", b =>
@@ -264,6 +259,9 @@ namespace IT_Institute_Management.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<Guid>("NotificationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -275,10 +273,6 @@ namespace IT_Institute_Management.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<string>("WhatsappNuber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("NIC");
 
                     b.ToTable("Students");
@@ -288,7 +282,9 @@ namespace IT_Institute_Management.Migrations
                 {
                     b.HasOne("IT_Institute_Management.Entity.Student", "Student")
                         .WithOne("Address")
-                        .HasForeignKey("IT_Institute_Management.Entity.Address", "StudentNIC");
+                        .HasForeignKey("IT_Institute_Management.Entity.Address", "StudentNIC")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Student");
                 });
@@ -296,13 +292,13 @@ namespace IT_Institute_Management.Migrations
             modelBuilder.Entity("IT_Institute_Management.Entity.Enrollment", b =>
                 {
                     b.HasOne("IT_Institute_Management.Entity.Course", "Course")
-                        .WithMany("Enrollment")
+                        .WithMany("Enrollments")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("IT_Institute_Management.Entity.Student", "Student")
-                        .WithMany("Enrollment")
+                        .WithMany("Enrollments")
                         .HasForeignKey("StudentNIC")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -325,15 +321,14 @@ namespace IT_Institute_Management.Migrations
                 {
                     b.HasOne("IT_Institute_Management.Entity.Enrollment", "Enrollment")
                         .WithMany("payments")
-                        .HasForeignKey("EnrollmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EnrollmentId");
 
                     b.Navigation("Enrollment");
                 });
 
             modelBuilder.Entity("IT_Institute_Management.Entity.Course", b =>
                 {
-                    b.Navigation("Enrollment");
+                    b.Navigation("Enrollments");
                 });
 
             modelBuilder.Entity("IT_Institute_Management.Entity.Enrollment", b =>
@@ -345,7 +340,7 @@ namespace IT_Institute_Management.Migrations
                 {
                     b.Navigation("Address");
 
-                    b.Navigation("Enrollment");
+                    b.Navigation("Enrollments");
 
                     b.Navigation("Notification");
                 });

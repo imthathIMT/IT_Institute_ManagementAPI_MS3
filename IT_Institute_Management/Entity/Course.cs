@@ -25,6 +25,6 @@ namespace IT_Institute_Management.Entity
         [MaxLength(255, ErrorMessage = "Image path cannot exceed 255 characters.")]
         public string ImagePath { get; set; }
 
-        public ICollection<Enrollment>? Enrollments { get; set; }
+        public ICollection<Enrollment>? Enrollment { get; set; }
     }
 }

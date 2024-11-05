@@ -24,21 +24,35 @@ namespace IT_Institute_Management.Entity
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Phone number is required.")]
-        [RegularExpression(@"^07\d{8}$",
-            ErrorMessage = "Phone number must be exactly 10 digits and start with 07.")]
-        public string Phone { get; set; }
+        [RegularExpression(@"^\+?(\d{1,4})?[\s\-]?\(?\d{1,4}?\)?[\s\-]?\d{1,4}[\s\-]?\d{1,4}[\s\-]?\d{1,4}$",
+            ErrorMessage = "Phone number must be in a valid international format. Example format: +44 20 7946 0958.")]
+        public string? Phone { get; set; }
+
+        
+        [Required(ErrorMessage = "Phone number is required.")]
+        [RegularExpression(@"^\+?(\d{1,4})?[\s\-]?\(?\d{1,4}?\)?[\s\-]?\d{1,4}[\s\-]?\d{1,4}[\s\-]?\d{1,4}$",
+    ErrorMessage = "Phone number must be in a valid international format. Example format: +44 20 7946 0958.")]
+        public string? WhatsappNuber { get; set; }
+
+
 
         [Required(ErrorMessage = "Password is required.")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$",
-            ErrorMessage = "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, and 1 special character.")]
-        public string Password { get; set; }
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$",
+            ErrorMessage = "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.")]
+        public string? Password { get; set; }
 
         public string? ImagePath { get; set; }
 
         public bool Status { get; set; }  // Indicates if the account is locked (true) or unlocked (false)
 
+ 
+
         public Address? Address { get; set; }
-        public ICollection<Notification>? Notifications { get; set; }
-        public ICollection<Enrollment>? Enrollments { get; set; }
+
+        public ICollection<Notification>? Notification { get; set; }
+        public ICollection<Enrollment>? Enrollment { get; set; }
+
+       
+
     }
 }
