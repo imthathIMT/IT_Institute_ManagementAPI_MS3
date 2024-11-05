@@ -56,6 +56,11 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.UpdateAsync(announcement);
         }
+        public async Task DeleteAsync(Guid id)
+        {
+            await _announcementRepository.DeleteAsync(id);
+        }
+
 
 
     }

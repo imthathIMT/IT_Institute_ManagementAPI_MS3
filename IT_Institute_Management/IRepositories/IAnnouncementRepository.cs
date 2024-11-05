@@ -8,6 +8,7 @@ namespace IT_Institute_Management.IRepositories
         Task<Announcement> GetByIdAsync(Guid id);
         Task AddAsync(Announcement announcement);
         Task UpdateAsync(Announcement announcement);
+        Task DeleteAsync(Guid id);
 
     }
 }

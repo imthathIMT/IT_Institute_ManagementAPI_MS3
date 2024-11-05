@@ -45,6 +45,13 @@ namespace IT_Institute_Management.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _announcementService.DeleteAsync(id);
+            return NoContent();
+        }
+
 
     }
 }
