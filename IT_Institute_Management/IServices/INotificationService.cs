@@ -9,5 +9,6 @@ namespace IT_Institute_Management.IServices
         Task<NotificationResponseDTO> GetNotificationByIdAsync(Guid id);
         Task CreateNotificationAsync(NotificationRequestDTO notificationRequest);
         Task UpdateNotificationAsync(Guid id, NotificationRequestDTO notificationRequest);
+        Task DeleteNotificationAsync(Guid id);
     }
 }
