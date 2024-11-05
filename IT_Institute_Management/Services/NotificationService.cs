@@ -68,5 +68,15 @@ namespace IT_Institute_Management.Services
 
             await _notificationRepository.UpdateNotificationAsync(notification);
         }
+
+
+        public async Task DeleteNotificationAsync(Guid id)
+        {
+            var notificationExists = await _notificationRepository.NotificationExistsAsync(id);
+            if (!notificationExists)
+                throw new KeyNotFoundException("Notification not found.");
+
+            await _notificationRepository.DeleteNotificationAsync(id);
+        }
     }
 }
