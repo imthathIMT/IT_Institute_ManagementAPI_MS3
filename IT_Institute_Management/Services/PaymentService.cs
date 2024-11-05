@@ -63,5 +63,20 @@ namespace IT_Institute_Management.Services
 
             await _paymentRepository.CreatePaymentAsync(payment);
         }
+
+        public async Task UpdatePaymentAsync(Guid id, PaymentRequestDto paymentRequestDto)
+        {
+            var existingPayment = await _paymentRepository.GetPaymentByIdAsync(id);
+
+            if (existingPayment == null)
+                throw new KeyNotFoundException("Payment not found.");
+
+            existingPayment.Amount = paymentRequestDto.Amount;
+            existingPayment.PaymentDate = paymentRequestDto.PaymentDate;
+            existingPayment.FullAmount = paymentRequestDto.FullAmount;
+            existingPayment.DueAmount = paymentRequestDto.DueAmount;
+
+            await _paymentRepository.UpdatePaymentAsync(existingPayment);
+        }
     }
 }
