@@ -1,4 +1,5 @@
-﻿using IT_Institute_Management.IServices;
+﻿using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,6 +41,20 @@ namespace IT_Institute_Management.Controllers
             catch (KeyNotFoundException)
             {
                 return NotFound(new { message = "Payment not found" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePayment([FromBody] PaymentRequestDto paymentRequestDto)
+        {
+            try
+            {
+                await _paymentService.CreatePaymentAsync(paymentRequestDto);
+                return CreatedAtAction(nameof(GetPayment), new { id = paymentRequestDto.EnrollmentId }, paymentRequestDto);
             }
             catch (Exception ex)
             {
