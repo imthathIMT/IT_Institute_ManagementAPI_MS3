@@ -19,6 +19,11 @@ namespace IT_Institute_Management.Repositories
         {
             return await _instituteDbcontext.Announcements.FindAsync(id);
         }
+        public async Task AddAsync(Announcement announcement)
+        {
+            await _instituteDbcontext.Announcements.AddAsync(announcement);
+            await _instituteDbcontext.SaveChangesAsync();
+        }
 
 
     }

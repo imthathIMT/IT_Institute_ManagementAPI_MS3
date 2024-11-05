@@ -8,7 +8,7 @@ namespace IT_Institute_Management.IServices
         Task<IEnumerable<AnnouncementResponseDto>> GetAllAsync();
 
         Task<AnnouncementResponseDto> GetByIdAsync(Guid id);
-
+        Task AddAsync(AnnouncementRequestDto announcementDto);
 
     }
 }
