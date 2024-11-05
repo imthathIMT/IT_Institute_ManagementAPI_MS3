@@ -20,6 +20,17 @@ namespace IT_Institute_Management.Controllers
             var announcements = await _announcementService.GetAllAsync();
             return Ok(announcements);
         }
-       
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var announcement = await _announcementService.GetByIdAsync(id);
+            if (announcement == null)
+            {
+                return NotFound();
+            }
+            return Ok(announcement);
+        }
+
     }
 }

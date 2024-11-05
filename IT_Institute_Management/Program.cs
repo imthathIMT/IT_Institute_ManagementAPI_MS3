@@ -1,4 +1,5 @@
 using IT_Institute_Management.Database;
+using IT_Institute_Management.EmailSerivice;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 using IT_Institute_Management.Repositories;
@@ -47,6 +48,9 @@ builder.Services.AddScoped<IAdminRepository,AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
 
+builder.Services.AddScoped<IEmailService, EmailService>();
+
+
 
 builder.Services.AddCors(option =>
 {
@@ -60,7 +64,7 @@ builder.Services.AddCors(option =>
         });
 });
 
-var app = builder.Build();
+   var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

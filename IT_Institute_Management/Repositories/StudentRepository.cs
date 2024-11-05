@@ -16,7 +16,7 @@ namespace IT_Institute_Management.Repositories
 
         public async Task<List<Student>> GetAllAsync()
         {
-            return await _context.Students.Include(s => s.Address).Include(e=> e.Enrollments).ToListAsync();
+            return await _context.Students.Include(s => s.Address).Include(e => e.Enrollment).ToListAsync();
         }
     }
 }

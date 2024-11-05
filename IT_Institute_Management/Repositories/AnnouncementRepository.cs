@@ -15,6 +15,11 @@ namespace IT_Institute_Management.Repositories
         public async Task<IEnumerable<Announcement>> GetAllAsync() {
             return await _instituteDbcontext.Announcements.ToListAsync();
         }
-       
+        public async Task<Announcement> GetByIdAsync(Guid id)
+        {
+            return await _instituteDbcontext.Announcements.FindAsync(id);
+        }
+
+
     }
 }

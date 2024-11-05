@@ -4,8 +4,9 @@ namespace IT_Institute_Management.IRepositories
 {
     public interface IAnnouncementRepository
     {
-            Task<IEnumerable<Announcement>> GetAllAsync();
-           
-       
+        Task<IEnumerable<Announcement>> GetAllAsync();
+        Task<Announcement> GetByIdAsync(Guid id);
+
+
     }
 }

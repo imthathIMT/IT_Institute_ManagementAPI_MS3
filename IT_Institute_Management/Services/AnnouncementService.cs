@@ -20,8 +20,21 @@ namespace IT_Institute_Management.Services
                 Id = a.Id,
                 Title = a.Title,
                 Body = a.Body,
-                Date = a.Date }); 
+                Date = a.Date 
+            }); 
         }
-        
+        public async Task<AnnouncementResponseDto> GetByIdAsync(Guid id)
+        {
+            var announcement = await _announcementRepository.GetByIdAsync(id);
+            return new AnnouncementResponseDto
+            {
+                Id = announcement.Id,
+                Title = announcement.Title,
+                Body = announcement.Body,
+                Date = announcement.Date
+            };
+        }
+
+
     }
 }
