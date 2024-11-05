@@ -9,5 +9,7 @@ namespace IT_Institute_Management.IServices
         Task<PaymentResponseDto> GetPaymentByIdAsync(Guid id);
         Task CreatePaymentAsync(PaymentRequestDto paymentRequestDto);
         Task UpdatePaymentAsync(Guid id, PaymentRequestDto paymentRequestDto);
+
+        Task DeletePaymentAsync(Guid id);
     }
 }
