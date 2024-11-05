@@ -15,5 +15,19 @@ namespace IT_Institute_Management.Controllers
             _notificationService = notificationService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllNotifications()
+        {
+            try
+            {
+                var notifications = await _notificationService.GetAllNotificationsAsync();
+                return Ok(notifications);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 }
