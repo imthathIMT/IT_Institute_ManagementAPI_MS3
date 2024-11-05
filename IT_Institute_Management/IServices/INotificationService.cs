@@ -5,5 +5,6 @@ namespace IT_Institute_Management.IServices
     public interface INotificationService
     {
         Task<IEnumerable<NotificationResponseDTO>> GetAllNotificationsAsync();
+        Task<NotificationResponseDTO> GetNotificationByIdAsync(Guid id);
     }
 }
