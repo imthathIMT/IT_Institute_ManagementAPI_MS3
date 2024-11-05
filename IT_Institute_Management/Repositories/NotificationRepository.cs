@@ -23,5 +23,14 @@ namespace IT_Institute_Management.Repositories
         {
             return await _context.Notifications.FirstOrDefaultAsync(n => n.Id == id);
         }
+
+        public async Task AddNotificationAsync(Notification notification)
+        {
+            if (notification == null)
+                throw new ArgumentNullException(nameof(notification));
+
+            await _context.Notifications.AddAsync(notification);
+            await _context.SaveChangesAsync();
+        }
     }
 }
