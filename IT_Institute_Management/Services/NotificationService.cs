@@ -1,4 +1,6 @@
-﻿using IT_Institute_Management.DTO.ResponseDTO;
+﻿using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.DTO.ResponseDTO;
+using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 
@@ -39,6 +41,19 @@ namespace IT_Institute_Management.Services
                 Date = notification.Date,
                 StudentNIC = notification.StudentNIC
             };
+        }
+
+
+        public async Task CreateNotificationAsync(NotificationRequestDTO notificationRequest)
+        {
+            var notification = new Notification
+            {
+                Message = notificationRequest.Message,
+                Date = notificationRequest.Date,
+                StudentNIC = notificationRequest.StudentNIC
+            };
+
+            await _notificationRepository.AddNotificationAsync(notification);
         }
     }
 }
