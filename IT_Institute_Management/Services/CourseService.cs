@@ -1,4 +1,6 @@
-﻿using IT_Institute_Management.DTO.ResponseDTO;
+﻿using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.DTO.ResponseDTO;
+using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 
@@ -43,6 +45,20 @@ namespace IT_Institute_Management.Services
                 Fees = course.Fees,
                 ImagePath = course.ImagePath
             };
+        }
+
+        public async Task CreateCourseAsync(CourseRequestDTO courseRequest)
+        {
+            var course = new Course
+            {
+                CourseName = courseRequest.CourseName,
+                Level = courseRequest.Level,
+                Duration = courseRequest.Duration,
+                Fees = courseRequest.Fees,
+                ImagePath = courseRequest.ImagePath
+            };
+
+            await _courseRepository.AddCourseAsync(course);
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using IT_Institute_Management.IServices;
+﻿using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,6 +43,21 @@ namespace IT_Institute_Management.Controllers
             catch (KeyNotFoundException)
             {
                 return NotFound(new { message = "Course not found." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCourse(CourseRequestDTO courseRequest)
+        {
+            try
+            {
+                await _courseService.CreateCourseAsync(courseRequest);
+                return CreatedAtAction(nameof(GetCourseById), new { id = courseRequest.CourseName }, courseRequest);
             }
             catch (Exception ex)
             {

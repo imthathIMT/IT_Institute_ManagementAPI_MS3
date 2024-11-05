@@ -6,5 +6,6 @@ namespace IT_Institute_Management.IRepositories
     {
         Task<IEnumerable<Course>> GetAllCoursesAsync();
         Task<Course> GetCourseByIdAsync(Guid id);
+        Task AddCourseAsync(Course course);
     }
 }
