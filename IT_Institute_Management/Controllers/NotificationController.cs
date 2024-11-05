@@ -83,5 +83,23 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteNotification(Guid id)
+        {
+            try
+            {
+                await _notificationService.DeleteNotificationAsync(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { message = "Notification not found." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 }
