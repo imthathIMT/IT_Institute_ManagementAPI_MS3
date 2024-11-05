@@ -29,5 +29,24 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetNotificationById(Guid id)
+        {
+            try
+            {
+                var notification = await _notificationService.GetNotificationByIdAsync(id);
+                return Ok(notification);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { message = "Notification not found." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 }
