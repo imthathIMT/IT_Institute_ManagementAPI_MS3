@@ -77,5 +77,14 @@ namespace IT_Institute_Management.Services
             await _courseRepository.UpdateCourseAsync(course);
         }
 
+        public async Task DeleteCourseAsync(Guid id)
+        {
+            var courseExists = await _courseRepository.CourseExistsAsync(id);
+            if (!courseExists)
+                throw new KeyNotFoundException("Course not found.");
+
+            await _courseRepository.DeleteCourseAsync(id);
+        }
+
     }
 }

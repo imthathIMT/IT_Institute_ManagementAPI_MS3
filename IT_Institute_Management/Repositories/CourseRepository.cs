@@ -45,5 +45,20 @@ namespace IT_Institute_Management.Repositories
             _context.Courses.Update(course);
             await _context.SaveChangesAsync();
         }
+
+
+        public async Task DeleteCourseAsync(Guid id)
+        {
+            var course = await _context.Courses.FindAsync(id);
+            if (course != null)
+            {
+                _context.Courses.Remove(course);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException("Course not found.");
+            }
+        }
     }
 }

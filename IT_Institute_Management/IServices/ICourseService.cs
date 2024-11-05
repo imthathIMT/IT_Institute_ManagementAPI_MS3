@@ -9,5 +9,6 @@ namespace IT_Institute_Management.IServices
         Task<CourseResponseDTO> GetCourseByIdAsync(Guid id);
         Task CreateCourseAsync(CourseRequestDTO courseRequest);
         Task UpdateCourseAsync(Guid id, CourseRequestDTO courseRequest);
+        Task DeleteCourseAsync(Guid id);
     }
 }

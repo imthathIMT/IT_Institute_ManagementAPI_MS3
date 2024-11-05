@@ -8,5 +8,6 @@ namespace IT_Institute_Management.IRepositories
         Task<Course> GetCourseByIdAsync(Guid id);
         Task AddCourseAsync(Course course);
         Task UpdateCourseAsync(Course course);
+        Task DeleteCourseAsync(Guid id);
     }
 }
