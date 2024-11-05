@@ -18,5 +18,10 @@ namespace IT_Institute_Management.Repositories
         {
             return await _context.Notifications.ToListAsync();
         }
+
+        public async Task<Notification> GetNotificationByIdAsync(Guid id)
+        {
+            return await _context.Notifications.FirstOrDefaultAsync(n => n.Id == id);
+        }
     }
 }
