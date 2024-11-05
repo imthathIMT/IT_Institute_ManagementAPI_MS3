@@ -41,5 +41,20 @@ namespace IT_Institute_Management.Repositories
             _context.Notifications.Update(notification);
             await _context.SaveChangesAsync();
         }
+
+
+        public async Task DeleteNotificationAsync(Guid id)
+        {
+            var notification = await _context.Notifications.FindAsync(id);
+            if (notification != null)
+            {
+                _context.Notifications.Remove(notification);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException("Notification not found.");
+            }
+        }
     }
 }
