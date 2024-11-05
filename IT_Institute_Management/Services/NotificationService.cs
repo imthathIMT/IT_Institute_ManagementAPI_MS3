@@ -55,5 +55,18 @@ namespace IT_Institute_Management.Services
 
             await _notificationRepository.AddNotificationAsync(notification);
         }
+
+        public async Task UpdateNotificationAsync(Guid id, NotificationRequestDTO notificationRequest)
+        {
+            var notification = await _notificationRepository.GetNotificationByIdAsync(id);
+            if (notification == null)
+                throw new KeyNotFoundException("Notification not found.");
+
+            notification.Message = notificationRequest.Message;
+            notification.Date = notificationRequest.Date;
+            notification.StudentNIC = notificationRequest.StudentNIC;
+
+            await _notificationRepository.UpdateNotificationAsync(notification);
+        }
     }
 }
