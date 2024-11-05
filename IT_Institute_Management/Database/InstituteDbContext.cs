@@ -14,7 +14,7 @@ namespace IT_Institute_Management.Database
         public DbSet<Course> Courses { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Announcement> Announcements { get; set; }
-        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Notification> Notification { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,14 +45,11 @@ namespace IT_Institute_Management.Database
            
 
             modelBuilder.Entity<Student>()
-                .HasMany(n => n.Notifications)
+                .HasMany(n => n.Notification)
                 .WithOne(s => s.Student)
                 .HasForeignKey(n => n.StudentNIC);
 
-            modelBuilder.Entity<Student>()
-               .HasMany(n => n.Notifications)
-               .WithOne(s => s.Student)
-               .HasForeignKey(n => n.StudentNIC);
+         
         }
     }
 }

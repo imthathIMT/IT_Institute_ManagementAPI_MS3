@@ -16,12 +16,12 @@ namespace IT_Institute_Management.Repositories
         //noti
         public async Task<IEnumerable<Notification>> GetAllNotificationsAsync()
         {
-            return await _context.Notifications.ToListAsync();
+            return await _context.Notification.ToListAsync();
         }
 
         public async Task<Notification> GetNotificationByIdAsync(Guid id)
         {
-            return await _context.Notifications.FirstOrDefaultAsync(n => n.Id == id);
+            return await _context.Notification.FirstOrDefaultAsync(n => n.Id == id);
         }
 
         public async Task AddNotificationAsync(Notification notification)
@@ -29,7 +29,7 @@ namespace IT_Institute_Management.Repositories
             if (notification == null)
                 throw new ArgumentNullException(nameof(notification));
 
-            await _context.Notifications.AddAsync(notification);
+            await _context.Notification.AddAsync(notification);
             await _context.SaveChangesAsync();
         }
 
@@ -38,17 +38,17 @@ namespace IT_Institute_Management.Repositories
             if (notification == null)
                 throw new ArgumentNullException(nameof(notification));
 
-            _context.Notifications.Update(notification);
+            _context.Notification.Update(notification);
             await _context.SaveChangesAsync();
         }
 
 
         public async Task DeleteNotificationAsync(Guid id)
         {
-            var notification = await _context.Notifications.FindAsync(id);
+            var notification = await _context.Notification.FindAsync(id);
             if (notification != null)
             {
-                _context.Notifications.Remove(notification);
+                _context.Notification.Remove(notification);
                 await _context.SaveChangesAsync();
             }
             else
@@ -60,7 +60,7 @@ namespace IT_Institute_Management.Repositories
 
         public async Task<bool> NotificationExistsAsync(Guid id)
         {
-            return await _context.Notifications.AnyAsync(n => n.Id == id);
+            return await _context.Notification.AnyAsync(n => n.Id == id);
         }
     }
 }
