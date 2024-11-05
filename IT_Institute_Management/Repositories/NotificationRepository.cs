@@ -56,5 +56,11 @@ namespace IT_Institute_Management.Repositories
                 throw new KeyNotFoundException("Notification not found.");
             }
         }
+
+
+        public async Task<bool> NotificationExistsAsync(Guid id)
+        {
+            return await _context.Notifications.AnyAsync(n => n.Id == id);
+        }
     }
 }
