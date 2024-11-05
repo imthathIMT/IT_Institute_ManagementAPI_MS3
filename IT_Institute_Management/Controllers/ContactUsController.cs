@@ -22,5 +22,16 @@ namespace IT_Institute_Management.Controllers
             return Ok(contacts);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var contact = await _contactUsService.GetByIdAsync(id);
+            if (contact == null)
+            {
+                return NotFound();
+            }
+            return Ok(contact);
+        }
+
     }
 }

@@ -2,6 +2,7 @@
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using System;
 
 namespace IT_Institute_Management.Repositories
@@ -16,6 +17,10 @@ namespace IT_Institute_Management.Repositories
         public async Task<IEnumerable<ContactUs>> GetAllAsync()
         {
             return await _instituteDbContext.ContactUs.ToListAsync();
+        }
+        public async Task<ContactUs> GetByIdAsync(Guid id)
+        {
+            return await _instituteDbContext.ContactUs.FindAsync(id);
         }
 
 

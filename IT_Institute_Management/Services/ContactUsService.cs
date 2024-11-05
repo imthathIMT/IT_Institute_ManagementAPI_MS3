@@ -25,6 +25,18 @@ namespace IT_Institute_Management.Services
                 Date = c.Date
             });
         }
+        public async Task<ContactUsResponseDto> GetByIdAsync(Guid id)
+        {
+            var contact = await _contactUsRepository.GetByIdAsync(id);
+            return new ContactUsResponseDto
+            {
+                Id = contact.Id,
+                Name = contact.Name,
+                Email = contact.Email,
+                Message = contact.Message,
+                Date = contact.Date
+            };
+        }
 
     }
 }
