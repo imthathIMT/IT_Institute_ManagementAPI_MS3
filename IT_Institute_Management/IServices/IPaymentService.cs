@@ -1,4 +1,5 @@
-﻿using IT_Institute_Management.DTO.ResponseDTO;
+﻿using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.DTO.ResponseDTO;
 
 namespace IT_Institute_Management.IServices
 {
@@ -6,5 +7,6 @@ namespace IT_Institute_Management.IServices
     {
         Task<IEnumerable<PaymentResponseDto>> GetAllPaymentsAsync();
         Task<PaymentResponseDto> GetPaymentByIdAsync(Guid id);
+        Task CreatePaymentAsync(PaymentRequestDto paymentRequestDto);
     }
 }
