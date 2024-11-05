@@ -5,5 +5,6 @@ namespace IT_Institute_Management.IServices
     public interface ICourseService
     {
         Task<IEnumerable<CourseResponseDTO>> GetAllCoursesAsync();
+        Task<CourseResponseDTO> GetCourseByIdAsync(Guid id);
     }
 }

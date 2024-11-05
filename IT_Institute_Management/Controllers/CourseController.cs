@@ -29,5 +29,24 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCourseById(Guid id)
+        {
+            try
+            {
+                var course = await _courseService.GetCourseByIdAsync(id);
+                return Ok(course);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { message = "Course not found." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

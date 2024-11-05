@@ -5,5 +5,6 @@ namespace IT_Institute_Management.IRepositories
     public interface ICourseRepository
     {
         Task<IEnumerable<Course>> GetAllCoursesAsync();
+        Task<Course> GetCourseByIdAsync(Guid id);
     }
 }

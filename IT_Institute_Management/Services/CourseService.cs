@@ -26,5 +26,24 @@ namespace IT_Institute_Management.Services
                 ImagePath = course.ImagePath
             });
         }
+
+
+        public async Task<CourseResponseDTO> GetCourseByIdAsync(Guid id)
+        {
+            var course = await _courseRepository.GetCourseByIdAsync(id);
+            if (course == null)
+                throw new KeyNotFoundException("Course not found.");
+
+            return new CourseResponseDTO
+            {
+                Id = course.Id,
+                CourseName = course.CourseName,
+                Level = course.Level,
+                Duration = course.Duration,
+                Fees = course.Fees,
+                ImagePath = course.ImagePath
+            };
+        }
+
     }
 }

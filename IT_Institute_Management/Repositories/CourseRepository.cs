@@ -18,5 +18,12 @@ namespace IT_Institute_Management.Repositories
         {
             return await _context.Courses.ToListAsync();
         }
+
+
+
+        public async Task<Course> GetCourseByIdAsync(Guid id)
+        {
+            return await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+        }
     }
 }
