@@ -1,4 +1,6 @@
-﻿using IT_Institute_Management.DTO.ResponseDTO;
+﻿using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.DTO.ResponseDTO;
+using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 
@@ -37,6 +39,19 @@ namespace IT_Institute_Management.Services
                 Date = contact.Date
             };
         }
+        public async Task AddAsync(ContactUsRequestDto contactUsDto)
+        {
+            var contactUs = new ContactUs
+            {
+                Id = Guid.NewGuid(),
+                Name = contactUsDto.Name,
+                Email = contactUsDto.Email,
+                Message = contactUsDto.Message,
+                Date = contactUsDto.Date
+            };
+            await _contactUsRepository.AddAsync(contactUs);
+        }
+
 
     }
 }

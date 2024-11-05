@@ -24,5 +24,11 @@ namespace IT_Institute_Management.Repositories
         }
 
 
+        public async Task AddAsync(ContactUs contactUs)
+        {
+            await _instituteDbContext.ContactUs.AddAsync(contactUs);
+            await _instituteDbContext.SaveChangesAsync();
+        }
+
     }
 }

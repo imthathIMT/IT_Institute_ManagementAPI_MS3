@@ -1,4 +1,5 @@
-﻿using IT_Institute_Management.IServices;
+﻿using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +32,12 @@ namespace IT_Institute_Management.Controllers
                 return NotFound();
             }
             return Ok(contact);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody] ContactUsRequestDto contactUsDto)
+        {
+            await _contactUsService.AddAsync(contactUsDto);
+            return CreatedAtAction(nameof(GetById), new { id = Guid.NewGuid() }, contactUsDto);
         }
 
     }
