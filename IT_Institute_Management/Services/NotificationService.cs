@@ -25,5 +25,20 @@ namespace IT_Institute_Management.Services
                 StudentNIC = n.StudentNIC
             });
         }
+
+        public async Task<NotificationResponseDTO> GetNotificationByIdAsync(Guid id)
+        {
+            var notification = await _notificationRepository.GetNotificationByIdAsync(id);
+            if (notification == null)
+                throw new KeyNotFoundException("Notification not found.");
+
+            return new NotificationResponseDTO
+            {
+                Id = notification.Id,
+                Message = notification.Message,
+                Date = notification.Date,
+                StudentNIC = notification.StudentNIC
+            };
+        }
     }
 }
