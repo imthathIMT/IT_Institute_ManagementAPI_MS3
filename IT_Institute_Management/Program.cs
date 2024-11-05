@@ -24,11 +24,6 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 
-
-builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
-builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
-
-
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 
@@ -37,15 +32,11 @@ builder.Services.AddScoped<IAdminRepository,AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
 
+builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
+builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
-builder.Services.AddScoped<IAdminRepository,AdminRepository>();
-builder.Services.AddScoped<IAdminService, AdminService>(); 
-
-
-
-
-builder.Services.AddScoped<IAdminRepository,AdminRepository>();
-builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IContactUsRepository, ContactUsRepository>();
+builder.Services.AddScoped<IContactUsService, ContactUsService>();
 
 
 builder.Services.AddScoped<IEmailService, EmailService>();

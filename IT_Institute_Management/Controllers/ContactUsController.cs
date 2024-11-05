@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using IT_Institute_Management.IServices;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IT_Institute_Management.Controllers
@@ -7,5 +8,19 @@ namespace IT_Institute_Management.Controllers
     [ApiController]
     public class ContactUsController : ControllerBase
     {
+        private readonly IContactUsService _contactUsService;
+
+        public ContactUsController(IContactUsService contactUsService)
+        {
+            _contactUsService = contactUsService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var contacts = await _contactUsService.GetAllAsync();
+            return Ok(contacts);
+        }
+
     }
 }
