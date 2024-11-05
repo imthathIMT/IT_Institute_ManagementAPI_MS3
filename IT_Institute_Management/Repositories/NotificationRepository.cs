@@ -32,5 +32,14 @@ namespace IT_Institute_Management.Repositories
             await _context.Notifications.AddAsync(notification);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateNotificationAsync(Notification notification)
+        {
+            if (notification == null)
+                throw new ArgumentNullException(nameof(notification));
+
+            _context.Notifications.Update(notification);
+            await _context.SaveChangesAsync();
+        }
     }
 }
