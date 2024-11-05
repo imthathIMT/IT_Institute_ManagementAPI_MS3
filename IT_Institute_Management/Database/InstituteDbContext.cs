@@ -15,6 +15,8 @@ namespace IT_Institute_Management.Database
         public DbSet<Student> Students { get; set; }
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Notification> Notification { get; set; }
+        public DbSet<Enrollment> Enrollments { get; set; } 
+        public DbSet<Payment> Payments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,7 +51,13 @@ namespace IT_Institute_Management.Database
                 .WithOne(s => s.Student)
                 .HasForeignKey(n => n.StudentNIC);
 
-         
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Enrollment)
+                .WithMany(e => e.payments)
+                .HasForeignKey(p => p.EnrollmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
         }
     }
 }
