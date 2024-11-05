@@ -29,6 +29,12 @@ namespace IT_Institute_Management.Services
             };
         }
 
+        public async Task AddAsync(AdminRequestDto adminDto)
+        {
+            var admin = new Admin { NIC = adminDto.NIC, Password = adminDto.Password };
+            await _adminRepository.AddAsync(admin);
+        }
+
 
     }
 }

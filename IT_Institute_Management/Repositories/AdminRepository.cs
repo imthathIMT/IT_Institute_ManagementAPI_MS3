@@ -18,6 +18,12 @@ namespace IT_Institute_Management.Repositories
         {
             return await _instituteDbContext.Admins.FindAsync(nic);
         }
+        public async Task AddAsync(Admin admin)
+        {
+            await _instituteDbContext.Admins.AddAsync(admin);
+            await _instituteDbContext.SaveChangesAsync();
+        }
+
 
 
 

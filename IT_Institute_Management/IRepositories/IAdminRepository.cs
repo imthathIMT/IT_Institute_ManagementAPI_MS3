@@ -6,6 +6,6 @@ namespace IT_Institute_Management.IRepositories
     {
         Task<IEnumerable<Admin>> GetAllAsync();
         Task<Admin> GetByIdAsync(string nic);
-
+        Task AddAsync(Admin admin);
     }
 }
