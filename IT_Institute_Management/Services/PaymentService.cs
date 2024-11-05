@@ -78,5 +78,17 @@ namespace IT_Institute_Management.Services
 
             await _paymentRepository.UpdatePaymentAsync(existingPayment);
         }
+
+
+
+        public async Task DeletePaymentAsync(Guid id)
+        {
+            var payment = await _paymentRepository.GetPaymentByIdAsync(id);
+
+            if (payment == null)
+                throw new KeyNotFoundException("Payment not found.");
+
+            await _paymentRepository.DeletePaymentAsync(id);
+        }
     }
 }
