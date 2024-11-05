@@ -36,5 +36,15 @@ namespace IT_Institute_Management.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeletePaymentAsync(Guid id)
+        {
+            var payment = await _context.Payments.FindAsync(id);
+            if (payment != null)
+            {
+                _context.Payments.Remove(payment);
+                await _context.SaveChangesAsync();
+            }
+        }
+
     }
 }
