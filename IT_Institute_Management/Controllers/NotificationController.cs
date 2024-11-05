@@ -1,4 +1,5 @@
-﻿using IT_Institute_Management.IServices;
+﻿using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,20 @@ namespace IT_Institute_Management.Controllers
             catch (KeyNotFoundException)
             {
                 return NotFound(new { message = "Notification not found." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNotification(NotificationRequestDTO notificationRequest)
+        {
+            try
+            {
+                await _notificationService.CreateNotificationAsync(notificationRequest);
+                return CreatedAtAction(nameof(GetNotificationById), new { id = notificationRequest.StudentNIC }, notificationRequest);
             }
             catch (Exception ex)
             {
