@@ -6,9 +6,6 @@ namespace IT_Institute_Management.IServices
     public interface IAnnouncementService
     {
         Task<IEnumerable<AnnouncementResponseDto>> GetAllAsync();
-        Task<AnnouncementResponseDto> GetByIdAsync(Guid id);
-        Task AddAsync(AnnouncementRequestDto announcementDto);
-        Task UpdateAsync(Guid id, AnnouncementRequestDto announcementDto);
-        Task DeleteAsync(Guid id);
+
     }
 }

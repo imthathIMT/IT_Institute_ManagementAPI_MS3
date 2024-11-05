@@ -22,38 +22,6 @@ namespace IT_Institute_Management.Services
                 Body = a.Body,
                 Date = a.Date }); 
         }
-        public async Task<AnnouncementResponseDto> GetByIdAsync(Guid id) 
-        { 
-            var announcement = await _announcementRepository.GetByIdAsync(id);
-            return new AnnouncementResponseDto {
-                Id = announcement.Id, 
-                Title = announcement.Title,
-                Body = announcement.Body, 
-                Date = announcement.Date 
-            };
-        }
-        public async Task AddAsync(AnnouncementRequestDto announcementDto)
-        { 
-            var announcement = new Announcement { 
-                Id = Guid.NewGuid(), 
-                Title = announcementDto.Title,
-                Body = announcementDto.Body,
-                Date = announcementDto.Date
-            }; 
-            await _announcementRepository.AddAsync(announcement); 
-        }
-        public async Task UpdateAsync(Guid id, AnnouncementRequestDto announcementDto)
-        { 
-            var announcement = new Announcement {
-                Id = id,
-                Title = announcementDto.Title,
-                Body = announcementDto.Body,
-                Date = announcementDto.Date 
-            }; 
-            await _announcementRepository.UpdateAsync(announcement); 
-        }
-        public async Task DeleteAsync(Guid id) {
-            await _announcementRepository.DeleteAsync(id);
-        }
+        
     }
 }

@@ -15,23 +15,6 @@ namespace IT_Institute_Management.Repositories
         public async Task<IEnumerable<Announcement>> GetAllAsync() {
             return await _instituteDbcontext.Announcements.ToListAsync();
         }
-        public async Task<Announcement> GetByIdAsync(Guid id) { 
-            return await _instituteDbcontext.Announcements.FindAsync(id);
-        }
-        public async Task AddAsync(Announcement announcement) {
-            await _instituteDbcontext.Announcements.AddAsync(announcement);
-            await _instituteDbcontext.SaveChangesAsync();
-        }
-        public async Task UpdateAsync(Announcement announcement) {
-            _instituteDbcontext.Announcements.Update(announcement);
-            await _instituteDbcontext.SaveChangesAsync();
-        }
-        public async Task DeleteAsync(Guid id) {
-            var announcement = await _instituteDbcontext.Announcements.FindAsync(id);
-            if (announcement != null) {
-                _instituteDbcontext.Announcements.Remove(announcement);
-                await _instituteDbcontext.SaveChangesAsync();
-            } 
-        }
+       
     }
 }
