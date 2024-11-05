@@ -35,6 +35,16 @@ namespace IT_Institute_Management.Repositories
             await _instituteDbContext.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(Guid id)
+        {
+            var contactUs = await _instituteDbContext.ContactUs.FindAsync(id);
+            if (contactUs != null)
+            {
+                _instituteDbContext.ContactUs.Remove(contactUs);
+                await _instituteDbContext.SaveChangesAsync();
+            }
+        }
+
 
     }
 }

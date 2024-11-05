@@ -8,5 +8,7 @@ namespace IT_Institute_Management.IRepositories
         Task<ContactUs> GetByIdAsync(Guid id);
         Task AddAsync(ContactUs contactUs);
         Task UpdateAsync(ContactUs contactUs);
+        Task DeleteAsync(Guid id);
+
     }
 }

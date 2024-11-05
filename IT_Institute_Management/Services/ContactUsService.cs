@@ -63,6 +63,10 @@ namespace IT_Institute_Management.Services
             };
             await _contactUsRepository.UpdateAsync(contactUs);
         }
+        public async Task DeleteAsync(Guid id)
+        {
+            await _contactUsRepository.DeleteAsync(id);
+        }
 
 
     }

@@ -45,6 +45,12 @@ namespace IT_Institute_Management.Controllers
             await _contactUsService.UpdateAsync(id, contactUsDto);
             return NoContent();
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _contactUsService.DeleteAsync(id);
+            return NoContent();
+        }
 
 
     }

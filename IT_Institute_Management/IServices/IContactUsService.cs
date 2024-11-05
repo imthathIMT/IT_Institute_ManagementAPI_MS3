@@ -9,6 +9,6 @@ namespace IT_Institute_Management.IServices
         Task<ContactUsResponseDto> GetByIdAsync(Guid id);
         Task AddAsync(ContactUsRequestDto contactUsDto);
         Task UpdateAsync(Guid id, ContactUsRequestDto contactUsDto);
-
+        Task DeleteAsync(Guid id);
     }
 }
