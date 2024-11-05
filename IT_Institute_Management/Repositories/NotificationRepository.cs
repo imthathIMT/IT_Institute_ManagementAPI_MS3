@@ -13,7 +13,7 @@ namespace IT_Institute_Management.Repositories
         {
             _context = context;
         }
-
+        //noti
         public async Task<IEnumerable<Notification>> GetAllNotificationsAsync()
         {
             return await _context.Notifications.ToListAsync();
