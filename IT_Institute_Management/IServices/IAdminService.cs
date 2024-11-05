@@ -6,6 +6,6 @@ namespace IT_Institute_Management.IServices
     public interface IAdminService
     {
         Task<IEnumerable<AdminResponseDto>> GetAllAsync();
-
+        Task<AdminResponseDto> GetByIdAsync(string nic);
     }
 }

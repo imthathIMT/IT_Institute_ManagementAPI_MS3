@@ -18,6 +18,13 @@ namespace IT_Institute_Management.Controllers
             var admins = await _adminService.GetAllAsync();
             return Ok(admins); 
         }
-       
+        [HttpGet("{nic}")]
+        public async Task<IActionResult> GetById(string nic)
+        {
+            var admin = await _adminService.GetByIdAsync(nic);
+            if (admin == null) { return NotFound(); }
+            return Ok(admin);
+        }
+
     }
 }
