@@ -64,5 +64,24 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCourse(Guid id, CourseRequestDTO courseRequest)
+        {
+            try
+            {
+                await _courseService.UpdateCourseAsync(id, courseRequest);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { message = "Course not found." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

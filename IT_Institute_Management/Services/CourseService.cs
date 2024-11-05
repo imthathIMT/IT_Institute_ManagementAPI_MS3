@@ -61,5 +61,21 @@ namespace IT_Institute_Management.Services
             await _courseRepository.AddCourseAsync(course);
         }
 
+
+        public async Task UpdateCourseAsync(Guid id, CourseRequestDTO courseRequest)
+        {
+            var course = await _courseRepository.GetCourseByIdAsync(id);
+            if (course == null)
+                throw new KeyNotFoundException("Course not found.");
+
+            course.CourseName = courseRequest.CourseName;
+            course.Level = courseRequest.Level;
+            course.Duration = courseRequest.Duration;
+            course.Fees = courseRequest.Fees;
+            course.ImagePath = courseRequest.ImagePath;
+
+            await _courseRepository.UpdateCourseAsync(course);
+        }
+
     }
 }

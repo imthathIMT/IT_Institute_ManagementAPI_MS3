@@ -8,5 +8,6 @@ namespace IT_Institute_Management.IServices
         Task<IEnumerable<CourseResponseDTO>> GetAllCoursesAsync();
         Task<CourseResponseDTO> GetCourseByIdAsync(Guid id);
         Task CreateCourseAsync(CourseRequestDTO courseRequest);
+        Task UpdateCourseAsync(Guid id, CourseRequestDTO courseRequest);
     }
 }

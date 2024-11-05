@@ -35,5 +35,15 @@ namespace IT_Institute_Management.Repositories
             await _context.Courses.AddAsync(course);
             await _context.SaveChangesAsync();
         }
+
+
+        public async Task UpdateCourseAsync(Course course)
+        {
+            if (course == null)
+                throw new ArgumentNullException(nameof(course));
+
+            _context.Courses.Update(course);
+            await _context.SaveChangesAsync();
+        }
     }
 }
