@@ -8,5 +8,6 @@ namespace IT_Institute_Management.IServices
         Task<IEnumerable<NotificationResponseDTO>> GetAllNotificationsAsync();
         Task<NotificationResponseDTO> GetNotificationByIdAsync(Guid id);
         Task CreateNotificationAsync(NotificationRequestDTO notificationRequest);
+        Task UpdateNotificationAsync(Guid id, NotificationRequestDTO notificationRequest);
     }
 }
