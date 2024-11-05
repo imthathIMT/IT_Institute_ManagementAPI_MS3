@@ -38,6 +38,12 @@ namespace IT_Institute_Management.Controllers
             await _announcementService.AddAsync(announcementDto);
             return CreatedAtAction(nameof(GetById), new { id = Guid.NewGuid() }, announcementDto);
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] AnnouncementRequestDto announcementDto)
+        {
+            await _announcementService.UpdateAsync(id, announcementDto);
+            return NoContent();
+        }
 
 
     }

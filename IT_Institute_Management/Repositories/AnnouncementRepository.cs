@@ -24,6 +24,11 @@ namespace IT_Institute_Management.Repositories
             await _instituteDbcontext.Announcements.AddAsync(announcement);
             await _instituteDbcontext.SaveChangesAsync();
         }
+        public async Task UpdateAsync(Announcement announcement)
+        {
+            _instituteDbcontext.Announcements.Update(announcement);
+            await _instituteDbcontext.SaveChangesAsync();
+        }
 
 
     }

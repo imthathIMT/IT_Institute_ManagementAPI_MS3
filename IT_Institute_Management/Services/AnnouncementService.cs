@@ -45,6 +45,17 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
         }
+        public async Task UpdateAsync(Guid id, AnnouncementRequestDto announcementDto)
+        {
+            var announcement = new Announcement
+            {
+                Id = id,
+                Title = announcementDto.Title,
+                Body = announcementDto.Body,
+                Date = announcementDto.Date
+            };
+            await _announcementRepository.UpdateAsync(announcement);
+        }
 
 
     }

@@ -9,6 +9,6 @@ namespace IT_Institute_Management.IServices
 
         Task<AnnouncementResponseDto> GetByIdAsync(Guid id);
         Task AddAsync(AnnouncementRequestDto announcementDto);
-
+        Task UpdateAsync(Guid id, AnnouncementRequestDto announcementDto);
     }
 }

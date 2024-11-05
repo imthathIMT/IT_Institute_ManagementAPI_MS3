@@ -7,7 +7,7 @@ namespace IT_Institute_Management.IRepositories
         Task<IEnumerable<Announcement>> GetAllAsync();
         Task<Announcement> GetByIdAsync(Guid id);
         Task AddAsync(Announcement announcement);
-
+        Task UpdateAsync(Announcement announcement);
 
     }
 }
