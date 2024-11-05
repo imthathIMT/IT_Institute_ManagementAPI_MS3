@@ -14,5 +14,20 @@ namespace IT_Institute_Management.Controllers
         {
             _paymentService = paymentService;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllPayments()
+        {
+            try
+            {
+                var payments = await _paymentService.GetAllPaymentsAsync();
+                return Ok(payments);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
     }
 }
