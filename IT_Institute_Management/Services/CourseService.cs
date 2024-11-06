@@ -142,7 +142,27 @@ namespace IT_Institute_Management.Services
                 throw new KeyNotFoundException("Course not found.");
 
             await _courseRepository.DeleteCourseAsync(id);
+
+            // Create an Announcement for course deletion
+            var announcement = new Announcement
+            {
+                Title = "Course Deleted",
+                Body = "A course has been deleted. Please check the course list for updates.",
+                Date = DateTime.UtcNow
+            };
+            await _announcementRepository.AddAsync(announcement);
+
+            // Send Email to All Students about the deletion
+            var students = await _studentRepository.GetAllStudentsAsync();
+            foreach (var student in students)
+            {
+                var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
+                           $"We regret to inform you that a course has been deleted from the system.\n\n" +
+                           "Best Regards,\nIT Institute Management";
+                await _emailService.SendEmailAsync(student.Email, "Course Deleted", body);
+            }
         }
+
 
     }
 }
