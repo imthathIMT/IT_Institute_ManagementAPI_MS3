@@ -81,7 +81,7 @@ namespace IT_Institute_Management.Services
             await _announcementRepository.AddAsync(announcement);
 
             // Send Email to All Students
-            var students = await _studentRepository.GetAllStudentsAsync();
+            var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {
                 var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
@@ -121,7 +121,7 @@ namespace IT_Institute_Management.Services
             await _announcementRepository.AddAsync(announcement);
 
             // Send Email to All Students about the update
-            var students = await _studentRepository.GetAllStudentsAsync();
+            var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {
                 var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
@@ -153,7 +153,7 @@ namespace IT_Institute_Management.Services
             await _announcementRepository.AddAsync(announcement);
 
             // Send Email to All Students about the deletion
-            var students = await _studentRepository.GetAllStudentsAsync();
+            var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {
                 var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
