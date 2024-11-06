@@ -10,6 +10,7 @@ namespace IT_Institute_Management.Services
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly IAnnouncementRepository _announcementRepository;
 
         public CourseService(ICourseRepository courseRepository)
         {
