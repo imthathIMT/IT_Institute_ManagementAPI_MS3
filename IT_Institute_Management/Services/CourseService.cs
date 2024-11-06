@@ -1,5 +1,6 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.DTO.ResponseDTO;
+using IT_Institute_Management.EmailSerivice;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
@@ -11,6 +12,7 @@ namespace IT_Institute_Management.Services
         private readonly ICourseRepository _courseRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly IAnnouncementRepository _announcementRepository;
+        private readonly IEmailService _emailService;
 
         public CourseService(ICourseRepository courseRepository)
         {
