@@ -70,7 +70,31 @@ namespace IT_Institute_Management.Services
             };
 
             await _courseRepository.AddCourseAsync(course);
+
+            // Create an Announcement
+            var announcement = new Announcement
+            {
+                Title = $"New Course: {course.CourseName}",
+                Body = $"A new course has been added: {course.CourseName}. Level: {course.Level}, Duration: {course.Duration} months, Fees: {course.Fees}.",
+                Date = DateTime.UtcNow
+            };
+            await _announcementRepository.AddAsync(announcement);
+
+            // Send Email to All Students
+            var students = await _studentRepository.GetAllStudentsAsync();
+            foreach (var student in students)
+            {
+                var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
+                           $"We are pleased to inform you that a new course has been added:\n" +
+                           $"Course Name: {course.CourseName}\n" +
+                           $"Level: {course.Level}\n" +
+                           $"Duration: {course.Duration} months\n" +
+                           $"Fees: {course.Fees}\n\n" +
+                           "Best Regards,\nIT Institute Management";
+                await _emailService.SendEmailAsync(student.Email, "New Course Available", body);
+            }
         }
+
 
 
         public async Task UpdateCourseAsync(Guid id, CourseRequestDTO courseRequest)
