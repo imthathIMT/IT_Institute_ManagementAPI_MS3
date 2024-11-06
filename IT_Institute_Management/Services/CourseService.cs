@@ -110,6 +110,29 @@ namespace IT_Institute_Management.Services
             course.ImagePath = courseRequest.ImagePath;
 
             await _courseRepository.UpdateCourseAsync(course);
+
+            // Create an Announcement for the update
+            var announcement = new Announcement
+            {
+                Title = $"Updated Course: {course.CourseName}",
+                Body = $"The course has been updated: {course.CourseName}. Level: {course.Level}, Duration: {course.Duration} months, Fees: {course.Fees}.",
+                Date = DateTime.UtcNow
+            };
+            await _announcementRepository.AddAsync(announcement);
+
+            // Send Email to All Students about the update
+            var students = await _studentRepository.GetAllStudentsAsync();
+            foreach (var student in students)
+            {
+                var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
+                           $"The following course has been updated:\n" +
+                           $"Course Name: {course.CourseName}\n" +
+                           $"Level: {course.Level}\n" +
+                           $"Duration: {course.Duration} months\n" +
+                           $"Fees: {course.Fees}\n\n" +
+                           "Best Regards,\nIT Institute Management";
+                await _emailService.SendEmailAsync(student.Email, "Course Update", body);
+            }
         }
 
         public async Task DeleteCourseAsync(Guid id)
