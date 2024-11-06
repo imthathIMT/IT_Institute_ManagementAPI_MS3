@@ -16,9 +16,13 @@ namespace IT_Institute_Management.Services
         private readonly IEmailService _emailService;
         private readonly InstituteDbContext _context;
 
-        public CourseService(ICourseRepository courseRepository)
+        public CourseService(ICourseRepository courseRepository, IStudentRepository studentRepository, IAnnouncementRepository announcementRepository, IEmailService emailService,InstituteDbContext context)
         {
             _courseRepository = courseRepository;
+            _studentRepository = studentRepository;
+            _announcementRepository = announcementRepository;
+            _emailService = emailService;
+            _context = context;
         }
 
         public async Task<IEnumerable<CourseResponseDTO>> GetAllCoursesAsync()
