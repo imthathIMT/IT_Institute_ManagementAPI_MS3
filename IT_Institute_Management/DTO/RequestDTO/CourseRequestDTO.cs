@@ -1,12 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IT_Institute_Management.Entity
+namespace IT_Institute_Management.DTO.RequestDTO
 {
-    public class Course
+    public class CourseRequestDTO
     {
-        [Key]
-        public Guid Id { get; set; }
-
         [Required(ErrorMessage = "Course name is required.")]
         [MaxLength(100, ErrorMessage = "Course name cannot exceed 100 characters.")]
         public string CourseName { get; set; }
@@ -24,7 +21,5 @@ namespace IT_Institute_Management.Entity
         [Required(ErrorMessage = "Image path is required.")]
         [MaxLength(255, ErrorMessage = "Image path cannot exceed 255 characters.")]
         public string ImagePath { get; set; }
-
-        public ICollection<Enrollment>? Enrollment { get; set; }
     }
 }
