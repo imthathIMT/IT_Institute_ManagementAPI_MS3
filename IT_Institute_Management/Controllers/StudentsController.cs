@@ -52,11 +52,11 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddStudent([FromBody] StudentRequestDto studentDto)
+        public async Task<IActionResult> AddStudent([FromBody] StudentRequestDto studentDto, IFormFile imageFile)
         {
             try
             {
-                await _studentService.AddStudentAsync(studentDto);
+                await _studentService.AddStudentAsync(studentDto,imageFile);
                 return CreatedAtAction(nameof(GetStudentByNic), new { nic = studentDto.NIC }, studentDto);
             }
             catch (Exception ex)
@@ -66,11 +66,11 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPut("{nic}")]
-        public async Task<IActionResult> UpdateStudent(string nic, [FromBody] StudentRequestDto studentDto)
+        public async Task<IActionResult> UpdateStudent(string nic, [FromBody] StudentRequestDto studentDto,IFormFile imageFile)
         {
             try
             {
-                await _studentService.UpdateStudentAsync(nic, studentDto);
+                await _studentService.UpdateStudentAsync(nic, studentDto, imageFile);
                 return NoContent();
             }
             catch (Exception ex)

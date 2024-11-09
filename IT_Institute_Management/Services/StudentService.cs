@@ -14,13 +14,47 @@ namespace IT_Institute_Management.Services
         private readonly IStudentRepository _studentRepository;
         private readonly IEmailService _emailService;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher)
+        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher, IWebHostEnvironment webHostEnvironment)
         {
             _studentRepository = studentRepository;
             _emailService = emailService;
             _passwordHasher = passwordHasher;
+            _webHostEnvironment = webHostEnvironment;
         }
+
+        // Method to save student image to the file system and return the file path
+        private string SaveImage(IFormFile imageFile)
+        {
+            var uploadsDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+            if (!Directory.Exists(uploadsDirectory))
+            {
+                Directory.CreateDirectory(uploadsDirectory);
+            }
+
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+            var filePath = Path.Combine(uploadsDirectory, fileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                imageFile.CopyTo(fileStream);
+            }
+
+            return filePath;
+        }
+
+        // Method to delete the student's image from the file system
+        private void DeleteImage(string imagePath)
+        {
+            var filePath = Path.Combine(_webHostEnvironment.WebRootPath, imagePath);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+
+
 
         public async Task<List<StudentResponseDto>> GetAllStudentsAsync()
         {
@@ -85,8 +119,15 @@ namespace IT_Institute_Management.Services
             };
         }
 
-        public async Task AddStudentAsync(StudentRequestDto studentDto)
+        public async Task AddStudentAsync(StudentRequestDto studentDto, IFormFile imageFile)
         {
+            var imagePath = string.Empty;
+
+            if (imageFile != null)
+            {
+                imagePath = SaveImage(imageFile);  // Save image and get the path
+            }
+
             var student = new Student
             {
                 NIC = studentDto.NIC,
@@ -96,7 +137,7 @@ namespace IT_Institute_Management.Services
                 Phone = studentDto.Phone,
                 WhatsappNuber = studentDto.WhatsappNumber,
                 Password = studentDto.Password,
-                ImagePath = studentDto.ImagePath,
+                ImagePath = imagePath,  // Store image path in database
                 Status = true, // Account is active when created
                 Address = new Address
                 {
@@ -115,12 +156,25 @@ namespace IT_Institute_Management.Services
             await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
         }
 
-        public async Task<string> UpdateStudentAsync(string nic, StudentRequestDto studentDto)
+        public async Task<string> UpdateStudentAsync(string nic, StudentRequestDto studentDto, IFormFile imageFile)
         {
             var student = await _studentRepository.GetByNicAsync(nic);
             if (student == null)
             {
                 throw new ApplicationException($"Student with NIC {nic} not found.");
+            }
+
+            // If an image is uploaded, save the new image and delete the old one
+            if (imageFile != null)
+            {
+                // Delete the old image
+                if (!string.IsNullOrEmpty(student.ImagePath))
+                {
+                    DeleteImage(student.ImagePath);
+                }
+
+                // Save the new image
+                student.ImagePath = SaveImage(imageFile);
             }
 
             student.NIC = studentDto.NIC;
@@ -130,7 +184,6 @@ namespace IT_Institute_Management.Services
             student.Phone = studentDto.Phone;
             student.WhatsappNuber = studentDto.WhatsappNumber;
             student.Password = studentDto.Password;
-            student.ImagePath = studentDto.ImagePath;
             student.Address = new Address
             {
                 AddressLine1 = studentDto.Address.AddressLine1,
@@ -142,7 +195,7 @@ namespace IT_Institute_Management.Services
             };
 
             await _studentRepository.UpdateAsync(student);
-            return ("student profile update Sucessfull");
+            return ("Student profile update successful");
 
             // Send email after update
             await _emailService.SendEmailAsync(student.Email, "Profile Updated", $"{student.FirstName} {student.LastName}, your profile has been successfully updated.");
@@ -150,6 +203,18 @@ namespace IT_Institute_Management.Services
 
         public async Task DeleteStudentAsync(string nic)
         {
+            var student = await _studentRepository.GetByNicAsync(nic);
+            if (student == null)
+            {
+                throw new ApplicationException($"Student with NIC {nic} not found.");
+            }
+
+            // Delete the image associated with the student
+            if (!string.IsNullOrEmpty(student.ImagePath))
+            {
+                DeleteImage(student.ImagePath);
+            }
+
             await _studentRepository.DeleteAsync(nic);
         }
 

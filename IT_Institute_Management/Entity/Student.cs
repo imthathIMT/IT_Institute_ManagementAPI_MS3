@@ -41,7 +41,7 @@ namespace IT_Institute_Management.Entity
             ErrorMessage = "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.")]
         public string? Password { get; set; }
 
-        public string? ImagePath { get; set; }
+        public FormFile? ImagePath { get; set; }
 
         public bool Status { get; set; }  // Indicates if the account is locked (true) or unlocked (false)
 

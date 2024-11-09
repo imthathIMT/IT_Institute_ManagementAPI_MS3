@@ -7,8 +7,8 @@ namespace IT_Institute_Management.IServices
     {
         Task<List<StudentResponseDto>> GetAllStudentsAsync();
         Task<StudentResponseDto> GetStudentByNicAsync(string nic);
-        Task AddStudentAsync(StudentRequestDto studentDto);
-        Task<string> UpdateStudentAsync(string nic, StudentRequestDto studentDto);
+        Task AddStudentAsync(StudentRequestDto studentDto, IFormFile imageFile);
+        Task<string> UpdateStudentAsync(string nic, StudentRequestDto studentDto, IFormFile imageFile);
         Task DeleteStudentAsync(string nic);
         Task UpdatePasswordAsync(string nic, UpdatePasswordRequestDto updatePasswordDto);
     }
