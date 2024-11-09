@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IT_Institute_Management.Database;
 using IT_Institute_Management.Entity;
+using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.IServices;
 
 namespace IT_Institute_Management.Controllers
 {
@@ -14,6 +16,81 @@ namespace IT_Institute_Management.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
-       
+        private readonly IStudentService _studentService;
+
+        public StudentsController(IStudentService studentService)
+        {
+            _studentService = studentService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllStudents()
+        {
+            try
+            {
+                var students = await _studentService.GetAllStudentsAsync();
+                return Ok(students);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
+        }
+
+        [HttpGet("{nic}")]
+        public async Task<IActionResult> GetStudentByNic(string nic)
+        {
+            try
+            {
+                var student = await _studentService.GetStudentByNicAsync(nic);
+                return Ok(student);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddStudent([FromBody] StudentRequestDto studentDto)
+        {
+            try
+            {
+                await _studentService.AddStudentAsync(studentDto);
+                return CreatedAtAction(nameof(GetStudentByNic), new { nic = studentDto.NIC }, studentDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
+        }
+
+        [HttpPut("{nic}")]
+        public async Task<IActionResult> UpdateStudent(string nic, [FromBody] StudentRequestDto studentDto)
+        {
+            try
+            {
+                await _studentService.UpdateStudentAsync(nic, studentDto);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
+        }
+
+        [HttpDelete("{nic}")]
+        public async Task<IActionResult> DeleteStudent(string nic)
+        {
+            try
+            {
+                await _studentService.DeleteStudentAsync(nic);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
+        }
     }
 }
