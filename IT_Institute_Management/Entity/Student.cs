@@ -43,7 +43,7 @@ namespace IT_Institute_Management.Entity
 
         public string? ImagePath { get; set; }
 
-        public bool Status { get; set; }  // Indicates if the account is locked (true) or unlocked (false)
+        public bool IsLocked { get; set; }  // Indicates if the account is locked (true) or unlocked (false)
 
  
 

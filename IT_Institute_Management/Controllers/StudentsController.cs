@@ -112,7 +112,7 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+                return BadRequest(ex.Message);
             }
         }
     }
