@@ -2,9 +2,11 @@ using IT_Institute_Management.Database;
 using IT_Institute_Management.EmailSerivice;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
+using IT_Institute_Management.PasswordService;
 using IT_Institute_Management.Repositories;
 using IT_Institute_Management.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +42,8 @@ builder.Services.AddScoped<IContactUsService, ContactUsService>();
 
 
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+
 
 
 

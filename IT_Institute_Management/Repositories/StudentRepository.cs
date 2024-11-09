@@ -18,7 +18,7 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
-                return await _context.Students.Include(s => s.Address).Include(e => e.Enrollment).ToListAsync();
+                return await _context.Students.Include(s => s.Address).Include(e => e.Enrollment).Include(n => n.Notification).Include(e => e.Enrollment).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -31,7 +31,7 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
-                return await _context.Students.Include(s => s.Address).FirstOrDefaultAsync(s => s.NIC == nic);
+                return await _context.Students.Include(s => s.Address).Include(e => e.Enrollment).Include(n=>n.Notification).FirstOrDefaultAsync(s => s.NIC == nic);
             }
             catch (Exception ex)
             {

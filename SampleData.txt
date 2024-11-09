@@ -1,0 +1,18 @@
+{
+  "nic": "200206601718",
+  "firstName": "Mohamed",
+  "lastName": "Imthath",
+  "email": "ut01635@gmail.com",
+  "phone": "+94753319181",
+  "whatsappNumber": "+94768210306",
+  "password": "Imthath@123456",
+  "imagePath": "string",
+  "address": {
+    "addressLine1": "IRK",
+    "addressLine2": "Nilaveli",
+    "city": "Trincomlee",
+    "state": "string",
+    "zipCode": "31010",
+    "country": "Sri Lanka"
+  }
+}

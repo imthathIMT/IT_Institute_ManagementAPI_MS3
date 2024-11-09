@@ -75,7 +75,7 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -86,6 +86,29 @@ namespace IT_Institute_Management.Controllers
             {
                 await _studentService.DeleteStudentAsync(nic);
                 return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        // PUT: api/students/{nic}/update-password
+        [HttpPut("{nic}/update-password")]
+        public async Task<IActionResult> UpdatePassword(string nic, [FromBody] UpdatePasswordRequestDto updatePasswordDto)
+        {
+            try
+            {
+                // Call service to update password
+                await _studentService.UpdatePasswordAsync(nic, updatePasswordDto);
+
+                // Return success response
+                return Ok(new { message = "Password updated successfully." });
+            }
+            catch (ApplicationException ex)
+            {
+                return NotFound(new { message = ex.Message });
             }
             catch (Exception ex)
             {
