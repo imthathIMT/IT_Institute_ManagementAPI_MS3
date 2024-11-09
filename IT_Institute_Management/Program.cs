@@ -72,6 +72,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseStaticFiles();  // This will serve files from wwwroot, including /uploads/
+
 app.UseCors("AllowSpecificOrigins");
 
 app.MapControllers();
