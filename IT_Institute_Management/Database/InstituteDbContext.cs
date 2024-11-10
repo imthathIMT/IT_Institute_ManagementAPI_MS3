@@ -17,6 +17,7 @@ namespace IT_Institute_Management.Database
         public DbSet<Notification> Notification { get; set; }
         public DbSet<Enrollment> Enrollment { get; set; } 
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<User> Users { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

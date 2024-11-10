@@ -74,7 +74,7 @@ namespace IT_Institute_Management.Services
                     Email = student.Email,
                     Phone = student.Phone,
                     WhatsappNumber = student.WhatsappNuber,
-                    Status = student.Status,
+                    IsLocked = student.IsLocked,
                     ImagePath = student.ImagePath,
                     Address = new AddressResponseDto
                     {
@@ -82,7 +82,7 @@ namespace IT_Institute_Management.Services
                         AddressLine2 = student.Address?.AddressLine2,
                         City = student.Address?.City,
                         State = student.Address?.State,
-                        ZipCode = student.Address?.ZipCode,
+                        PostalCode = student.Address?.PostalCode,
                         Country = student.Address?.Country
                     }
                 }).ToList();
@@ -105,7 +105,7 @@ namespace IT_Institute_Management.Services
                 Email = student.Email,
                 Phone = student.Phone,
                 WhatsappNumber = student.WhatsappNuber,
-                Status = student.Status,
+                IsLocked = student.IsLocked,
                 ImagePath = student.ImagePath,
                 Address = new AddressResponseDto
                 {
@@ -113,7 +113,7 @@ namespace IT_Institute_Management.Services
                     AddressLine2 = student.Address?.AddressLine2,
                     City = student.Address?.City,
                     State = student.Address?.State,
-                    ZipCode = student.Address?.ZipCode,
+                    PostalCode = student.Address?.PostalCode,
                     Country = student.Address?.Country
                 }
             };
@@ -138,14 +138,14 @@ namespace IT_Institute_Management.Services
                 WhatsappNuber = studentDto.WhatsappNumber,
                 Password = studentDto.Password,
                 ImagePath = imagePath,  // Store image path in database
-                Status = true, // Account is active when created
+                IsLocked = true, // Account is active when created
                 Address = new Address
                 {
                     AddressLine1 = studentDto.Address.AddressLine1,
                     AddressLine2 = studentDto.Address.AddressLine2,
                     City = studentDto.Address.City,
                     State = studentDto.Address.State,
-                    ZipCode = studentDto.Address.ZipCode,
+                    PostalCode = studentDto.Address.PostalCode,
                     Country = studentDto.Address.Country
                 }
             };
@@ -190,7 +190,7 @@ namespace IT_Institute_Management.Services
                 AddressLine2 = studentDto.Address.AddressLine2,
                 City = studentDto.Address.City,
                 State = studentDto.Address.State,
-                ZipCode = studentDto.Address.ZipCode,
+                PostalCode = studentDto.Address.PostalCode,
                 Country = studentDto.Address.Country
             };
 

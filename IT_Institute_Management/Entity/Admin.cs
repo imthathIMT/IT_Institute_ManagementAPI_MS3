@@ -15,5 +15,8 @@ namespace IT_Institute_Management.Entity
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$",
             ErrorMessage = "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, and 1 special character.")]
         public string Password { get; set; }
+
+        public Guid UserId { get; set; }
+        public User? User { get; set; }
     }
 }

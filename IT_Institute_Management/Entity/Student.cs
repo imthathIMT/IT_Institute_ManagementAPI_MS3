@@ -45,7 +45,8 @@ namespace IT_Institute_Management.Entity
 
         public bool IsLocked { get; set; }  // Indicates if the account is locked (true) or unlocked (false)
 
- 
+        public Guid UserId { get; set; }
+        public User? User { get; set; }
 
         public Address? Address { get; set; }
 

@@ -13,10 +13,6 @@ namespace IT_Institute_Management.Entity
         [Required(ErrorMessage = "Payment plan is required.")]
         public string PaymentPlan { get; set; }  // e.g., Monthly, Full
 
-        [Required(ErrorMessage = "Fees are required.")]
-        public decimal Fees { get; set; }
-
-
         public Student Student { get; set; } // Navigation property
         public Course Course { get; set; } // Navigation property
 

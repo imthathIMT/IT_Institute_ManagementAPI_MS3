@@ -56,7 +56,7 @@ namespace IT_Institute_Management.DTO.RequestDTO
         [Required(ErrorMessage = "Zip code is required.")]
         [RegularExpression(@"^\d{5}(-\d{4})?$",
             ErrorMessage = "Invalid zip code format. Example: 12345 or 12345-6789.")]
-        public string ZipCode { get; set; }
+        public string PostalCode { get; set; }
 
         [Required(ErrorMessage = "Country is required.")]
         public string Country { get; set; }

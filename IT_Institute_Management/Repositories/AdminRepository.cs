@@ -21,6 +21,13 @@ namespace IT_Institute_Management.Repositories
         public async Task AddAsync(Admin admin)
         {
             await _instituteDbContext.Admins.AddAsync(admin);
+            var user = new User()
+            {
+                NIC = admin.NIC,
+                Password = admin.Password,
+                Role = Role.Admin,
+            };
+            await _instituteDbContext.Users.AddAsync(user);
             await _instituteDbContext.SaveChangesAsync();
         }
 
@@ -28,14 +35,23 @@ namespace IT_Institute_Management.Repositories
         public async Task UpdateAsync(Admin admin)
         {
             _instituteDbContext.Admins.Update(admin);
+            var user = new User()
+            {
+                NIC = admin.NIC,
+                Password = admin.Password,
+                Role = Role.Admin,
+            };
+            _instituteDbContext.Users.Update(user);
             await _instituteDbContext.SaveChangesAsync();
         }
         public async Task DeleteAsync(string nic)
         {
             var admin = await _instituteDbContext.Admins.FindAsync(nic);
-            if (admin != null)
+            var user = await _instituteDbContext.Users.FindAsync(nic);
+            if (admin != null&& user != null)
             {
                 _instituteDbContext.Admins.Remove(admin);
+                _instituteDbContext.Users.Remove(user);
                 await _instituteDbContext.SaveChangesAsync();
             }
         }

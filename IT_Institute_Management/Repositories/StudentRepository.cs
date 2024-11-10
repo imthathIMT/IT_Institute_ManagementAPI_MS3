@@ -22,8 +22,7 @@ namespace IT_Institute_Management.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error fetching all students: {ex.Message}");
-                throw new ApplicationException("An error occurred while fetching the students list.");
+                throw new Exception("An error occurred while fetching the students list.");
             }
         }
 
@@ -35,8 +34,7 @@ namespace IT_Institute_Management.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error fetching student with NIC {nic}: {ex.Message}");
-                throw new ApplicationException($"An error occurred while fetching the student with NIC {nic}.");
+                throw new Exception($"An error occurred while fetching the student with NIC {nic}.");
             }
         }
 
@@ -45,12 +43,18 @@ namespace IT_Institute_Management.Repositories
             try
             {
                 await _context.Students.AddAsync(student);
+                var user = new User()
+                {
+                    NIC = student.NIC,
+                    Password = student.Password,
+                    Role = Role.Student
+                };
+                await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error adding student: {ex.Message}");
-                throw new ApplicationException("An error occurred while adding the student.");
+                throw new Exception("An error occurred while adding the student.");
             }
         }
 
@@ -62,9 +66,8 @@ namespace IT_Institute_Management.Repositories
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
-            {
-                Console.WriteLine($"Error updating student: {ex.Message}");
-                throw new ApplicationException("An error occurred while updating the student.");
+            {            
+                throw new Exception("An error occurred while updating the student.");
             }
         }
 
@@ -75,7 +78,7 @@ namespace IT_Institute_Management.Repositories
                 var student = await GetByNicAsync(nic);
                 if (student == null)
                 {
-                    throw new ApplicationException($"Student with NIC {nic} not found.");
+                    throw new Exception($"Student with NIC {nic} not found.");
                 }
 
                 _context.Students.Remove(student);
@@ -83,8 +86,7 @@ namespace IT_Institute_Management.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error deleting student with NIC {nic}: {ex.Message}");
-                throw new ApplicationException($"An error occurred while deleting the student with NIC {nic}.");
+                throw new Exception($"An error occurred while deleting the student with NIC {nic}.");
             }
         }
     }
