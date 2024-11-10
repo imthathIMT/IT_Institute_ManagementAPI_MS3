@@ -13,6 +13,8 @@ namespace IT_Institute_Management.Entity
         [Required(ErrorMessage = "Payment plan is required.")]
         public string PaymentPlan { get; set; }  // e.g., Monthly, Full
 
+        public bool IsComplete { get; set; } = false; // if course duration finished ture else false. automatically updating
+
         public Student Student { get; set; } // Navigation property
         public Course Course { get; set; } // Navigation property
 
