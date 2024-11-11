@@ -27,7 +27,7 @@ namespace IT_Institute_Management.Services
         // Method to save student image to the file system and return the file path
         private string SaveImage(IFormFile imageFile)
         {
-            var uploadsDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+            var uploadsDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "images/students");
             if (!Directory.Exists(uploadsDirectory))
             {
                 Directory.CreateDirectory(uploadsDirectory);
@@ -119,13 +119,13 @@ namespace IT_Institute_Management.Services
             };
         }
 
-        public async Task AddStudentAsync(StudentRequestDto studentDto, IFormFile imageFile)
+        public async Task AddStudentAsync(StudentRequestDto studentDto)
         {
             var imagePath = string.Empty;
 
-            if (imageFile != null)
+            if (studentDto.Image != null)
             {
-                imagePath = SaveImage(imageFile);  // Save image and get the path
+                imagePath = SaveImage(studentDto.Image);  // Save image and get the path
             }
 
             var student = new Student
@@ -156,7 +156,7 @@ namespace IT_Institute_Management.Services
             await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
         }
 
-        public async Task<string> UpdateStudentAsync(string nic, StudentRequestDto studentDto, IFormFile imageFile)
+        public async Task<string> UpdateStudentAsync(string nic, StudentRequestDto studentDto)
         {
             var student = await _studentRepository.GetByNicAsync(nic);
             if (student == null)
@@ -165,7 +165,7 @@ namespace IT_Institute_Management.Services
             }
 
             // If an image is uploaded, save the new image and delete the old one
-            if (imageFile != null)
+            if (studentDto.Image != null)
             {
                 // Delete the old image
                 if (!string.IsNullOrEmpty(student.ImagePath))
@@ -174,7 +174,7 @@ namespace IT_Institute_Management.Services
                 }
 
                 // Save the new image
-                student.ImagePath = SaveImage(imageFile);
+                student.ImagePath = SaveImage(studentDto.Image);
             }
 
             student.NIC = studentDto.NIC;

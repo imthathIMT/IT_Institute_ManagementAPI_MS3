@@ -34,7 +34,7 @@ namespace IT_Institute_Management.DTO.RequestDTO
             ErrorMessage = "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.")]
         public string Password { get; set; }
 
-        public string ImagePath { get; set; }
+        public IFormFile? Image { get; set; }
 
         [Required(ErrorMessage = "Address is required.")]
         public AddressRequestDto Address { get; set; }

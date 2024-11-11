@@ -52,11 +52,11 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddStudent([FromBody] StudentRequestDto studentDto, IFormFile imageFile)
+        public async Task<IActionResult> AddStudent( StudentRequestDto studentDto)
         {
             try
             {
-                await _studentService.AddStudentAsync(studentDto,imageFile);
+                await _studentService.AddStudentAsync(studentDto);
                 return CreatedAtAction(nameof(GetStudentByNic), new { nic = studentDto.NIC }, studentDto);
             }
             catch (Exception ex)
@@ -66,11 +66,11 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPut("{nic}")]
-        public async Task<IActionResult> UpdateStudent(string nic, [FromBody] StudentRequestDto studentDto,IFormFile imageFile)
+        public async Task<IActionResult> UpdateStudent(string nic, StudentRequestDto studentDto)
         {
             try
             {
-                await _studentService.UpdateStudentAsync(nic, studentDto, imageFile);
+                await _studentService.UpdateStudentAsync(nic, studentDto);
                 return NoContent();
             }
             catch (Exception ex)
@@ -96,7 +96,7 @@ namespace IT_Institute_Management.Controllers
 
         // PUT: api/students/{nic}/update-password
         [HttpPut("{nic}/update-password")]
-        public async Task<IActionResult> UpdatePassword(string nic, [FromBody] UpdatePasswordRequestDto updatePasswordDto)
+        public async Task<IActionResult> UpdatePassword(string nic, UpdatePasswordRequestDto updatePasswordDto)
         {
             try
             {
@@ -114,6 +114,15 @@ namespace IT_Institute_Management.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+
+        //sample
+
+        [HttpPost("test")]
+        public async void imageUpload(StudentRequestDto studentDto)
+        {
+            
         }
     }
 }
