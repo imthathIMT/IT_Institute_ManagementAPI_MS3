@@ -15,7 +15,7 @@ namespace IT_Institute_Management.Entity
         [MaxLength(50, ErrorMessage = "Level cannot exceed 50 characters.")]
         public string Level { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Duration must be greater than 0.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Duration must be greater than 0 months.")]
         public int Duration { get; set; }
 
         [Range(0.01, double.MaxValue, ErrorMessage = "Fees must be greater than 0.")]

@@ -24,8 +24,6 @@ namespace IT_Institute_Management.Services
                 Id = p.Id,
                 Amount = p.Amount,
                 PaymentDate = p.PaymentDate,
-                FullAmount = p.FullAmount,
-                DueAmount = p.DueAmount,
                 EnrollmentId = (Guid)p.EnrollmentId
             });
         }
@@ -43,8 +41,6 @@ namespace IT_Institute_Management.Services
                 Id = payment.Id,
                 Amount = payment.Amount,
                 PaymentDate = payment.PaymentDate,
-                FullAmount = payment.FullAmount,
-                DueAmount = payment.DueAmount,
                 EnrollmentId = (Guid)payment.EnrollmentId
             };
         }
@@ -56,8 +52,6 @@ namespace IT_Institute_Management.Services
             {
                 Amount = paymentRequestDto.Amount,
                 PaymentDate = paymentRequestDto.PaymentDate,
-                FullAmount = paymentRequestDto.FullAmount,
-                DueAmount = paymentRequestDto.DueAmount,
                 EnrollmentId = paymentRequestDto.EnrollmentId
             };
 
@@ -73,8 +67,6 @@ namespace IT_Institute_Management.Services
 
             existingPayment.Amount = paymentRequestDto.Amount;
             existingPayment.PaymentDate = paymentRequestDto.PaymentDate;
-            existingPayment.FullAmount = paymentRequestDto.FullAmount;
-            existingPayment.DueAmount = paymentRequestDto.DueAmount;
 
             await _paymentRepository.UpdatePaymentAsync(existingPayment);
         }

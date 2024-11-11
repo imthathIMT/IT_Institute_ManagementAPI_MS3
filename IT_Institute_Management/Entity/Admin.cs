@@ -5,11 +5,16 @@ namespace IT_Institute_Management.Entity
 
     public class Admin
     {
+
+
         [Key]
         [Required(ErrorMessage = "NIC is required.")]
         [RegularExpression(@"^(?!.*[^0-9VXZ]).{9}$|^(?!.*[^0-9]).{12}$",
             ErrorMessage = "NIC must be either 9 digits followed by V/Z/X or 12 digits.")]
         public string NIC { get; set; }
+
+        [Required(ErrorMessage = "Name is required.")]
+        public string Name { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$",

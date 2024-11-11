@@ -24,11 +24,6 @@ namespace IT_Institute_Management.DTO.RequestDTO
             ErrorMessage = "Phone number must be in a valid international format. Example format: +44 20 7946 0958.")]
         public string Phone { get; set; }
 
-        [Required(ErrorMessage = "WhatsApp number is required.")]
-        [RegularExpression(@"^\+?(\d{1,4})?[\s\-]?\(?\d{1,4}?\)?[\s\-]?\d{1,4}[\s\-]?\d{1,4}[\s\-]?\d{1,4}$",
-            ErrorMessage = "WhatsApp number must be in a valid international format. Example format: +44 20 7946 0958.")]
-        public string WhatsappNumber { get; set; }
-
         [Required(ErrorMessage = "Password is required.")]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$",
             ErrorMessage = "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.")]

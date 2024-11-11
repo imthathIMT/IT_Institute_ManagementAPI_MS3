@@ -73,7 +73,6 @@ namespace IT_Institute_Management.Services
                     LastName = student.LastName,
                     Email = student.Email,
                     Phone = student.Phone,
-                    WhatsappNumber = student.WhatsappNuber,
                     IsLocked = student.IsLocked,
                     ImagePath = student.ImagePath,
                     Address = new AddressResponseDto
@@ -104,7 +103,6 @@ namespace IT_Institute_Management.Services
                 LastName = student.LastName,
                 Email = student.Email,
                 Phone = student.Phone,
-                WhatsappNumber = student.WhatsappNuber,
                 IsLocked = student.IsLocked,
                 ImagePath = student.ImagePath,
                 Address = new AddressResponseDto
@@ -135,7 +133,6 @@ namespace IT_Institute_Management.Services
                 LastName = studentDto.LastName,
                 Email = studentDto.Email,
                 Phone = studentDto.Phone,
-                WhatsappNuber = studentDto.WhatsappNumber,
                 Password = studentDto.Password,
                 ImagePath = imagePath,  // Store image path in database
                 IsLocked = true, // Account is active when created
@@ -182,7 +179,6 @@ namespace IT_Institute_Management.Services
             student.LastName = studentDto.LastName;
             student.Email = studentDto.Email;
             student.Phone = studentDto.Phone;
-            student.WhatsappNuber = studentDto.WhatsappNumber;
             student.Password = studentDto.Password;
             student.Address = new Address
             {

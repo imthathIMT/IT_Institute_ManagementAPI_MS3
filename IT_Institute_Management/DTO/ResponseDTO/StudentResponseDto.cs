@@ -7,7 +7,6 @@
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public string WhatsappNumber { get; set; }
         public bool IsLocked { get; set; }
         public string ImagePath { get; set; }
         public AddressResponseDto Address { get; set; }
