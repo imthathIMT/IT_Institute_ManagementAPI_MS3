@@ -2,6 +2,7 @@
 using IT_Institute_Management.DTO.ResponseDTO;
 using IT_Institute_Management.EmailSerivice;
 using IT_Institute_Management.Entity;
+using IT_Institute_Management.ImageService;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 using IT_Institute_Management.PasswordService;
@@ -14,47 +15,17 @@ namespace IT_Institute_Management.Services
         private readonly IStudentRepository _studentRepository;
         private readonly IEmailService _emailService;
         private readonly IPasswordHasher _passwordHasher;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IImageService _imageService;
+       
 
-        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher, IWebHostEnvironment webHostEnvironment)
+        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher, IImageService imageService)
         {
             _studentRepository = studentRepository;
             _emailService = emailService;
             _passwordHasher = passwordHasher;
-            _webHostEnvironment = webHostEnvironment;
+            _imageService = imageService;
+           
         }
-
-        // Method to save student image to the file system and return the file path
-        private string SaveImage(IFormFile imageFile)
-        {
-            var uploadsDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "images/students");
-            if (!Directory.Exists(uploadsDirectory))
-            {
-                Directory.CreateDirectory(uploadsDirectory);
-            }
-
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
-            var filePath = Path.Combine(uploadsDirectory, fileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                imageFile.CopyTo(fileStream);
-            }
-
-            return filePath;
-        }
-
-        // Method to delete the student's image from the file system
-        private void DeleteImage(string imagePath)
-        {
-            var filePath = Path.Combine(_webHostEnvironment.WebRootPath, imagePath);
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-        }
-
-
 
         public async Task<List<StudentResponseDto>> GetAllStudentsAsync()
         {
@@ -123,7 +94,7 @@ namespace IT_Institute_Management.Services
 
             if (studentDto.Image != null)
             {
-                imagePath = SaveImage(studentDto.Image);  // Save image and get the path
+                imagePath = await _imageService.SaveImage(studentDto.Image);  // Save image and get the path
             }
 
             var student = new Student
@@ -167,11 +138,11 @@ namespace IT_Institute_Management.Services
                 // Delete the old image
                 if (!string.IsNullOrEmpty(student.ImagePath))
                 {
-                    DeleteImage(student.ImagePath);
+                    _imageService.DeleteImage(student.ImagePath);
                 }
 
                 // Save the new image
-                student.ImagePath = SaveImage(studentDto.Image);
+                student.ImagePath = await _imageService.SaveImage(studentDto.Image);
             }
 
             student.NIC = studentDto.NIC;
@@ -208,7 +179,7 @@ namespace IT_Institute_Management.Services
             // Delete the image associated with the student
             if (!string.IsNullOrEmpty(student.ImagePath))
             {
-                DeleteImage(student.ImagePath);
+                _imageService.DeleteImage(student.ImagePath);
             }
 
             await _studentRepository.DeleteAsync(nic);
