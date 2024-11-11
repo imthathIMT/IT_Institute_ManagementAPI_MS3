@@ -104,7 +104,7 @@ namespace IT_Institute_Management.Services
                 LastName = studentDto.LastName,
                 Email = studentDto.Email,
                 Phone = studentDto.Phone,
-                Password = studentDto.Password,
+                Password = _passwordHasher.HashPassword(studentDto.Password), //BCrypt.Net.BCrypt.HashPassword(studentDto.Password),
                 ImagePath = imagePath,  // Store image path in database
                 IsLocked = true, // Account is active when created
                 Address = new Address

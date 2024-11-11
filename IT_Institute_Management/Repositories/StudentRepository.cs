@@ -42,14 +42,16 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
-                await _context.Students.AddAsync(student);
+                
                 var user = new User()
                 {
                     NIC = student.NIC,
                     Password = student.Password,
                     Role = Role.Student
                 };
+
                 await _context.Users.AddAsync(user);
+                await _context.Students.AddAsync(student);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -62,7 +64,7 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
-                _context.Students.Update(student);
+                
                 var user = new User()
                 {
                     NIC = student.NIC,
@@ -70,6 +72,7 @@ namespace IT_Institute_Management.Repositories
                     Role = Role.Student
                 };
                 _context.Users.Update(user);
+                _context.Students.Update(student);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -95,7 +98,7 @@ namespace IT_Institute_Management.Repositories
                     Password = student.Password,
                     Role = Role.Student
                 };
-                _context.Users.Update(user);
+                _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
