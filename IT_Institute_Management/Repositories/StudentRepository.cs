@@ -63,6 +63,13 @@ namespace IT_Institute_Management.Repositories
             try
             {
                 _context.Students.Update(student);
+                var user = new User()
+                {
+                    NIC = student.NIC,
+                    Password = student.Password,
+                    Role = Role.Student
+                };
+                _context.Users.Update(user);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -82,6 +89,13 @@ namespace IT_Institute_Management.Repositories
                 }
 
                 _context.Students.Remove(student);
+                var user = new User()
+                {
+                    NIC = student.NIC,
+                    Password = student.Password,
+                    Role = Role.Student
+                };
+                _context.Users.Update(user);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

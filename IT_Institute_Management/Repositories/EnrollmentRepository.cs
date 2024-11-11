@@ -1,5 +1,6 @@
 ﻿using IT_Institute_Management.Database;
 using IT_Institute_Management.Entity;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace IT_Institute_Management.Repositories
@@ -41,7 +42,7 @@ namespace IT_Institute_Management.Repositories
             var enrollment = await GetEnrollmentByIdAsync(id);
             if (enrollment != null)
             {
-                _context.Enrollments.Remove(enrollment);
+                _context.Enrollment.Remove(enrollment);
                 await SaveChangesAsync();
             }
             return enrollment;
