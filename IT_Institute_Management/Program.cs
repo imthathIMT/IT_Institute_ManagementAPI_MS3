@@ -1,5 +1,6 @@
 using IT_Institute_Management.Database;
 using IT_Institute_Management.EmailSerivice;
+using IT_Institute_Management.ImageService;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 using IT_Institute_Management.PasswordService;
@@ -42,6 +43,7 @@ builder.Services.AddScoped<IContactUsService, ContactUsService>();
 
 
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 

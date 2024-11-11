@@ -5,8 +5,7 @@ namespace IT_Institute_Management.DTO.RequestDTO
     public class StudentRequestDto
     {
         [Required(ErrorMessage = "NIC is required.")]
-        [RegularExpression(@"^(?!.*[^0-9VXZ]).{9}$|^(?!.*[^0-9]).{12}$",
-            ErrorMessage = "NIC must be either 9 digits followed by V/Z/X or 12 digits.")]
+        [RegularExpression(@"^\d{9}[vxzVXZ]$|^\d{12}$", ErrorMessage = "Invalid NIC format.")]
         public string NIC { get; set; }
 
         [Required(ErrorMessage = "First Name is required.")]

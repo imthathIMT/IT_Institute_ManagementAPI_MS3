@@ -64,7 +64,7 @@ namespace IT_Institute_Management.Services
             var student = await _studentRepository.GetByNicAsync(nic);
             if (student == null)
             {
-                throw new ApplicationException($"Student with NIC {nic} not found.");
+                throw new Exception($"Student with NIC {nic} not found.");
             }
 
             return new StudentResponseDto
@@ -129,7 +129,7 @@ namespace IT_Institute_Management.Services
             var student = await _studentRepository.GetByNicAsync(nic);
             if (student == null)
             {
-                throw new ApplicationException($"Student with NIC {nic} not found.");
+                throw new Exception($"Student with NIC {nic} not found.");
             }
 
             // If an image is uploaded, save the new image and delete the old one
@@ -173,7 +173,7 @@ namespace IT_Institute_Management.Services
             var student = await _studentRepository.GetByNicAsync(nic);
             if (student == null)
             {
-                throw new ApplicationException($"Student with NIC {nic} not found.");
+                throw new Exception($"Student with NIC {nic} not found.");
             }
 
             // Delete the image associated with the student
@@ -191,13 +191,13 @@ namespace IT_Institute_Management.Services
             var student = await _studentRepository.GetByNicAsync(nic);
             if (student == null)
             {
-                throw new ApplicationException($"Student with NIC {nic} not found.");
+                throw new Exception($"Student with NIC {nic} not found.");
             }
 
             // Verify the current password against the stored hash
             if (!_passwordHasher.VerifyHashedPassword(student.Password, updatePasswordDto.CurrentPassword))
             {
-                throw new ApplicationException("Current password is incorrect.");
+                throw new Exception("Current password is incorrect.");
             }
 
             // Hash the new password before storing it
