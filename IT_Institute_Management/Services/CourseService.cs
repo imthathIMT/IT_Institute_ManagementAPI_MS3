@@ -40,7 +40,7 @@ namespace IT_Institute_Management.Services
                 Level = course.Level,
                 Duration = course.Duration,
                 Fees = course.Fees,
-                ImagePaths = course.ImagePaths.Split(',').ToList() // Split the stored comma-separated string into a list
+                ImagePaths = course.ImagePaths.Split(',').ToList() 
             });
         }
 
@@ -58,7 +58,7 @@ namespace IT_Institute_Management.Services
                 Level = course.Level,
                 Duration = course.Duration,
                 Fees = course.Fees,
-                ImagePaths = course.ImagePaths.Split(',').ToList() // Convert string to list
+                ImagePaths = course.ImagePaths.Split(',').ToList() 
             };
         }
 
@@ -109,7 +109,7 @@ namespace IT_Institute_Management.Services
 
             foreach (var image in images)
             {
-                // Save the image in the "courses" folder and return the file path
+                
                 var imagePath = await _imageService.SaveImage(image, "courses");
                 imagePaths.Add(imagePath);
             }
@@ -127,7 +127,7 @@ namespace IT_Institute_Management.Services
             var imagePaths = new List<string>();
             if (images != null && images.Any())
             {
-                // If new images are uploaded, delete old images and save the new ones
+               
                 foreach (var image in images)
                 {
                     var imagePath = await _imageService.SaveImage(image, "courses");
@@ -136,20 +136,20 @@ namespace IT_Institute_Management.Services
             }
             else
             {
-                // Retain existing image paths if no new images are provided
+                
                 imagePaths = course.ImagePaths.Split(",").ToList();
             }
 
-            // Update course details
+          
             course.CourseName = courseRequest.CourseName;
             course.Level = courseRequest.Level;
             course.Duration = courseRequest.Duration;
             course.Fees = courseRequest.Fees;
-            course.ImagePaths = string.Join(",", imagePaths); // Store new image paths
+            course.ImagePaths = string.Join(",", imagePaths); 
 
             await _courseRepository.UpdateCourseAsync(course);
 
-            // Create and store an announcement about the updated course
+           
             var announcement = new Announcement
             {
                 Title = $"Updated Course: {course.CourseName}",
@@ -158,7 +158,7 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-            // Send email notifications to all students
+           
             var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {
@@ -181,7 +181,7 @@ namespace IT_Institute_Management.Services
 
             var course = await _courseRepository.GetCourseByIdAsync(id);
 
-            // Delete associated images from the filesystem
+            
             var imagePaths = course.ImagePaths.Split(',');
             foreach (var imagePath in imagePaths)
             {
@@ -190,7 +190,7 @@ namespace IT_Institute_Management.Services
 
             await _courseRepository.DeleteCourseAsync(id);
 
-            // Create and store an announcement about the course deletion
+           
             var announcement = new Announcement
             {
                 Title = "Course Deleted",
@@ -199,7 +199,7 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-            // Send email notifications to all students
+          
             var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {

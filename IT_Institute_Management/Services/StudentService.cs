@@ -143,8 +143,8 @@ namespace IT_Institute_Management.Services
                     _imageService.DeleteImage(student.ImagePath);
                 }
 
-                // Save the new image
-                student.ImagePath = await _imageService.SaveImage(studentDto.Image);
+                // Specify the folder name as "students"
+                student.ImagePath = await _imageService.SaveImage(studentDto.Image, "students");
             }
 
             student.NIC = studentDto.NIC;
@@ -164,11 +164,13 @@ namespace IT_Institute_Management.Services
             };
 
             await _studentRepository.UpdateAsync(student);
-            return ("Student profile update successful");
 
             // Send email after update
             await _emailService.SendEmailAsync(student.Email, "Profile Updated", $"{student.FirstName} {student.LastName}, your profile has been successfully updated.");
+            return "Student profile update successful";
         }
+
+
 
         public async Task DeleteStudentAsync(string nic)
         {
