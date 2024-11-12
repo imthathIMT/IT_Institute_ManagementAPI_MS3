@@ -14,5 +14,13 @@ namespace IT_Institute_Management.Controllers
         {
             _userService = userService;
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _userService.GetAllAsync();
+            return Ok(users);
+        }
     }
 }
