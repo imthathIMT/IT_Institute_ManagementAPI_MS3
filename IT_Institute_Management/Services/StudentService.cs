@@ -94,7 +94,8 @@ namespace IT_Institute_Management.Services
 
             if (studentDto.Image != null)
             {
-                imagePath = await _imageService.SaveImage(studentDto.Image);  // Save image and get the path
+                // Specify the folder name as "students"
+                imagePath = await _imageService.SaveImage(studentDto.Image, "students");
             }
 
             var student = new Student
@@ -123,6 +124,7 @@ namespace IT_Institute_Management.Services
             // Send email after registration
             await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
         }
+
 
         public async Task<string> UpdateStudentAsync(string nic, StudentRequestDto studentDto)
         {
