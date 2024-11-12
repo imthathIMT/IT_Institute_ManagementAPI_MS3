@@ -58,11 +58,20 @@ namespace IT_Institute_Management.Services
             }
         }
 
+
         public async Task AddAsync(AdminRequestDto adminDto)
         {
-            var admin = new Admin { NIC = adminDto.NIC, Password = adminDto.Password };
-            await _adminRepository.AddAsync(admin);
+            try
+            {
+                var admin = new Admin { NIC = adminDto.NIC, Name = adminDto.Name, Password = adminDto.Password };
+                await _adminRepository.AddAsync(admin);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An error occurred while adding the admin.", ex);
+            }
         }
+
         public async Task UpdateAsync(AdminRequestDto adminDto)
         {
             var admin = new Admin { NIC = adminDto.NIC, Password = adminDto.Password };
