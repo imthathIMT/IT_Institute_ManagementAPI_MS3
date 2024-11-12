@@ -22,5 +22,19 @@ namespace IT_Institute_Management.Controllers
             var users = await _userService.GetAllAsync();
             return Ok(users);
         }
+
+        [HttpGet("{nic}")]
+        public async Task<IActionResult> GetUserById(string nic)
+        {
+            try
+            {
+                var user = await _userService.GetByIdAsync(nic);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
     }
 }

@@ -18,5 +18,10 @@ namespace IT_Institute_Management.Repositories
         {
             return await _context.Users.Include(u => u.Role).ToListAsync();
         }
+
+        public async Task<User> GetByIdAsync(string nic)
+        {
+            return await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.NIC == nic);
+        }
     }
 }

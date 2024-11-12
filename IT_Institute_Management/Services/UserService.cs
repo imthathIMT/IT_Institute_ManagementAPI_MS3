@@ -22,5 +22,16 @@ namespace IT_Institute_Management.Services
                 Role = u.Role.ToString()
             });
         }
+
+        public async Task<UserResponseDto> GetByIdAsync(string nic)
+        {
+            var user = await _userRepository.GetByIdAsync(nic);
+            if (user == null) throw new Exception($"User with NIC {nic} not found.");
+            return new UserResponseDto
+            {
+                NIC = user.NIC,
+                Role = user.Role.ToString()
+            };
+        }
     }
 }
