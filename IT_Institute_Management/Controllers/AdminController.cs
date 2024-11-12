@@ -95,8 +95,19 @@ namespace IT_Institute_Management.Controllers
         [HttpDelete("{nic}")]
         public async Task<IActionResult> Delete(string nic)
         {
-            await _adminService.DeleteAsync(nic);
-            return NoContent();
+            try
+            {
+                await _adminService.DeleteAsync(nic);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
         }
 
 
