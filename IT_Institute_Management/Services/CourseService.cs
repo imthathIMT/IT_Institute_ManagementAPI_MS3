@@ -17,12 +17,13 @@ namespace IT_Institute_Management.Services
         private readonly IHostEnvironment _hostEnvironment;
         private readonly InstituteDbContext _context;
 
-        public CourseService(ICourseRepository courseRepository, IStudentRepository studentRepository, IAnnouncementRepository announcementRepository, IEmailService emailService,InstituteDbContext context)
+        public CourseService(ICourseRepository courseRepository, IStudentRepository studentRepository, IAnnouncementRepository announcementRepository, IEmailService emailService, IHostEnvironment hostEnvironment,InstituteDbContext context)
         {
             _courseRepository = courseRepository;
             _studentRepository = studentRepository;
             _announcementRepository = announcementRepository;
             _emailService = emailService;
+            _hostEnvironment = hostEnvironment;
             _context = context;
         }
 
