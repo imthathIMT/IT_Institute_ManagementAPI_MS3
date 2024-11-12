@@ -107,28 +107,15 @@ namespace IT_Institute_Management.Services
         {
             var imagePaths = new List<string>();
 
-           
-            var imageDirectory = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "uploads");
-            Directory.CreateDirectory(imageDirectory);
-
             foreach (var image in images)
             {
-                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-                var filePath = Path.Combine(imageDirectory, fileName);
-
-               
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await image.CopyToAsync(stream);
-                }
-
-                
-                imagePaths.Add($"/uploads/{fileName}");
+                // Save the image in the "courses" folder and return the file path
+                var imagePath = await _imageService.SaveImage(image, "courses");
+                imagePaths.Add(imagePath);
             }
 
             return imagePaths;
         }
-
 
 
         public async Task UpdateCourseAsync(Guid id, CourseRequestDTO courseRequest, List<IFormFile> images)
