@@ -71,9 +71,26 @@ namespace IT_Institute_Management.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] AdminRequestDto adminDto)
         {
-            await _adminService.UpdateAsync(adminDto);
-            return NoContent();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                await _adminService.UpdateAsync(adminDto);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
         }
+
 
         [HttpDelete("{nic}")]
         public async Task<IActionResult> Delete(string nic)
