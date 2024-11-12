@@ -179,10 +179,18 @@ namespace IT_Institute_Management.Services
             if (!courseExists)
                 throw new KeyNotFoundException("Course not found.");
 
-            
+            var course = await _courseRepository.GetCourseByIdAsync(id);
+
+            // Delete associated images from the filesystem
+            var imagePaths = course.ImagePaths.Split(',');
+            foreach (var imagePath in imagePaths)
+            {
+                _imageService.DeleteImage(imagePath);
+            }
+
             await _courseRepository.DeleteCourseAsync(id);
 
-            
+            // Create and store an announcement about the course deletion
             var announcement = new Announcement
             {
                 Title = "Course Deleted",
@@ -191,7 +199,7 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-            
+            // Send email notifications to all students
             var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {
