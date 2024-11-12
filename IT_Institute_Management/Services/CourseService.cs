@@ -187,12 +187,15 @@ namespace IT_Institute_Management.Services
                 await _emailService.SendEmailAsync(student.Email, "Course Update", body);
             }
         }
+
+
         public async Task DeleteCourseAsync(Guid id)
         {
             var courseExists = await _courseRepository.CourseExistsAsync(id);
             if (!courseExists)
                 throw new KeyNotFoundException("Course not found.");
 
+            // Delete course from the database
             await _courseRepository.DeleteCourseAsync(id);
 
             // Create an Announcement for course deletion
@@ -204,7 +207,7 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-            // Send Email to All Students about the deletion
+            // Send email to all students about the deletion
             var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {
