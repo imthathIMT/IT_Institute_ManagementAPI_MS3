@@ -32,10 +32,21 @@ namespace IT_Institute_Management.Controllers
         [HttpGet("{nic}")]
         public async Task<IActionResult> GetById(string nic)
         {
-            var admin = await _adminService.GetByIdAsync(nic);
-            if (admin == null) { return NotFound(); }
-            return Ok(admin);
+            try
+            {
+                var admin = await _adminService.GetByIdAsync(nic);
+                return Ok(admin);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] AdminRequestDto adminDto)
