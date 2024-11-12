@@ -16,7 +16,6 @@ namespace IT_Institute_Management.Controllers
             _courseService = courseService;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> GetAllCourses()
         {
