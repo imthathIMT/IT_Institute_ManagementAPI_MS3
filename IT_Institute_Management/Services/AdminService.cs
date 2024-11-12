@@ -17,24 +17,45 @@ namespace IT_Institute_Management.Services
         }
         public async Task<IEnumerable<AdminResponseDto>> GetAllAsync()
         {
-            var admins = await _adminRepository.GetAllAsync();
-            return admins.Select(a => new AdminResponseDto
+            try
             {
-                NIC = a.NIC,
-                FullName = $"{a.FirstName} {a.LastName}",
-                Email = a.Email,
-                Phone = a.Phone
-            });
+                var admins = await _adminRepository.GetAllAsync();
+                return admins.Select(a => new AdminResponseDto
+                {
+                    NIC = a.NIC,
+                    Name = a.Name,
+                    Email = a.Email,
+                    Phone = a.Phone
+                });
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An error occurred while retrieving admins.", ex);
+            }
         }
 
         public async Task<AdminResponseDto> GetByIdAsync(string nic)
         {
-            var admin = await _adminRepository.GetByIdAsync(nic);
-            return new AdminResponseDto
+            try
             {
-                NIC = admin.NIC,
-                Password = admin.Password
-            };
+                var admin = await _adminRepository.GetByIdAsync(nic);
+                if (admin == null)
+                {
+                    throw new KeyNotFoundException($"Admin with NIC {nic} not found.");
+                }
+
+                return new AdminResponseDto
+                {
+                    NIC = admin.NIC,
+                    Name = admin.Name,
+                    Email = admin.Email,
+                    Phone = admin.Phone
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An error occurred while retrieving the admin.", ex);
+            }
         }
 
         public async Task AddAsync(AdminRequestDto adminDto)
