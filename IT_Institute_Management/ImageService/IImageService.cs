@@ -2,7 +2,7 @@
 {
     public interface IImageService
     {
-        Task<string> SaveImage(IFormFile imageFile);
+        Task<string> SaveImage(IFormFile imageFile, string folderName);
         void DeleteImage(string imagePath);
     }
 }
