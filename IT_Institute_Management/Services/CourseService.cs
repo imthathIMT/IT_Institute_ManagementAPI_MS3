@@ -55,7 +55,7 @@ namespace IT_Institute_Management.Services
                 Level = course.Level,
                 Duration = course.Duration,
                 Fees = course.Fees,
-                ImagePath = course.ImagePath
+                ImagePaths = course.ImagePaths.Split(',').ToList() // Convert string to list
             };
         }
 
