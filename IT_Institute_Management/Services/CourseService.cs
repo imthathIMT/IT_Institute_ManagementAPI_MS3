@@ -62,13 +62,16 @@ namespace IT_Institute_Management.Services
 
         public async Task CreateCourseAsync(CourseRequestDTO courseRequest)
         {
+            // Save image paths and store them in the database
+            var imagePaths = await SaveImagesAsync(courseRequest.Images);
+
             var course = new Course
             {
                 CourseName = courseRequest.CourseName,
                 Level = courseRequest.Level,
                 Duration = courseRequest.Duration,
                 Fees = courseRequest.Fees,
-                ImagePath = courseRequest.ImagePath
+                ImagePaths = string.Join(",", imagePaths) // Store as comma-separated string
             };
 
             await _courseRepository.AddCourseAsync(course);
