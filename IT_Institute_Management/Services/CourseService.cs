@@ -100,6 +100,32 @@ namespace IT_Institute_Management.Services
             }
         }
 
+        private async Task<List<string>> SaveImagesAsync(List<IFormFile> images)
+        {
+            var imagePaths = new List<string>();
+
+            // Create a directory for images if not exists
+            var imageDirectory = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "uploads");
+            Directory.CreateDirectory(imageDirectory);
+
+            foreach (var image in images)
+            {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                var filePath = Path.Combine(imageDirectory, fileName);
+
+                // Save image to disk
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(stream);
+                }
+
+                // Add image path to the list
+                imagePaths.Add($"/uploads/{fileName}");
+            }
+
+            return imagePaths;
+        }
+
 
 
         public async Task UpdateCourseAsync(Guid id, CourseRequestDTO courseRequest)
