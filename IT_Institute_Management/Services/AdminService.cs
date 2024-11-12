@@ -9,6 +9,7 @@ namespace IT_Institute_Management.Services
     public class AdminService : IAdminService
     {
         private readonly IAdminRepository _adminRepository;
+        private readonly IUserService _userService;
         public AdminService(IAdminRepository adminRepository)
         {
             _adminRepository = adminRepository;
