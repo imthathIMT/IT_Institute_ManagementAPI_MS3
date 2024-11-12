@@ -3,6 +3,7 @@ using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.DTO.ResponseDTO;
 using IT_Institute_Management.EmailSerivice;
 using IT_Institute_Management.Entity;
+using IT_Institute_Management.ImageService;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 
@@ -14,15 +15,17 @@ namespace IT_Institute_Management.Services
         private readonly IStudentRepository _studentRepository;
         private readonly IAnnouncementRepository _announcementRepository;
         private readonly IEmailService _emailService;
+        private readonly IImageService _imageService;
         private readonly IHostEnvironment _hostEnvironment;
         private readonly InstituteDbContext _context;
 
-        public CourseService(ICourseRepository courseRepository, IStudentRepository studentRepository, IAnnouncementRepository announcementRepository, IEmailService emailService, IHostEnvironment hostEnvironment,InstituteDbContext context)
+        public CourseService(ICourseRepository courseRepository, IStudentRepository studentRepository, IAnnouncementRepository announcementRepository, IEmailService emailService, IImageService imageService, IHostEnvironment hostEnvironment,InstituteDbContext context)
         {
             _courseRepository = courseRepository;
             _studentRepository = studentRepository;
             _announcementRepository = announcementRepository;
             _emailService = emailService;
+            _imageService = imageService;
             _hostEnvironment = hostEnvironment;
             _context = context;
         }
