@@ -16,6 +16,7 @@ namespace IT_Institute_Management.Controllers
             _courseService = courseService;
         }
 
+
         [HttpGet]
         public async Task<IActionResult> GetAllCourses()
         {
@@ -29,6 +30,7 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCourseById(Guid id)
@@ -48,6 +50,7 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+
         [HttpPost]
         public async Task<IActionResult> CreateCourse(
                    [FromForm] CourseRequestDTO courseRequest,
@@ -55,7 +58,7 @@ namespace IT_Institute_Management.Controllers
         {
             try
             {
-                // Pass the course data and images to the service
+                
                 await _courseService.CreateCourseAsync(courseRequest, images);
                 return CreatedAtAction(nameof(GetCourseById), new { id = courseRequest.CourseName }, courseRequest);
             }
@@ -65,6 +68,7 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCourse(
                    Guid id,
@@ -73,7 +77,7 @@ namespace IT_Institute_Management.Controllers
         {
             try
             {
-                // Pass the course ID, course data, and images to the service
+               
                 await _courseService.UpdateCourseAsync(id, courseRequest, images);
                 return Ok("Course updated successfully");
             }

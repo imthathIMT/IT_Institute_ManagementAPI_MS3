@@ -62,7 +62,7 @@ namespace IT_Institute_Management.Services
 
         public async Task CreateCourseAsync(CourseRequestDTO courseRequest, List<IFormFile> images)
         {
-            // Logic for saving images and creating the course
+            
             var imagePaths = await SaveImagesAsync(images);
 
             var course = new Course
@@ -71,12 +71,12 @@ namespace IT_Institute_Management.Services
                 Level = courseRequest.Level,
                 Duration = courseRequest.Duration,
                 Fees = courseRequest.Fees,
-                ImagePaths = string.Join(",", imagePaths) // Store image paths as comma-separated string
+                ImagePaths = string.Join(",", imagePaths) 
             };
 
             await _courseRepository.AddCourseAsync(course);
 
-            // Create an announcement and send email notifications
+            
             var announcement = new Announcement
             {
                 Title = $"New Course: {course.CourseName}",
@@ -104,7 +104,7 @@ namespace IT_Institute_Management.Services
         {
             var imagePaths = new List<string>();
 
-            // Create a directory for images if not exists
+           
             var imageDirectory = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "uploads");
             Directory.CreateDirectory(imageDirectory);
 
@@ -113,13 +113,13 @@ namespace IT_Institute_Management.Services
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
                 var filePath = Path.Combine(imageDirectory, fileName);
 
-                // Save image to disk
+               
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await image.CopyToAsync(stream);
                 }
 
-                // Add image path to the list
+                
                 imagePaths.Add($"/uploads/{fileName}");
             }
 
@@ -134,7 +134,7 @@ namespace IT_Institute_Management.Services
             if (course == null)
                 throw new KeyNotFoundException("Course not found.");
 
-            // Process image uploads if images are provided
+           
             var imagePaths = new List<string>();
             if (images != null && images.Any())
             {
@@ -146,25 +146,25 @@ namespace IT_Institute_Management.Services
                     {
                         await image.CopyToAsync(stream);
                     }
-                    imagePaths.Add($"/uploads/{fileName}"); // Add relative file path
+                    imagePaths.Add($"/uploads/{fileName}"); 
                 }
             }
             else
             {
-                // If no new images, keep the existing ones
+               
                 imagePaths = course.ImagePaths.Split(",").ToList();
             }
 
-            // Update course details
+           
             course.CourseName = courseRequest.CourseName;
             course.Level = courseRequest.Level;
             course.Duration = courseRequest.Duration;
             course.Fees = courseRequest.Fees;
-            course.ImagePaths = string.Join(",", imagePaths); // Join updated image paths
+            course.ImagePaths = string.Join(",", imagePaths); 
 
             await _courseRepository.UpdateCourseAsync(course);
 
-            // Create an announcement for the update
+            
             var announcement = new Announcement
             {
                 Title = $"Updated Course: {course.CourseName}",
@@ -173,7 +173,7 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-            // Send email to all students about the update
+           
             var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {
@@ -195,10 +195,10 @@ namespace IT_Institute_Management.Services
             if (!courseExists)
                 throw new KeyNotFoundException("Course not found.");
 
-            // Delete course from the database
+            
             await _courseRepository.DeleteCourseAsync(id);
 
-            // Create an Announcement for course deletion
+            
             var announcement = new Announcement
             {
                 Title = "Course Deleted",
@@ -207,7 +207,7 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-            // Send email to all students about the deletion
+            
             var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {
