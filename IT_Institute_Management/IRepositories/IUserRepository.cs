@@ -8,5 +8,6 @@ namespace IT_Institute_Management.IRepositories
         Task<User> GetByIdAsync(string nic);
         Task AddAsync(User user);
         Task UpdateAsync(User user);
+        Task DeleteAsync(string nic);
     }
 }

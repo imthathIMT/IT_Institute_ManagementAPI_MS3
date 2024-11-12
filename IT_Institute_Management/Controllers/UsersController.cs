@@ -67,5 +67,19 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpDelete("{nic}")]
+        public async Task<IActionResult> DeleteUser(string nic)
+        {
+            try
+            {
+                await _userService.DeleteAsync(nic);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
     }
 }

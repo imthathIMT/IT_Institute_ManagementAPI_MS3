@@ -10,5 +10,6 @@ namespace IT_Institute_Management.IServices
         Task<UserResponseDto> GetByIdAsync(string nic);
         Task AddAsync(UserRequestDto userDto, Role role);
         Task UpdateAsync(string nic, UserRequestDto userDto);
+        Task DeleteAsync(string nic);
     }
 }

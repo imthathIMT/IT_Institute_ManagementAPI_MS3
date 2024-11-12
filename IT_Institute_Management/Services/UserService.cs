@@ -57,5 +57,13 @@ namespace IT_Institute_Management.Services
             user.Password = userDto.Password;
             await _userRepository.UpdateAsync(user);
         }
+
+        public async Task DeleteAsync(string nic)
+        {
+            var user = await _userRepository.GetByIdAsync(nic);
+            if (user == null) throw new Exception($"User with NIC {nic} not found.");
+
+            await _userRepository.DeleteAsync(nic);
+        }
     }
 }

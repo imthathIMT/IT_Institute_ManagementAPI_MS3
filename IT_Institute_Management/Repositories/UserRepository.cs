@@ -35,5 +35,15 @@ namespace IT_Institute_Management.Repositories
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteAsync(string nic)
+        {
+            var user = await GetByIdAsync(nic);
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }
