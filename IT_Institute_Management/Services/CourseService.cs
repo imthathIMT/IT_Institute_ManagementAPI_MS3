@@ -128,17 +128,39 @@ namespace IT_Institute_Management.Services
 
 
 
-        public async Task UpdateCourseAsync(Guid id, CourseRequestDTO courseRequest)
+        public async Task UpdateCourseAsync(Guid id, CourseRequestDTO courseRequest, List<IFormFile> images)
         {
             var course = await _courseRepository.GetCourseByIdAsync(id);
             if (course == null)
                 throw new KeyNotFoundException("Course not found.");
 
+            // Process image uploads if images are provided
+            var imagePaths = new List<string>();
+            if (images != null && images.Any())
+            {
+                foreach (var image in images)
+                {
+                    var fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
+                    var filePath = Path.Combine(_imageUploadPath, fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(stream);
+                    }
+                    imagePaths.Add(fileName);
+                }
+            }
+            else
+            {
+                // If no new images, keep existing ones
+                imagePaths = course.ImagePaths.Split(",").ToList();
+            }
+
+            // Update course details
             course.CourseName = courseRequest.CourseName;
             course.Level = courseRequest.Level;
             course.Duration = courseRequest.Duration;
             course.Fees = courseRequest.Fees;
-            course.ImagePath = courseRequest.ImagePath;
+            course.ImagePaths = string.Join(",", imagePaths); // Update image paths
 
             await _courseRepository.UpdateCourseAsync(course);
 
@@ -151,7 +173,7 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-            // Send Email to All Students about the update
+            // Send email to all students about the update
             var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {
@@ -165,7 +187,6 @@ namespace IT_Institute_Management.Services
                 await _emailService.SendEmailAsync(student.Email, "Course Update", body);
             }
         }
-
         public async Task DeleteCourseAsync(Guid id)
         {
             var courseExists = await _courseRepository.CourseExistsAsync(id);
