@@ -12,12 +12,15 @@ namespace IT_Institute_Management.DTO.RequestDTO
         [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
         public string Name { get; set; }
 
+        [Phone(ErrorMessage = "Invalid phone number.")]
+        [StringLength(15, ErrorMessage = "Phone number must not exceed 15 digits.")]
+        public string Phone { get; set; }
+
         [Required(ErrorMessage = "Password is required.")]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$",
             ErrorMessage = "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, and 1 special character.")]
         public string Password { get; set; }
 
-        // This property is used only when updating an admin, not required in requests where it's not being updated
-        public Guid? UserId { get; set; }
+       
     }
 }
