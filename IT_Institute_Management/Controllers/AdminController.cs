@@ -51,8 +51,20 @@ namespace IT_Institute_Management.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] AdminRequestDto adminDto)
         {
-            await _adminService.AddAsync(adminDto);
-            return CreatedAtAction(nameof(GetById), new { nic = adminDto.NIC }, adminDto);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                await _adminService.AddAsync(adminDto);
+                return CreatedAtAction(nameof(GetById), new { nic = adminDto.NIC }, adminDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
         }
 
 
