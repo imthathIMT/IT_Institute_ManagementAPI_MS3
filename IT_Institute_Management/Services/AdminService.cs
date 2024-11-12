@@ -10,9 +10,10 @@ namespace IT_Institute_Management.Services
     {
         private readonly IAdminRepository _adminRepository;
         private readonly IUserService _userService;
-        public AdminService(IAdminRepository adminRepository)
+        public AdminService(IAdminRepository adminRepository,IUserService userService)
         {
             _adminRepository = adminRepository;
+            _userService = userService;
         }
         public async Task<IEnumerable<AdminResponseDto>> GetAllAsync()
         {
