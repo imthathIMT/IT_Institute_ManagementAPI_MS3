@@ -60,10 +60,10 @@ namespace IT_Institute_Management.Services
         }
 
 
-        public async Task CreateCourseAsync(CourseRequestDTO courseRequest)
+        public async Task CreateCourseAsync(CourseRequestDTO courseRequest, List<IFormFile> images)
         {
-            // Save image paths and store them in the database
-            var imagePaths = await SaveImagesAsync(courseRequest.Images);
+            // Logic for saving images and creating the course
+            var imagePaths = await SaveImagesAsync(images);
 
             var course = new Course
             {
@@ -71,12 +71,12 @@ namespace IT_Institute_Management.Services
                 Level = courseRequest.Level,
                 Duration = courseRequest.Duration,
                 Fees = courseRequest.Fees,
-                ImagePaths = string.Join(",", imagePaths) // Store as comma-separated string
+                ImagePaths = string.Join(",", imagePaths) // Store image paths as comma-separated string
             };
 
             await _courseRepository.AddCourseAsync(course);
 
-            // Create an Announcement
+            // Create an announcement and send email notifications
             var announcement = new Announcement
             {
                 Title = $"New Course: {course.CourseName}",
@@ -85,7 +85,6 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-            // Send Email to All Students
             var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {
@@ -99,6 +98,7 @@ namespace IT_Institute_Management.Services
                 await _emailService.SendEmailAsync(student.Email, "New Course Available", body);
             }
         }
+
 
         private async Task<List<string>> SaveImagesAsync(List<IFormFile> images)
         {
@@ -141,17 +141,17 @@ namespace IT_Institute_Management.Services
                 foreach (var image in images)
                 {
                     var fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
-                    var filePath = Path.Combine(_imageUploadPath, fileName);
+                    var filePath = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "uploads", fileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await image.CopyToAsync(stream);
                     }
-                    imagePaths.Add(fileName);
+                    imagePaths.Add($"/uploads/{fileName}"); // Add relative file path
                 }
             }
             else
             {
-                // If no new images, keep existing ones
+                // If no new images, keep the existing ones
                 imagePaths = course.ImagePaths.Split(",").ToList();
             }
 
@@ -160,11 +160,11 @@ namespace IT_Institute_Management.Services
             course.Level = courseRequest.Level;
             course.Duration = courseRequest.Duration;
             course.Fees = courseRequest.Fees;
-            course.ImagePaths = string.Join(",", imagePaths); // Update image paths
+            course.ImagePaths = string.Join(",", imagePaths); // Join updated image paths
 
             await _courseRepository.UpdateCourseAsync(course);
 
-            // Create an Announcement for the update
+            // Create an announcement for the update
             var announcement = new Announcement
             {
                 Title = $"Updated Course: {course.CourseName}",
