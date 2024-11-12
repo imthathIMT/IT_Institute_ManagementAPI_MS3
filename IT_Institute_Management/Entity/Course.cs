@@ -23,7 +23,7 @@ namespace IT_Institute_Management.Entity
 
         [Required(ErrorMessage = "Image path is required.")]
         [MaxLength(255, ErrorMessage = "Image path cannot exceed 255 characters.")]
-        public string ImagePath { get; set; }
+        public string ImagePaths { get; set; }
 
         public ICollection<Enrollment>? Enrollment { get; set; }
     }
