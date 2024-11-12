@@ -74,14 +74,43 @@ namespace IT_Institute_Management.Services
 
         public async Task UpdateAsync(AdminRequestDto adminDto)
         {
-            var admin = new Admin { NIC = adminDto.NIC, Password = adminDto.Password };
-            await _adminRepository.UpdateAsync(admin);
-        }
-        public async Task DeleteAsync(string nic)
-        {
-            await _adminRepository.DeleteAsync(nic);
+            try
+            {
+                var admin = await _adminRepository.GetByIdAsync(adminDto.NIC);
+                if (admin == null)
+                {
+                    throw new KeyNotFoundException($"Admin with NIC {adminDto.NIC} not found.");
+                }
+
+                admin.Name = adminDto.Name;
+                admin.Password = adminDto.Password;
+
+                await _adminRepository.UpdateAsync(admin);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An error occurred while updating the admin.", ex);
+            }
         }
 
+
+        public async Task DeleteAsync(string nic)
+        {
+            try
+            {
+                var admin = await _adminRepository.GetByIdAsync(nic);
+                if (admin == null)
+                {
+                    throw new KeyNotFoundException($"Admin with NIC {nic} not found.");
+                }
+
+                await _adminRepository.DeleteAsync(nic);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An error occurred while deleting the admin.", ex);
+            }
+        }
 
 
     }
