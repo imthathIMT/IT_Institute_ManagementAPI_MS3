@@ -18,9 +18,15 @@ namespace IT_Institute_Management.Services
         public async Task<IEnumerable<AdminResponseDto>> GetAllAsync()
         {
             var admins = await _adminRepository.GetAllAsync();
-            return admins.Select(a =>
-            new AdminResponseDto { NIC = a.NIC, Password = a.Password });
+            return admins.Select(a => new AdminResponseDto
+            {
+                NIC = a.NIC,
+                FullName = $"{a.FirstName} {a.LastName}",
+                Email = a.Email,
+                Phone = a.Phone
+            });
         }
+
         public async Task<AdminResponseDto> GetByIdAsync(string nic)
         {
             var admin = await _adminRepository.GetByIdAsync(nic);
