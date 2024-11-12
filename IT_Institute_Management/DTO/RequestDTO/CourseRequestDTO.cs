@@ -18,8 +18,8 @@ namespace IT_Institute_Management.DTO.RequestDTO
         [Range(0.01, double.MaxValue, ErrorMessage = "Fees must be greater than 0.")]
         public decimal Fees { get; set; }
 
-        [Required(ErrorMessage = "Image path is required.")]
-        [MaxLength(255, ErrorMessage = "Image path cannot exceed 255 characters.")]
-        public string ImagePath { get; set; }
+
+        [Required(ErrorMessage = "At least one image is required.")]
+        public List<IFormFile> Images { get; set; }
     }
 }
