@@ -30,7 +30,6 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCourseById(Guid id)
         {
