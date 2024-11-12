@@ -53,5 +53,19 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpPut("{nic}")]
+        public async Task<IActionResult> UpdateUser(string nic, [FromBody] UserRequestDto userDto)
+        {
+            try
+            {
+                await _userService.UpdateAsync(nic, userDto);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

@@ -47,5 +47,15 @@ namespace IT_Institute_Management.Services
 
             await _userRepository.AddAsync(user);
         }
+
+
+        public async Task UpdateAsync(string nic, UserRequestDto userDto)
+        {
+            var user = await _userRepository.GetByIdAsync(nic);
+            if (user == null) throw new Exception($"User with NIC {nic} not found.");
+
+            user.Password = userDto.Password;
+            await _userRepository.UpdateAsync(user);
+        }
     }
 }
