@@ -1,4 +1,6 @@
-﻿using IT_Institute_Management.DTO.ResponseDTO;
+﻿using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.DTO.ResponseDTO;
+using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 
@@ -32,6 +34,18 @@ namespace IT_Institute_Management.Services
                 NIC = user.NIC,
                 Role = user.Role.ToString()
             };
+        }
+
+        public async Task AddAsync(UserRequestDto userDto, Role role)
+        {
+            var user = new User
+            {
+                NIC = userDto.NIC,
+                Password = userDto.Password,
+                Role = role
+            };
+
+            await _userRepository.AddAsync(user);
         }
     }
 }

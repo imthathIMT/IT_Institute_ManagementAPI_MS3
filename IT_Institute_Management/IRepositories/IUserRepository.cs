@@ -6,5 +6,6 @@ namespace IT_Institute_Management.IRepositories
     {
         Task<IEnumerable<User>> GetAllAsync();
         Task<User> GetByIdAsync(string nic);
+        Task AddAsync(User user);
     }
 }

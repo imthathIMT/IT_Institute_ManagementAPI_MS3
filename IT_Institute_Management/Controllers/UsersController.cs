@@ -1,4 +1,6 @@
-﻿using IT_Institute_Management.IServices;
+﻿using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.Entity;
+using IT_Institute_Management.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +36,21 @@ namespace IT_Institute_Management.Controllers
             catch (Exception ex)
             {
                 return NotFound(new { message = ex.Message });
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddUser([FromBody] UserRequestDto userDto, [FromQuery] Role role)
+        {
+            try
+            {
+                await _userService.AddAsync(userDto, role);
+                return CreatedAtAction(nameof(GetUserById), new { nic = userDto.NIC }, userDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
     }
