@@ -13,11 +13,22 @@ namespace IT_Institute_Management.Controllers
         public AdminController(IAdminService adminService) {
             _adminService = adminService;
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetAll() { 
-            var admins = await _adminService.GetAllAsync();
-            return Ok(admins); 
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var admins = await _adminService.GetAllAsync();
+                return Ok(admins);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
         }
+
+
         [HttpGet("{nic}")]
         public async Task<IActionResult> GetById(string nic)
         {
