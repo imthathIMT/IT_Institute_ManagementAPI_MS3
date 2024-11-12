@@ -65,14 +65,17 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCourse(Guid id, CourseRequestDTO courseRequest)
+        public async Task<IActionResult> UpdateCourse(
+                   Guid id,
+                   [FromForm] CourseRequestDTO courseRequest,
+                   [FromForm] List<IFormFile> images)
         {
             try
             {
-                await _courseService.UpdateCourseAsync(id, courseRequest);
-                return NoContent();
+                // Pass the course ID, course data, and images to the service
+                await _courseService.UpdateCourseAsync(id, courseRequest, images);
+                return Ok("Course updated successfully");
             }
             catch (KeyNotFoundException)
             {
@@ -83,6 +86,7 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
 
 
         [HttpDelete("{id}")]
