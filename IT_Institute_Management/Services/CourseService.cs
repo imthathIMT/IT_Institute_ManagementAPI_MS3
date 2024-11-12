@@ -14,6 +14,7 @@ namespace IT_Institute_Management.Services
         private readonly IStudentRepository _studentRepository;
         private readonly IAnnouncementRepository _announcementRepository;
         private readonly IEmailService _emailService;
+        private readonly IHostEnvironment _hostEnvironment;
         private readonly InstituteDbContext _context;
 
         public CourseService(ICourseRepository courseRepository, IStudentRepository studentRepository, IAnnouncementRepository announcementRepository, IEmailService emailService,InstituteDbContext context)
