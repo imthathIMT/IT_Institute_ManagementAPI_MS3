@@ -152,7 +152,6 @@ namespace IT_Institute_Management.Services
         {
             try
             {
-                // Find the admin by NIC
                 var admin = await _instituteDbContext.Admins
                     .FirstOrDefaultAsync(a => a.NIC == nic);
 
@@ -161,36 +160,22 @@ namespace IT_Institute_Management.Services
                     throw new KeyNotFoundException($"Admin with NIC {nic} not found.");
                 }
 
-                // Find the associated user
+                // Remove the Admin entity
+                _instituteDbContext.Admins.Remove(admin);
+
+                // Also delete the associated User entity
                 var user = await _instituteDbContext.Users
                     .FirstOrDefaultAsync(u => u.NIC == nic);
-
-                if (user == null)
+                if (user != null)
                 {
-                    throw new KeyNotFoundException($"User with NIC {nic} not found.");
+                    _instituteDbContext.Users.Remove(user);
                 }
 
-                // Remove Admin and User
-                _instituteDbContext.Admins.Remove(admin);
-                _instituteDbContext.Users.Remove(user);
-
-                // Save changes to the database
                 await _instituteDbContext.SaveChangesAsync();
-            }
-            catch (KeyNotFoundException knfEx)
-            {
-                // Handle not found exceptions
-                throw new ApplicationException(knfEx.Message, knfEx);
-            }
-            catch (DbUpdateException dbEx)
-            {
-                // Handle database update issues
-                throw new ApplicationException("Database error occurred while deleting the admin.", dbEx);
             }
             catch (Exception ex)
             {
-                // Handle general exceptions
-                throw new ApplicationException($"Unexpected error occurred: {ex.Message}", ex);
+                throw new ApplicationException("An error occurred while deleting the admin.", ex);
             }
         }
 
