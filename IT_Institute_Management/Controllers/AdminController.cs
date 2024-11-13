@@ -2,6 +2,7 @@
 using IT_Institute_Management.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace IT_Institute_Management.Controllers
 {
@@ -47,25 +48,36 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] AdminRequestDto adminDto)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(ModelState);  // If model validation fails, return 400 with validation errors
             }
 
             try
             {
                 await _adminService.AddAsync(adminDto);
-                return CreatedAtAction(nameof(GetById), new { nic = adminDto.NIC }, adminDto);
+                return CreatedAtAction(nameof(GetById), new { nic = adminDto.NIC }, adminDto);  // Return 201 Created if successful
+            }
+            catch (ApplicationException ex)
+            {
+                // Return 400 Bad Request with the error message for application-level issues
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (DbUpdateException ex)
+            {
+                // Return 500 Internal Server Error if it's a database-related issue
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"Database error: {ex.Message}" });
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+                // Return 500 Internal Server Error for unexpected issues
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"Unexpected error: {ex.Message}" });
             }
         }
+
 
 
         [HttpPut]

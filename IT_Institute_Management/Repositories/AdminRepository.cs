@@ -2,6 +2,7 @@
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using System;
 
 namespace IT_Institute_Management.Repositories
@@ -20,7 +21,7 @@ namespace IT_Institute_Management.Repositories
         }
         public async Task AddAsync(Admin admin)
         {
-            await _instituteDbContext.Admins.AddAsync(admin);
+            
             var user = new User()
             {
                 NIC = admin.NIC,
@@ -28,6 +29,12 @@ namespace IT_Institute_Management.Repositories
                 Role = Role.Admin,
             };
             await _instituteDbContext.Users.AddAsync(user);
+            await _instituteDbContext.SaveChangesAsync(); // Ensure the User entity is saved first
+
+            // Now set the UserId on the Admin object
+            admin.UserId = user.Id;
+
+            await _instituteDbContext.Admins.AddAsync(admin);
             await _instituteDbContext.SaveChangesAsync();
         }
 
