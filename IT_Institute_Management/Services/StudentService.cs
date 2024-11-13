@@ -135,7 +135,6 @@ namespace IT_Institute_Management.Services
         }
 
 
-        // Update student and update the associated user
         public async Task<string> UpdateStudentAsync(string nic, StudentRequestDto studentDto)
         {
             var student = await _studentRepository.GetByNicAsync(nic);
@@ -144,15 +143,16 @@ namespace IT_Institute_Management.Services
                 throw new Exception($"Student with NIC {nic} not found.");
             }
 
-            // If an image is uploaded, save the new image and delete the old one
+            // Handle image upload
             if (studentDto.Image != null)
             {
-                // Delete the old image
+                // Delete the old image if it exists
                 if (!string.IsNullOrEmpty(student.ImagePath))
                 {
-                    _imageService.DeleteImage(student.ImagePath);
+                    _imageService.DeleteImage(student.ImagePath);  // Delete old image
                 }
 
+                // Save the new image and update the image path
                 student.ImagePath = await _imageService.SaveImage(studentDto.Image, "students");
             }
 
@@ -189,7 +189,6 @@ namespace IT_Institute_Management.Services
 
 
 
-        // Delete student and corresponding user from the user table
         public async Task DeleteStudentAsync(string nic)
         {
             var student = await _studentRepository.GetByNicAsync(nic);

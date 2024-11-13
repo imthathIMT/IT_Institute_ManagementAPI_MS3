@@ -64,17 +64,19 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPut("{nic}")]
-        public async Task<IActionResult> UpdateStudent(string nic, [FromBody] StudentRequestDto studentDto)
+        public async Task<IActionResult> UpdateStudent(string nic, [FromForm] StudentRequestDto studentDto)
         {
             try
             {
+                // Call the service method to update the student
                 await _studentService.UpdateStudentAsync(nic, studentDto);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
         }
 
@@ -88,9 +90,10 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
         }
+
 
 
         // PUT: api/students/{nic}/update-password in
