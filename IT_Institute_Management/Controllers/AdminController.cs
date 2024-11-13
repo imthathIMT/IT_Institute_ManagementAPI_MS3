@@ -79,29 +79,39 @@ namespace IT_Institute_Management.Controllers
         }
 
 
-
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] AdminRequestDto adminDto)
+        [HttpPut("{nic}")]
+        public async Task<IActionResult> UpdateAdmin(string nic, [FromBody] AdminRequestDto adminDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
+                // Ensure that the NIC in the request URL matches the NIC in the request body
+                if (nic != adminDto.NIC)
+                {
+                    return BadRequest(new { message = "NIC in URL and body must be the same." });
+                }
+
+                // Call the service method to update the admin
                 await _adminService.UpdateAsync(adminDto);
-                return NoContent();
+                return NoContent(); // Return 204 No Content for a successful update
             }
             catch (KeyNotFoundException ex)
             {
+                // If admin is not found, return a 404 Not Found
                 return NotFound(new { message = ex.Message });
+            }
+            catch (ApplicationException ex)
+            {
+                // If there's an error with the application (e.g., database issue), return 500 with the message
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+                // Any unexpected error, return 500 with a generic message
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An unexpected error occurred while updating the admin." });
             }
         }
+
+
 
         [HttpDelete("{nic}")]
         public async Task<IActionResult> Delete([FromRoute] string nic)

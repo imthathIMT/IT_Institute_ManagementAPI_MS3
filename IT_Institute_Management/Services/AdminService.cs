@@ -139,13 +139,42 @@ namespace IT_Institute_Management.Services
                 admin.Phone = adminDto.Phone;
                 admin.Email = adminDto.Email;
 
-                await _adminRepository.UpdateAsync(admin);
+                // Start a transaction to update both Admin and User tables
+                using (var transaction = await _instituteDbContext.Database.BeginTransactionAsync())
+                {
+                    try
+                    {
+                        // Update Admin table
+                         _instituteDbContext.Admins.Update(admin);
+
+                        // Update User table
+                        var user = await _instituteDbContext.Users.FirstOrDefaultAsync(u => u.NIC == adminDto.NIC);
+                        if (user != null)
+                        {
+                            user.Password = admin.Password;
+                            user.Role = Role.Admin;
+                            _instituteDbContext.Users.Update(user);
+                        }
+
+                        await _instituteDbContext.SaveChangesAsync();
+
+                        // Commit transaction if both updates succeed
+                        await transaction.CommitAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Rollback the transaction if an error occurs
+                        await transaction.RollbackAsync();
+                        throw new ApplicationException("An error occurred while updating the admin.", ex);
+                    }
+                }
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("An error occurred while updating the admin.", ex);
             }
         }
+
 
 
         public async Task DeleteAsync(string nic)
