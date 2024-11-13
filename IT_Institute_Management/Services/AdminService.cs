@@ -4,6 +4,7 @@ using IT_Institute_Management.DTO.ResponseDTO;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
+using IT_Institute_Management.PasswordService;
 using Microsoft.EntityFrameworkCore;
 
 namespace IT_Institute_Management.Services
@@ -12,11 +13,13 @@ namespace IT_Institute_Management.Services
     {
         private readonly IAdminRepository _adminRepository;
         private readonly IUserService _userService;
+        private readonly IPasswordHasher _passwordHasher;
         private readonly InstituteDbContext _instituteDbContext;
-        public AdminService(IAdminRepository adminRepository,IUserService userService, InstituteDbContext instituteDbContext)
+        public AdminService(IAdminRepository adminRepository,IUserService userService, IPasswordHasher passwordHasher, InstituteDbContext instituteDbContext)
         {
             _adminRepository = adminRepository;
             _userService = userService;
+            _passwordHasher = passwordHasher;
             _instituteDbContext = instituteDbContext;
         }
         public async Task<IEnumerable<AdminResponseDto>> GetAllAsync()
