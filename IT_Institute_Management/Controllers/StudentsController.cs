@@ -64,9 +64,8 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
         [HttpPut("{nic}")]
-        public async Task<IActionResult> UpdateStudent(string nic, StudentRequestDto studentDto)
+        public async Task<IActionResult> UpdateStudent(string nic, [FromBody] StudentRequestDto studentDto)
         {
             try
             {
