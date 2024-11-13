@@ -121,6 +121,13 @@ namespace IT_Institute_Management.Services
                 }
             };
 
+            // Create the user for the student
+            await _userService.AddAsync(new UserRequestDto
+            {
+                NIC = studentDto.NIC,
+                Password = studentDto.Password
+            }, Role.Student);  // Creating user as Student role
+
             await _studentRepository.AddAsync(student);
 
             // Send email after registration
@@ -128,6 +135,7 @@ namespace IT_Institute_Management.Services
         }
 
 
+        // Update student and update the associated user
         public async Task<string> UpdateStudentAsync(string nic, StudentRequestDto studentDto)
         {
             var student = await _studentRepository.GetByNicAsync(nic);
@@ -145,7 +153,6 @@ namespace IT_Institute_Management.Services
                     _imageService.DeleteImage(student.ImagePath);
                 }
 
-                // Specify the folder name as "students"
                 student.ImagePath = await _imageService.SaveImage(studentDto.Image, "students");
             }
 
@@ -154,7 +161,6 @@ namespace IT_Institute_Management.Services
             student.LastName = studentDto.LastName;
             student.Email = studentDto.Email;
             student.Phone = studentDto.Phone;
-            student.Password = studentDto.Password;
             student.Address = new Address
             {
                 AddressLine1 = studentDto.Address.AddressLine1,
@@ -164,6 +170,14 @@ namespace IT_Institute_Management.Services
                 PostalCode = studentDto.Address.PostalCode,
                 Country = studentDto.Address.Country
             };
+
+            // If password is provided, hash and update it
+            if (!string.IsNullOrEmpty(studentDto.Password))
+            {
+                student.Password = _passwordHasher.HashPassword(studentDto.Password);
+                // Update the user table as well
+                await _userService.UpdateAsync(nic, new UserRequestDto { Password = studentDto.Password });
+            }
 
             await _studentRepository.UpdateAsync(student);
 
