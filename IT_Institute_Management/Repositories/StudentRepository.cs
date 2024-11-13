@@ -2,6 +2,7 @@
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace IT_Institute_Management.Repositories
 {
@@ -42,7 +43,19 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
-                
+                // Validate the student entity before adding
+                var validationResults = new List<ValidationResult>();
+                var validationContext = new ValidationContext(student);
+                bool isValid = Validator.TryValidateObject(student, validationContext, validationResults, true);
+
+                if (!isValid)
+                {
+                    // If the student object is invalid, throw an exception with details
+                    var errorMessages = validationResults.Select(vr => vr.ErrorMessage).ToList();
+                    throw new ValidationException(string.Join(", ", errorMessages));
+                }
+
+                // Create a new user for the student
                 var user = new User()
                 {
                     NIC = student.NIC,
@@ -51,12 +64,24 @@ namespace IT_Institute_Management.Repositories
                 };
 
                 await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync(); // Ensure the User entity is saved first
+
+                // Now set the UserId on the Student object
+                student.UserId = user.Id;
+
                 await _context.Students.AddAsync(student);
                 await _context.SaveChangesAsync();
             }
+            catch (ValidationException validationEx)
+            {
+                throw new Exception($"Validation failed: {validationEx.Message}");
+            }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while adding the student.");
+                // Log the exception for better debugging
+                // _logger.LogError(ex, "Error adding student.");
+
+                throw new Exception($"An error occurred while adding the student: {ex.Message}", ex);
             }
         }
 
