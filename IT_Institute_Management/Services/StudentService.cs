@@ -16,16 +16,18 @@ namespace IT_Institute_Management.Services
         private readonly IEmailService _emailService;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IImageService _imageService;
-       
+        private readonly IUserService _userService;
 
-        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher, IImageService imageService)
+
+        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher, IImageService imageService, IUserService userService)
         {
             _studentRepository = studentRepository;
             _emailService = emailService;
             _passwordHasher = passwordHasher;
             _imageService = imageService;
-           
+            _userService = userService;
         }
+
 
         public async Task<List<StudentResponseDto>> GetAllStudentsAsync()
         {
