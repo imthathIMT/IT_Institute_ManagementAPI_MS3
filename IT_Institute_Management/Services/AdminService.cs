@@ -117,6 +117,7 @@ namespace IT_Institute_Management.Services
 
 
 
+
         public async Task UpdateAsync(AdminRequestDto adminDto)
         {
             try
@@ -127,8 +128,16 @@ namespace IT_Institute_Management.Services
                     throw new KeyNotFoundException($"Admin with NIC {adminDto.NIC} not found.");
                 }
 
+                // If password is provided, hash and update it
+                if (!string.IsNullOrEmpty(adminDto.Password))
+                {
+                    admin.Password = _passwordHasher.HashPassword(adminDto.Password);
+                    await _userService.UpdateAsync(adminDto.NIC, new UserRequestDto { Password = adminDto.Password });
+                }
+
                 admin.Name = adminDto.Name;
-                admin.Password = adminDto.Password;
+                admin.Phone = adminDto.Phone;
+                admin.Email = adminDto.Email;
 
                 await _adminRepository.UpdateAsync(admin);
             }
