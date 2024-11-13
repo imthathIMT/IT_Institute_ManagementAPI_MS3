@@ -188,6 +188,8 @@ namespace IT_Institute_Management.Services
 
 
 
+
+        // Delete student and corresponding user from the user table
         public async Task DeleteStudentAsync(string nic)
         {
             var student = await _studentRepository.GetByNicAsync(nic);
@@ -201,6 +203,9 @@ namespace IT_Institute_Management.Services
             {
                 _imageService.DeleteImage(student.ImagePath);
             }
+
+            // Remove user from the user table
+            await _userService.DeleteAsync(nic);
 
             await _studentRepository.DeleteAsync(nic);
         }
