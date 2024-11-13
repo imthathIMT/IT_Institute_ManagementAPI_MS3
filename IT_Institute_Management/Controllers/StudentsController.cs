@@ -93,7 +93,7 @@ namespace IT_Institute_Management.Controllers
         }
 
 
-        // PUT: api/students/{nic}/update-password
+        // PUT: api/students/{nic}/update-password in
         [HttpPut("{nic}/update-password")]
         public async Task<IActionResult> UpdatePassword(string nic, UpdatePasswordRequestDto updatePasswordDto)
         {
