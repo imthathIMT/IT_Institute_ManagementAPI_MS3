@@ -53,15 +53,34 @@ namespace IT_Institute_Management.Repositories
         }
         public async Task DeleteAsync(string nic)
         {
-            var admin = await _instituteDbContext.Admins.FindAsync(nic);
-            var user = await _instituteDbContext.Users.FindAsync(nic);
-            if (admin != null&& user != null)
+            try
             {
+                // Find the admin and user by NIC
+                var admin = await _instituteDbContext.Admins
+                    .FirstOrDefaultAsync(a => a.NIC == nic);
+
+                var user = await _instituteDbContext.Users
+                    .FirstOrDefaultAsync(u => u.NIC == nic);
+
+                if (admin == null || user == null)
+                {
+                    throw new KeyNotFoundException($"Admin or User with NIC {nic} not found.");
+                }
+
+                // Remove Admin and User from the DbContext
                 _instituteDbContext.Admins.Remove(admin);
                 _instituteDbContext.Users.Remove(user);
+
+                // Save the changes to the database
                 await _instituteDbContext.SaveChangesAsync();
             }
+            catch (Exception ex)
+            {
+                // Handle the exception and provide detailed error message
+                throw new ApplicationException($"An error occurred while deleting the admin with NIC {nic}: {ex.Message}", ex);
+            }
         }
+
 
 
 

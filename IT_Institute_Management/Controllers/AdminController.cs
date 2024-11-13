@@ -103,24 +103,24 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-
         [HttpDelete("{nic}")]
-        public async Task<IActionResult> Delete(string nic)
+        public async Task<IActionResult> Delete([FromRoute] string nic)
         {
             try
             {
                 await _adminService.DeleteAsync(nic);
-                return NoContent();
+                return NoContent(); // 204 No Content on successful deletion
             }
-            catch (KeyNotFoundException ex)
+            catch (ApplicationException ex)
             {
-                return NotFound(new { message = ex.Message });
+                return BadRequest(new { message = ex.Message }); // Return 400 with detailed error
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"An error occurred: {ex.Message}" }); // Return 500 for other errors
             }
         }
+
 
 
     }

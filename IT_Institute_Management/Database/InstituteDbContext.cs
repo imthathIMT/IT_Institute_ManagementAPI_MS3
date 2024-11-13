@@ -58,6 +58,13 @@ namespace IT_Institute_Management.Database
                 .HasForeignKey(p => p.EnrollmentId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Admin>()
+                .HasOne(a => a.User)
+                .WithOne()
+                .HasForeignKey<Admin>(a => a.UserId)
+                .OnDelete(DeleteBehavior.Cascade);  // Cascade delete
+
+
 
         }
     }
