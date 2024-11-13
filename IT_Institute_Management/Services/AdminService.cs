@@ -79,51 +79,39 @@ namespace IT_Institute_Management.Services
                     throw new ApplicationException($"A user with the NIC {adminDto.NIC} already exists.");
                 }
 
-                // Create a new User entity from the AdminRequestDto
+                // Hash password before saving
+                var hashedPassword = _passwordHasher.HashPassword(adminDto.Password);
+
+                // Create the User entity for the Admin
                 var user = new User()
                 {
                     NIC = adminDto.NIC,
-                    Password = adminDto.Password,
+                    Password = hashedPassword,  // Store hashed password
                     Role = Role.Admin
                 };
 
                 // Add the User entity to the Users DbSet
                 await _instituteDbContext.Users.AddAsync(user);
-                await _instituteDbContext.SaveChangesAsync(); // Save the User first to generate the UserId
+                await _instituteDbContext.SaveChangesAsync();  // Save the User first to generate the UserId
 
-                // Now create the Admin entity and set the UserId
+                // Now create the Admin entity and link it to the User via UserId
                 var admin = new Admin
                 {
                     NIC = adminDto.NIC,
                     Name = adminDto.Name,
                     Phone = adminDto.Phone,
                     Email = adminDto.Email,
-                    Password = adminDto.Password,
-                    UserId = user.Id // Link the Admin to the User via UserId
+                    Password = hashedPassword, // Store hashed password
+                    UserId = user.Id
                 };
 
                 // Add the Admin entity to the Admins DbSet
                 await _instituteDbContext.Admins.AddAsync(admin);
-                await _instituteDbContext.SaveChangesAsync(); // Save the Admin
-            }
-            catch (DbUpdateException dbEx)
-            {
-                // Handle errors related to database updates (e.g., constraint violations, foreign key issues)
-                // Log the inner exception for debugging purposes
-                // _logger.LogError(dbEx, "Error occurred while saving entity changes.");
-                throw new ApplicationException($"Database error occurred while adding the admin: {dbEx.InnerException?.Message ?? dbEx.Message}", dbEx);
-            }
-            catch (ApplicationException appEx)
-            {
-                // Handle specific application exceptions (e.g., duplicate NIC)
-                throw new ApplicationException($"Application error occurred while adding the admin: {appEx.Message}", appEx);
+                await _instituteDbContext.SaveChangesAsync(); // Save the Admin entity
             }
             catch (Exception ex)
             {
-                // Handle general exceptions
-                // You can log the error to a logging service like Serilog or NLog (optional)
-                // _logger.LogError(ex, "Unexpected error occurred while adding the admin.");
-                throw new ApplicationException($"An unexpected error occurred while adding the admin: {ex.Message}", ex);
+                throw new ApplicationException("An unexpected error occurred while adding the admin.", ex);
             }
         }
 
