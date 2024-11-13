@@ -6,7 +6,7 @@ namespace IT_Institute_Management.Entity
     {
         [Key]
         [Required(ErrorMessage = "NIC is required.")]
-        [RegularExpression(@"^\d{9}[vxzVXZ]$|^\d{12}$", ErrorMessage = "Invalid NIC format.")]
+        //[RegularExpression(@"^\d{9}[vxzVXZ]$|^\d{12}$", ErrorMessage = "Invalid NIC format.")]
         public string NIC { get; set; }
 
         [Required(ErrorMessage = "First name is required.")]
