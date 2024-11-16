@@ -8,5 +8,7 @@ namespace IT_Institute_Management.IServices
         Task<Enrollment> CreateEnrollmentAsync(EnrollmentRequestDto enrollmentRequest);
         Task<Enrollment> DeleteEnrollmentByNICAsync(string nic, bool forceDelete = false);
         Task<Enrollment> UpdateEnrollmentCompletionStatus(Guid id);
+        Task<IEnumerable<Enrollment>> GetAllEnrollmentsAsync();
+        Task<Enrollment> UpdateEnrollmentDataAsync(Guid id, EnrollmentRequestDto enrollmentRequest);
     }
 }
