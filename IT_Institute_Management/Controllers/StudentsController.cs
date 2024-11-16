@@ -70,9 +70,9 @@ namespace IT_Institute_Management.Controllers
         {
             try
             {
-                // Call the service method to update the student
+               
                 await _studentService.UpdateStudentAsync(nic, studentDto);
-                return NoContent();
+                return Ok(new { message = "Student Successfully Updated." });
             }
             catch (Exception ex)
             {
@@ -86,7 +86,7 @@ namespace IT_Institute_Management.Controllers
             try
             {
                 await _studentService.DeleteStudentAsync(nic);
-                return NoContent();
+                return Ok(new { message = "Student Successfully Deleted." });
             }
             catch (Exception ex)
             {
@@ -96,16 +96,16 @@ namespace IT_Institute_Management.Controllers
 
 
 
-        // PUT: api/students/{nic}/update-password in
+       
         [HttpPut("{nic}/update-password")]
         public async Task<IActionResult> UpdatePassword(string nic, UpdatePasswordRequestDto updatePasswordDto)
         {
             try
             {
-                // Call service to update password
+                
                 await _studentService.UpdatePasswordAsync(nic, updatePasswordDto);
 
-                // Return success response
+                
                 return Ok(new { message = "Password updated successfully." });
             }
             catch (ApplicationException ex)
@@ -119,7 +119,7 @@ namespace IT_Institute_Management.Controllers
         }
 
 
-        //sample
+     
 
         [HttpPost("test")]
         public async void imageUpload(StudentRequestDto studentDto)
