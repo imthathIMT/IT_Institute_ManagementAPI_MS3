@@ -52,7 +52,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] AdminRequestDto adminDto)
+        public async Task<IActionResult> Add(AdminRequestDto adminDto)
         {
             if (!ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPut("{nic}")]
-        public async Task<IActionResult> UpdateAdmin(string nic, [FromBody] AdminRequestDto adminDto)
+        public async Task<IActionResult> UpdateAdmin(string nic, [FromForm] AdminRequestDto adminDto)
         {
             try
             {
