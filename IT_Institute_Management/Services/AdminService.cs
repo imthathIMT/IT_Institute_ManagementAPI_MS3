@@ -134,7 +134,7 @@ namespace IT_Institute_Management.Services
                     admin.Password = _passwordHasher.HashPassword(adminDto.Password);
                     await _userService.UpdateAsync(adminDto.NIC, new UserRequestDto { Password = adminDto.Password });
                 }
-
+                admin.NIC = adminDto.NIC;
                 admin.Name = adminDto.Name;
                 admin.Phone = adminDto.Phone;
                 admin.Email = adminDto.Email;
