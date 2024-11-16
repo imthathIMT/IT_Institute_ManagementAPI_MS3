@@ -1,11 +1,12 @@
 ﻿using IT_Institute_Management.Database;
 using IT_Institute_Management.Entity;
+using IT_Institute_Management.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace IT_Institute_Management.Repositories
 {
-    public class EnrollmentRepository
+    public class EnrollmentRepository : IEnrollmentRepository
     {
         private readonly InstituteDbContext _context;
 

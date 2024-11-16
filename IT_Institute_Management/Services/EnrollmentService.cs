@@ -1,10 +1,11 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
+using IT_Institute_Management.IServices;
 
 namespace IT_Institute_Management.Services
 {
-    public class EnrollmentService
+    public class EnrollmentService : IEnrollmentService
     {
         private readonly IEnrollmentRepository _repo;
         private readonly ICourseRepository _courseRepo;
