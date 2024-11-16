@@ -165,13 +165,13 @@ namespace IT_Institute_Management.Services
                     {
                         // Rollback the transaction if an error occurs
                         await transaction.RollbackAsync();
-                        throw new ApplicationException("An error occurred while updating the admin.", ex);
+                        throw new ApplicationException("An error occurred while updatingr the admin.", ex);
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("An error occurred while updating the admin.", ex);
+                throw new ApplicationException(/*"An error occurred while updatingc the admin.",*/ ex.Message);
             }
         }
 

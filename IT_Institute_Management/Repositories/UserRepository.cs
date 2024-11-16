@@ -16,12 +16,12 @@ namespace IT_Institute_Management.Repositories
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return await _context.Users.Include(u => u.Role).ToListAsync();
+            return await _context.Users.ToListAsync();
         }
 
         public async Task<User> GetByIdAsync(string nic)
         {
-            return await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.NIC == nic);
+            return await _context.Users.FirstOrDefaultAsync(u => u.NIC == nic);
         }
 
         public async Task AddAsync(User user)
