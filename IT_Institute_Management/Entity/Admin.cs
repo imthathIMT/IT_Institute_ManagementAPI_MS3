@@ -32,8 +32,6 @@ namespace IT_Institute_Management.Entity
         public string Phone { get; set; }
 
         public Guid UserId { get; set; }
-
-        // You could use this to establish a relationship with a User entity if needed
         public User User { get; set; }
     }
 }
