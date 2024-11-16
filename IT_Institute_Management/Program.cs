@@ -12,6 +12,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    });
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -36,6 +42,9 @@ builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
 builder.Services.AddScoped<IAdminRepository,AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+
 
 builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
 builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
@@ -48,7 +57,11 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+
 builder.Services.AddScoped<IImageService, ImageService>();
+
+
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 

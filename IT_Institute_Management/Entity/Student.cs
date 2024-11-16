@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace IT_Institute_Management.Entity
 {
@@ -42,6 +43,7 @@ namespace IT_Institute_Management.Entity
         public Address? Address { get; set; }
 
         public ICollection<Notification>? Notification { get; set; }
+        [JsonIgnore]
         public ICollection<Enrollment>? Enrollment { get; set; }
 
        

@@ -36,18 +36,7 @@ namespace IT_Institute_Management.Services
 
 
 
-        public async Task<Enrollment> DeleteEnrollmentByNICAsync(string nic, bool forceDelete = false)
-        {
-            var enrollment = await _repo.GetEnrollmentByNICAsync(nic);
-            if (enrollment == null) throw new Exception("Enrollment not found.");
-
-            if (!forceDelete && enrollment.EnrollmentDate.AddDays(7) > DateTime.Now)
-            {
-                throw new Exception("Enrollment can only be deleted after a week from the enrollment date.");
-            }
-
-            return await _repo.DeleteEnrollmentByNICAsync(nic);
-        }
+     
 
 
 
@@ -88,5 +77,34 @@ namespace IT_Institute_Management.Services
 
             return enrollment;
         }
+
+
+        public async Task<Enrollment> GetEnrollmentByIdAsync(Guid id)
+        {
+            var enrollment = await _repo.GetEnrollmentByIdAsync(id);
+            if (enrollment == null) throw new Exception("Enrollment not found.");
+            return enrollment;
+        }
+
+        public async Task<Enrollment> GetEnrollmentByNICAsync(string nic)
+        {
+            var enrollment = await _repo.GetEnrollmentByNICAsync(nic);
+            if (enrollment == null) throw new Exception("Enrollment not found.");
+            return enrollment;
+        }
+
+        public async Task<Enrollment> DeleteEnrollmentByNICAsync(string nic, bool forceDelete = false)
+        {
+            var enrollment = await _repo.GetEnrollmentByNICAsync(nic);
+            if (enrollment == null) throw new Exception("Enrollment not found.");
+
+            if (!forceDelete && enrollment.EnrollmentDate.AddDays(7) > DateTime.Now)
+            {
+                throw new Exception("Enrollment can only be deleted after a week from the enrollment date.");
+            }
+
+            return await _repo.DeleteEnrollmentByNICAsync(nic);
+        }
+
     }
 }

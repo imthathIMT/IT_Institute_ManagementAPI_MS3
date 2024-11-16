@@ -48,19 +48,7 @@ namespace IT_Institute_Management.Controllers
 
 
 
-        [HttpDelete("delete/{nic}")]
-        public async Task<IActionResult> DeleteEnrollmentByNIC(string nic, [FromQuery] bool forceDelete = false)
-        {
-            try
-            {
-                var enrollment = await _enrollmentService.DeleteEnrollmentByNICAsync(nic, forceDelete);
-                return Ok(new { Message = "Enrollment deleted successfully" });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-        }
+      
 
 
         [HttpPut("{id}")]
@@ -85,6 +73,60 @@ namespace IT_Institute_Management.Controllers
             {
                 var updatedEnrollment = await _enrollmentService.UpdateEnrollmentDataAsync(id, enrollmentRequest);
                 return Ok(updatedEnrollment);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEnrollmentById(Guid id)
+        {
+            try
+            {
+                var enrollment = await _enrollmentService.GetEnrollmentByIdAsync(id);
+                if (enrollment == null)
+                {
+                    return NotFound(new { message = "Enrollment not found." });
+                }
+                return Ok(enrollment);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("nic/{nic}")]
+        public async Task<IActionResult> GetEnrollmentByNIC(string nic)
+        {
+            try
+            {
+                var enrollment = await _enrollmentService.GetEnrollmentByNICAsync(nic);
+                if (enrollment == null)
+                {
+                    return NotFound(new { message = "Enrollment not found." });
+                }
+                return Ok(enrollment);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("delete/{nic}")]
+        public async Task<IActionResult> DeleteEnrollmentByNIC(string nic, [FromQuery] bool forceDelete = false)
+        {
+            try
+            {
+                var enrollment = await _enrollmentService.DeleteEnrollmentByNICAsync(nic, forceDelete);
+                if (enrollment == null)
+                {
+                    return NotFound(new { message = "Enrollment not found." });
+                }
+                return Ok(new { Message = "Enrollment deleted successfully" });
             }
             catch (Exception ex)
             {

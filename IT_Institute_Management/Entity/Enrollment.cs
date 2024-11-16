@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace IT_Institute_Management.Entity
 {
@@ -15,6 +16,7 @@ namespace IT_Institute_Management.Entity
 
         public bool IsComplete { get; set; } = false;
 
+        [JsonIgnore]
         public Student Student { get; set; } 
         public Course Course { get; set; } 
 
