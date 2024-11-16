@@ -95,7 +95,7 @@ namespace IT_Institute_Management.Controllers
 
                 
                 await _adminService.UpdateAsync(adminDto);
-                return NoContent();
+                return Ok(new { message = "Admin Successfully Updated." });
             }
             catch (KeyNotFoundException ex)
             {
