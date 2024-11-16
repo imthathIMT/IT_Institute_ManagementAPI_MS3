@@ -2,6 +2,7 @@
 using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.DTO.ResponseDTO;
 using IT_Institute_Management.Entity;
+using IT_Institute_Management.ImageService;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 using IT_Institute_Management.PasswordService;
@@ -15,12 +16,14 @@ namespace IT_Institute_Management.Services
         private readonly IUserService _userService;
         private readonly IPasswordHasher _passwordHasher;
         private readonly InstituteDbContext _instituteDbContext;
-        public AdminService(IAdminRepository adminRepository,IUserService userService, IPasswordHasher passwordHasher, InstituteDbContext instituteDbContext)
+        private readonly IImageService _imageService;
+        public AdminService(IAdminRepository adminRepository,IUserService userService, IPasswordHasher passwordHasher, InstituteDbContext instituteDbContext, IImageService imageService)
         {
             _adminRepository = adminRepository;
             _userService = userService;
             _passwordHasher = passwordHasher;
             _instituteDbContext = instituteDbContext;
+            _imageService = imageService;
         }
 
         public async Task<IEnumerable<AdminResponseDto>> GetAllAsync()
@@ -33,7 +36,8 @@ namespace IT_Institute_Management.Services
                     NIC = a.NIC,
                     Name = a.Name,
                     Email = a.Email,
-                    Phone = a.Phone
+                    Phone = a.Phone,
+                    ImagePath = a.ImagePath,
                 });
             }
             catch (Exception ex)
@@ -58,7 +62,8 @@ namespace IT_Institute_Management.Services
                     NIC = admin.NIC,
                     Name = admin.Name,
                     Email = admin.Email,
-                    Phone = admin.Phone
+                    Phone = admin.Phone,
+                    ImagePath = admin.ImagePath
                 };
             }
             catch (Exception ex)
@@ -95,16 +100,24 @@ namespace IT_Institute_Management.Services
 
                
                 await _instituteDbContext.Users.AddAsync(user);
-                await _instituteDbContext.SaveChangesAsync();  
+                await _instituteDbContext.SaveChangesAsync();
 
-               
+                var imagePath = string.Empty;
+
+                if (adminDto.Image != null)
+                {
+                    // Specify the folder name as "students"
+                    imagePath = await _imageService.SaveImage(adminDto.Image, "admins");
+                }
+
                 var admin = new Admin
                 {
                     NIC = adminDto.NIC,
                     Name = adminDto.Name,
                     Phone = adminDto.Phone,
                     Email = adminDto.Email,
-                    Password = hashedPassword, 
+                    Password = hashedPassword,
+                    ImagePath = imagePath,
                     UserId = user.Id
                 };
 
@@ -137,6 +150,20 @@ namespace IT_Institute_Management.Services
                     admin.Password = _passwordHasher.HashPassword(adminDto.Password);
                     await _userService.UpdateAsync(adminDto.NIC, new UserRequestDto { Password = adminDto.Password });
                 }
+
+                // Handle image upload
+                if (adminDto.Image != null)
+                {
+                    // Delete the old image if it exists
+                    if (!string.IsNullOrEmpty(admin.ImagePath))
+                    {
+                        _imageService.DeleteImage(admin.ImagePath);  // Delete old image
+                    }
+
+                    // Save the new image and update the image path
+                    admin.ImagePath = await _imageService.SaveImage(adminDto.Image, "admins");
+                }
+
                 admin.NIC = adminDto.NIC;
                 admin.Name = adminDto.Name;
                 admin.Phone = adminDto.Phone;
@@ -191,8 +218,13 @@ namespace IT_Institute_Management.Services
                 {
                     throw new KeyNotFoundException($"Admin with NIC {nic} not found.");
                 }
+                // Delete the image associated with the student
+                if (!string.IsNullOrEmpty(admin.ImagePath))
+                {
+                    _imageService.DeleteImage(admin.ImagePath);
+                }
 
-               
+
                 _instituteDbContext.Admins.Remove(admin);
 
                

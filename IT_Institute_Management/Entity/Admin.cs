@@ -31,6 +31,8 @@ namespace IT_Institute_Management.Entity
         [StringLength(15, ErrorMessage = "Phone number must not exceed 15 digits.")]
         public string Phone { get; set; }
 
+        public string? ImagePath { get; set; }
+
         public Guid UserId { get; set; }
         public User User { get; set; }
     }
