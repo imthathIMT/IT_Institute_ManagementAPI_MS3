@@ -71,5 +71,22 @@ namespace IT_Institute_Management.Services
         {
             return await _repo.GetAllEnrollmentsAsync();
         }
+
+        public async Task<Enrollment> UpdateEnrollmentDataAsync(Guid id, EnrollmentRequestDto enrollmentRequest)
+        {
+            var enrollment = await _repo.GetEnrollmentByIdAsync(id);
+            if (enrollment == null) throw new Exception("Enrollment not found.");
+
+            var course = await _courseRepo.GetCourseByIdAsync(enrollmentRequest.CourseId);
+            if (course == null) throw new Exception("Course not found.");
+
+            enrollment.PaymentPlan = enrollmentRequest.PaymentPlan;
+            enrollment.StudentNIC = enrollmentRequest.StudentNIC;
+            enrollment.CourseId = enrollmentRequest.CourseId;
+
+            await _repo.SaveChangesAsync();
+
+            return enrollment;
+        }
     }
 }
