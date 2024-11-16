@@ -11,14 +11,19 @@ namespace IT_Institute_Management.Repositories
     {
         private readonly InstituteDbContext _instituteDbContext;
         public AdminRepository(InstituteDbContext context) { _instituteDbContext = context; }
+
         public async Task<IEnumerable<Admin>> GetAllAsync()
         {
             return await _instituteDbContext.Admins.ToListAsync();
         }
+
+
         public async Task<Admin> GetByIdAsync(string nic)
         {
             return await _instituteDbContext.Admins.FindAsync(nic);
         }
+
+
         public async Task AddAsync(Admin admin)
         {
             
@@ -29,14 +34,15 @@ namespace IT_Institute_Management.Repositories
                 Role = Role.Admin,
             };
             await _instituteDbContext.Users.AddAsync(user);
-            await _instituteDbContext.SaveChangesAsync(); // Ensure the User entity is saved first
+            await _instituteDbContext.SaveChangesAsync(); 
 
-            // Now set the UserId on the Admin object
+            
             admin.UserId = user.Id;
 
             await _instituteDbContext.Admins.AddAsync(admin);
             await _instituteDbContext.SaveChangesAsync();
         }
+
 
 
         public async Task UpdateAsync(Admin admin)
@@ -51,11 +57,13 @@ namespace IT_Institute_Management.Repositories
             _instituteDbContext.Users.Update(user);
             await _instituteDbContext.SaveChangesAsync();
         }
+
+
         public async Task DeleteAsync(string nic)
         {
             try
             {
-                // Find the admin and user by NIC
+                
                 var admin = await _instituteDbContext.Admins
                     .FirstOrDefaultAsync(a => a.NIC == nic);
 
@@ -67,16 +75,16 @@ namespace IT_Institute_Management.Repositories
                     throw new KeyNotFoundException($"Admin or User with NIC {nic} not found.");
                 }
 
-                // Remove Admin and User from the DbContext
+                
                 _instituteDbContext.Admins.Remove(admin);
                 _instituteDbContext.Users.Remove(user);
 
-                // Save the changes to the database
+                
                 await _instituteDbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                // Handle the exception and provide detailed error message
+               
                 throw new ApplicationException($"An error occurred while deleting the admin with NIC {nic}: {ex.Message}", ex);
             }
         }
