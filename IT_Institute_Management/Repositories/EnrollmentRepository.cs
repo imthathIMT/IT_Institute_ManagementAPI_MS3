@@ -22,6 +22,7 @@ namespace IT_Institute_Management.Repositories
             return enrollment;
         }
 
+
         public async Task<Enrollment> GetEnrollmentByIdAsync(Guid id)
         {
             return await _context.Enrollment
