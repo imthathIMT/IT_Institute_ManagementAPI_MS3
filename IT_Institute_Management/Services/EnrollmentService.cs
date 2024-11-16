@@ -5,7 +5,7 @@ using IT_Institute_Management.IServices;
 
 namespace IT_Institute_Management.Services
 {
-    public class EnrollmentService : IEnrollmentService
+    public class EnrollmentService :
     {
         private readonly IEnrollmentRepository _repo;
         private readonly ICourseRepository _courseRepo;
@@ -34,29 +34,28 @@ namespace IT_Institute_Management.Services
             return await _repo.AddEnrollmentAsync(enrollment);
         }
 
+
+
         public async Task<Enrollment> DeleteEnrollmentByNICAsync(string nic, bool forceDelete = false)
         {
             var enrollment = await _repo.GetEnrollmentByNICAsync(nic);
             if (enrollment == null) throw new Exception("Enrollment not found.");
 
-            if (!forceDelete)
+            if (!forceDelete && enrollment.EnrollmentDate.AddDays(7) > DateTime.Now)
             {
-               
-                if (enrollment.EnrollmentDate.AddDays(7) > DateTime.Now)
-                {
-                    throw new Exception("Enrollment can only be deleted after a week from the enrollment date.");
-                }
+                throw new Exception("Enrollment can only be deleted after a week from the enrollment date.");
             }
 
             return await _repo.DeleteEnrollmentByNICAsync(nic);
         }
+
+
 
         public async Task<Enrollment> UpdateEnrollmentCompletionStatus(Guid id)
         {
             var enrollment = await _repo.GetEnrollmentByIdAsync(id);
             if (enrollment == null) throw new Exception("Enrollment not found.");
 
-           
             var course = await _courseRepo.GetCourseByIdAsync(enrollment.CourseId);
             if (course == null) throw new Exception("Course not found.");
 
@@ -66,6 +65,11 @@ namespace IT_Institute_Management.Services
             await _repo.SaveChangesAsync();
 
             return enrollment;
+        }
+
+        public async Task<IEnumerable<Enrollment>> GetAllEnrollmentsAsync()
+        {
+            return await _repo.GetAllEnrollmentsAsync();
         }
     }
 }
