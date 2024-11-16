@@ -22,6 +22,7 @@ namespace IT_Institute_Management.Services
             _passwordHasher = passwordHasher;
             _instituteDbContext = instituteDbContext;
         }
+
         public async Task<IEnumerable<AdminResponseDto>> GetAllAsync()
         {
             try
@@ -40,6 +41,7 @@ namespace IT_Institute_Management.Services
                 throw new ApplicationException("An error occurred while retrieving admins.", ex);
             }
         }
+
 
         public async Task<AdminResponseDto> GetByIdAsync(string nic)
         {
@@ -66,11 +68,12 @@ namespace IT_Institute_Management.Services
         }
 
 
+
         public async Task AddAsync(AdminRequestDto adminDto)
         {
             try
             {
-                // Check if the NIC already exists in the Users table
+                
                 var existingUser = await _instituteDbContext.Users
                     .FirstOrDefaultAsync(u => u.NIC == adminDto.NIC);
 
@@ -79,35 +82,35 @@ namespace IT_Institute_Management.Services
                     throw new ApplicationException($"A user with the NIC {adminDto.NIC} already exists.");
                 }
 
-                // Hash password before saving
+               
                 var hashedPassword = _passwordHasher.HashPassword(adminDto.Password);
 
-                // Create the User entity for the Admin
+                
                 var user = new User()
                 {
                     NIC = adminDto.NIC,
-                    Password = hashedPassword,  // Store hashed password
+                    Password = hashedPassword,  
                     Role = Role.Admin
                 };
 
-                // Add the User entity to the Users DbSet
+               
                 await _instituteDbContext.Users.AddAsync(user);
-                await _instituteDbContext.SaveChangesAsync();  // Save the User first to generate the UserId
+                await _instituteDbContext.SaveChangesAsync();  
 
-                // Now create the Admin entity and link it to the User via UserId
+               
                 var admin = new Admin
                 {
                     NIC = adminDto.NIC,
                     Name = adminDto.Name,
                     Phone = adminDto.Phone,
                     Email = adminDto.Email,
-                    Password = hashedPassword, // Store hashed password
+                    Password = hashedPassword, 
                     UserId = user.Id
                 };
 
-                // Add the Admin entity to the Admins DbSet
+                
                 await _instituteDbContext.Admins.AddAsync(admin);
-                await _instituteDbContext.SaveChangesAsync(); // Save the Admin entity
+                await _instituteDbContext.SaveChangesAsync(); 
             }
             catch (Exception ex)
             {
@@ -128,7 +131,7 @@ namespace IT_Institute_Management.Services
                     throw new KeyNotFoundException($"Admin with NIC {adminDto.NIC} not found.");
                 }
 
-                // If password is provided, hash and update it
+                
                 if (!string.IsNullOrEmpty(adminDto.Password))
                 {
                     admin.Password = _passwordHasher.HashPassword(adminDto.Password);
@@ -139,15 +142,15 @@ namespace IT_Institute_Management.Services
                 admin.Phone = adminDto.Phone;
                 admin.Email = adminDto.Email;
 
-                // Start a transaction to update both Admin and User tables
+               
                 using (var transaction = await _instituteDbContext.Database.BeginTransactionAsync())
                 {
                     try
                     {
-                        // Update Admin table
+                        
                          _instituteDbContext.Admins.Update(admin);
 
-                        // Update User table
+                       
                         var user = await _instituteDbContext.Users.FirstOrDefaultAsync(u => u.NIC == adminDto.NIC);
                         if (user != null)
                         {
@@ -158,12 +161,12 @@ namespace IT_Institute_Management.Services
 
                         await _instituteDbContext.SaveChangesAsync();
 
-                        // Commit transaction if both updates succeed
+                        
                         await transaction.CommitAsync();
                     }
                     catch (Exception ex)
                     {
-                        // Rollback the transaction if an error occurs
+                        
                         await transaction.RollbackAsync();
                         throw new ApplicationException("An error occurred while updatingr the admin.", ex);
                     }
@@ -171,7 +174,7 @@ namespace IT_Institute_Management.Services
             }
             catch (Exception ex)
             {
-                throw new ApplicationException(/*"An error occurred while updatingc the admin.",*/ ex.Message);
+                throw new ApplicationException("An error occurred while updatingc the admin.", ex);
             }
         }
 
@@ -189,10 +192,10 @@ namespace IT_Institute_Management.Services
                     throw new KeyNotFoundException($"Admin with NIC {nic} not found.");
                 }
 
-                // Remove the Admin entity
+               
                 _instituteDbContext.Admins.Remove(admin);
 
-                // Also delete the associated User entity
+               
                 var user = await _instituteDbContext.Users
                     .FirstOrDefaultAsync(u => u.NIC == nic);
                 if (user != null)
