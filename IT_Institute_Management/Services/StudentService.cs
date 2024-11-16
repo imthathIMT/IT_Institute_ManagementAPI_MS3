@@ -96,7 +96,7 @@ namespace IT_Institute_Management.Services
 
             if (studentDto.Image != null)
             {
-                // Specify the folder name as "students"
+                
                 imagePath = await _imageService.SaveImage(studentDto.Image, "students");
             }
 
@@ -107,9 +107,9 @@ namespace IT_Institute_Management.Services
                 LastName = studentDto.LastName,
                 Email = studentDto.Email,
                 Phone = studentDto.Phone,
-                Password = _passwordHasher.HashPassword(studentDto.Password), //BCrypt.Net.BCrypt.HashPassword(studentDto.Password),
-                ImagePath = imagePath,  // Store image path in database
-                IsLocked = true, // Account is active when created
+                Password = _passwordHasher.HashPassword(studentDto.Password), 
+                ImagePath = imagePath,  
+                IsLocked = true, 
                 Address = new Address
                 {
                     AddressLine1 = studentDto.Address.AddressLine1,
@@ -121,16 +121,16 @@ namespace IT_Institute_Management.Services
                 }
             };
 
-            // Create the user for the student
+            
             await _userService.AddAsync(new UserRequestDto
             {
                 NIC = studentDto.NIC,
                 Password = studentDto.Password
-            }, Role.Student);  // Creating user as Student role
+            }, Role.Student);  
 
             await _studentRepository.AddAsync(student);
 
-            // Send email after registration
+           
             await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
         }
 
@@ -143,16 +143,16 @@ namespace IT_Institute_Management.Services
                 throw new Exception($"Student with NIC {nic} not found.");
             }
 
-            // Handle image upload
+           
             if (studentDto.Image != null)
             {
-                // Delete the old image if it exists
+                
                 if (!string.IsNullOrEmpty(student.ImagePath))
                 {
-                    _imageService.DeleteImage(student.ImagePath);  // Delete old image
+                    _imageService.DeleteImage(student.ImagePath);  
                 }
 
-                // Save the new image and update the image path
+               
                 student.ImagePath = await _imageService.SaveImage(studentDto.Image, "students");
             }
 
@@ -171,17 +171,17 @@ namespace IT_Institute_Management.Services
                 Country = studentDto.Address.Country
             };
 
-            // If password is provided, hash and update it
+           
             if (!string.IsNullOrEmpty(studentDto.Password))
             {
                 student.Password = _passwordHasher.HashPassword(studentDto.Password);
-                // Update the user table as well
+                
                 await _userService.UpdateAsync(nic, new UserRequestDto { Password = studentDto.Password });
             }
 
             await _studentRepository.UpdateAsync(student);
 
-            // Send email after update
+            
             await _emailService.SendEmailAsync(student.Email, "Profile Updated", $"{student.FirstName} {student.LastName}, your profile has been successfully updated.");
             return "Student profile update successful";
         }
@@ -197,13 +197,13 @@ namespace IT_Institute_Management.Services
                 throw new Exception($"Student with NIC {nic} not found.");
             }
 
-            // Delete the image associated with the student
+           
             if (!string.IsNullOrEmpty(student.ImagePath))
             {
                 _imageService.DeleteImage(student.ImagePath);
             }
 
-            // Remove user from the user table
+           
             await _userService.DeleteAsync(nic);
 
             await _studentRepository.DeleteAsync(nic);
@@ -218,21 +218,21 @@ namespace IT_Institute_Management.Services
                 throw new Exception($"Student with NIC {nic} not found.");
             }
 
-            // Verify the current password against the stored hash
+            
             if (!_passwordHasher.VerifyHashedPassword(student.Password, updatePasswordDto.CurrentPassword))
             {
                 throw new Exception("Current password is incorrect.");
             }
 
-            // Hash the new password before storing it
+           
             var hashedPassword = _passwordHasher.HashPassword(updatePasswordDto.NewPassword);
 
-            // Update the student's password
+           
             student.Password = hashedPassword;
 
             await _studentRepository.UpdateAsync(student);
 
-            // Send email after password update
+          
             await _emailService.SendEmailAsync(student.Email, "Password Updated", $"{student.FirstName} {student.LastName}, your password has been successfully updated.");
         }
 

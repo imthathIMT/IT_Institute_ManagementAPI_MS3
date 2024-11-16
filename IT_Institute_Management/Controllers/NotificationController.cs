@@ -16,6 +16,7 @@ namespace IT_Institute_Management.Controllers
             _notificationService = notificationService;
         }
 
+
         [HttpGet]
         public async Task<IActionResult> GetAllNotifications()
         {
@@ -29,6 +30,7 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
 
 
         [HttpGet("{id}")]
@@ -49,6 +51,8 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+
+
         [HttpPost]
         public async Task<IActionResult> CreateNotification(NotificationRequestDTO notificationRequest)
         {
@@ -62,6 +66,7 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
 
 
 
@@ -83,6 +88,8 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNotification(Guid id)
         {
@@ -100,6 +107,8 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
 
     }
 }

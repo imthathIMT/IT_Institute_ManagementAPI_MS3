@@ -25,6 +25,7 @@ namespace IT_Institute_Management.Controllers
             return Ok(users);
         }
 
+
         [HttpGet("{nic}")]
         public async Task<IActionResult> GetUserById(string nic)
         {

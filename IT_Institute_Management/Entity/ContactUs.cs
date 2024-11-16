@@ -17,6 +17,6 @@ namespace IT_Institute_Management.Entity
         [Required(ErrorMessage = "Message is required.")]
         public string Message { get; set; }
 
-        public DateTime Date { get; set; } = DateTime.Now; // Default to current date
+        public DateTime Date { get; set; } = DateTime.Now; 
     }
 }

@@ -40,7 +40,7 @@ namespace IT_Institute_Management.Services
 
             if (!forceDelete)
             {
-                // Check if it's more than a week old
+               
                 if (enrollment.EnrollmentDate.AddDays(7) > DateTime.Now)
                 {
                     throw new Exception("Enrollment can only be deleted after a week from the enrollment date.");
@@ -55,7 +55,7 @@ namespace IT_Institute_Management.Services
             var enrollment = await _repo.GetEnrollmentByIdAsync(id);
             if (enrollment == null) throw new Exception("Enrollment not found.");
 
-            // Check course duration
+           
             var course = await _courseRepo.GetCourseByIdAsync(enrollment.CourseId);
             if (course == null) throw new Exception("Course not found.");
 

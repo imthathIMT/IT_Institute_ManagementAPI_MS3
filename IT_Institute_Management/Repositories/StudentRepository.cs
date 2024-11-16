@@ -43,19 +43,19 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
-                // Validate the student entity before adding
+                
                 var validationResults = new List<ValidationResult>();
                 var validationContext = new ValidationContext(student);
                 bool isValid = Validator.TryValidateObject(student, validationContext, validationResults, true);
 
                 if (!isValid)
                 {
-                    // If the student object is invalid, throw an exception with details
+                   
                     var errorMessages = validationResults.Select(vr => vr.ErrorMessage).ToList();
                     throw new ValidationException(string.Join(", ", errorMessages));
                 }
 
-                // Create a new user for the student
+              
                 var user = new User()
                 {
                     NIC = student.NIC,
@@ -64,9 +64,9 @@ namespace IT_Institute_Management.Repositories
                 };
 
                 await _context.Users.AddAsync(user);
-                await _context.SaveChangesAsync(); // Ensure the User entity is saved first
+                await _context.SaveChangesAsync(); 
 
-                // Now set the UserId on the Student object
+               
                 student.UserId = user.Id;
 
                 await _context.Students.AddAsync(student);
@@ -78,8 +78,7 @@ namespace IT_Institute_Management.Repositories
             }
             catch (Exception ex)
             {
-                // Log the exception for better debugging
-                // _logger.LogError(ex, "Error adding student.");
+               
 
                 throw new Exception($"An error occurred while adding the student: {ex.Message}", ex);
             }
@@ -116,7 +115,7 @@ namespace IT_Institute_Management.Repositories
                     throw new Exception($"Student with NIC {nic} not found.");
                 }
 
-                // Attempt to remove the student
+                
                 _context.Students.Remove(student);
 
                 var user = await _context.Users
@@ -127,17 +126,17 @@ namespace IT_Institute_Management.Repositories
                     _context.Users.Remove(user);
                 }
 
-                // Save changes
+               
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                // Handle optimistic concurrency exception
+               
                 throw new Exception($"The entity was modified or deleted by another user. Please try again. {ex.Message}");
             }
             catch (Exception ex)
             {
-                // General exception handling
+               
                 throw new Exception($"An error occurred while deleting the student with NIC {nic}. {ex.Message}");
             }
         }

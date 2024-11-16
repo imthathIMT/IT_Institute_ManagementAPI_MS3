@@ -13,9 +13,9 @@ namespace IT_Institute_Management.Entity
         [Required(ErrorMessage = "Payment date is required.")]
         public DateTime PaymentDate { get; set; }
 
-        public Enrollment? Enrollment { get; set; } // Navigation property
+        public Enrollment? Enrollment { get; set; } 
 
-        public Guid? EnrollmentId { get; set; }  // Foreign key to Enrollment
+        public Guid? EnrollmentId { get; set; } 
 
     }
 }

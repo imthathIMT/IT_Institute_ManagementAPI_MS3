@@ -13,7 +13,7 @@ namespace IT_Institute_Management.Entity
         [Required(ErrorMessage = "Date is required.")]
         public DateTime Date { get; set; }
 
-        // Foreign key to Student
+       
         public string? StudentNIC { get; set; }
         public Student? Student { get; set; }
     }

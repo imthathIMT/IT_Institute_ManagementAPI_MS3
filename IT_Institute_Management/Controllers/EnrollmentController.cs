@@ -16,7 +16,7 @@ namespace IT_Institute_Management.Controllers
             _enrollmentService = enrollmentService;
         }
 
-        // POST: api/enrollment
+        
         [HttpPost]
         public async Task<IActionResult> CreateEnrollment([FromBody] EnrollmentRequestDto enrollmentRequest)
         {
@@ -31,7 +31,7 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-        // DELETE: api/enrollment/{nic}
+        
         [HttpDelete("delete/{nic}")]
         public async Task<IActionResult> DeleteEnrollmentByNIC(string nic, [FromQuery] bool forceDelete = false)
         {
@@ -46,7 +46,7 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-        // PUT: api/enrollment/{id}
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCompletionStatus(Guid id)
         {

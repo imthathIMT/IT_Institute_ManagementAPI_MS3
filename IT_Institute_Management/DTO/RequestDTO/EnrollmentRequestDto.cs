@@ -8,9 +8,9 @@ namespace IT_Institute_Management.DTO.RequestDTO
         public string PaymentPlan { get; set; }
 
         [Required(ErrorMessage = "Student NIC is required.")]
-        public string StudentNIC { get; set; }  // Foreign key to Student
+        public string StudentNIC { get; set; } 
 
         [Required(ErrorMessage = "Course ID is required.")]
-        public Guid CourseId { get; set; }  // Foreign key to Course
+        public Guid CourseId { get; set; }  
     }
 }

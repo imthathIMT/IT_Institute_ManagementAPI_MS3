@@ -6,7 +6,7 @@ namespace IT_Institute_Management.Entity
     {
         [Key]
         [Required(ErrorMessage = "NIC is required.")]
-        //[RegularExpression(@"^\d{9}[vxzVXZ]$|^\d{12}$", ErrorMessage = "Invalid NIC format.")]
+        [RegularExpression(@"^\d{9}[vxzVXZ]$|^\d{12}$", ErrorMessage = "Invalid NIC format.")]
         public string NIC { get; set; }
 
         [Required(ErrorMessage = "First name is required.")]
@@ -34,7 +34,7 @@ namespace IT_Institute_Management.Entity
 
         public string? ImagePath { get; set; }
 
-        public bool IsLocked { get; set; }  // Indicates if the account is locked (true) or unlocked (false)
+        public bool IsLocked { get; set; } 
 
         public Guid UserId { get; set; }
         public User? User { get; set; }

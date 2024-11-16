@@ -22,9 +22,9 @@ namespace IT_Institute_Management.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure relationships and constraints if necessary
+           
 
-            //ONE to ONE
+           
             modelBuilder.Entity<Student>()
                .HasOne(a => a.Address)
                .WithOne(s => s.Student)
@@ -62,7 +62,7 @@ namespace IT_Institute_Management.Database
                 .HasOne(a => a.User)
                 .WithOne()
                 .HasForeignKey<Admin>(a => a.UserId)
-                .OnDelete(DeleteBehavior.Cascade);  // Cascade delete
+                .OnDelete(DeleteBehavior.Cascade); 
 
 
 

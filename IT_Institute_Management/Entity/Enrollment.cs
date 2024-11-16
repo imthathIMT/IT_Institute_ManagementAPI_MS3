@@ -11,19 +11,18 @@ namespace IT_Institute_Management.Entity
         public DateTime EnrollmentDate { get; set; }
 
         [Required(ErrorMessage = "Payment plan is required.")]
-        public string PaymentPlan { get; set; }  // e.g., Monthly, Full
+        public string PaymentPlan { get; set; } 
 
-        public bool IsComplete { get; set; } = false; // if course duration finished ture else false. automatically updating
+        public bool IsComplete { get; set; } = false;
 
-        public Student Student { get; set; } // Navigation property
-        public Course Course { get; set; } // Navigation property
+        public Student Student { get; set; } 
+        public Course Course { get; set; } 
 
         [Required(ErrorMessage = "Student NIC is required.")]
-        public string StudentNIC { get; set; }  // Foreign key to Student
+        public string StudentNIC { get; set; } 
 
         [Required(ErrorMessage = "Course ID is required.")]
-        public Guid CourseId { get; set; }  // Foreign key to Course
-
+        public Guid CourseId { get; set; }  
 
         public ICollection<Payment>? payments { get; set; }
     }

@@ -12,7 +12,7 @@ namespace IT_Institute_Management.ImageService
         }
 
 
-        // Method to save student image to the file system and return the file path
+       
         public async Task<string> SaveImage(IFormFile imageFile, string folderName)
         {
             var uploadsDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "images", folderName);
@@ -32,7 +32,7 @@ namespace IT_Institute_Management.ImageService
             return $"/images/{folderName}/{fileName}";
         }
 
-        // Method to delete the student's image from the file system
+       
         public void DeleteImage(string imagePath)
         {
             var filePath = Path.Combine(_webHostEnvironment.WebRootPath, imagePath);

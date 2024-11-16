@@ -16,6 +16,7 @@ namespace IT_Institute_Management.Controllers
             _paymentService = paymentService;
         }
 
+
         [HttpGet]
         public async Task<IActionResult> GetAllPayments()
         {
@@ -29,6 +30,7 @@ namespace IT_Institute_Management.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPayment(Guid id)
@@ -48,6 +50,8 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+
+
         [HttpPost]
         public async Task<IActionResult> CreatePayment([FromBody] PaymentRequestDto paymentRequestDto)
         {
@@ -61,6 +65,8 @@ namespace IT_Institute_Management.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePayment(Guid id, [FromBody] PaymentRequestDto paymentRequestDto)
@@ -80,6 +86,8 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePayment(Guid id)
         {
@@ -97,6 +105,8 @@ namespace IT_Institute_Management.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
+
 
     }
 }

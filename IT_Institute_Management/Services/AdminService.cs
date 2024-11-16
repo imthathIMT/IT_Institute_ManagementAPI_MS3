@@ -106,7 +106,7 @@ namespace IT_Institute_Management.Services
 
                 if (adminDto.Image != null)
                 {
-                    // Specify the folder name as "students"
+                    
                     imagePath = await _imageService.SaveImage(adminDto.Image, "admins");
                 }
 
@@ -151,16 +151,16 @@ namespace IT_Institute_Management.Services
                     await _userService.UpdateAsync(adminDto.NIC, new UserRequestDto { Password = adminDto.Password });
                 }
 
-                // Handle image upload
+               
                 if (adminDto.Image != null)
                 {
-                    // Delete the old image if it exists
+                    
                     if (!string.IsNullOrEmpty(admin.ImagePath))
                     {
-                        _imageService.DeleteImage(admin.ImagePath);  // Delete old image
+                        _imageService.DeleteImage(admin.ImagePath);  
                     }
 
-                    // Save the new image and update the image path
+                    
                     admin.ImagePath = await _imageService.SaveImage(adminDto.Image, "admins");
                 }
 
@@ -218,7 +218,7 @@ namespace IT_Institute_Management.Services
                 {
                     throw new KeyNotFoundException($"Admin with NIC {nic} not found.");
                 }
-                // Delete the image associated with the student
+               
                 if (!string.IsNullOrEmpty(admin.ImagePath))
                 {
                     _imageService.DeleteImage(admin.ImagePath);

@@ -23,6 +23,8 @@ namespace IT_Institute_Management.Controllers
             _studentService = studentService;
         }
 
+
+
         [HttpGet]
         public async Task<IActionResult> GetAllStudents()
         {
@@ -36,6 +38,8 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
 
         [HttpGet("{nic}")]
         public async Task<IActionResult> GetStudentByNic(string nic)
@@ -51,6 +55,8 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+
+
         [HttpPost]
         public async Task<IActionResult> AddStudent( StudentRequestDto studentDto)
         {
@@ -64,6 +70,8 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
 
         [HttpPut("{nic}")]
         public async Task<IActionResult> UpdateStudent(string nic, [FromForm] StudentRequestDto studentDto)
@@ -79,6 +87,8 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
 
         [HttpDelete("{nic}")]
         public async Task<IActionResult> DeleteStudent(string nic)

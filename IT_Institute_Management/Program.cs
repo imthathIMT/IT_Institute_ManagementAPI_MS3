@@ -66,7 +66,6 @@ builder.Services.AddCors(option =>
 
    var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -77,7 +76,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseStaticFiles();  // This will serve files from wwwroot, including /uploads/
+app.UseStaticFiles();  
 
 app.UseCors("AllowSpecificOrigins");
 
