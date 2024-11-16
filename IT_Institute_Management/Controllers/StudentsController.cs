@@ -9,6 +9,7 @@ using IT_Institute_Management.Database;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.IServices;
+using IT_Institute_Management.Services;
 
 namespace IT_Institute_Management.Controllers
 {
@@ -80,23 +81,29 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+
         [HttpDelete("{nic}")]
-        public async Task<IActionResult> DeleteStudent(string nic)
+
+        public async Task<IActionResult> Delete([FromRoute] string nic)
         {
             try
             {
-                await _studentService.DeleteStudentAsync(nic);
+                await _studentService.DeleteAsync(nic);
                 return Ok(new { message = "Student Successfully Deleted." });
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"An error occurred: {ex.Message}" });
             }
         }
 
 
 
-       
+
         [HttpPut("{nic}/update-password")]
         public async Task<IActionResult> UpdatePassword(string nic, UpdatePasswordRequestDto updatePasswordDto)
         {

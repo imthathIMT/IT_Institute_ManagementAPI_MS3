@@ -110,26 +110,31 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
-                var student = await GetByNicAsync(nic);
-                if (student == null)
+
+                var student = await _context.Students
+                    .FirstOrDefaultAsync(a => a.NIC == nic);
+
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.NIC == nic);
+
+                if (student == null || user == null)
                 {
-                    throw new Exception($"Student with NIC {nic} not found.");
+                    throw new KeyNotFoundException($"Student or User with NIC {nic} not found.");
                 }
 
+
                 _context.Students.Remove(student);
-                var user = new User()
-                {
-                    NIC = student.NIC,
-                    Password = student.Password,
-                    Role = Role.Student
-                };
                 _context.Users.Remove(user);
+
+
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                throw new Exception($"An error occurred while deleting the student with NIC {nic}.");
+
+                throw new ApplicationException($"An error occurred while deleting the admin with NIC {nic}: {ex.Message}", ex);
             }
         }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using IT_Institute_Management.DTO.RequestDTO;
+﻿using IT_Institute_Management.Database;
+using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.DTO.ResponseDTO;
 using IT_Institute_Management.EmailSerivice;
 using IT_Institute_Management.Entity;
@@ -6,6 +7,7 @@ using IT_Institute_Management.ImageService;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 using IT_Institute_Management.PasswordService;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace IT_Institute_Management.Services
@@ -17,15 +19,17 @@ namespace IT_Institute_Management.Services
         private readonly IPasswordHasher _passwordHasher;
         private readonly IImageService _imageService;
         private readonly IUserService _userService;
+        private readonly InstituteDbContext _context;
 
 
-        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher, IImageService imageService, IUserService userService)
+        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher, IImageService imageService, IUserService userService, InstituteDbContext context)
         {
             _studentRepository = studentRepository;
             _emailService = emailService;
             _passwordHasher = passwordHasher;
             _imageService = imageService;
             _userService = userService;
+            _context = context;
         }
 
 
@@ -189,24 +193,35 @@ namespace IT_Institute_Management.Services
 
 
 
-        public async Task DeleteStudentAsync(string nic)
+        public async Task DeleteAsync(string nic)
         {
-            var student = await _studentRepository.GetByNicAsync(nic);
-            if (student == null)
+            try
             {
-                throw new Exception($"Student with NIC {nic} not found.");
-            }
+                var student = await _context.Students
+                    .FirstOrDefaultAsync(a => a.NIC == nic);
 
-            // Delete the image associated with the student
-            if (!string.IsNullOrEmpty(student.ImagePath))
+                if (student == null)
+                {
+                    throw new KeyNotFoundException($"Admin with NIC {nic} not found.");
+                }
+
+
+                _context.Students.Remove(student);
+
+
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.NIC == nic);
+                if (user != null)
+                {
+                    _context.Users.Remove(user);
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
             {
-                _imageService.DeleteImage(student.ImagePath);
+                throw new ApplicationException("An error occurred while deleting the student.", ex);
             }
-
-            // Remove user from the user table
-            await _userService.DeleteAsync(nic);
-
-            await _studentRepository.DeleteAsync(nic);
         }
 
 
