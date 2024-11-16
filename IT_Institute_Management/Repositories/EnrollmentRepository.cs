@@ -48,6 +48,8 @@ namespace IT_Institute_Management.Repositories
                 .ToListAsync();
         }
 
+
+
         public async Task<Enrollment> DeleteEnrollmentAsync(Guid id)
         {
             var enrollment = await GetEnrollmentByIdAsync(id);
@@ -59,6 +61,8 @@ namespace IT_Institute_Management.Repositories
             return enrollment;
         }
 
+
+
         public async Task<Enrollment> DeleteEnrollmentByNICAsync(string nic)
         {
             var enrollment = await GetEnrollmentByNICAsync(nic);
@@ -69,6 +73,7 @@ namespace IT_Institute_Management.Repositories
             }
             return enrollment;
         }
+
 
         public async Task SaveChangesAsync()
         {
