@@ -39,6 +39,15 @@ namespace IT_Institute_Management.Repositories
                 .FirstOrDefaultAsync(e => e.StudentNIC == nic);
         }
 
+
+        public async Task<IEnumerable<Enrollment>> GetAllEnrollmentsAsync()
+        {
+            return await _context.Enrollment
+                .Include(e => e.Student)
+                .Include(e => e.Course)
+                .ToListAsync();
+        }
+
         public async Task<Enrollment> DeleteEnrollmentAsync(Guid id)
         {
             var enrollment = await GetEnrollmentByIdAsync(id);
