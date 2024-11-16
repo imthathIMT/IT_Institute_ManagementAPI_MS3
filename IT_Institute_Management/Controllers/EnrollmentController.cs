@@ -16,7 +16,7 @@ namespace IT_Institute_Management.Controllers
             _enrollmentService = enrollmentService;
         }
 
-        
+
         [HttpPost]
         public async Task<IActionResult> CreateEnrollment([FromBody] EnrollmentRequestDto enrollmentRequest)
         {
@@ -27,11 +27,27 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
         }
 
-        
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllEnrollments()
+        {
+            try
+            {
+                var enrollments = await _enrollmentService.GetAllEnrollmentsAsync();
+                return Ok(enrollments);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+
         [HttpDelete("delete/{nic}")]
         public async Task<IActionResult> DeleteEnrollmentByNIC(string nic, [FromQuery] bool forceDelete = false)
         {
@@ -42,11 +58,11 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
         }
 
-        
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCompletionStatus(Guid id)
         {
@@ -57,8 +73,24 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
         }
+
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateEnrollmentData(Guid id, [FromBody] EnrollmentRequestDto enrollmentRequest)
+        {
+            try
+            {
+                var updatedEnrollment = await _enrollmentService.UpdateEnrollmentDataAsync(id, enrollmentRequest);
+                return Ok(updatedEnrollment);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 }
