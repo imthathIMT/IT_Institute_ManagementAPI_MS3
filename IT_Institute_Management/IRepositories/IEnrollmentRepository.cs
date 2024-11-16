@@ -9,6 +9,7 @@ namespace IT_Institute_Management.IRepositories
         Task<Enrollment> GetEnrollmentByNICAsync(string nic);
         Task<Enrollment> DeleteEnrollmentAsync(Guid id);
         Task<Enrollment> DeleteEnrollmentByNICAsync(string nic);
+        Task<IEnumerable<Enrollment>> GetAllEnrollmentsAsync();
         Task SaveChangesAsync();
     }
 }
