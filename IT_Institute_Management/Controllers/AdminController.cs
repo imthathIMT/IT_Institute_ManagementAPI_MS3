@@ -123,7 +123,7 @@ namespace IT_Institute_Management.Controllers
             try
             {
                 await _adminService.DeleteAsync(nic);
-                return NoContent(); 
+                return Ok(new { message = "Admin Successfully Deleted." });
             }
             catch (ApplicationException ex)
             {
