@@ -48,9 +48,7 @@ namespace IT_Institute_Management.Controllers
 
 
 
-      
-
-
+  
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCompletionStatus(Guid id)
         {

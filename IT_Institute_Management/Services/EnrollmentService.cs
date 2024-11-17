@@ -96,7 +96,7 @@ namespace IT_Institute_Management.Services
         {
             var enrollments = await _repo.GetAllEnrollmentsAsync();
             var filteredEnrollments = enrollments
-                .Where(e => e.StudentNIC == nic && e.IsComplete && e.EnrollmentDate.AddDays(e.Course.Duration) <= DateTime.Now)
+                .Where(e => e.StudentNIC == nic)
                 .ToList();
 
             if (!filteredEnrollments.Any())
