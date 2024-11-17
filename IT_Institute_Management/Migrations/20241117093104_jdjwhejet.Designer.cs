@@ -4,6 +4,7 @@ using IT_Institute_Management.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IT_Institute_Management.Migrations
 {
     [DbContext(typeof(InstituteDbContext))]
-    partial class InstituteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241117093104_jdjwhejet")]
+    partial class jdjwhejet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,14 +256,8 @@ namespace IT_Institute_Management.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("DueAmount")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<Guid?>("EnrollmentId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("FullAmount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");

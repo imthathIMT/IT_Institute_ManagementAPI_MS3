@@ -27,6 +27,7 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
+                // Log the exception
                 return StatusCode(500, new { message = ex.Message });
             }
         }
@@ -42,7 +43,7 @@ namespace IT_Institute_Management.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(new { message = "Payment not found" });
+                return NotFound(new { message = "Payment not found." });
             }
             catch (Exception ex)
             {
@@ -50,8 +51,8 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-        // GET: api/payment/by-nic/{nic}
-        [HttpGet("by-nic/{nic}")]
+        // GET: api/payment/student/{nic}
+        [HttpGet("student/{nic}")]
         public async Task<IActionResult> GetPaymentsByStudentNIC(string nic)
         {
             try
@@ -59,15 +60,16 @@ namespace IT_Institute_Management.Controllers
                 var payments = await _paymentService.GetPaymentsByStudentNICAsync(nic);
                 return Ok(payments);
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(new { message = "No payments found for this NIC" });
+                return NotFound(new { message = ex.Message });
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
 
         // POST: api/payment
         [HttpPost]
@@ -95,7 +97,7 @@ namespace IT_Institute_Management.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(new { message = "Payment not found" });
+                return NotFound(new { message = "Payment not found." });
             }
             catch (Exception ex)
             {
@@ -114,7 +116,7 @@ namespace IT_Institute_Management.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(new { message = "Payment not found" });
+                return NotFound(new { message = "Payment not found." });
             }
             catch (Exception ex)
             {

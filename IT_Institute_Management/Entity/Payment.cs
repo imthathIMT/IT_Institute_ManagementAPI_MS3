@@ -10,6 +10,9 @@ namespace IT_Institute_Management.Entity
         [Required(ErrorMessage = "Amount is required.")]
         public decimal Amount { get; set; }
 
+        public decimal FullAmount { get; set; }
+        public decimal DueAmount { get; set; }
+
         [Required(ErrorMessage = "Payment date is required.")]
         public DateTime PaymentDate { get; set; }
 

@@ -54,5 +54,12 @@ namespace IT_Institute_Management.Repositories
             }
         }
 
+        public async Task<IEnumerable<Payment>> GetPaymentsByEnrollmentIdAsync(Guid enrollmentId)
+        {
+            return await _context.Payments
+                .Where(p => p.EnrollmentId == enrollmentId)
+                .ToListAsync();
+        }
+
     }
 }
