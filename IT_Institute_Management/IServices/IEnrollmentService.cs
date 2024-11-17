@@ -6,12 +6,12 @@ namespace IT_Institute_Management.IServices
     public interface IEnrollmentService
     {
         Task<Enrollment> CreateEnrollmentAsync(EnrollmentRequestDto enrollmentRequest);
-        Task<Enrollment> DeleteEnrollmentByNICAsync(string nic, bool forceDelete = false);
+        Task<Enrollment> DeleteEnrollmentByIdAsync(Guid id, bool forceDelete = false);
         Task<Enrollment> UpdateEnrollmentCompletionStatus(Guid id);
         Task<IEnumerable<Enrollment>> GetAllEnrollmentsAsync();
         Task<Enrollment> UpdateEnrollmentDataAsync(Guid id, EnrollmentRequestDto enrollmentRequest);
         Task<Enrollment> GetEnrollmentByIdAsync(Guid id);
-        Task<Enrollment> GetEnrollmentByNICAsync(string nic);
+        Task<IEnumerable<Enrollment>> GetEnrollmentsByNICAsync(string nic);
 
     }
 }

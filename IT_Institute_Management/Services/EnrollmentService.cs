@@ -91,6 +91,7 @@ namespace IT_Institute_Management.Services
             return enrollment;
         }
 
+
         public async Task<IEnumerable<Enrollment>> GetEnrollmentsByNICAsync(string nic)
         {
             var enrollments = await _repo.GetAllEnrollmentsAsync();

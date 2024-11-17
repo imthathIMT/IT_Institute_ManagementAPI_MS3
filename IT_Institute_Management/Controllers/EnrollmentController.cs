@@ -66,6 +66,7 @@ namespace IT_Institute_Management.Controllers
         }
 
 
+
         [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateEnrollmentData(Guid id, [FromBody] EnrollmentRequestDto enrollmentRequest)
         {
@@ -79,6 +80,8 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEnrollmentById(Guid id)
