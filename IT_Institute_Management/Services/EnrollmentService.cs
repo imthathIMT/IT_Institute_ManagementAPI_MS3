@@ -91,11 +91,19 @@ namespace IT_Institute_Management.Services
             return enrollment;
         }
 
-        public async Task<Enrollment> GetEnrollmentByNICAsync(string nic)
+        public async Task<IEnumerable<Enrollment>> GetEnrollmentsByNICAsync(string nic)
         {
-            var enrollment = await _repo.GetEnrollmentByNICAsync(nic);
-            if (enrollment == null) throw new Exception("Enrollment not found.");
-            return enrollment;
+            var enrollments = await _repo.GetAllEnrollmentsAsync();
+            var filteredEnrollments = enrollments
+                .Where(e => e.StudentNIC == nic && e.IsComplete && e.EnrollmentDate.AddDays(e.Course.Duration) <= DateTime.Now)
+                .ToList();
+
+            if (!filteredEnrollments.Any())
+            {
+                throw new Exception("No completed enrollments found for the given NIC.");
+            }
+
+            return filteredEnrollments;
         }
 
 
