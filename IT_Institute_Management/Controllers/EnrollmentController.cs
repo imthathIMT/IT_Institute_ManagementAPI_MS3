@@ -102,16 +102,12 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpGet("nic/{nic}")]
-        public async Task<IActionResult> GetEnrollmentByNIC(string nic)
+        public async Task<IActionResult> GetEnrollmentsByNIC(string nic)
         {
             try
             {
-                var enrollment = await _enrollmentService.GetEnrollmentByNICAsync(nic);
-                if (enrollment == null)
-                {
-                    return NotFound(new { message = "Enrollment not found." });
-                }
-                return Ok(enrollment);
+                var enrollments = await _enrollmentService.GetEnrollmentsByNICAsync(nic);
+                return Ok(enrollments);
             }
             catch (Exception ex)
             {
