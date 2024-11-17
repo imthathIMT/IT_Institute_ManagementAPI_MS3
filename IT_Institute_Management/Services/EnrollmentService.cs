@@ -56,10 +56,15 @@ namespace IT_Institute_Management.Services
             return enrollment;
         }
 
+
+
         public async Task<IEnumerable<Enrollment>> GetAllEnrollmentsAsync()
         {
             return await _repo.GetAllEnrollmentsAsync();
         }
+
+
+
 
         public async Task<Enrollment> UpdateEnrollmentDataAsync(Guid id, EnrollmentRequestDto enrollmentRequest)
         {
@@ -93,9 +98,11 @@ namespace IT_Institute_Management.Services
             return enrollment;
         }
 
-        public async Task<Enrollment> DeleteEnrollmentByNICAsync(string nic, bool forceDelete = false)
+
+
+        public async Task<Enrollment> DeleteEnrollmentByIdAsync(Guid id, bool forceDelete = false)
         {
-            var enrollment = await _repo.GetEnrollmentByNICAsync(nic);
+            var enrollment = await _repo.GetEnrollmentByIdAsync(id);
             if (enrollment == null) throw new Exception("Enrollment not found.");
 
             if (!forceDelete && enrollment.EnrollmentDate.AddDays(7) > DateTime.Now)
@@ -103,7 +110,7 @@ namespace IT_Institute_Management.Services
                 throw new Exception("Enrollment can only be deleted after a week from the enrollment date.");
             }
 
-            return await _repo.DeleteEnrollmentByNICAsync(nic);
+            return await _repo.DeleteEnrollmentAsync(id);
         }
 
     }
