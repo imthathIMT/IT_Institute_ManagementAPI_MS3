@@ -7,9 +7,9 @@ namespace IT_Institute_Management.IServices
     {
         Task<IEnumerable<PaymentResponseDto>> GetAllPaymentsAsync();
         Task<PaymentResponseDto> GetPaymentByIdAsync(Guid id);
+        Task<IEnumerable<PaymentResponseDto>> GetPaymentsByStudentNICAsync(string nic);
         Task CreatePaymentAsync(PaymentRequestDto paymentRequestDto);
         Task UpdatePaymentAsync(Guid id, PaymentRequestDto paymentRequestDto);
-
         Task DeletePaymentAsync(Guid id);
     }
 }

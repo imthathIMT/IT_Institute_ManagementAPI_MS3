@@ -16,7 +16,7 @@ namespace IT_Institute_Management.Controllers
             _paymentService = paymentService;
         }
 
-
+        // GET: api/payment
         [HttpGet]
         public async Task<IActionResult> GetAllPayments()
         {
@@ -31,7 +31,7 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-
+        // GET: api/payment/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPayment(Guid id)
         {
@@ -50,8 +50,26 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+        // GET: api/payment/by-nic/{nic}
+        [HttpGet("by-nic/{nic}")]
+        public async Task<IActionResult> GetPaymentsByStudentNIC(string nic)
+        {
+            try
+            {
+                var payments = await _paymentService.GetPaymentsByStudentNICAsync(nic);
+                return Ok(payments);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { message = "No payments found for this NIC" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
 
-
+        // POST: api/payment
         [HttpPost]
         public async Task<IActionResult> CreatePayment([FromBody] PaymentRequestDto paymentRequestDto)
         {
@@ -66,8 +84,7 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-
-
+        // PUT: api/payment/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePayment(Guid id, [FromBody] PaymentRequestDto paymentRequestDto)
         {
@@ -86,8 +103,7 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-
-
+        // DELETE: api/payment/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePayment(Guid id)
         {

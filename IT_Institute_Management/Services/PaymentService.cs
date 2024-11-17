@@ -9,25 +9,36 @@ namespace IT_Institute_Management.Services
     public class PaymentService : IPaymentService
     {
         private readonly IPaymentRepository _paymentRepository;
+        private readonly ICourseRepository _courseRepository;
 
-        public PaymentService(IPaymentRepository paymentRepository)
+        public PaymentService(IPaymentRepository paymentRepository, ICourseRepository courseRepository)
         {
             _paymentRepository = paymentRepository;
+            _courseRepository = courseRepository;
         }
 
         public async Task<IEnumerable<PaymentResponseDto>> GetAllPaymentsAsync()
         {
             var payments = await _paymentRepository.GetAllPaymentsAsync();
 
-            return payments.Select(p => new PaymentResponseDto
+            // Map to DTO and calculate FullAmount and DueAmount
+            var paymentDtos = await Task.WhenAll(payments.Select(async p =>
             {
-                Id = p.Id,
-                Amount = p.Amount,
-                PaymentDate = p.PaymentDate,
-                EnrollmentId = (Guid)p.EnrollmentId
-            });
-        }
+                var fullAmount = await CalculateFullAmountAsync(p.EnrollmentId.GetValueOrDefault());
+                var dueAmount = fullAmount - payments.Where(payment => payment.EnrollmentId == p.EnrollmentId).Sum(payment => payment.Amount);
+                return new PaymentResponseDto
+                {
+                    Id = p.Id,
+                    Amount = p.Amount,
+                    PaymentDate = p.PaymentDate,
+                    EnrollmentId = p.EnrollmentId.GetValueOrDefault(),
+                    FullAmount = fullAmount,
+                    DueAmount = dueAmount
+                };
+            }));
 
+            return paymentDtos;
+        }
 
         public async Task<PaymentResponseDto> GetPaymentByIdAsync(Guid id)
         {
@@ -36,15 +47,19 @@ namespace IT_Institute_Management.Services
             if (payment == null)
                 throw new KeyNotFoundException("Payment not found.");
 
+            var fullAmount = await CalculateFullAmountAsync(payment.EnrollmentId.GetValueOrDefault());
+            var dueAmount = fullAmount - (await _paymentRepository.GetPaymentsByStudentNICAsync(payment.Enrollment.StudentNIC)).Sum(p => p.Amount);
+
             return new PaymentResponseDto
             {
                 Id = payment.Id,
                 Amount = payment.Amount,
                 PaymentDate = payment.PaymentDate,
-                EnrollmentId = (Guid)payment.EnrollmentId
+                EnrollmentId = payment.EnrollmentId.GetValueOrDefault(),
+                FullAmount = fullAmount,
+                DueAmount = dueAmount
             };
         }
-
 
         public async Task CreatePaymentAsync(PaymentRequestDto paymentRequestDto)
         {
@@ -71,8 +86,6 @@ namespace IT_Institute_Management.Services
             await _paymentRepository.UpdatePaymentAsync(existingPayment);
         }
 
-
-
         public async Task DeletePaymentAsync(Guid id)
         {
             var payment = await _paymentRepository.GetPaymentByIdAsync(id);
@@ -82,5 +95,41 @@ namespace IT_Institute_Management.Services
 
             await _paymentRepository.DeletePaymentAsync(id);
         }
+
+        private async Task<decimal> CalculateFullAmountAsync(Guid enrollmentId)
+        {
+            // Get course associated with the enrollmentId (you can fetch the course by EnrollmentId)
+            var enrollment = await _paymentRepository.GetPaymentByIdAsync(enrollmentId);
+            if (enrollment == null || enrollment.Enrollment == null)
+                throw new KeyNotFoundException("Enrollment not found for this payment.");
+
+            var course = await _courseRepository.GetCourseByIdAsync(enrollment.Enrollment.CourseId);
+
+            return course?.Fees ?? 0m;
+        }
+
+        public async Task<IEnumerable<PaymentResponseDto>> GetPaymentsByStudentNICAsync(string nic)
+        {
+            var payments = await _paymentRepository.GetPaymentsByStudentNICAsync(nic);
+
+            var paymentDtos = await Task.WhenAll(payments.Select(async p =>
+            {
+                var fullAmount = await CalculateFullAmountAsync(p.EnrollmentId.GetValueOrDefault());
+                var dueAmount = fullAmount - payments.Where(payment => payment.EnrollmentId == p.EnrollmentId).Sum(payment => payment.Amount);
+                return new PaymentResponseDto
+                {
+                    Id = p.Id,
+                    Amount = p.Amount,
+                    PaymentDate = p.PaymentDate,
+                    EnrollmentId = p.EnrollmentId.GetValueOrDefault(),
+                    FullAmount = fullAmount,
+                    DueAmount = dueAmount
+                };
+            }));
+
+            return paymentDtos;
+        }
+
+
     }
 }
