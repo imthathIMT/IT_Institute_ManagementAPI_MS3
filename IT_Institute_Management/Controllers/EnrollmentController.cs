@@ -115,16 +115,14 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-        [HttpDelete("delete/{nic}")]
-        public async Task<IActionResult> DeleteEnrollmentByNIC(string nic, [FromQuery] bool forceDelete = false)
+
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteEnrollmentById(Guid id, [FromQuery] bool forceDelete = false)
         {
             try
             {
-                var enrollment = await _enrollmentService.DeleteEnrollmentByNICAsync(nic, forceDelete);
-                if (enrollment == null)
-                {
-                    return NotFound(new { message = "Enrollment not found." });
-                }
+                var enrollment = await _enrollmentService.DeleteEnrollmentByIdAsync(id, forceDelete);
                 return Ok(new { Message = "Enrollment deleted successfully" });
             }
             catch (Exception ex)
