@@ -24,6 +24,14 @@ namespace IT_Institute_Management.Repositories
             return await _context.Payments.Include(p => p.Enrollment).FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task<IEnumerable<Payment>> GetPaymentsByStudentNICAsync(string nic)
+        {
+            return await _context.Payments
+                .Include(p => p.Enrollment)
+                .Where(p => p.Enrollment.StudentNIC == nic)
+                .ToListAsync();
+        }
+
         public async Task CreatePaymentAsync(Payment payment)
         {
             await _context.Payments.AddAsync(payment);
