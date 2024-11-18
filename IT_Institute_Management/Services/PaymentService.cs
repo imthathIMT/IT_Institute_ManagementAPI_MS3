@@ -91,7 +91,9 @@ namespace IT_Institute_Management.Services
             var courseDurationMonths = course.Duration;
             var monthlyInstallment = fullAmount / courseDurationMonths;
 
-           
+          
+            var installmentTolerance = 0.01m; 
+
             if (enrollment.PaymentPlan == "Full")
             {
                 if (totalPaid > 0)
@@ -104,16 +106,15 @@ namespace IT_Institute_Management.Services
                     throw new InvalidOperationException($"For full payment, the amount must be equal to the full course fee ({fullAmount:C}).");
                 }
             }
-           
             else if (enrollment.PaymentPlan == "Installment")
             {
                
-                if (paymentRequestDto.Amount < monthlyInstallment)
+                if (paymentRequestDto.Amount < (monthlyInstallment - installmentTolerance))
                 {
                     throw new InvalidOperationException($"Installment amount must be at least {monthlyInstallment:C}.");
                 }
 
-                if (paymentRequestDto.Amount > monthlyInstallment)
+                if (paymentRequestDto.Amount > (monthlyInstallment + installmentTolerance))
                 {
                     throw new InvalidOperationException($"Installment amount cannot exceed {monthlyInstallment:C}.");
                 }
@@ -125,14 +126,14 @@ namespace IT_Institute_Management.Services
 
                 if (lastPayment != null)
                 {
-                    var nextPaymentDate = lastPayment.PaymentDate.AddMonths(1); 
+                    var nextPaymentDate = lastPayment.PaymentDate.AddMonths(1);
                     if (paymentRequestDto.PaymentDate < nextPaymentDate)
                     {
-                        
                         throw new InvalidOperationException($"Next installment can only be paid after 1 month from the previous payment. The next payment date is {nextPaymentDate:MMMM dd, yyyy}.");
                     }
                 }
 
+               
                 var remainingMonths = courseDurationMonths - (totalPaid / monthlyInstallment);
                 if (remainingMonths <= 0)
                 {
@@ -149,29 +150,24 @@ namespace IT_Institute_Management.Services
                 throw new InvalidOperationException("Unknown payment plan type.");
             }
 
-            
             var dueAmount = fullAmount - totalPaid - paymentRequestDto.Amount;
 
-            
             if (dueAmount < 0)
             {
                 throw new InvalidOperationException($"Amount paid exceeds the due amount for the course. Due amount: {fullAmount - totalPaid:C}");
             }
 
-           
             var payment = new Payment
             {
                 Amount = paymentRequestDto.Amount,
-                TotalPaidAmount = totalPaid + paymentRequestDto.Amount, 
-                DueAmount = dueAmount, 
+                TotalPaidAmount = totalPaid + paymentRequestDto.Amount,
+                DueAmount = dueAmount,
                 PaymentDate = paymentRequestDto.PaymentDate,
                 EnrollmentId = paymentRequestDto.EnrollmentId
             };
 
-            
             await _paymentRepository.CreatePaymentAsync(payment);
         }
-
 
         public async Task UpdatePaymentAsync(Guid id, PaymentRequestDto paymentRequestDto)
         {
@@ -192,7 +188,9 @@ namespace IT_Institute_Management.Services
             var courseDurationMonths = course.Duration;
             var monthlyInstallment = fullAmount / courseDurationMonths;
 
-          
+           
+            var installmentTolerance = 0.01m;
+
             if (enrollment.PaymentPlan == "Full")
             {
                 if (totalPaid > 0)
@@ -205,21 +203,20 @@ namespace IT_Institute_Management.Services
                     throw new InvalidOperationException($"For full payment, the amount must be equal to the full course fee ({fullAmount:C}).");
                 }
             }
-           
             else if (enrollment.PaymentPlan == "Installment")
             {
-               
-                if (paymentRequestDto.Amount < monthlyInstallment)
+              
+                if (paymentRequestDto.Amount < (monthlyInstallment - installmentTolerance))
                 {
                     throw new InvalidOperationException($"Installment amount must be at least {monthlyInstallment:C}.");
                 }
 
-                if (paymentRequestDto.Amount > monthlyInstallment)
+                if (paymentRequestDto.Amount > (monthlyInstallment + installmentTolerance))
                 {
                     throw new InvalidOperationException($"Installment amount cannot exceed {monthlyInstallment:C}.");
                 }
 
-               
+              
                 var lastPayment = (await _paymentRepository.GetPaymentsByEnrollmentIdAsync(paymentRequestDto.EnrollmentId))
                                     .OrderByDescending(p => p.PaymentDate)
                                     .FirstOrDefault();
@@ -229,11 +226,11 @@ namespace IT_Institute_Management.Services
                     var nextPaymentDate = lastPayment.PaymentDate.AddMonths(1);
                     if (paymentRequestDto.PaymentDate < nextPaymentDate)
                     {
-                        
                         throw new InvalidOperationException($"Next installment can only be paid after 1 month from the previous payment. The next payment date is {nextPaymentDate:MMMM dd, yyyy}.");
                     }
                 }
 
+               
                 var remainingMonths = courseDurationMonths - (totalPaid / monthlyInstallment);
                 if (remainingMonths <= 0)
                 {
@@ -250,28 +247,24 @@ namespace IT_Institute_Management.Services
                 throw new InvalidOperationException("Unknown payment plan type.");
             }
 
-           
             var dueAmount = fullAmount - totalPaid - paymentRequestDto.Amount;
 
-            
             if (dueAmount < 0)
             {
                 throw new InvalidOperationException($"Amount paid exceeds the due amount for the course. Due amount: {fullAmount - totalPaid:C}");
             }
 
-           
             existingPayment.Amount = paymentRequestDto.Amount;
             existingPayment.TotalPaidAmount = totalPaid + paymentRequestDto.Amount;
             existingPayment.DueAmount = dueAmount;
             existingPayment.PaymentDate = paymentRequestDto.PaymentDate;
 
-           
             await _paymentRepository.UpdatePaymentAsync(existingPayment);
         }
 
 
 
-      
+
         public async Task<IEnumerable<PaymentResponseDto>> GetPaymentsByStudentNICAsync(string nic)
         {
             

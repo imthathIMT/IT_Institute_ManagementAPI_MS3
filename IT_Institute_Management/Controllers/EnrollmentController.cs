@@ -129,5 +129,124 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+       
+        [HttpGet("completed/{id}")]
+        public async Task<IActionResult> GetEnrollmentByIdCompleted(Guid id)
+        {
+            try
+            {
+                var enrollment = await _enrollmentService.GetEnrollmentByIdAsync(id);
+
+                if (enrollment == null)
+                {
+                    return NotFound(new { message = "Enrollment not found" });
+                }
+
+                
+                if (enrollment.IsComplete)
+                {
+                    return Ok(enrollment);
+                }
+                else
+                {
+                    return BadRequest(new { message = "Enrollment is not completed." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+       
+        [HttpGet("notcompleted/{id}")]
+        public async Task<IActionResult> GetEnrollmentByIdNotCompleted(Guid id)
+        {
+            try
+            {
+                var enrollment = await _enrollmentService.GetEnrollmentByIdAsync(id);
+
+                if (enrollment == null)
+                {
+                    return NotFound(new { message = "Enrollment not found" });
+                }
+
+               
+                if (!enrollment.IsComplete)
+                {
+                    return Ok(enrollment);
+                }
+                else
+                {
+                    return BadRequest(new { message = "Enrollment is already completed." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+       
+        [HttpGet("nic/{nic}/completed")]
+        public async Task<IActionResult> GetEnrollmentsByNICAndCompletionStatus(string nic)
+        {
+            try
+            {
+                var enrollments = await _enrollmentService.GetEnrollmentsByNICAndCompletionStatusAsync(nic, true);
+                return Ok(enrollments);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        
+        [HttpGet("nic/{nic}/notcompleted")]
+        public async Task<IActionResult> GetEnrollmentsByNICAndNotCompletedStatus(string nic)
+        {
+            try
+            {
+                var enrollments = await _enrollmentService.GetEnrollmentsByNICAndCompletionStatusAsync(nic, false);
+                return Ok(enrollments);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+      
+        [HttpGet("all/completed")]
+        public async Task<IActionResult> GetAllEnrollmentsCompleted()
+        {
+            try
+            {
+                var enrollments = await _enrollmentService.GetEnrollmentsByCompletionStatusAsync(true);
+                return Ok(enrollments);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+       
+        [HttpGet("all/notcompleted")]
+        public async Task<IActionResult> GetAllEnrollmentsNotCompleted()
+        {
+            try
+            {
+                var enrollments = await _enrollmentService.GetEnrollmentsByCompletionStatusAsync(false);
+                return Ok(enrollments);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 }

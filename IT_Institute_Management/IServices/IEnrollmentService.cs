@@ -12,6 +12,10 @@ namespace IT_Institute_Management.IServices
         Task<Enrollment> UpdateEnrollmentDataAsync(Guid id, EnrollmentRequestDto enrollmentRequest);
         Task<Enrollment> GetEnrollmentByIdAsync(Guid id);
         Task<IEnumerable<Enrollment>> GetEnrollmentsByNICAsync(string nic);
+        Task<IEnumerable<Enrollment>> GetEnrollmentsByCompletionStatusAsync(bool isComplete);
 
+        Task<IEnumerable<Enrollment>> GetEnrollmentsByNICAndCompletionStatusAsync(string nic, bool isComplete);
     }
+
 }
+

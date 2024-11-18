@@ -73,7 +73,23 @@ namespace IT_Institute_Management.Repositories
             return enrollments;
         }
 
+        public async Task<IEnumerable<Enrollment>> GetEnrollmentsByCompletionStatusAsync(bool isComplete)
+        {
+            return await _context.Enrollment
+                .Where(e => e.IsComplete == isComplete)
+                .Include(e => e.Student)
+                .Include(e => e.Course)
+                .ToListAsync();
+        }
 
+        public async Task<IEnumerable<Enrollment>> GetEnrollmentsByNICAndCompletionStatusAsync(string nic, bool isComplete)
+        {
+            return await _context.Enrollment
+                .Where(e => e.Student.NIC == nic && e.IsComplete == isComplete)
+                .Include(e => e.Student)
+                .Include(e => e.Course)
+                .ToListAsync();
+        }
 
         public async Task SaveChangesAsync()
         {

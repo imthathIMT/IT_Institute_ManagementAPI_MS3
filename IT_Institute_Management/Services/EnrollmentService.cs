@@ -142,5 +142,20 @@ namespace IT_Institute_Management.Services
             return await _repo.DeleteEnrollmentAsync(id);
         }
 
+        public async Task<IEnumerable<Enrollment>> GetEnrollmentsByCompletionStatusAsync(bool isComplete)
+        {
+            return await _repo.GetEnrollmentsByCompletionStatusAsync(isComplete);
+        }
+
+        public async Task<IEnumerable<Enrollment>> GetEnrollmentsByNICAndCompletionStatusAsync(string nic, bool isComplete)
+        {
+            var enrollments = await _repo.GetEnrollmentsByNICAndCompletionStatusAsync(nic, isComplete);
+            if (!enrollments.Any())
+            {
+                throw new Exception("No enrollments found for the given NIC and completion status.");
+            }
+            return enrollments;
+        }
+
     }
 }
