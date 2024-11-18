@@ -1,102 +1,121 @@
-﻿using IT_Institute_Management.DTO.RequestDTO;
-using IT_Institute_Management.IServices;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿    using IT_Institute_Management.DTO.RequestDTO;
+    using IT_Institute_Management.IServices;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
 
-namespace IT_Institute_Management.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PaymentController : ControllerBase
+    namespace IT_Institute_Management.Controllers
     {
-        private readonly IPaymentService _paymentService;
-
-        public PaymentController(IPaymentService paymentService)
+        [Route("api/[controller]")]
+        [ApiController]
+        public class PaymentController : ControllerBase
         {
-            _paymentService = paymentService;
-        }
+            private readonly IPaymentService _paymentService;
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllPayments()
-        {
-            try
+            public PaymentController(IPaymentService paymentService)
             {
-                var payments = await _paymentService.GetAllPaymentsAsync();
-                return Ok(payments);
+                _paymentService = paymentService;
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = ex.Message });
-            }
-        }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetPayment(Guid id)
-        {
-            try
+            [HttpGet]
+            public async Task<IActionResult> GetAllPayments()
             {
-                var payment = await _paymentService.GetPaymentByIdAsync(id);
-                return Ok(payment);
+                try
+                {
+                    var payments = await _paymentService.GetAllPaymentsAsync();
+                    return Ok(payments);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new { message = ex.Message });
+                }
             }
-            catch (KeyNotFoundException)
-            {
-                return NotFound(new { message = "Payment not found" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = ex.Message });
-            }
-        }
 
-        [HttpPost]
-        public async Task<IActionResult> CreatePayment([FromBody] PaymentRequestDto paymentRequestDto)
-        {
-            try
+            [HttpGet("{id}")]
+            public async Task<IActionResult> GetPayment(Guid id)
             {
-                await _paymentService.CreatePaymentAsync(paymentRequestDto);
-                return CreatedAtAction(nameof(GetPayment), new { id = paymentRequestDto.EnrollmentId }, paymentRequestDto);
+                try
+                {
+                    var payment = await _paymentService.GetPaymentByIdAsync(id);
+                    return Ok(payment);
+                }
+                catch (KeyNotFoundException)
+                {
+                    return NotFound(new { message = "Payment not found." });
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new { message = ex.Message });
+                }
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = ex.Message });
-            }
-        }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePayment(Guid id, [FromBody] PaymentRequestDto paymentRequestDto)
-        {
-            try
+            [HttpGet("student/{nic}")]
+            public async Task<IActionResult> GetPaymentsByStudentNIC(string nic)
             {
-                await _paymentService.UpdatePaymentAsync(id, paymentRequestDto);
-                return NoContent();
+                try
+                {
+                    var payments = await _paymentService.GetPaymentsByStudentNICAsync(nic);
+                    return Ok(payments);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    return NotFound(new { message = ex.Message });
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new { message = ex.Message });
+                }
             }
-            catch (KeyNotFoundException)
-            {
-                return NotFound(new { message = "Payment not found" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = ex.Message });
-            }
-        }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePayment(Guid id)
-        {
-            try
+            [HttpPost]
+            public async Task<IActionResult> CreatePayment([FromBody] PaymentRequestDto paymentRequestDto)
             {
-                await _paymentService.DeletePaymentAsync(id);
-                return NoContent();
+                try
+                {
+                    await _paymentService.CreatePaymentAsync(paymentRequestDto);
+                    return CreatedAtAction(nameof(GetPayment), new { id = paymentRequestDto.EnrollmentId }, paymentRequestDto);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new { message = ex.Message });
+                }
             }
-            catch (KeyNotFoundException)
-            {
-                return NotFound(new { message = "Payment not found" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = ex.Message });
-            }
-        }
 
+            [HttpPut("{id}")]
+            public async Task<IActionResult> UpdatePayment(Guid id, [FromBody] PaymentRequestDto paymentRequestDto)
+            {
+                try
+                {
+                    await _paymentService.UpdatePaymentAsync(id, paymentRequestDto);
+                    return NoContent();
+                }
+                catch (KeyNotFoundException)
+                {
+                    return NotFound(new { message = "Payment not found." });
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new { message = ex.Message });
+                }
+            }
+
+            [HttpDelete("{id}")]
+            public async Task<IActionResult> DeletePayment(Guid id)
+            {
+                try
+                {
+                    await _paymentService.DeletePaymentAsync(id);
+                    return NoContent();
+                }
+                catch (KeyNotFoundException)
+                {
+                    return NotFound(new { message = "Payment not found." });
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new { message = ex.Message });
+                }
+            }
+
+
+        }
     }
-}

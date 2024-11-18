@@ -19,18 +19,18 @@
         [Required(ErrorMessage = "State is required.")]
         public string State { get; set; }
 
-        // New ZipCode property with validation
+        
         [Required(ErrorMessage = "Zip code is required.")]
         [RegularExpression(@"^\d{5}(-\d{4})?$", ErrorMessage = "Invalid zip code format. Use 12345 or 12345-6789.")]
-        public string ZipCode { get; set; }
+        public string PostalCode { get; set; }
 
         [Required(ErrorMessage = "Country is required.")]
         public string Country { get; set; }
 
-        // Foreign Key
+        
         public string? StudentNIC { get; set; }
 
-        // Navigation property
+       
         public Student? Student { get; set; }
     }
 

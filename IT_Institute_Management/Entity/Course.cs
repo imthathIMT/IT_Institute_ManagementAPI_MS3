@@ -15,7 +15,7 @@ namespace IT_Institute_Management.Entity
         [MaxLength(50, ErrorMessage = "Level cannot exceed 50 characters.")]
         public string Level { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Duration must be greater than 0.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Duration must be greater than 0 months.")]
         public int Duration { get; set; }
 
         [Range(0.01, double.MaxValue, ErrorMessage = "Fees must be greater than 0.")]
@@ -23,7 +23,7 @@ namespace IT_Institute_Management.Entity
 
         [Required(ErrorMessage = "Image path is required.")]
         [MaxLength(255, ErrorMessage = "Image path cannot exceed 255 characters.")]
-        public string ImagePath { get; set; }
+        public string ImagePaths { get; set; }
 
         public ICollection<Enrollment>? Enrollment { get; set; }
     }

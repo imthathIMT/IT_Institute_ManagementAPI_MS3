@@ -3,6 +3,7 @@ using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.DTO.ResponseDTO;
 using IT_Institute_Management.EmailSerivice;
 using IT_Institute_Management.Entity;
+using IT_Institute_Management.ImageService;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 
@@ -14,14 +15,18 @@ namespace IT_Institute_Management.Services
         private readonly IStudentRepository _studentRepository;
         private readonly IAnnouncementRepository _announcementRepository;
         private readonly IEmailService _emailService;
+        private readonly IImageService _imageService;
+        private readonly IHostEnvironment _hostEnvironment;
         private readonly InstituteDbContext _context;
 
-        public CourseService(ICourseRepository courseRepository, IStudentRepository studentRepository, IAnnouncementRepository announcementRepository, IEmailService emailService,InstituteDbContext context)
+        public CourseService(ICourseRepository courseRepository, IStudentRepository studentRepository, IAnnouncementRepository announcementRepository, IEmailService emailService, IImageService imageService, IHostEnvironment hostEnvironment,InstituteDbContext context)
         {
             _courseRepository = courseRepository;
             _studentRepository = studentRepository;
             _announcementRepository = announcementRepository;
             _emailService = emailService;
+            _imageService = imageService;
+            _hostEnvironment = hostEnvironment;
             _context = context;
         }
 
@@ -35,7 +40,7 @@ namespace IT_Institute_Management.Services
                 Level = course.Level,
                 Duration = course.Duration,
                 Fees = course.Fees,
-                ImagePath = course.ImagePath
+                ImagePaths = course.ImagePaths.Split(',').ToList() 
             });
         }
 
@@ -53,25 +58,39 @@ namespace IT_Institute_Management.Services
                 Level = course.Level,
                 Duration = course.Duration,
                 Fees = course.Fees,
-                ImagePath = course.ImagePath
+                ImagePaths = course.ImagePaths.Split(',').ToList() 
             };
         }
 
 
-        public async Task CreateCourseAsync(CourseRequestDTO courseRequest)
+        public async Task CreateCourseAsync(CourseRequestDTO courseRequest, List<IFormFile> images)
         {
+
+            if (courseRequest.Level != "Beginner" && courseRequest.Level != "Intermediate")
+            {
+                throw new Exception("Level must be either 'Beginner' or 'Intermediate'.");
+            }
+
+            
+            if (courseRequest.Duration != 2 && courseRequest.Duration != 6)
+            {
+                throw new Exception("Duration must be either '2' or '6' months.");
+            }
+
+            var imagePaths = await SaveImagesAsync(images);
+
             var course = new Course
             {
                 CourseName = courseRequest.CourseName,
                 Level = courseRequest.Level,
                 Duration = courseRequest.Duration,
                 Fees = courseRequest.Fees,
-                ImagePath = courseRequest.ImagePath
+                ImagePaths = string.Join(",", imagePaths) 
             };
 
             await _courseRepository.AddCourseAsync(course);
 
-            // Create an Announcement
+            
             var announcement = new Announcement
             {
                 Title = $"New Course: {course.CourseName}",
@@ -80,7 +99,6 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-            // Send Email to All Students
             var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {
@@ -96,22 +114,64 @@ namespace IT_Institute_Management.Services
         }
 
 
+        private async Task<List<string>> SaveImagesAsync(List<IFormFile> images)
+        {
+            var imagePaths = new List<string>();
 
-        public async Task UpdateCourseAsync(Guid id, CourseRequestDTO courseRequest)
+            foreach (var image in images)
+            {
+                
+                var imagePath = await _imageService.SaveImage(image, "courses");
+                imagePaths.Add(imagePath);
+            }
+
+            return imagePaths;
+        }
+
+
+        public async Task UpdateCourseAsync(Guid id, CourseRequestDTO courseRequest, List<IFormFile> images)
         {
             var course = await _courseRepository.GetCourseByIdAsync(id);
             if (course == null)
                 throw new KeyNotFoundException("Course not found.");
 
+            var imagePaths = new List<string>();
+            if (images != null && images.Any())
+            {
+               
+                foreach (var image in images)
+                {
+                    var imagePath = await _imageService.SaveImage(image, "courses");
+                    imagePaths.Add(imagePath);
+                }
+            }
+            else
+            {
+                
+                imagePaths = course.ImagePaths.Split(",").ToList();
+            }
+
+            if (courseRequest.Level != "Beginner" && courseRequest.Level != "Intermediate")
+            {
+                throw new Exception("Level must be either 'Beginner' or 'Intermediate'.");
+            }
+
+
+            if (courseRequest.Duration != 2 && courseRequest.Duration != 6)
+            {
+                throw new Exception("Duration must be either '2' or '6' months.");
+            }
+
+
             course.CourseName = courseRequest.CourseName;
             course.Level = courseRequest.Level;
             course.Duration = courseRequest.Duration;
             course.Fees = courseRequest.Fees;
-            course.ImagePath = courseRequest.ImagePath;
+            course.ImagePaths = string.Join(",", imagePaths); 
 
             await _courseRepository.UpdateCourseAsync(course);
 
-            // Create an Announcement for the update
+           
             var announcement = new Announcement
             {
                 Title = $"Updated Course: {course.CourseName}",
@@ -120,7 +180,7 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-            // Send Email to All Students about the update
+           
             var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {
@@ -141,9 +201,18 @@ namespace IT_Institute_Management.Services
             if (!courseExists)
                 throw new KeyNotFoundException("Course not found.");
 
+            var course = await _courseRepository.GetCourseByIdAsync(id);
+
+            
+            var imagePaths = course.ImagePaths.Split(',');
+            foreach (var imagePath in imagePaths)
+            {
+                _imageService.DeleteImage(imagePath);
+            }
+
             await _courseRepository.DeleteCourseAsync(id);
 
-            // Create an Announcement for course deletion
+           
             var announcement = new Announcement
             {
                 Title = "Course Deleted",
@@ -152,7 +221,7 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-            // Send Email to All Students about the deletion
+          
             var students = await _studentRepository.GetAllAsync();
             foreach (var student in students)
             {

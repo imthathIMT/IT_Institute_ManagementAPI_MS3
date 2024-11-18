@@ -6,8 +6,10 @@ namespace IT_Institute_Management.IRepositories
     {
         Task<IEnumerable<Payment>> GetAllPaymentsAsync();
         Task<Payment> GetPaymentByIdAsync(Guid id);
+        Task<IEnumerable<Payment>> GetPaymentsByStudentNICAsync(string nic);
         Task CreatePaymentAsync(Payment payment);
         Task UpdatePaymentAsync(Payment payment);
         Task DeletePaymentAsync(Guid id);
+        Task<IEnumerable<Payment>> GetPaymentsByEnrollmentIdAsync(Guid enrollmentId);
     }
 }

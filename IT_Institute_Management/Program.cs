@@ -1,13 +1,22 @@
 using IT_Institute_Management.Database;
 using IT_Institute_Management.EmailSerivice;
+using IT_Institute_Management.ImageService;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
+using IT_Institute_Management.PasswordService;
 using IT_Institute_Management.Repositories;
 using IT_Institute_Management.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    });
 
 // Add services to the container.
 
@@ -27,9 +36,14 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 
+builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
 
 builder.Services.AddScoped<IAdminRepository,AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 
 builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
@@ -38,8 +52,18 @@ builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 builder.Services.AddScoped<IContactUsRepository, ContactUsRepository>();
 builder.Services.AddScoped<IContactUsService, ContactUsService>();
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+
+builder.Services.AddScoped<IImageService, ImageService>();
+
+
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+
 
 
 
@@ -57,7 +81,6 @@ builder.Services.AddCors(option =>
 
    var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -67,6 +90,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseStaticFiles();  
 
 app.UseCors("AllowSpecificOrigins");
 

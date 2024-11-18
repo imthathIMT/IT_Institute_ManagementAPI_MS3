@@ -1,11 +1,17 @@
-﻿namespace IT_Institute_Management.DTO.RequestDTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace IT_Institute_Management.DTO.RequestDTO
 {
     public class PaymentRequestDto
     {
+        [Required]
         public decimal Amount { get; set; }
+
+        [Required]
         public DateTime PaymentDate { get; set; }
-        public decimal FullAmount { get; set; }
-        public decimal DueAmount { get; set; }
+
+        [Required]
+
         public Guid EnrollmentId { get; set; }
     }
 }

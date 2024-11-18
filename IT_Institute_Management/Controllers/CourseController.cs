@@ -52,11 +52,14 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateCourse(CourseRequestDTO courseRequest)
+        public async Task<IActionResult> CreateCourse(
+                   [FromForm] CourseRequestDTO courseRequest,
+                   [FromForm] List<IFormFile> images)
         {
             try
             {
-                await _courseService.CreateCourseAsync(courseRequest);
+                
+                await _courseService.CreateCourseAsync(courseRequest, images);
                 return CreatedAtAction(nameof(GetCourseById), new { id = courseRequest.CourseName }, courseRequest);
             }
             catch (Exception ex)
@@ -67,12 +70,16 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCourse(Guid id, CourseRequestDTO courseRequest)
+        public async Task<IActionResult> UpdateCourse(
+                   Guid id,
+                   [FromForm] CourseRequestDTO courseRequest,
+                   [FromForm] List<IFormFile> images)
         {
             try
             {
-                await _courseService.UpdateCourseAsync(id, courseRequest);
-                return NoContent();
+               
+                await _courseService.UpdateCourseAsync(id, courseRequest, images);
+                return Ok("Course updated successfully");
             }
             catch (KeyNotFoundException)
             {
@@ -85,6 +92,8 @@ namespace IT_Institute_Management.Controllers
         }
 
 
+
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse(Guid id)
         {

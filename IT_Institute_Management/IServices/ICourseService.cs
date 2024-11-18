@@ -5,10 +5,10 @@ namespace IT_Institute_Management.IServices
 {
     public interface ICourseService
     {
-        Task<IEnumerable<CourseResponseDTO>> GetAllCoursesAsync();
-        Task<CourseResponseDTO> GetCourseByIdAsync(Guid id);
-        Task CreateCourseAsync(CourseRequestDTO courseRequest);
-        Task UpdateCourseAsync(Guid id, CourseRequestDTO courseRequest);
-        Task DeleteCourseAsync(Guid id);
+      Task<IEnumerable<CourseResponseDTO>> GetAllCoursesAsync();
+      Task<CourseResponseDTO> GetCourseByIdAsync(Guid id);
+      Task CreateCourseAsync(CourseRequestDTO courseRequest, List<IFormFile> images);     
+      Task UpdateCourseAsync(Guid id, CourseRequestDTO courseRequest, List<IFormFile> images);
+      Task DeleteCourseAsync(Guid id);
     }
 }

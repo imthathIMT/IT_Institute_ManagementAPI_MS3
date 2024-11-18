@@ -23,6 +23,8 @@ namespace IT_Institute_Management.Controllers
             _studentService = studentService;
         }
 
+
+
         [HttpGet]
         public async Task<IActionResult> GetAllStudents()
         {
@@ -33,9 +35,11 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+                return BadRequest(ex.Message);
             }
         }
+
+
 
         [HttpGet("{nic}")]
         public async Task<IActionResult> GetStudentByNic(string nic)
@@ -47,12 +51,14 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
+
+
         [HttpPost]
-        public async Task<IActionResult> AddStudent([FromBody] StudentRequestDto studentDto)
+        public async Task<IActionResult> AddStudent( StudentRequestDto studentDto)
         {
             try
             {
@@ -61,23 +67,28 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
+
+
         [HttpPut("{nic}")]
-        public async Task<IActionResult> UpdateStudent(string nic, [FromBody] StudentRequestDto studentDto)
+        public async Task<IActionResult> UpdateStudent(string nic, [FromForm] StudentRequestDto studentDto)
         {
             try
             {
+               
                 await _studentService.UpdateStudentAsync(nic, studentDto);
-                return NoContent();
+                return Ok(new { message = "Student Successfully Updated." });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+                return BadRequest(new { message = ex.Message });
             }
         }
+
+
 
         [HttpDelete("{nic}")]
         public async Task<IActionResult> DeleteStudent(string nic)
@@ -85,12 +96,45 @@ namespace IT_Institute_Management.Controllers
             try
             {
                 await _studentService.DeleteStudentAsync(nic);
-                return NoContent();
+                return Ok(new { message = "Student Successfully Deleted." });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+                return BadRequest(new { message = ex.Message });
             }
+        }
+
+
+
+       
+        [HttpPut("{nic}/update-password")]
+        public async Task<IActionResult> UpdatePassword(string nic, UpdatePasswordRequestDto updatePasswordDto)
+        {
+            try
+            {
+                
+                await _studentService.UpdatePasswordAsync(nic, updatePasswordDto);
+
+                
+                return Ok(new { message = "Password updated successfully." });
+            }
+            catch (ApplicationException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+     
+
+        [HttpPost("test")]
+        public async void imageUpload(StudentRequestDto studentDto)
+        {
+            
         }
     }
 }

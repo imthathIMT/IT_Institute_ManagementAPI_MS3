@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace IT_Institute_Management.Entity
 {
@@ -6,8 +7,7 @@ namespace IT_Institute_Management.Entity
     {
         [Key]
         [Required(ErrorMessage = "NIC is required.")]
-        [RegularExpression(@"^(?!.*[^0-9VXZ]).{9}$|^(?!.*[^0-9]).{12}$",
-            ErrorMessage = "NIC must be either 9 digits followed by V/Z/X or 12 digits.")]
+        [RegularExpression(@"^\d{9}[vxzVXZ]$|^\d{12}$", ErrorMessage = "Invalid NIC format.")]
         public string NIC { get; set; }
 
         [Required(ErrorMessage = "First name is required.")]
@@ -28,14 +28,6 @@ namespace IT_Institute_Management.Entity
             ErrorMessage = "Phone number must be in a valid international format. Example format: +44 20 7946 0958.")]
         public string? Phone { get; set; }
 
-        
-        [Required(ErrorMessage = "Phone number is required.")]
-        [RegularExpression(@"^\+?(\d{1,4})?[\s\-]?\(?\d{1,4}?\)?[\s\-]?\d{1,4}[\s\-]?\d{1,4}[\s\-]?\d{1,4}$",
-    ErrorMessage = "Phone number must be in a valid international format. Example format: +44 20 7946 0958.")]
-        public string? WhatsappNuber { get; set; }
-
-
-
         [Required(ErrorMessage = "Password is required.")]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$",
             ErrorMessage = "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.")]
@@ -43,13 +35,15 @@ namespace IT_Institute_Management.Entity
 
         public string? ImagePath { get; set; }
 
-        public bool Status { get; set; }  // Indicates if the account is locked (true) or unlocked (false)
+        public bool IsLocked { get; set; } 
 
- 
+        public Guid UserId { get; set; }
+        public User? User { get; set; }
 
         public Address? Address { get; set; }
 
         public ICollection<Notification>? Notification { get; set; }
+        [JsonIgnore]
         public ICollection<Enrollment>? Enrollment { get; set; }
 
        

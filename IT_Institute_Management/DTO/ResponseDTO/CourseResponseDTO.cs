@@ -23,6 +23,6 @@ namespace IT_Institute_Management.DTO.ResponseDTO
 
         [Required(ErrorMessage = "Image path is required.")]
         [MaxLength(255, ErrorMessage = "Image path cannot exceed 255 characters.")]
-        public string ImagePath { get; set; }
+        public List<string> ImagePaths { get; set; }
     }
 }
