@@ -89,7 +89,7 @@ namespace IT_Institute_Management.Services
             var totalPaid = await GetTotalPaymentsAsync(paymentRequestDto.EnrollmentId); // Get total amount already paid for the course
             var fullAmount = course.Fees;
             var courseDurationMonths = course.Duration;
-            var monthlyInstallment = fullAmount / courseDurationMonths; // Assuming installment plan is based on total course fees and duration
+            var monthlyInstallment = fullAmount / courseDurationMonths;
 
             // Full Payment Plan Validation
             if (enrollment.PaymentPlan == "Full")
@@ -107,6 +107,7 @@ namespace IT_Institute_Management.Services
             // Installment Payment Validation
             else if (enrollment.PaymentPlan == "Installment")
             {
+                // Ensure the installment amount is within allowed limits
                 if (paymentRequestDto.Amount < monthlyInstallment)
                 {
                     throw new InvalidOperationException($"Installment amount must be at least {monthlyInstallment:C}.");
@@ -115,6 +116,21 @@ namespace IT_Institute_Management.Services
                 if (paymentRequestDto.Amount > monthlyInstallment)
                 {
                     throw new InvalidOperationException($"Installment amount cannot exceed {monthlyInstallment:C}.");
+                }
+
+                // Check if the payment is being made after a month from the last payment
+                var lastPayment = (await _paymentRepository.GetPaymentsByEnrollmentIdAsync(paymentRequestDto.EnrollmentId))
+                                    .OrderByDescending(p => p.PaymentDate)
+                                    .FirstOrDefault();
+
+                if (lastPayment != null)
+                {
+                    var nextPaymentDate = lastPayment.PaymentDate.AddMonths(1); // Add 1 month to last payment date
+                    if (paymentRequestDto.PaymentDate < nextPaymentDate)
+                    {
+                        // Return the error message with the next payment date
+                        throw new InvalidOperationException($"Next installment can only be paid after 1 month from the previous payment. The next payment date is {nextPaymentDate:MMMM dd, yyyy}.");
+                    }
                 }
 
                 var remainingMonths = courseDurationMonths - (totalPaid / monthlyInstallment);
@@ -127,8 +143,6 @@ namespace IT_Institute_Management.Services
                 {
                     throw new InvalidOperationException($"The total amount paid cannot exceed the course fee ({fullAmount:C}).");
                 }
-
-              
             }
             else
             {
@@ -157,6 +171,7 @@ namespace IT_Institute_Management.Services
             // Save the payment to the repository
             await _paymentRepository.CreatePaymentAsync(payment);
         }
+
 
         public async Task UpdatePaymentAsync(Guid id, PaymentRequestDto paymentRequestDto)
         {
@@ -193,6 +208,7 @@ namespace IT_Institute_Management.Services
             // Installment Payment Validation
             else if (enrollment.PaymentPlan == "Installment")
             {
+                // Ensure the installment amount is within allowed limits
                 if (paymentRequestDto.Amount < monthlyInstallment)
                 {
                     throw new InvalidOperationException($"Installment amount must be at least {monthlyInstallment:C}.");
@@ -201,6 +217,21 @@ namespace IT_Institute_Management.Services
                 if (paymentRequestDto.Amount > monthlyInstallment)
                 {
                     throw new InvalidOperationException($"Installment amount cannot exceed {monthlyInstallment:C}.");
+                }
+
+                // Check if the payment is being made after a month from the last payment
+                var lastPayment = (await _paymentRepository.GetPaymentsByEnrollmentIdAsync(paymentRequestDto.EnrollmentId))
+                                    .OrderByDescending(p => p.PaymentDate)
+                                    .FirstOrDefault();
+
+                if (lastPayment != null)
+                {
+                    var nextPaymentDate = lastPayment.PaymentDate.AddMonths(1); // Add 1 month to last payment date
+                    if (paymentRequestDto.PaymentDate < nextPaymentDate)
+                    {
+                        // Return the error message with the next payment date
+                        throw new InvalidOperationException($"Next installment can only be paid after 1 month from the previous payment. The next payment date is {nextPaymentDate:MMMM dd, yyyy}.");
+                    }
                 }
 
                 var remainingMonths = courseDurationMonths - (totalPaid / monthlyInstallment);
@@ -213,8 +244,6 @@ namespace IT_Institute_Management.Services
                 {
                     throw new InvalidOperationException($"The total amount paid cannot exceed the course fee ({fullAmount:C}).");
                 }
-
-               
             }
             else
             {
@@ -239,6 +268,7 @@ namespace IT_Institute_Management.Services
             // Save the updated payment to the repository
             await _paymentRepository.UpdatePaymentAsync(existingPayment);
         }
+
 
 
         // Get payments by student NIC
