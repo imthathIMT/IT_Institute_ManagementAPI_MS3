@@ -323,12 +323,14 @@ namespace IT_Institute_Management.Services
             await _paymentRepository.DeletePaymentAsync(id);
         }
 
+
         private async Task<decimal> CalculateFullAmountAsync(Guid enrollmentId)
         {
             var enrollment = await _enrollmentRepository.GetEnrollmentByIdAsync(enrollmentId);
             var course = await _courseRepository.GetCourseByIdAsync(enrollment.CourseId);
             return course?.Fees ?? 0m;
         }
+
 
         private async Task<decimal> GetTotalPaymentsAsync(Guid enrollmentId)
         {
