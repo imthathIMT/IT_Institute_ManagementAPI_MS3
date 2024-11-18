@@ -11,5 +11,7 @@ namespace IT_Institute_Management.IServices
         Task AddAsync(UserRequestDto userDto, Role role);
         Task UpdateAsync(string nic, UserRequestDto userDto);
         Task DeleteAsync(string nic);
+
+        Task<UserLoginModal> loginUserGet(string nic);
     }
 }
