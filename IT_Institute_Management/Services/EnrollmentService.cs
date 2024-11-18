@@ -21,6 +21,13 @@ namespace IT_Institute_Management.Services
             var course = await _courseRepo.GetCourseByIdAsync(enrollmentRequest.CourseId);
             if (course == null) throw new Exception("Course not found.");
 
+           
+            var existingEnrollment = await _repo.GetEnrollmentByNICAsync(enrollmentRequest.StudentNIC);
+            if (existingEnrollment.Any(e => e.CourseId == enrollmentRequest.CourseId))
+            {
+                throw new Exception("Student is already enrolled in this course.");
+            }
+
             var enrollment = new Enrollment
             {
                 Id = Guid.NewGuid(),
@@ -36,7 +43,8 @@ namespace IT_Institute_Management.Services
 
 
 
-     
+
+
 
 
 

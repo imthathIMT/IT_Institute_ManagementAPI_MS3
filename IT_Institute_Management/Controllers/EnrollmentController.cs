@@ -16,7 +16,6 @@ namespace IT_Institute_Management.Controllers
             _enrollmentService = enrollmentService;
         }
 
-
         [HttpPost]
         public async Task<IActionResult> CreateEnrollment([FromBody] EnrollmentRequestDto enrollmentRequest)
         {
@@ -30,6 +29,7 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
 
 
         [HttpGet]
