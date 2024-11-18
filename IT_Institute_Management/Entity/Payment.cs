@@ -6,19 +6,19 @@ namespace IT_Institute_Management.Entity
     {
         [Key]
         public Guid Id { get; set; }
+        public decimal TotalPaidAmount { get; set; }
 
         [Required(ErrorMessage = "Amount is required.")]
         public decimal Amount { get; set; }
 
-        public decimal FullAmount { get; set; }
         public decimal DueAmount { get; set; }
 
         [Required(ErrorMessage = "Payment date is required.")]
         public DateTime PaymentDate { get; set; }
 
-        public Enrollment? Enrollment { get; set; } 
+        public Enrollment? Enrollment { get; set; }
 
-        public Guid? EnrollmentId { get; set; } 
+        public Guid? EnrollmentId { get; set; }
 
     }
 }
