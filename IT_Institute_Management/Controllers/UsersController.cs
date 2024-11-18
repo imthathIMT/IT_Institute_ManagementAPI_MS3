@@ -91,21 +91,6 @@ namespace IT_Institute_Management.Controllers
 
 
 
-        [HttpPost]
-        [Route("login")]
-        public async Task<ActionResult<string>> Login(UserLoginModal request)
-        {
-            var user = await _userService.GetByIdAsync(request.nic);
-            if (user == null)
-            {
-                throw new Exception("User not found.");
-            }
-            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.password))
-            {
-                throw new Exception("Wrong password.");
-            }
-            var token = "Login successfull";
-            return Ok(token);
-        }
+       
     }
 }

@@ -18,7 +18,23 @@ namespace IT_Institute_Management.Services
         {
             var user = await _authRepository.GetLoginUser(nic);
 
-            var response = 
+            if(user != null)
+            {
+                var response = new UserLoginModal()
+                {
+                    nic = user.NIC,
+                    Password = user.Password,
+                };
+
+                return response;
+            }
+            else
+            {
+                throw new Exception("User not found");
+            }
+
+
+            
 
         }
 
