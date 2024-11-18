@@ -21,17 +21,19 @@ namespace IT_Institute_Management.Controllers
         [Route("login")]
         public async Task<ActionResult<string>> Login(UserLoginModal request)
         {
-            var user = await _authService.GetLoginUser(request.nic);
-            if (user == null)
+            
+
+            try
             {
-                throw new Exception("User not found.");
+                var token = await _authService.GetLoginUserToken(request);
+                return Ok(token);
+
             }
-            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
+            catch (Exception ex)
             {
-                throw new Exception("Wrong password.");
+                return BadRequest(ex.Message);
             }
-            var token = "Login successfull";
-            return Ok(token);
+           
         }
     }
 }

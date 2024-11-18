@@ -4,6 +4,6 @@ namespace IT_Institute_Management.IServices
 {
     public interface IAuthService
     {
-        Task<UserLoginModal> GetLoginUser(string nic);
+        Task<string> GetLoginUserToken(UserLoginModal request);
     }
 }
