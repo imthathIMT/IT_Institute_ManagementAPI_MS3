@@ -64,10 +64,10 @@ namespace IT_Institute_Management.Repositories
 
         public async Task<IEnumerable<Enrollment>> DeleteEnrollmentsByNICAsync(string nic)
         {
-            var enrollments = await GetEnrollmentByNICAsync(nic);  // This returns a collection of enrollments
+            var enrollments = await GetEnrollmentByNICAsync(nic);  
             if (enrollments != null && enrollments.Any())
             {
-                _context.Enrollment.RemoveRange(enrollments);  // Remove all enrollments
+                _context.Enrollment.RemoveRange(enrollments); 
                 await SaveChangesAsync();
             }
             return enrollments;
