@@ -65,7 +65,18 @@ namespace IT_Institute_Management.Services
 
         public async Task CreateCourseAsync(CourseRequestDTO courseRequest, List<IFormFile> images)
         {
+
+            if (courseRequest.Level != "Beginner" && courseRequest.Level != "Intermediate")
+            {
+                throw new Exception("Level must be either 'Beginner' or 'Intermediate'.");
+            }
+
             
+            if (courseRequest.Duration != 2 && courseRequest.Duration != 6)
+            {
+                throw new Exception("Duration must be either '2' or '6' months.");
+            }
+
             var imagePaths = await SaveImagesAsync(images);
 
             var course = new Course
@@ -140,7 +151,18 @@ namespace IT_Institute_Management.Services
                 imagePaths = course.ImagePaths.Split(",").ToList();
             }
 
-          
+            if (courseRequest.Level != "Beginner" && courseRequest.Level != "Intermediate")
+            {
+                throw new Exception("Level must be either 'Beginner' or 'Intermediate'.");
+            }
+
+
+            if (courseRequest.Duration != 2 && courseRequest.Duration != 6)
+            {
+                throw new Exception("Duration must be either '2' or '6' months.");
+            }
+
+
             course.CourseName = courseRequest.CourseName;
             course.Level = courseRequest.Level;
             course.Duration = courseRequest.Duration;

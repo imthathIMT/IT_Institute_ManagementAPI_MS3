@@ -28,6 +28,11 @@ namespace IT_Institute_Management.Services
                 throw new Exception("Student is already enrolled in this course.");
             }
 
+            if (enrollmentRequest.PaymentPlan != "Full" && enrollmentRequest.PaymentPlan != "Installment")
+            {
+                throw new Exception("Payment plan must be either 'Full' or 'Installment'.");
+            }
+
             var enrollment = new Enrollment
             {
                 Id = Guid.NewGuid(),
@@ -81,6 +86,13 @@ namespace IT_Institute_Management.Services
 
             var course = await _courseRepo.GetCourseByIdAsync(enrollmentRequest.CourseId);
             if (course == null) throw new Exception("Course not found.");
+
+
+            if (enrollmentRequest.PaymentPlan != "Full" && enrollmentRequest.PaymentPlan != "Installment")
+            {
+                throw new Exception("Payment plan must be either 'Full' or 'Installment'.");
+            }
+
 
             enrollment.PaymentPlan = enrollmentRequest.PaymentPlan;
             enrollment.StudentNIC = enrollmentRequest.StudentNIC;
