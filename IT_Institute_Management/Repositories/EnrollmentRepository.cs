@@ -31,13 +31,12 @@ namespace IT_Institute_Management.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task<Enrollment> GetEnrollmentByNICAsync(string nic)
-        {
-            return await _context.Enrollment
-                .Include(e => e.Student)
-                .Include(e => e.Course)
-                .FirstOrDefaultAsync(e => e.StudentNIC == nic);
-        }
+        public async Task<IEnumerable<Enrollment>> GetEnrollmentByNICAsync(string nic)
+    {
+        return await _context.Enrollment
+                              .Where(e => e.Student.NIC == nic)
+                              .ToListAsync();
+    }
 
 
         public async Task<IEnumerable<Enrollment>> GetAllEnrollmentsAsync()
@@ -63,16 +62,17 @@ namespace IT_Institute_Management.Repositories
 
 
 
-        public async Task<Enrollment> DeleteEnrollmentByNICAsync(string nic)
+        public async Task<IEnumerable<Enrollment>> DeleteEnrollmentsByNICAsync(string nic)
         {
-            var enrollment = await GetEnrollmentByNICAsync(nic);
-            if (enrollment != null)
+            var enrollments = await GetEnrollmentByNICAsync(nic);  // This returns a collection of enrollments
+            if (enrollments != null && enrollments.Any())
             {
-                _context.Enrollment.Remove(enrollment);
+                _context.Enrollment.RemoveRange(enrollments);  // Remove all enrollments
                 await SaveChangesAsync();
             }
-            return enrollment;
+            return enrollments;
         }
+
 
 
         public async Task SaveChangesAsync()

@@ -11,15 +11,16 @@ namespace IT_Institute_Management.Services
         private readonly IPaymentRepository _paymentRepository;
         private readonly ICourseRepository _courseRepository;
         private readonly IEnrollmentRepository _enrollmentRepository; // Added to fetch enrollment details
+        private readonly IStudentRepository _studentRepository;
 
-        public PaymentService(IPaymentRepository paymentRepository, ICourseRepository courseRepository, IEnrollmentRepository enrollmentRepository)
+        public PaymentService(IPaymentRepository paymentRepository, ICourseRepository courseRepository, IEnrollmentRepository enrollmentRepository, IStudentRepository studentRepository)
         {
             _paymentRepository = paymentRepository;
             _courseRepository = courseRepository;
             _enrollmentRepository = enrollmentRepository; // Initialize the enrollment repository
+            _studentRepository = studentRepository;
         }
 
-        // Get all payments
         public async Task<IEnumerable<PaymentResponseDto>> GetAllPaymentsAsync()
         {
             var payments = await _paymentRepository.GetAllPaymentsAsync();
@@ -27,8 +28,8 @@ namespace IT_Institute_Management.Services
 
             foreach (var p in payments)
             {
-                var fullAmount = await CalculateFullAmountAsync(p.EnrollmentId.GetValueOrDefault());
                 var totalPaid = (await _paymentRepository.GetPaymentsByEnrollmentIdAsync(p.EnrollmentId.GetValueOrDefault())).Sum(payment => payment.Amount);
+                var fullAmount = await CalculateFullAmountAsync(p.EnrollmentId.GetValueOrDefault());
                 var dueAmount = fullAmount - totalPaid;
 
                 // Ensure the due amount never goes negative
@@ -40,7 +41,7 @@ namespace IT_Institute_Management.Services
                     Amount = p.Amount,
                     PaymentDate = p.PaymentDate,
                     EnrollmentId = p.EnrollmentId.GetValueOrDefault(),
-                    FullAmount = fullAmount,
+                    TotalPaidAmount = totalPaid, // Use TotalPaidAmount
                     DueAmount = dueAmount
                 });
             }
@@ -48,7 +49,6 @@ namespace IT_Institute_Management.Services
             return paymentDtos;
         }
 
-        // Get a payment by ID
         public async Task<PaymentResponseDto> GetPaymentByIdAsync(Guid id)
         {
             var payment = await _paymentRepository.GetPaymentByIdAsync(id);
@@ -56,8 +56,8 @@ namespace IT_Institute_Management.Services
             if (payment == null)
                 throw new KeyNotFoundException("Payment not found.");
 
-            var fullAmount = await CalculateFullAmountAsync(payment.EnrollmentId.GetValueOrDefault());
             var totalPaid = (await _paymentRepository.GetPaymentsByEnrollmentIdAsync(payment.EnrollmentId.GetValueOrDefault())).Sum(p => p.Amount);
+            var fullAmount = await CalculateFullAmountAsync(payment.EnrollmentId.GetValueOrDefault());
             var dueAmount = fullAmount - totalPaid;
 
             // Ensure the due amount never goes negative
@@ -69,12 +69,13 @@ namespace IT_Institute_Management.Services
                 Amount = payment.Amount,
                 PaymentDate = payment.PaymentDate,
                 EnrollmentId = payment.EnrollmentId.GetValueOrDefault(),
-                FullAmount = fullAmount,
+                TotalPaidAmount = totalPaid, // TotalPaidAmount
                 DueAmount = dueAmount
             };
         }
 
-        // Create a new payment
+
+
         public async Task CreatePaymentAsync(PaymentRequestDto paymentRequestDto)
         {
             var enrollment = await _enrollmentRepository.GetEnrollmentByIdAsync(paymentRequestDto.EnrollmentId);
@@ -85,13 +86,12 @@ namespace IT_Institute_Management.Services
             if (course == null)
                 throw new KeyNotFoundException("Course not found.");
 
+            var totalPaid = await GetTotalPaymentsAsync(paymentRequestDto.EnrollmentId); // Get total amount already paid for the course
             var fullAmount = course.Fees;
             var courseDurationMonths = course.Duration;
-            var monthlyInstallment = fullAmount / courseDurationMonths;
+            var monthlyInstallment = fullAmount / courseDurationMonths; // Assuming installment plan is based on total course fees and duration
 
-            var totalPaid = await GetTotalPaymentsAsync(paymentRequestDto.EnrollmentId);
-
-            // Full Payment Validation
+            // Full Payment Plan Validation
             if (enrollment.PaymentPlan == "Full")
             {
                 if (totalPaid > 0)
@@ -117,46 +117,50 @@ namespace IT_Institute_Management.Services
                     throw new InvalidOperationException($"Installment amount cannot exceed {monthlyInstallment:C}.");
                 }
 
-                if (totalPaid + paymentRequestDto.Amount > fullAmount)
-                {
-                    throw new InvalidOperationException($"The total amount paid cannot exceed the course fee ({fullAmount:C}).");
-                }
-
                 var remainingMonths = courseDurationMonths - (totalPaid / monthlyInstallment);
                 if (remainingMonths <= 0)
                 {
                     throw new InvalidOperationException("All installments have been paid. No further payments are allowed.");
                 }
+
+                if (totalPaid + paymentRequestDto.Amount > fullAmount)
+                {
+                    throw new InvalidOperationException($"The total amount paid cannot exceed the course fee ({fullAmount:C}).");
+                }
+
+              
             }
             else
             {
                 throw new InvalidOperationException("Unknown payment plan type.");
             }
 
+            // Calculate the remaining due amount for installment plan
+            var dueAmount = fullAmount - totalPaid - paymentRequestDto.Amount;
+
+            // If the amount to be paid exceeds the due amount, it's an error
+            if (dueAmount < 0)
+            {
+                throw new InvalidOperationException($"Amount paid exceeds the due amount for the course. Due amount: {fullAmount - totalPaid:C}");
+            }
+
+            // Proceed to create the payment
             var payment = new Payment
             {
                 Amount = paymentRequestDto.Amount,
-                FullAmount = fullAmount,  
-                DueAmount = fullAmount - totalPaid - paymentRequestDto.Amount,
+                TotalPaidAmount = totalPaid + paymentRequestDto.Amount, // Updated to reflect the new total paid amount
+                DueAmount = dueAmount, // Remaining amount to be paid
                 PaymentDate = paymentRequestDto.PaymentDate,
                 EnrollmentId = paymentRequestDto.EnrollmentId
             };
 
-            // After the payment is validated, we now reduce the due amount
-            var dueAmount = fullAmount - totalPaid - paymentRequestDto.Amount;
-            if (dueAmount < 0)
-            {
-                throw new InvalidOperationException("Amount paid exceeds the course fee.");
-            }
-
+            // Save the payment to the repository
             await _paymentRepository.CreatePaymentAsync(payment);
         }
 
-        // Update an existing payment
         public async Task UpdatePaymentAsync(Guid id, PaymentRequestDto paymentRequestDto)
         {
             var existingPayment = await _paymentRepository.GetPaymentByIdAsync(id);
-
             if (existingPayment == null)
                 throw new KeyNotFoundException("Payment not found.");
 
@@ -168,13 +172,12 @@ namespace IT_Institute_Management.Services
             if (course == null)
                 throw new KeyNotFoundException("Course not found.");
 
+            var totalPaid = await GetTotalPaymentsAsync(paymentRequestDto.EnrollmentId); // Get total amount already paid for the course
             var fullAmount = course.Fees;
             var courseDurationMonths = course.Duration;
             var monthlyInstallment = fullAmount / courseDurationMonths;
 
-            var totalPaid = await GetTotalPaymentsAsync(paymentRequestDto.EnrollmentId);
-
-            // Full Payment Validation
+            // Full Payment Plan Validation
             if (enrollment.PaymentPlan == "Full")
             {
                 if (totalPaid > 0)
@@ -200,89 +203,110 @@ namespace IT_Institute_Management.Services
                     throw new InvalidOperationException($"Installment amount cannot exceed {monthlyInstallment:C}.");
                 }
 
-                if (totalPaid + paymentRequestDto.Amount > fullAmount)
-                {
-                    throw new InvalidOperationException($"The total amount paid cannot exceed the course fee ({fullAmount:C}).");
-                }
-
                 var remainingMonths = courseDurationMonths - (totalPaid / monthlyInstallment);
                 if (remainingMonths <= 0)
                 {
                     throw new InvalidOperationException("All installments have been paid. No further payments are allowed.");
                 }
+
+                if (totalPaid + paymentRequestDto.Amount > fullAmount)
+                {
+                    throw new InvalidOperationException($"The total amount paid cannot exceed the course fee ({fullAmount:C}).");
+                }
+
+               
             }
             else
             {
                 throw new InvalidOperationException("Unknown payment plan type.");
             }
 
+            // Calculate the remaining due amount for installment plan
+            var dueAmount = fullAmount - totalPaid - paymentRequestDto.Amount;
+
+            // If the amount to be paid exceeds the due amount, it's an error
+            if (dueAmount < 0)
+            {
+                throw new InvalidOperationException($"Amount paid exceeds the due amount for the course. Due amount: {fullAmount - totalPaid:C}");
+            }
+
+            // Update the existing payment
             existingPayment.Amount = paymentRequestDto.Amount;
+            existingPayment.TotalPaidAmount = totalPaid + paymentRequestDto.Amount; // Updated to reflect the new total paid amount
+            existingPayment.DueAmount = dueAmount; // Update due amount based on the total payments made so far
             existingPayment.PaymentDate = paymentRequestDto.PaymentDate;
 
+            // Save the updated payment to the repository
             await _paymentRepository.UpdatePaymentAsync(existingPayment);
         }
 
-        // Delete a payment by ID
+
+        // Get payments by student NIC
+        public async Task<IEnumerable<PaymentResponseDto>> GetPaymentsByStudentNICAsync(string nic)
+        {
+            // Step 1: Get the student by NIC
+            var student = await _studentRepository.GetByNicAsync(nic);
+            if (student == null)
+                throw new KeyNotFoundException("Student not found.");
+
+            // Step 2: Get enrollments for the student
+            var enrollments = await _enrollmentRepository.GetEnrollmentByNICAsync(student.NIC);
+            if (enrollments == null || !enrollments.Any())
+                throw new KeyNotFoundException("No enrollments found for this student.");
+
+            // Step 3: Get the payments for the student's enrollments
+            var paymentDtos = new List<PaymentResponseDto>();
+            foreach (var enrollment in enrollments)
+            {
+                // Get payments for this enrollment
+                var payments = await _paymentRepository.GetPaymentsByEnrollmentIdAsync(enrollment.Id);
+                foreach (var payment in payments)
+                {
+                    // Calculate total paid for this enrollment
+                    var totalPaid = (await _paymentRepository.GetPaymentsByEnrollmentIdAsync(payment.EnrollmentId.GetValueOrDefault()))
+                                    .Sum(p => p.Amount);
+
+                    // Calculate the full amount for the course
+                    var fullAmount = await CalculateFullAmountAsync(payment.EnrollmentId.GetValueOrDefault());
+
+                    // Calculate due amount
+                    var dueAmount = fullAmount - totalPaid;
+
+                    // Ensure the due amount never goes negative
+                    dueAmount = dueAmount < 0 ? 0 : dueAmount;
+
+                    // Add payment details to the response list
+                    paymentDtos.Add(new PaymentResponseDto
+                    {
+                        Id = payment.Id,
+                        Amount = payment.Amount,
+                        PaymentDate = payment.PaymentDate,
+                        EnrollmentId = payment.EnrollmentId.GetValueOrDefault(),
+                        TotalPaidAmount = totalPaid,
+                        DueAmount = dueAmount
+                    });
+                }
+            }
+
+            return paymentDtos;
+        }
+
         public async Task DeletePaymentAsync(Guid id)
         {
             var payment = await _paymentRepository.GetPaymentByIdAsync(id);
-
             if (payment == null)
                 throw new KeyNotFoundException("Payment not found.");
 
             await _paymentRepository.DeletePaymentAsync(id);
         }
 
-        // Calculate full amount based on course fees
         private async Task<decimal> CalculateFullAmountAsync(Guid enrollmentId)
         {
             var enrollment = await _enrollmentRepository.GetEnrollmentByIdAsync(enrollmentId);
-
-            if (enrollment == null)
-            {
-                throw new KeyNotFoundException("Enrollment not found for this payment.");
-            }
-
             var course = await _courseRepository.GetCourseByIdAsync(enrollment.CourseId);
             return course?.Fees ?? 0m;
         }
 
-        // Get payments by Student NIC
-        public async Task<IEnumerable<PaymentResponseDto>> GetPaymentsByStudentNICAsync(string nic)
-        {
-            var payments = await _paymentRepository.GetPaymentsByStudentNICAsync(nic);
-
-            if (payments == null || !payments.Any())
-            {
-                throw new KeyNotFoundException("Payments not found for this student.");
-            }
-
-            var paymentDtos = new List<PaymentResponseDto>();
-
-            foreach (var p in payments)
-            {
-                var fullAmount = await CalculateFullAmountAsync(p.EnrollmentId.GetValueOrDefault());
-                var totalPaid = (await _paymentRepository.GetPaymentsByEnrollmentIdAsync(p.EnrollmentId.GetValueOrDefault())).Sum(payment => payment.Amount);
-                var dueAmount = fullAmount - totalPaid;
-
-                // Ensure the due amount never goes negative
-                dueAmount = dueAmount < 0 ? 0 : dueAmount;
-
-                paymentDtos.Add(new PaymentResponseDto
-                {
-                    Id = p.Id,
-                    Amount = p.Amount,
-                    PaymentDate = p.PaymentDate,
-                    EnrollmentId = p.EnrollmentId.GetValueOrDefault(),
-                    FullAmount = fullAmount,
-                    DueAmount = dueAmount
-                });
-            }
-
-            return paymentDtos;
-        }
-
-        // Calculate the total payments made for a specific enrollment
         private async Task<decimal> GetTotalPaymentsAsync(Guid enrollmentId)
         {
             var payments = await _paymentRepository.GetPaymentsByEnrollmentIdAsync(enrollmentId);

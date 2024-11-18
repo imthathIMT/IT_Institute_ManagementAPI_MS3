@@ -6,9 +6,9 @@ namespace IT_Institute_Management.IRepositories
     {
         Task<Enrollment> AddEnrollmentAsync(Enrollment enrollment);
         Task<Enrollment> GetEnrollmentByIdAsync(Guid id);
-        Task<Enrollment> GetEnrollmentByNICAsync(string nic);
+        Task<IEnumerable<Enrollment>> GetEnrollmentByNICAsync(string nic);
         Task<Enrollment> DeleteEnrollmentAsync(Guid id);
-        Task<Enrollment> DeleteEnrollmentByNICAsync(string nic);
+        Task<IEnumerable<Enrollment>> DeleteEnrollmentsByNICAsync(string nic);
         Task<IEnumerable<Enrollment>> GetAllEnrollmentsAsync();
         Task SaveChangesAsync();
     }

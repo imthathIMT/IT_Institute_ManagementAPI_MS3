@@ -16,7 +16,6 @@ namespace IT_Institute_Management.Controllers
             _paymentService = paymentService;
         }
 
-        // GET: api/payment
         [HttpGet]
         public async Task<IActionResult> GetAllPayments()
         {
@@ -27,12 +26,10 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception
                 return StatusCode(500, new { message = ex.Message });
             }
         }
 
-        // GET: api/payment/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPayment(Guid id)
         {
@@ -51,7 +48,6 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-        // GET: api/payment/student/{nic}
         [HttpGet("student/{nic}")]
         public async Task<IActionResult> GetPaymentsByStudentNIC(string nic)
         {
@@ -70,8 +66,6 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-
-        // POST: api/payment
         [HttpPost]
         public async Task<IActionResult> CreatePayment([FromBody] PaymentRequestDto paymentRequestDto)
         {
@@ -86,7 +80,6 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-        // PUT: api/payment/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePayment(Guid id, [FromBody] PaymentRequestDto paymentRequestDto)
         {
@@ -105,7 +98,6 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-        // DELETE: api/payment/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePayment(Guid id)
         {
@@ -123,7 +115,6 @@ namespace IT_Institute_Management.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
-
 
 
     }
