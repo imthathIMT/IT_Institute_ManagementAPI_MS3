@@ -65,6 +65,9 @@ public class AuthService : IAuthService
                 // Reset failed attempts if login is successful
                 student.FailedLoginAttempts = 0;
                 await _context.SaveChangesAsync();
+
+                var token = CreateToken(user);
+                return token;
             }
         }
 
