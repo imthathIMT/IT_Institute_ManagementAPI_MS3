@@ -38,15 +38,9 @@ namespace IT_Institute_Management.Services
 
         public async Task AddAsync(UserRequestDto userDto, Role role)
         {
-            var user = new User
-            {
-                NIC = userDto.NIC,
-                Password = userDto.Password,
-                Role = role
-            };
-
-            await _userRepository.AddAsync(user);
+           
         }
+
 
 
         public async Task UpdateAsync(string nic, UserRequestDto userDto)

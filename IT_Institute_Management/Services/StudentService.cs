@@ -96,9 +96,11 @@ namespace IT_Institute_Management.Services
 
             if (studentDto.Image != null)
             {
-                
                 imagePath = await _imageService.SaveImage(studentDto.Image, "students");
             }
+
+           
+            var hashedPassword = _passwordHasher.HashPassword(studentDto.Password);
 
             var student = new Student
             {
@@ -107,9 +109,9 @@ namespace IT_Institute_Management.Services
                 LastName = studentDto.LastName,
                 Email = studentDto.Email,
                 Phone = studentDto.Phone,
-                Password = _passwordHasher.HashPassword(studentDto.Password), 
-                ImagePath = imagePath,  
-                IsLocked = true, 
+                Password = hashedPassword,  
+                ImagePath = imagePath,
+                IsLocked = true,
                 Address = new Address
                 {
                     AddressLine1 = studentDto.Address.AddressLine1,
@@ -121,18 +123,20 @@ namespace IT_Institute_Management.Services
                 }
             };
 
-            
+          
             await _userService.AddAsync(new UserRequestDto
             {
                 NIC = studentDto.NIC,
-                Password = studentDto.Password
-            }, Role.Student);  
-
-            await _studentRepository.AddAsync(student);
+                Password = hashedPassword 
+            }, Role.Student);
 
            
+            await _studentRepository.AddAsync(student);
+
+            
             await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
         }
+
 
 
         public async Task<string> UpdateStudentAsync(string nic, StudentRequestDto studentDto)
