@@ -141,5 +141,25 @@ namespace IT_Institute_Management.Repositories
             }
         }
 
+        public async Task<List<string>> GetAllStudentMail()
+        {
+            try
+            {
+                // Fetch the list of student emails from the database
+                var studentEmails = await _context.Students
+                                                  .Where(s => !string.IsNullOrEmpty(s.Email)) 
+                                                  .Select(s => s.Email) 
+                                                  .ToListAsync();
+
+                return studentEmails;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                throw new Exception("An error occurred while fetching the student emails.", ex);
+            }
+        }
+
+
     }
 }
