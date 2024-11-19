@@ -35,7 +35,8 @@ namespace IT_Institute_Management.Entity
 
         public string? ImagePath { get; set; }
 
-        public bool IsLocked { get; set; } 
+        public bool IsLocked { get; set; }  // Lock status of the account
+        public int FailedLoginAttempts { get; set; } = 0;  // Number of failed login attempts
 
         public Guid UserId { get; set; }
         public User? User { get; set; }
