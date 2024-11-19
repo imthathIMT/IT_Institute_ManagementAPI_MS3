@@ -8,11 +8,9 @@ namespace IT_Institute_Management.DTO.ResponseDTO
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Course name is required.")]
-      
         public string CourseName { get; set; }
 
         [Required(ErrorMessage = "Level is required.")]
-        [MaxLength(50, ErrorMessage = "Level cannot exceed 50 characters.")]
         public string Level { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Duration must be greater than 0.")]
