@@ -43,7 +43,7 @@ namespace IT_Institute_Management.Entity
         public Address? Address { get; set; }
 
         public ICollection<Notification>? Notification { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         public ICollection<Enrollment>? Enrollment { get; set; }
 
        
