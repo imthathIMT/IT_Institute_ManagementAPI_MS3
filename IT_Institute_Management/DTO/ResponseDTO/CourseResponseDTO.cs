@@ -20,7 +20,6 @@ namespace IT_Institute_Management.DTO.ResponseDTO
         public decimal Fees { get; set; }
 
         [Required(ErrorMessage = "Image path is required.")]
-        [MaxLength(255, ErrorMessage = "Image path cannot exceed 255 characters.")]
         public List<string> ImagePaths { get; set; }
     }
 }
