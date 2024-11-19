@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IT_Institute_Management.IRepositories;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
@@ -8,6 +9,7 @@ namespace IT_Institute_Management.EmailSerivice
 {
     public class EmailService : IEmailService
     {
+        private IStudentRepository _studentRepository;
         private readonly string _smtpServer = "smtp.gmail.com";
         private readonly int _smtpPort = 587;
 
@@ -48,8 +50,10 @@ namespace IT_Institute_Management.EmailSerivice
             }
         }
 
-        public async Task SendBulkEmailAsync(List<string> emails, string subject, string body)
+        public async Task SendBulkEmailAsync(string subject, string body)
         {
+            var emails = await _studentRepository.GetAllStudentMail();
+
             try
             {
                 if (emails == null || emails.Count == 0)

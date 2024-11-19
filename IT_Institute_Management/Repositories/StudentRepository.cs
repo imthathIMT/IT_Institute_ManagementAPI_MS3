@@ -145,7 +145,6 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
-                // Fetch the list of student emails from the database
                 var studentEmails = await _context.Students
                                                   .Where(s => !string.IsNullOrEmpty(s.Email)) 
                                                   .Select(s => s.Email) 
