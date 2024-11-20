@@ -111,7 +111,8 @@ namespace IT_Institute_Management.Services
                 Phone = studentDto.Phone,
                 Password = hashedPassword,  
                 ImagePath = imagePath,
-                IsLocked = true,
+                FailedLoginAttempts = 0,
+                IsLocked = false,
                 Address = new Address
                 {
                     AddressLine1 = studentDto.Address.AddressLine1,
