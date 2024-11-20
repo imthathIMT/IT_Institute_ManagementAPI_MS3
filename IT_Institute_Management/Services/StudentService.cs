@@ -7,6 +7,7 @@ using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 using IT_Institute_Management.PasswordService;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using NuGet.Protocol.Core.Types;
 
 namespace IT_Institute_Management.Services
 {
@@ -240,6 +241,22 @@ namespace IT_Institute_Management.Services
           
             await _emailService.SendEmailAsync(student.Email, "Password Updated", $"{student.FirstName} {student.LastName}, your password has been successfully updated.");
         }
+
+
+        public async Task<string> LockAccountAsync(string nic)
+        {
+            var student = await _studentRepository.GetByNicAsync(nic);
+            if (student == null)
+                return "Student not found.";
+
+            // Lock the student's account
+            student.IsLocked = true;
+            student.FailedLoginAttempts = 0; // Reset failed attempts when locking
+            await _studentRepository.UpdateStudentAccount(student);
+            return "Account has been locked.";
+        }
+
+        
 
     }
 }
