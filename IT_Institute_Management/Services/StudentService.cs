@@ -7,6 +7,7 @@ using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 using IT_Institute_Management.PasswordService;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using NuGet.Protocol.Core.Types;
 
 namespace IT_Institute_Management.Services
 {
@@ -96,9 +97,11 @@ namespace IT_Institute_Management.Services
 
             if (studentDto.Image != null)
             {
-                
                 imagePath = await _imageService.SaveImage(studentDto.Image, "students");
             }
+
+           
+            var hashedPassword = _passwordHasher.HashPassword(studentDto.Password);
 
             var student = new Student
             {
@@ -107,9 +110,10 @@ namespace IT_Institute_Management.Services
                 LastName = studentDto.LastName,
                 Email = studentDto.Email,
                 Phone = studentDto.Phone,
-                Password = _passwordHasher.HashPassword(studentDto.Password), 
-                ImagePath = imagePath,  
-                IsLocked = true, 
+                Password = hashedPassword,  
+                ImagePath = imagePath,
+                FailedLoginAttempts = 0,
+                IsLocked = false,
                 Address = new Address
                 {
                     AddressLine1 = studentDto.Address.AddressLine1,
@@ -121,18 +125,20 @@ namespace IT_Institute_Management.Services
                 }
             };
 
-            
+          
             await _userService.AddAsync(new UserRequestDto
             {
                 NIC = studentDto.NIC,
-                Password = studentDto.Password
-            }, Role.Student);  
-
-            await _studentRepository.AddAsync(student);
+                Password = hashedPassword 
+            }, Role.Student);
 
            
+            await _studentRepository.AddAsync(student);
+
+            
             await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
         }
+
 
 
         public async Task<string> UpdateStudentAsync(string nic, StudentRequestDto studentDto)
@@ -234,6 +240,35 @@ namespace IT_Institute_Management.Services
 
           
             await _emailService.SendEmailAsync(student.Email, "Password Updated", $"{student.FirstName} {student.LastName}, your password has been successfully updated.");
+        }
+
+
+        public async Task<string> LockAccountAsync(string nic)
+        {
+            var student = await _studentRepository.GetByNicAsync(nic);
+            if (student == null)
+                return "Student not found.";
+
+            // Lock the student's account
+            student.IsLocked = true;
+            student.FailedLoginAttempts = 0; // Reset failed attempts when locking
+            await _studentRepository.UpdateStudentAccount(student);
+            return "Account has been locked.";
+        }
+
+        // Unlock account logic and update password
+        public async Task<string> UnlockAccountAsync(UnlockAccountDto unlockDto)
+        {
+            var student = await _studentRepository.GetByNicAsync(unlockDto.NIC);
+            if (student == null)
+                return "Student not found.";
+
+            // Unlock the student's account and change password
+            student.IsLocked = false;
+            student.Password = unlockDto.NewPassword; // Replace with hashed password logic
+            student.FailedLoginAttempts = 0; // Reset failed login attempts
+            await _studentRepository.UpdateStudentAccount(student);
+            return "Account has been unlocked and password updated.";
         }
 
     }

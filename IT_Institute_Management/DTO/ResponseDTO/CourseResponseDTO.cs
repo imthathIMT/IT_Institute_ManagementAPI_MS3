@@ -8,11 +8,9 @@ namespace IT_Institute_Management.DTO.ResponseDTO
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Course name is required.")]
-        [MaxLength(100, ErrorMessage = "Course name cannot exceed 100 characters.")]
         public string CourseName { get; set; }
 
         [Required(ErrorMessage = "Level is required.")]
-        [MaxLength(50, ErrorMessage = "Level cannot exceed 50 characters.")]
         public string Level { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Duration must be greater than 0.")]
@@ -22,7 +20,6 @@ namespace IT_Institute_Management.DTO.ResponseDTO
         public decimal Fees { get; set; }
 
         [Required(ErrorMessage = "Image path is required.")]
-        [MaxLength(255, ErrorMessage = "Image path cannot exceed 255 characters.")]
         public List<string> ImagePaths { get; set; }
     }
 }

@@ -1,8 +1,14 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace IT_Institute_Management.Controllers
 {
@@ -82,5 +88,9 @@ namespace IT_Institute_Management.Controllers
                 return NotFound(new { message = ex.Message });
             }
         }
+
+
+
+       
     }
 }

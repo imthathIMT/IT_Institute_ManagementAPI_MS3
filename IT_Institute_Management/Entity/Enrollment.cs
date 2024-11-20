@@ -16,7 +16,7 @@ namespace IT_Institute_Management.Entity
 
         public bool IsComplete { get; set; } = false;
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public Student Student { get; set; } 
         public Course Course { get; set; } 
 

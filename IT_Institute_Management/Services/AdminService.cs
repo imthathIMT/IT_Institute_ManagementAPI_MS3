@@ -6,6 +6,7 @@ using IT_Institute_Management.ImageService;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 using IT_Institute_Management.PasswordService;
+using IT_Institute_Management.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace IT_Institute_Management.Services
@@ -90,23 +91,11 @@ namespace IT_Institute_Management.Services
                
                 var hashedPassword = _passwordHasher.HashPassword(adminDto.Password);
 
-                
-                var user = new User()
-                {
-                    NIC = adminDto.NIC,
-                    Password = hashedPassword,  
-                    Role = Role.Admin
-                };
-
-               
-                await _instituteDbContext.Users.AddAsync(user);
-                await _instituteDbContext.SaveChangesAsync();
-
                 var imagePath = string.Empty;
 
                 if (adminDto.Image != null)
                 {
-                    
+
                     imagePath = await _imageService.SaveImage(adminDto.Image, "admins");
                 }
 
@@ -117,14 +106,20 @@ namespace IT_Institute_Management.Services
                     Phone = adminDto.Phone,
                     Email = adminDto.Email,
                     Password = hashedPassword,
-                    ImagePath = imagePath,
-                    UserId = user.Id
+                    ImagePath = imagePath
                 };
 
-                
-                await _instituteDbContext.Admins.AddAsync(admin);
-                await _instituteDbContext.SaveChangesAsync(); 
+
+                await _userService.AddAsync(new UserRequestDto
+                {
+                    NIC = adminDto.NIC,
+                    Password = hashedPassword
+                }, Role.Admin);
+
+
+                await _adminRepository.AddAsync(admin);
             }
+
             catch (Exception ex)
             {
                 throw new ApplicationException("An unexpected error occurred while adding the admin.", ex);
