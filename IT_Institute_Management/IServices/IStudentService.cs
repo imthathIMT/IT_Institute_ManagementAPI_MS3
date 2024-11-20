@@ -13,6 +13,6 @@ namespace IT_Institute_Management.IServices
         Task UpdatePasswordAsync(string nic, UpdatePasswordRequestDto updatePasswordDto);
 
         Task<string> LockAccountAsync(string nic);
-
+        Task<string> UnlockAccountAsync(UnlockAccountDto unlockDto);
     }
 }

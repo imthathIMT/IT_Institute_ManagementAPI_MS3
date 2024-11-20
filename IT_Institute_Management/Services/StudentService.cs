@@ -256,7 +256,20 @@ namespace IT_Institute_Management.Services
             return "Account has been locked.";
         }
 
-        
+        // Unlock account logic and update password
+        public async Task<string> UnlockAccountAsync(UnlockAccountDto unlockDto)
+        {
+            var student = await _studentRepository.GetByNicAsync(unlockDto.NIC);
+            if (student == null)
+                return "Student not found.";
+
+            // Unlock the student's account and change password
+            student.IsLocked = false;
+            student.Password = unlockDto.NewPassword; // Replace with hashed password logic
+            student.FailedLoginAttempts = 0; // Reset failed login attempts
+            await _studentRepository.UpdateStudentAccount(student);
+            return "Account has been unlocked and password updated.";
+        }
 
     }
 }
