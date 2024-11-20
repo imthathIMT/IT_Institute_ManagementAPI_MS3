@@ -159,6 +159,12 @@ namespace IT_Institute_Management.Repositories
             }
         }
 
+        public async Task UpdateStudentAccount(Student student)
+        {
+            _context.Students.Update(student);
+            await _context.SaveChangesAsync();
+        }
+
 
     }
 }

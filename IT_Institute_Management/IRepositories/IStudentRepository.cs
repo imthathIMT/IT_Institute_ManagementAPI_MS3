@@ -10,5 +10,7 @@ namespace IT_Institute_Management.IRepositories
         Task UpdateAsync(Student student);
         Task DeleteAsync(string nic);
         Task<List<string>> GetAllStudentMail();
+
+        Task UpdateStudentAccount(Student student);
     }
 }
