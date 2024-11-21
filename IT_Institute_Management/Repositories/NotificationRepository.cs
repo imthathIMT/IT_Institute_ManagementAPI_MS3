@@ -24,6 +24,8 @@ namespace IT_Institute_Management.Repositories
             return await _context.Notification.FirstOrDefaultAsync(n => n.Id == id);
         }
 
+
+
         public async Task AddNotificationAsync(Notification notification)
         {
             if (notification == null)

@@ -108,6 +108,25 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+        [HttpPost("send")]
+        public async Task<IActionResult> SendNotificationAsync([FromQuery] string studentNIC, [FromBody] string message)
+        {
+            if (string.IsNullOrWhiteSpace(studentNIC) || string.IsNullOrWhiteSpace(message))
+            {
+                return BadRequest("Student NIC and message are required.");
+            }
+
+            try
+            {
+                await _notificationService.SendNotificationAsync(studentNIC, message);
+                return Ok(new { Message = "Notification sent successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
 
 
     }
