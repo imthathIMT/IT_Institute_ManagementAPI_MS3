@@ -158,5 +158,20 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+        [HttpPut("{nic}/unlock")]
+        public async Task<IActionResult> DirectUnlockAccount(string nic)
+        {
+            try
+            {
+               
+                var message = await _studentService.DirectUnlock(nic);
+                return Ok(new { message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 }

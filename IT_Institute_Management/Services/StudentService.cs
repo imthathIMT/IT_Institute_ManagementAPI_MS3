@@ -296,21 +296,29 @@ namespace IT_Institute_Management.Services
 
         public async Task<string> DirectUnlock(string nic)
         {
-            var student = await _studentRepository.GetByNicAsync(nic);
-            if (student == null)
+            if(nic == null)
             {
-                throw new Exception("Student not found.");
+                throw new Exception("NIC is required");
             }
             else
             {
-                student.IsLocked = false;
-                await _studentRepository.UpdateStudentAccount(student);
+                var student = await _studentRepository.GetByNicAsync(nic);
+                if (student == null)
+                {
+                    throw new Exception("Student not found.");
+                }
+                else
+                {
+                    student.IsLocked = false;
+                    await _studentRepository.UpdateStudentAccount(student);
 
-                await _emailService.SendEmailAsync(student.Email, "Account Unlocked",
-                $"Dear {student.FirstName} {student.LastName}, your account has been unlocked. You can continue your studies");
+                    await _emailService.SendEmailAsync(student.Email, "Account Unlocked",
+                    $"Dear {student.FirstName} {student.LastName}, your account has been unlocked. You can continue your studies");
 
-                return "Account has been unlocked.";
+                    return "Account has been unlocked.";
+                }
             }
+            
 
         }
 
