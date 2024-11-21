@@ -96,7 +96,7 @@ namespace IT_Institute_Management.Services
           
             var installmentTolerance = 0.01m;
 
-            // Enrollment date check
+          
             var enrollmentDate = enrollment.EnrollmentDate;
             var maxPaymentDate = enrollmentDate.AddDays(7); 
 
