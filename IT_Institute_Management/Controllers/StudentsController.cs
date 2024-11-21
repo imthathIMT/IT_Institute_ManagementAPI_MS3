@@ -128,5 +128,36 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+
+        [HttpPut("{nic}/lock")]
+        public async Task<IActionResult> LockStudentAccount(string nic)
+        {
+            try
+            {
+                var message = await _studentService.LockAccountAsync(nic);
+                return Ok(new { message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("{nic}/unlock")]
+        public async Task<IActionResult> UnlockStudentAccount(string nic, [FromBody] UnlockAccountDto unlockDto)
+        {
+            try
+            {
+                unlockDto.NIC = nic;  // Ensure the NIC matches the path
+                var message = await _studentService.UnlockAccountAsync(unlockDto);
+                return Ok(new { message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
     }
 }

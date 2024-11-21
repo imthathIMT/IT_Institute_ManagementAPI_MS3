@@ -236,6 +236,7 @@ namespace IT_Institute_Management.Services
 
             student.Password = hashedPassword;
 
+            await _userService.UpdateAsync(nic, new UserRequestDto { Password = hashedPassword });
             await _studentRepository.UpdateAsync(student);
 
 
@@ -292,6 +293,26 @@ namespace IT_Institute_Management.Services
             }
 
            
+        }
+
+        public async Task<string> DirectLock(string nic)
+        {
+            var student = await _studentRepository.GetByNicAsync(nic);
+            if (student == null)
+            {
+                throw new Exception("Student not found.");
+            }
+            else
+            {
+                student.IsLocked = true;
+                await _studentRepository.UpdateStudentAccount(student);
+
+                await _emailService.SendEmailAsync(student.Email, "Account Locked",
+                $"Dear {student.FirstName} {student.LastName}, your account has been locked by admin. please contact admin");
+
+                return "Account has been locked.";
+            }
+
         }
 
     }
