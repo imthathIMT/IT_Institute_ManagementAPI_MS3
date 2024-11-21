@@ -208,26 +208,31 @@ namespace IT_Institute_Management.Services
 
         public async Task UpdatePaymentAsync(Guid id, PaymentRequestDto paymentRequestDto)
         {
+            // Fetch the existing payment to update
             var existingPayment = await _paymentRepository.GetPaymentByIdAsync(id);
             if (existingPayment == null)
                 throw new KeyNotFoundException("Payment not found.");
 
+            // Fetch the enrollment related to the payment
             var enrollment = await _enrollmentRepository.GetEnrollmentByIdAsync(paymentRequestDto.EnrollmentId);
             if (enrollment == null)
                 throw new KeyNotFoundException("Enrollment not found.");
 
+            // Fetch the course related to the enrollment
             var course = await _courseRepository.GetCourseByIdAsync(enrollment.CourseId);
             if (course == null)
                 throw new KeyNotFoundException("Course not found.");
 
+            // Calculate the total paid amount
             var totalPaid = await GetTotalPaymentsAsync(paymentRequestDto.EnrollmentId);
             var fullAmount = course.Fees;
             var courseDurationMonths = course.Duration;
             var monthlyInstallment = fullAmount / courseDurationMonths;
 
-           
+            // Installment tolerance: allows a small margin for installment payments
             var installmentTolerance = 0.01m;
 
+            // Check the payment plan type and validate accordingly
             if (enrollment.PaymentPlan == "Full")
             {
                 if (totalPaid > 0)
@@ -242,41 +247,42 @@ namespace IT_Institute_Management.Services
             }
             else if (enrollment.PaymentPlan == "Installment")
             {
-              
+                // Validate installment payment
                 if (paymentRequestDto.Amount < (monthlyInstallment - installmentTolerance))
                 {
-                    throw new InvalidOperationException($"Installment amount must be at least {monthlyInstallment:C}.");
+                    throw new InvalidOperationException($"Installment amount must be at least {monthlyInstallment:C}. Your payment is too low.");
                 }
 
                 if (paymentRequestDto.Amount > (monthlyInstallment + installmentTolerance))
                 {
-                    throw new InvalidOperationException($"Installment amount cannot exceed {monthlyInstallment:C}.");
+                    throw new InvalidOperationException($"Installment amount cannot exceed {monthlyInstallment:C}. Your payment is too high.");
                 }
 
-              
+                // Last payment date check for installments (1 month + 1 week rule)
                 var lastPayment = (await _paymentRepository.GetPaymentsByEnrollmentIdAsync(paymentRequestDto.EnrollmentId))
                                     .OrderByDescending(p => p.PaymentDate)
                                     .FirstOrDefault();
 
                 if (lastPayment != null)
                 {
-                    var nextPaymentDate = lastPayment.PaymentDate.AddMonths(1);
+                    var nextPaymentDate = lastPayment.PaymentDate.AddMonths(1).AddDays(7);  // 1 month + 1 week
                     if (paymentRequestDto.PaymentDate < nextPaymentDate)
                     {
-                        throw new InvalidOperationException($"Next installment can only be paid after 1 month from the previous payment. The next payment date is {nextPaymentDate:MMMM dd, yyyy}.");
+                        throw new InvalidOperationException($"Next installment can only be paid after 1 month + 1 week from the previous payment. The next payment date is {nextPaymentDate:MMMM dd, yyyy}.");
                     }
                 }
 
-               
+                // Ensure the total paid does not exceed the course fee
+                if (totalPaid + paymentRequestDto.Amount > fullAmount)
+                {
+                    throw new InvalidOperationException($"The total amount paid cannot exceed the course fee ({fullAmount:C}). You have already paid {totalPaid:C}.");
+                }
+
+                // Remaining installment checks
                 var remainingMonths = courseDurationMonths - (totalPaid / monthlyInstallment);
                 if (remainingMonths <= 0)
                 {
                     throw new InvalidOperationException("All installments have been paid. No further payments are allowed.");
-                }
-
-                if (totalPaid + paymentRequestDto.Amount > fullAmount)
-                {
-                    throw new InvalidOperationException($"The total amount paid cannot exceed the course fee ({fullAmount:C}).");
                 }
             }
             else
@@ -284,20 +290,37 @@ namespace IT_Institute_Management.Services
                 throw new InvalidOperationException("Unknown payment plan type.");
             }
 
+            // Calculate the due amount
             var dueAmount = fullAmount - totalPaid - paymentRequestDto.Amount;
 
             if (dueAmount < 0)
             {
-                throw new InvalidOperationException($"Amount paid exceeds the due amount for the course. Due amount: {fullAmount - totalPaid:C}");
+                throw new InvalidOperationException($"Amount paid exceeds the due amount for the course. Due amount remaining: {fullAmount - totalPaid:C}");
             }
 
+            // Update the existing payment record with new data
             existingPayment.Amount = paymentRequestDto.Amount;
             existingPayment.TotalPaidAmount = totalPaid + paymentRequestDto.Amount;
             existingPayment.DueAmount = dueAmount;
             existingPayment.PaymentDate = paymentRequestDto.PaymentDate;
 
+            // Save the updated payment record
             await _paymentRepository.UpdatePaymentAsync(existingPayment);
+
+            // Send a reminder notification for the next installment if it's an installment plan
+            if (enrollment.PaymentPlan == "Installment")
+            {
+                var nextInstallmentDueDate = paymentRequestDto.PaymentDate.AddMonths(1).AddDays(7); // 1 month + 1 week
+                await _notificationService.SendNotificationAsync(enrollment.StudentNIC, $"Your next installment is due by {nextInstallmentDueDate:MMMM dd, yyyy}.");
+            }
+
+            // If the payment plan was full and the course is paid off, send a completion notification
+            if (enrollment.PaymentPlan == "Full" && totalPaid + paymentRequestDto.Amount == fullAmount)
+            {
+                await _notificationService.SendNotificationAsync(enrollment.StudentNIC, "Congratulations! Your course has been fully paid.");
+            }
         }
+
 
 
 
