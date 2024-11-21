@@ -45,7 +45,7 @@ public class AuthService : IAuthService
             {
                 if (student.IsLocked)
                 {
-                    throw new Exception("Your account is locked due to multiple failed login attempts.");
+                    throw new Exception("Your account is locked. Please contact admin");
                 }
 
                 if (!_passwordHasher.VerifyHashedPassword(user.Password, request.Password))

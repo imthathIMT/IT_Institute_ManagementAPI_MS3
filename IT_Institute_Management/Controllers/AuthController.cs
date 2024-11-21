@@ -20,9 +20,7 @@ namespace IT_Institute_Management.Controllers
         [HttpPost]
         [Route("login")]
         public async Task<ActionResult<string>> Login(UserLoginModal request)
-        {
-            
-
+        {          
             try
             {
                 var token = await _authService.GetLoginUserToken(request);

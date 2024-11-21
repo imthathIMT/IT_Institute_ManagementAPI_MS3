@@ -285,8 +285,10 @@ namespace IT_Institute_Management.Services
                 }
                 await _studentRepository.UpdateStudentAccount(student);
 
+                // Send unlock account email
                 await _emailService.SendEmailAsync(student.Email, "Account Unlocked",
-                $"Dear {student.FirstName} {student.LastName}, your account has been unlocked. Your new password is updated.");
+                    $"Dear {student.FirstName} {student.LastName},\n\n" +
+                    "Your account has been unlocked. Your password has been reset. Please login with your new password.");
 
                 return "Account has been unlocked and password updated.";
             }
@@ -313,7 +315,9 @@ namespace IT_Institute_Management.Services
                     await _studentRepository.UpdateStudentAccount(student);
 
                     await _emailService.SendEmailAsync(student.Email, "Account Unlocked",
-                    $"Dear {student.FirstName} {student.LastName}, your account has been unlocked. You can continue your studies");
+                    $"Dear {student.FirstName} {student.LastName},\n\n" +
+                    "your account has been unlocked.Please login with your password and you can continue your studies");
+
 
                     return "Account has been unlocked.";
                 }
