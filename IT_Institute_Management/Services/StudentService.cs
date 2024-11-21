@@ -257,7 +257,8 @@ namespace IT_Institute_Management.Services
                 await _studentRepository.UpdateStudentAccount(student);
 
                 await _emailService.SendEmailAsync(student.Email, "Account Locked",
-                 $"Dear {student.FirstName} {student.LastName}, your account has been locked by admin. please contact admin");
+                 $"Dear {student.FirstName} {student.LastName},\n\n" +
+                 "your account has been locked by admin. please contact admin");
 
                 return "Account has been locked.";
             }      
