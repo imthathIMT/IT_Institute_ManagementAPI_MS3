@@ -154,7 +154,7 @@ namespace IT_Institute_Management.Repositories
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as needed
+                
                 throw new Exception("An error occurred while fetching the student emails.", ex);
             }
         }

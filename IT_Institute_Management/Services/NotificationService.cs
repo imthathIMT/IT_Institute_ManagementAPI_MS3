@@ -82,7 +82,6 @@ namespace IT_Institute_Management.Services
             await _notificationRepository.DeleteNotificationAsync(id);
         }
 
-        // Send notification to student based on NIC (or some unique student identifier)
         public async Task SendNotificationAsync(string studentNIC, string message)
         {
             var student = await _studentRepository.GetByNicAsync(studentNIC);
@@ -96,7 +95,7 @@ namespace IT_Institute_Management.Services
                 StudentNIC = studentNIC
             };
 
-            // Save the notification to the database
+          
             await _notificationRepository.AddNotificationAsync(notification);
 
           

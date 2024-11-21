@@ -44,7 +44,7 @@ namespace IT_Institute_Management.Services
                 IsComplete = false
             };
 
-            // Send notification if payment is overdue after creation
+           
             if (enrollmentRequest.PaymentPlan == "Full")
             {
                 var paymentDueDate = enrollment.EnrollmentDate.AddDays(7);
@@ -111,30 +111,30 @@ namespace IT_Institute_Management.Services
 
         public async Task<Enrollment> UpdateEnrollmentDataAsync(Guid id, EnrollmentRequestDto enrollmentRequest)
         {
-            // Fetch the existing enrollment
+            
             var enrollment = await _repo.GetEnrollmentByIdAsync(id);
             if (enrollment == null)
             {
                 throw new Exception("Enrollment not found.");
             }
 
-            // Fetch the course by ID for validation
+            
             var course = await _courseRepo.GetCourseByIdAsync(enrollmentRequest.CourseId);
             if (course == null)
             {
                 throw new Exception("Course not found.");
             }
 
-            // Validate the payment plan (must be either "Full" or "Installment")
+           
             if (enrollmentRequest.PaymentPlan != "Full" && enrollmentRequest.PaymentPlan != "Installment")
             {
                 throw new Exception("Payment plan must be either 'Full' or 'Installment'.");
             }
 
-            // If the payment plan is changing, we need to check for overdue payments.
+           
             if (enrollment.PaymentPlan != enrollmentRequest.PaymentPlan)
             {
-                // If the payment plan changes, we should re-check for overdue notifications
+               
                 if (enrollmentRequest.PaymentPlan == "Full")
                 {
                     var paymentDueDate = enrollment.EnrollmentDate.AddDays(7);
@@ -163,12 +163,12 @@ namespace IT_Institute_Management.Services
                 }
             }
 
-            // Update the enrollment details
+           
             enrollment.PaymentPlan = enrollmentRequest.PaymentPlan;
             enrollment.StudentNIC = enrollmentRequest.StudentNIC;
             enrollment.CourseId = enrollmentRequest.CourseId;
 
-            // Save the changes to the database
+           
             await _repo.SaveChangesAsync();
 
             return enrollment;
