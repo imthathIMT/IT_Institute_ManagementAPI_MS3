@@ -254,11 +254,10 @@ namespace IT_Institute_Management.Services
             else
             {
                 student.IsLocked = true;
-                student.FailedLoginAttempts = 0;
                 await _studentRepository.UpdateStudentAccount(student);
 
                 await _emailService.SendEmailAsync(student.Email, "Account Locked",
-                $"Dear {student.FirstName} {student.LastName}, your account has been locked due to multiple failed login attempts.");
+                 $"Dear {student.FirstName} {student.LastName}, your account has been locked by admin. please contact admin");
 
                 return "Account has been locked.";
             }      
@@ -295,7 +294,7 @@ namespace IT_Institute_Management.Services
            
         }
 
-        public async Task<string> DirectLock(string nic)
+        public async Task<string> DirectUnlock(string nic)
         {
             var student = await _studentRepository.GetByNicAsync(nic);
             if (student == null)
@@ -304,13 +303,13 @@ namespace IT_Institute_Management.Services
             }
             else
             {
-                student.IsLocked = true;
+                student.IsLocked = false;
                 await _studentRepository.UpdateStudentAccount(student);
 
-                await _emailService.SendEmailAsync(student.Email, "Account Locked",
-                $"Dear {student.FirstName} {student.LastName}, your account has been locked by admin. please contact admin");
+                await _emailService.SendEmailAsync(student.Email, "Account Unlocked",
+                $"Dear {student.FirstName} {student.LastName}, your account has been unlocked. You can continue your studies");
 
-                return "Account has been locked.";
+                return "Account has been unlocked.";
             }
 
         }

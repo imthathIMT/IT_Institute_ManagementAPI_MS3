@@ -158,6 +158,5 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-
     }
 }
