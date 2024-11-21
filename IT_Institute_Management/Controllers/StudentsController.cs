@@ -158,7 +158,7 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-        [HttpPut("{nic}/unlock")]
+        [HttpPut("{nic}/Directunlock")]
         public async Task<IActionResult> DirectUnlockAccount(string nic)
         {
             try
