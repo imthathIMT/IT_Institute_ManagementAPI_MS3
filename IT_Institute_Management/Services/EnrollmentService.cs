@@ -9,11 +9,13 @@ namespace IT_Institute_Management.Services
     {
         private readonly IEnrollmentRepository _repo;
         private readonly ICourseRepository _courseRepo;
+        private readonly INotificationService _notificationService;
 
-        public EnrollmentService(IEnrollmentRepository repo, ICourseRepository courseRepo)
+        public EnrollmentService(IEnrollmentRepository repo, ICourseRepository courseRepo, INotificationService notificationService)
         {
             _repo = repo;
             _courseRepo = courseRepo;
+            _notificationService = notificationService;
         }
 
         public async Task<Enrollment> CreateEnrollmentAsync(EnrollmentRequestDto enrollmentRequest)
@@ -21,7 +23,6 @@ namespace IT_Institute_Management.Services
             var course = await _courseRepo.GetCourseByIdAsync(enrollmentRequest.CourseId);
             if (course == null) throw new Exception("Course not found.");
 
-           
             var existingEnrollment = await _repo.GetEnrollmentByNICAsync(enrollmentRequest.StudentNIC);
             if (existingEnrollment.Any(e => e.CourseId == enrollmentRequest.CourseId))
             {
@@ -43,8 +44,37 @@ namespace IT_Institute_Management.Services
                 IsComplete = false
             };
 
+            // Send notification if payment is overdue after creation
+            if (enrollmentRequest.PaymentPlan == "Full")
+            {
+                var paymentDueDate = enrollment.EnrollmentDate.AddDays(7);
+                if (DateTime.Now > paymentDueDate)
+                {
+                    await _notificationService.CreateNotificationAsync(new NotificationRequestDTO
+                    {
+                        Message = "Full payment for the course is overdue.",
+                        Date = DateTime.Now,
+                        StudentNIC = enrollment.StudentNIC
+                    });
+                }
+            }
+            else if (enrollmentRequest.PaymentPlan == "Installment")
+            {
+                var firstInstallmentDueDate = enrollment.EnrollmentDate.AddDays(7);
+                if (DateTime.Now > firstInstallmentDueDate)
+                {
+                    await _notificationService.CreateNotificationAsync(new NotificationRequestDTO
+                    {
+                        Message = "First installment payment is overdue.",
+                        Date = DateTime.Now,
+                        StudentNIC = enrollment.StudentNIC
+                    });
+                }
+            }
+
             return await _repo.AddEnrollmentAsync(enrollment);
         }
+
 
 
 
@@ -139,8 +169,17 @@ namespace IT_Institute_Management.Services
                 throw new Exception("Enrollment can only be deleted after a week from the enrollment date.");
             }
 
+            await _notificationService.CreateNotificationAsync(new NotificationRequestDTO
+            {
+                Message = "Your enrollment has been deleted.",
+                Date = DateTime.Now,
+                StudentNIC = enrollment.StudentNIC
+            });
+
             return await _repo.DeleteEnrollmentAsync(id);
         }
+
+
 
         public async Task<IEnumerable<Enrollment>> GetEnrollmentsByCompletionStatusAsync(bool isComplete)
         {
