@@ -249,24 +249,24 @@ namespace IT_Institute_Management.Services
             if (student == null)
                 return "Student not found.";
 
-            // Lock the student's account
+        
             student.IsLocked = true;
-            student.FailedLoginAttempts = 0; // Reset failed attempts when locking
+            student.FailedLoginAttempts = 0; 
             await _studentRepository.UpdateStudentAccount(student);
             return "Account has been locked.";
         }
 
-        // Unlock account logic and update password
+      
         public async Task<string> UnlockAccountAsync(UnlockAccountDto unlockDto)
         {
             var student = await _studentRepository.GetByNicAsync(unlockDto.NIC);
             if (student == null)
                 return "Student not found.";
 
-            // Unlock the student's account and change password
+           
             student.IsLocked = false;
-            student.Password = unlockDto.NewPassword; // Replace with hashed password logic
-            student.FailedLoginAttempts = 0; // Reset failed login attempts
+            student.Password = unlockDto.NewPassword;
+            student.FailedLoginAttempts = 0; 
             await _studentRepository.UpdateStudentAccount(student);
             return "Account has been unlocked and password updated.";
         }
