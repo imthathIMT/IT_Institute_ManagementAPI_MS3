@@ -100,7 +100,7 @@ namespace IT_Institute_Management.Services
                 imagePath = await _imageService.SaveImage(studentDto.Image, "students");
             }
 
-           
+
             var hashedPassword = _passwordHasher.HashPassword(studentDto.Password);
 
             var student = new Student
@@ -110,7 +110,7 @@ namespace IT_Institute_Management.Services
                 LastName = studentDto.LastName,
                 Email = studentDto.Email,
                 Phone = studentDto.Phone,
-                Password = hashedPassword,  
+                Password = hashedPassword,
                 ImagePath = imagePath,
                 FailedLoginAttempts = 0,
                 IsLocked = false,
@@ -125,17 +125,17 @@ namespace IT_Institute_Management.Services
                 }
             };
 
-          
+
             await _userService.AddAsync(new UserRequestDto
             {
                 NIC = studentDto.NIC,
-                Password = hashedPassword 
+                Password = hashedPassword
             }, Role.Student);
 
-           
+
             await _studentRepository.AddAsync(student);
 
-            
+
             await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
         }
 
@@ -149,16 +149,16 @@ namespace IT_Institute_Management.Services
                 throw new Exception($"Student with NIC {nic} not found.");
             }
 
-           
+
             if (studentDto.Image != null)
             {
-                
+
                 if (!string.IsNullOrEmpty(student.ImagePath))
                 {
-                    _imageService.DeleteImage(student.ImagePath);  
+                    _imageService.DeleteImage(student.ImagePath);
                 }
 
-               
+
                 student.ImagePath = await _imageService.SaveImage(studentDto.Image, "students");
             }
 
@@ -177,17 +177,17 @@ namespace IT_Institute_Management.Services
                 Country = studentDto.Address.Country
             };
 
-           
+
             if (!string.IsNullOrEmpty(studentDto.Password))
             {
                 student.Password = _passwordHasher.HashPassword(studentDto.Password);
-                
+
                 await _userService.UpdateAsync(nic, new UserRequestDto { Password = studentDto.Password });
             }
 
             await _studentRepository.UpdateAsync(student);
 
-            
+
             await _emailService.SendEmailAsync(student.Email, "Profile Updated", $"{student.FirstName} {student.LastName}, your profile has been successfully updated.");
             return "Student profile update successful";
         }
@@ -203,13 +203,13 @@ namespace IT_Institute_Management.Services
                 throw new Exception($"Student with NIC {nic} not found.");
             }
 
-           
+
             if (!string.IsNullOrEmpty(student.ImagePath))
             {
                 _imageService.DeleteImage(student.ImagePath);
             }
 
-           
+
             await _userService.DeleteAsync(nic);
 
             await _studentRepository.DeleteAsync(nic);
@@ -224,21 +224,22 @@ namespace IT_Institute_Management.Services
                 throw new Exception($"Student with NIC {nic} not found.");
             }
 
-            
+
             if (!_passwordHasher.VerifyHashedPassword(student.Password, updatePasswordDto.CurrentPassword))
             {
                 throw new Exception("Current password is incorrect.");
             }
 
-           
+
             var hashedPassword = _passwordHasher.HashPassword(updatePasswordDto.NewPassword);
 
-           
+
             student.Password = hashedPassword;
 
+            await _userService.UpdateAsync(nic, new UserRequestDto { Password = hashedPassword });
             await _studentRepository.UpdateAsync(student);
 
-          
+
             await _emailService.SendEmailAsync(student.Email, "Password Updated", $"{student.FirstName} {student.LastName}, your password has been successfully updated.");
         }
 
@@ -247,28 +248,83 @@ namespace IT_Institute_Management.Services
         {
             var student = await _studentRepository.GetByNicAsync(nic);
             if (student == null)
-                return "Student not found.";
+            {
+                throw new Exception( "Student not found.");
+            }
+            else
+            {
+                student.IsLocked = true;
+                await _studentRepository.UpdateStudentAccount(student);
 
-        
-            student.IsLocked = true;
-            student.FailedLoginAttempts = 0; 
-            await _studentRepository.UpdateStudentAccount(student);
-            return "Account has been locked.";
+                await _emailService.SendEmailAsync(student.Email, "Account Locked",
+                 $"Dear {student.FirstName} {student.LastName},\n\n" +
+                 "your account has been locked by admin. please contact admin");
+
+                return "Account has been locked.";
+            }      
         }
 
-      
+
         public async Task<string> UnlockAccountAsync(UnlockAccountDto unlockDto)
         {
             var student = await _studentRepository.GetByNicAsync(unlockDto.NIC);
             if (student == null)
-                return "Student not found.";
+            {
+                throw new Exception("Student not found.");
+            }
+            else
+            {
+                student.IsLocked = false;
+                student.Password = unlockDto.NewPassword;
+                student.FailedLoginAttempts = 0;
+
+                if (!string.IsNullOrEmpty(unlockDto.NewPassword))
+                {
+                    student.Password = _passwordHasher.HashPassword(unlockDto.NewPassword);
+
+                    await _userService.UpdateAsync(unlockDto.NIC, new UserRequestDto { Password = unlockDto.NewPassword });
+                }
+                await _studentRepository.UpdateStudentAccount(student);
+
+                // Send unlock account email
+                await _emailService.SendEmailAsync(student.Email, "Account Unlocked",
+                    $"Dear {student.FirstName} {student.LastName},\n\n" +
+                    "Your account has been unlocked. Your password has been reset. Please login with your new password.");
+
+                return "Account has been unlocked and password updated.";
+            }
 
            
-            student.IsLocked = false;
-            student.Password = unlockDto.NewPassword;
-            student.FailedLoginAttempts = 0; 
-            await _studentRepository.UpdateStudentAccount(student);
-            return "Account has been unlocked and password updated.";
+        }
+
+        public async Task<string> DirectUnlock(string nic)
+        {
+            if(nic == null)
+            {
+                throw new Exception("NIC is required");
+            }
+            else
+            {
+                var student = await _studentRepository.GetByNicAsync(nic);
+                if (student == null)
+                {
+                    throw new Exception("Student not found.");
+                }
+                else
+                {
+                    student.IsLocked = false;
+                    await _studentRepository.UpdateStudentAccount(student);
+
+                    await _emailService.SendEmailAsync(student.Email, "Account Unlocked",
+                    $"Dear {student.FirstName} {student.LastName},\n\n" +
+                    "your account has been unlocked.Please login with your password and you can continue your studies");
+
+
+                    return "Account has been unlocked.";
+                }
+            }
+            
+
         }
 
     }
