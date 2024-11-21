@@ -128,13 +128,5 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-
-     
-
-        [HttpPost("test")]
-        public async void imageUpload(StudentRequestDto studentDto)
-        {
-            
-        }
     }
 }
