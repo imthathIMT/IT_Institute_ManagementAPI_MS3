@@ -54,12 +54,10 @@ public class AuthService : IAuthService
                     if (student.FailedLoginAttempts >= MaxLoginAttempts)
                     {
                         student.IsLocked = true;
-                        await _context.SaveChangesAsync();
-                        throw new Exception("Your account has been locked due to too many failed login attempts.");
                     }
-
-                    await _context.SaveChangesAsync();
-                    throw new Exception("Incorrect password.");
+                    await _context.SaveChangesAsync(); // Save only once after updating failed attempts or locking
+                    throw new Exception(student.IsLocked ?
+                        "Your account has been locked due to too many failed login attempts." : "Incorrect password.");
                 }
 
                 // Reset failed attempts if login is successful
@@ -82,6 +80,7 @@ public class AuthService : IAuthService
             throw new Exception("Incorrect password.");
         }
     }
+
 
     private string CreateToken(User user)
     {
