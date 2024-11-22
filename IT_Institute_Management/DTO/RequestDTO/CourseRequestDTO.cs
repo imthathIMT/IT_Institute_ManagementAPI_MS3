@@ -21,5 +21,7 @@ namespace IT_Institute_Management.DTO.RequestDTO
 
         [Required(ErrorMessage = "At least one image is required.")]
         public List<IFormFile> Images { get; set; }
+
+        public string? Description { get; set; }
     }
 }
