@@ -171,7 +171,8 @@ namespace IT_Institute_Management.Services
             course.Level = courseRequest.Level;
             course.Duration = courseRequest.Duration;
             course.Fees = courseRequest.Fees;
-            course.ImagePaths = string.Join(",", imagePaths); 
+            course.ImagePaths = string.Join(",", imagePaths);
+            course.Description = courseRequest.Description;
 
             await _courseRepository.UpdateCourseAsync(course);
 
