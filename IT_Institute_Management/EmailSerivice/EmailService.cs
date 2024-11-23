@@ -9,89 +9,76 @@ namespace IT_Institute_Management.EmailSerivice
 {
     public class EmailService : IEmailService
     {
-        private IStudentRepository _studentRepository;
         private readonly string _smtpServer = "smtp.gmail.com";
         private readonly int _smtpPort = 587;
+        private readonly string _senderEmail = "devhubinstitute@gmail.com"; // Sender email
+        private readonly string _senderPassword = "Imthath2002";
 
-
-        private readonly string Email = "devhubinstitute@gmail.com";
-        private readonly string password = "Imthath2002";
-
-        public async Task SendEmailAsync(string email, string subject, string body)
+        public async Task SendEmailAsync(string recipientEmail, string subject, string body)
         {
             try
             {
                 using (var message = new MailMessage())
+                using (var client = new SmtpClient(_smtpServer))
                 {
-                    message.From = new MailAddress("devhubinstitute@gmail.com");
+                    message.From = new MailAddress(_senderEmail);
                     message.Subject = subject;
                     message.Body = body;
                     message.IsBodyHtml = false;
-                    message.To.Add(new MailAddress(email));
+                    message.To.Add(new MailAddress(recipientEmail));
 
-                    using (var client = new SmtpClient(_smtpServer))
-                    {
-                        client.EnableSsl = true;
-                        client.Port = _smtpPort;
-                        client.Credentials = new NetworkCredential(
-                            Environment.GetEnvironmentVariable(Email),
-                            Environment.GetEnvironmentVariable(password));
+                    client.EnableSsl = true;
+                    client.Port = _smtpPort;
+                    client.Credentials = new NetworkCredential(_senderEmail, _senderPassword);
 
-                        await client.SendMailAsync(message);
-                    }
+                    await client.SendMailAsync(message);
                 }
 
-                Console.WriteLine($"Email sent to {email} successfully.");
+                Console.WriteLine($"Email sent to {recipientEmail} successfully.");
             }
             catch (Exception ex)
             {
-                // Log or handle the exception (you could log to a file or external system)
-                Console.WriteLine($"Error sending email to {email}: {ex.Message}");
+                // Handle the exception (e.g., log to file or an external system)
+                Console.WriteLine($"Error sending email to {recipientEmail}: {ex.Message}");
             }
         }
 
-        public async Task SendBulkEmailAsync(string subject, string body)
+        public async Task SendBulkEmailAsync(string subject, string body, List<string> recipientEmails)
         {
-            var emails = await _studentRepository.GetAllStudentMail();
-
             try
             {
-                if (emails == null || emails.Count == 0)
+                if (recipientEmails == null || recipientEmails.Count == 0)
                 {
                     Console.WriteLine("No email addresses provided.");
                     return;
                 }
 
                 using (var message = new MailMessage())
+                using (var client = new SmtpClient(_smtpServer))
                 {
-                    message.From = new MailAddress("devhubinstitute@gmail.com");
+                    message.From = new MailAddress(_senderEmail);
                     message.Subject = subject;
                     message.Body = body;
                     message.IsBodyHtml = false;
 
-                    // Add recipients to the "To" list
-                    foreach (var email in emails)
+                    // Add each email address to the recipient list
+                    foreach (var email in recipientEmails)
                     {
                         message.To.Add(new MailAddress(email));
                     }
 
-                    using (var client = new SmtpClient(_smtpServer))
-                    {
-                        client.EnableSsl = true;
-                        client.Port = _smtpPort;
-                        client.Credentials = new NetworkCredential(
-                            Environment.GetEnvironmentVariable(Email),
-                            Environment.GetEnvironmentVariable(password));
+                    client.EnableSsl = true;
+                    client.Port = _smtpPort;
+                    client.Credentials = new NetworkCredential(_senderEmail, _senderPassword);
 
-                        await client.SendMailAsync(message);
-                    }
+                    await client.SendMailAsync(message);
                 }
 
                 Console.WriteLine("Bulk email sent successfully.");
             }
             catch (Exception ex)
             {
-                // Log or handle the exception
+                // Handle the exception
                 Console.WriteLine($"Error sending bulk email: {ex.Message}");
             }
         }
