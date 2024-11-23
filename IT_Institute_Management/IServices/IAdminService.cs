@@ -7,8 +7,8 @@ namespace IT_Institute_Management.IServices
     {
         Task<IEnumerable<AdminResponseDto>> GetAllAsync();
         Task<AdminResponseDto> GetByIdAsync(string nic);
-        Task<string> AddAsync(AdminRequestDto adminDto);
-        Task<string> UpdateAsync(AdminRequestDto adminDto);
-        Task<string> DeleteAsync(string nic);
+        Task AddAsync(AdminRequestDto adminDto);
+        Task UpdateAsync(AdminRequestDto adminDto);
+        Task DeleteAsync(string nic);
     }
 }

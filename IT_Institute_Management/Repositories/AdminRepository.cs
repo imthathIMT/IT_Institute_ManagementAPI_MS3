@@ -18,7 +18,7 @@ namespace IT_Institute_Management.Repositories
         }
 
 
-        public async Task<Admin> GetByNIC(string nic)
+        public async Task<Admin> GetByIdAsync(string nic)
         {
             return await _instituteDbContext.Admins.FindAsync(nic);
         }
