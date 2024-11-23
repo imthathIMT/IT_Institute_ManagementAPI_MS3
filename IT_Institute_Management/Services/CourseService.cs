@@ -40,7 +40,8 @@ namespace IT_Institute_Management.Services
                 Level = course.Level,
                 Duration = course.Duration,
                 Fees = course.Fees,
-                ImagePaths = course.ImagePaths.Split(',').ToList() 
+                ImagePaths = course.ImagePaths.Split(',').ToList(),
+                Description = course.Description,
             });
         }
 
@@ -58,7 +59,8 @@ namespace IT_Institute_Management.Services
                 Level = course.Level,
                 Duration = course.Duration,
                 Fees = course.Fees,
-                ImagePaths = course.ImagePaths.Split(',').ToList() 
+                ImagePaths = course.ImagePaths.Split(',').ToList() ,
+                Description = course.Description,
             };
         }
 
@@ -85,7 +87,8 @@ namespace IT_Institute_Management.Services
                 Level = courseRequest.Level,
                 Duration = courseRequest.Duration,
                 Fees = courseRequest.Fees,
-                ImagePaths = string.Join(",", imagePaths) 
+                ImagePaths = string.Join(",", imagePaths),
+                Description = courseRequest.Description,
             };
 
             await _courseRepository.AddCourseAsync(course);
@@ -105,6 +108,7 @@ namespace IT_Institute_Management.Services
                 var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
                            $"We are pleased to inform you that a new course has been added:\n" +
                            $"Course Name: {course.CourseName}\n" +
+                           $"Course Description: {course.Description}\n" +
                            $"Level: {course.Level}\n" +
                            $"Duration: {course.Duration} months\n" +
                            $"Fees: {course.Fees}\n\n" +
@@ -167,7 +171,8 @@ namespace IT_Institute_Management.Services
             course.Level = courseRequest.Level;
             course.Duration = courseRequest.Duration;
             course.Fees = courseRequest.Fees;
-            course.ImagePaths = string.Join(",", imagePaths); 
+            course.ImagePaths = string.Join(",", imagePaths);
+            course.Description = courseRequest.Description;
 
             await _courseRepository.UpdateCourseAsync(course);
 

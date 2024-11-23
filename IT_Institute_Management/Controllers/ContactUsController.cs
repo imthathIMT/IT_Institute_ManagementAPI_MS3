@@ -36,8 +36,16 @@ namespace IT_Institute_Management.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] ContactUsRequestDto contactUsDto)
         {
-            await _contactUsService.AddAsync(contactUsDto);
-            return CreatedAtAction(nameof(GetById), new { id = Guid.NewGuid() }, contactUsDto);
+            try
+            {
+                await _contactUsService.AddAsync(contactUsDto);
+                return Ok("Enquiry is posted");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] ContactUsRequestDto contactUsDto)
@@ -48,8 +56,16 @@ namespace IT_Institute_Management.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _contactUsService.DeleteAsync(id);
-            return NoContent();
+            try
+            {
+                await _contactUsService.DeleteAsync(id);
+                return Ok("Successfuly deleted");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
         }
 
 
