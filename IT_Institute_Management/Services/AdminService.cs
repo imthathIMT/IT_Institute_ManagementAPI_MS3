@@ -18,7 +18,7 @@ namespace IT_Institute_Management.Services
         private readonly IPasswordHasher _passwordHasher;
         private readonly InstituteDbContext _instituteDbContext;
         private readonly IImageService _imageService;
-        public AdminService(IAdminRepository adminRepository,IUserService userService, IPasswordHasher passwordHasher, InstituteDbContext instituteDbContext, IImageService imageService)
+        public AdminService(IAdminRepository adminRepository, IUserService userService, IPasswordHasher passwordHasher, InstituteDbContext instituteDbContext, IImageService imageService)
         {
             _adminRepository = adminRepository;
             _userService = userService;
@@ -52,7 +52,7 @@ namespace IT_Institute_Management.Services
         {
             try
             {
-                var admin = await _adminRepository.GetByIdAsync(nic);
+                var admin = await _adminRepository.GetByNIC(nic);
                 if (admin == null)
                 {
                     throw new KeyNotFoundException($"Admin with NIC {nic} not found.");
@@ -75,11 +75,11 @@ namespace IT_Institute_Management.Services
 
 
 
-        public async Task AddAsync(AdminRequestDto adminDto)
+        public async Task<string> AddAsync(AdminRequestDto adminDto)
         {
             try
             {
-                
+
                 var existingUser = await _instituteDbContext.Users
                     .FirstOrDefaultAsync(u => u.NIC == adminDto.NIC);
 
@@ -88,7 +88,7 @@ namespace IT_Institute_Management.Services
                     throw new ApplicationException($"A user with the NIC {adminDto.NIC} already exists.");
                 }
 
-               
+
                 var hashedPassword = _passwordHasher.HashPassword(adminDto.Password);
 
                 var imagePath = string.Empty;
@@ -118,6 +118,7 @@ namespace IT_Institute_Management.Services
 
 
                 await _adminRepository.AddAsync(admin);
+                return ("Admin Successfully created");
             }
 
             catch (Exception ex)
@@ -129,113 +130,67 @@ namespace IT_Institute_Management.Services
 
 
 
-        public async Task UpdateAsync(AdminRequestDto adminDto)
+        public async Task<string> UpdateAsync(AdminRequestDto adminDto)
         {
-            try
+
+            var admin = await _adminRepository.GetByNIC(adminDto.NIC);
+            if (admin == null)
             {
-                var admin = await _adminRepository.GetByIdAsync(adminDto.NIC);
-                if (admin == null)
-                {
-                    throw new KeyNotFoundException($"Admin with NIC {adminDto.NIC} not found.");
-                }
-
-                
-                if (!string.IsNullOrEmpty(adminDto.Password))
-                {
-                    admin.Password = _passwordHasher.HashPassword(adminDto.Password);
-                    await _userService.UpdateAsync(adminDto.NIC, new UserRequestDto { Password = adminDto.Password });
-                }
-
-               
-                if (adminDto.Image != null)
-                {
-                    
-                    if (!string.IsNullOrEmpty(admin.ImagePath))
-                    {
-                        _imageService.DeleteImage(admin.ImagePath);  
-                    }
-
-                    
-                    admin.ImagePath = await _imageService.SaveImage(adminDto.Image, "admins");
-                }
-
-                admin.NIC = adminDto.NIC;
-                admin.Name = adminDto.Name;
-                admin.Phone = adminDto.Phone;
-                admin.Email = adminDto.Email;
-
-               
-                using (var transaction = await _instituteDbContext.Database.BeginTransactionAsync())
-                {
-                    try
-                    {
-                        
-                         _instituteDbContext.Admins.Update(admin);
-
-                       
-                        var user = await _instituteDbContext.Users.FirstOrDefaultAsync(u => u.NIC == adminDto.NIC);
-                        if (user != null)
-                        {
-                            user.Password = admin.Password;
-                            user.Role = Role.Admin;
-                            _instituteDbContext.Users.Update(user);
-                        }
-
-                        await _instituteDbContext.SaveChangesAsync();
-
-                        
-                        await transaction.CommitAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        
-                        await transaction.RollbackAsync();
-                        throw new ApplicationException("An error occurred while updatingr the admin.", ex);
-                    }
-                }
+                throw new KeyNotFoundException($"Admin with NIC {adminDto.NIC} not found.");
             }
-            catch (Exception ex)
+
+
+            if (!string.IsNullOrEmpty(adminDto.Password))
             {
-                throw new ApplicationException("An error occurred while updatingc the admin.", ex);
+                admin.Password = _passwordHasher.HashPassword(adminDto.Password);
+                await _userService.UpdateAsync(adminDto.NIC, new UserRequestDto { Password = adminDto.Password });
             }
-        }
 
 
-
-        public async Task DeleteAsync(string nic)
-        {
-            try
+            if (adminDto.Image != null)
             {
-                var admin = await _instituteDbContext.Admins
-                    .FirstOrDefaultAsync(a => a.NIC == nic);
 
-                if (admin == null)
-                {
-                    throw new KeyNotFoundException($"Admin with NIC {nic} not found.");
-                }
-               
                 if (!string.IsNullOrEmpty(admin.ImagePath))
                 {
                     _imageService.DeleteImage(admin.ImagePath);
                 }
 
 
-                _instituteDbContext.Admins.Remove(admin);
+                admin.ImagePath = await _imageService.SaveImage(adminDto.Image, "admins");
 
-               
-                var user = await _instituteDbContext.Users
-                    .FirstOrDefaultAsync(u => u.NIC == nic);
-                if (user != null)
-                {
-                    _instituteDbContext.Users.Remove(user);
-                }
-
-                await _instituteDbContext.SaveChangesAsync();
             }
-            catch (Exception ex)
+            admin.NIC = adminDto.NIC;
+            admin.Name = adminDto.Name;
+            admin.Phone = adminDto.Phone;
+            admin.Email = adminDto.Email;
+
+            await _adminRepository.UpdateAsync(admin);
+            return ("Admin Successfully Updated");
+        }
+
+
+
+        public async Task<string> DeleteAsync(string nic)
+        {
+            var admin = await _adminRepository.GetByNIC(nic);
+
+            if (admin == null)
             {
-                throw new ApplicationException("An error occurred while deleting the admin.", ex);
+                throw new Exception($"Admin with NIC {nic} not found.");
             }
+
+            if (!string.IsNullOrEmpty(admin.ImagePath))
+            {
+                _imageService.DeleteImage(admin.ImagePath);
+            }
+
+
+            _adminRepository.DeleteAsync(nic);
+            _userService.DeleteAsync(nic);
+            return ("Admin Successfully deleted");
+
+
+
         }
 
 
