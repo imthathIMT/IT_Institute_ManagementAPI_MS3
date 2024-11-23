@@ -17,8 +17,21 @@ namespace IT_Institute_Management.Controllers
         [HttpGet] 
         public async Task<IActionResult> GetAll() 
         {
-            var announcements = await _announcementService.GetAllAsync();
-            return Ok(announcements);
+            try
+            {
+                var announcements = await _announcementService.GetAllAsync();
+                if (announcements == null)
+                {
+                    return NotFound();
+                }
+                return Ok(announcements);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         [HttpGet("{id}")]
@@ -35,21 +48,46 @@ namespace IT_Institute_Management.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] AnnouncementRequestDto announcementDto)
         {
-            await _announcementService.AddAsync(announcementDto);
-            return CreatedAtAction(nameof(GetById), new { id = Guid.NewGuid() }, announcementDto);
+            try
+            {
+                await _announcementService.AddAsync(announcementDto);
+                return Ok("Announcement is posted successfull");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] AnnouncementRequestDto announcementDto)
         {
-            await _announcementService.UpdateAsync(id, announcementDto);
-            return NoContent();
+            try
+            {
+                await _announcementService.UpdateAsync(id, announcementDto);
+                return Ok("Announcement successfully updated");
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _announcementService.DeleteAsync(id);
-            return NoContent();
+            try
+            {
+                await _announcementService.DeleteAsync(id);
+                return Ok("Successfuly deleted");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
         }
 
 
