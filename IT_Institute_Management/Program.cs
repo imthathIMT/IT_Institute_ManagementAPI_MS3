@@ -1,5 +1,6 @@
 using IT_Institute_Management.Database;
 using IT_Institute_Management.EmailSerivice;
+using IT_Institute_Management.EmailService;
 using IT_Institute_Management.ImageService;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;

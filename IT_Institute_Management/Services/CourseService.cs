@@ -97,7 +97,10 @@ namespace IT_Institute_Management.Services
             var announcement = new Announcement
             {
                 Title = $"New Course offreing: {course.CourseName}",
-                Body = $"We are offrerring new course: {course.CourseName}. Level: {course.Level}, Duration: {course.Duration} months, Fees: {course.Fees}.",
+                Body = $"We are offrerring new course: {course.CourseName}." +
+                $" \n Level: {course.Level}, " +
+                $"\n Duration: {course.Duration} " +
+                $"\n months, Fees: {course.Fees}.",
                 Date = DateTime.UtcNow
             };
             await _announcementRepository.AddAsync(announcement);

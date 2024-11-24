@@ -31,16 +31,16 @@ namespace IT_Institute_Management.Controllers
         }
 
         // Endpoint to send bulk emails
-        [HttpPost("send-bulk")]
-        public async Task<IActionResult> SendBulkEmail(List<string> Emails, string body, string subject)
-        {
-            if (Emails == null || Emails.Count == 0 || string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(body))
-            {
-                return BadRequest("Emails, Subject, and Body are required.");
-            }
+        //[HttpPost("send-bulk")]
+        //public async Task<IActionResult> SendBulkEmail(List<string> Emails, string body, string subject)
+        //{
+        //    if (Emails == null || Emails.Count == 0 || string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(body))
+        //    {
+        //        return BadRequest("Emails, Subject, and Body are required.");
+        //    }
 
-            await _emailService.SendBulkEmailAsync(subject, body,Emails);
-            return Ok("Bulk email sent successfully.");
-        }
+        //    await _emailService.SendBulkEmailAsync(subject, body,Emails);
+        //    return Ok("Bulk email sent successfully.");
+        //}
     }
 }
