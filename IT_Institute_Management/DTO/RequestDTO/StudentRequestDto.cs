@@ -31,7 +31,7 @@ namespace IT_Institute_Management.DTO.RequestDTO
         public IFormFile? Image { get; set; }
 
         [Required(ErrorMessage = "Address is required.")]
-        public AddressRequestDto Address { get; set; }
+        public AddressRequestDto? Address { get; set; }
     }
 
     public class AddressRequestDto
