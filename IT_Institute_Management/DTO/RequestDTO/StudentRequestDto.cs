@@ -28,31 +28,31 @@ namespace IT_Institute_Management.DTO.RequestDTO
             ErrorMessage = "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.")]
         public string Password { get; set; }
 
-        public IFormFile? Image { get; set; }
+        public required IFormFile Image { get; set; }
 
-        [Required(ErrorMessage = "Address is required.")]
-        public AddressRequestDto Address { get; set; }
+        //[Required(ErrorMessage = "Address is required.")]
+        public AddressRequestDto? Address { get; set; }
     }
 
     public class AddressRequestDto
     {
-        [Required(ErrorMessage = "Address Line 1 is required.")]
+        //[Required(ErrorMessage = "Address Line 1 is required.")]
         public string AddressLine1 { get; set; }
 
         public string AddressLine2 { get; set; }
 
-        [Required(ErrorMessage = "City is required.")]
+        //[Required(ErrorMessage = "City is required.")]
         public string City { get; set; }
 
-        [Required(ErrorMessage = "State is required.")]
+        //[Required(ErrorMessage = "State is required.")]
         public string State { get; set; }
 
-        [Required(ErrorMessage = "Zip code is required.")]
+        //[Required(ErrorMessage = "Zip code is required.")]
         [RegularExpression(@"^\d{5}(-\d{4})?$",
             ErrorMessage = "Invalid zip code format. Example: 12345 or 12345-6789.")]
         public string PostalCode { get; set; }
 
-        [Required(ErrorMessage = "Country is required.")]
+        //[Required(ErrorMessage = "Country is required.")]
         public string Country { get; set; }
     }
 
