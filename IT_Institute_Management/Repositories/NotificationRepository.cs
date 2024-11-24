@@ -59,6 +59,14 @@ namespace IT_Institute_Management.Repositories
             }
         }
 
+        public async Task<IEnumerable<Notification>> GetAllNotificationsByStudentNicAsync(string studentNic)
+        {
+            return await _context.Notification
+                                 .Where(n => n.StudentNIC == studentNic)
+                                 .ToListAsync();
+        }
+
+
 
         public async Task<bool> NotificationExistsAsync(Guid id)
         {

@@ -96,9 +96,36 @@ namespace IT_Institute_Management.Services
             };
 
           
-            await _notificationRepository.AddNotificationAsync(notification);
-
-          
+            await _notificationRepository.AddNotificationAsync(notification);         
         }
+
+        public async Task<IEnumerable<NotificationResponseDTO>> GetAllNotificationsByStudentNicAsync(string studentNic)
+        {
+            if (string.IsNullOrWhiteSpace(studentNic))
+            {
+                throw new ArgumentException("NIC is required", nameof(studentNic));
+            }
+
+            var notifications = await _notificationRepository.GetAllNotificationsByStudentNicAsync(studentNic);
+
+            if (notifications == null || !notifications.Any())
+            {
+                throw new Exception("Notifications not found.");
+            }
+
+            var responseList = notifications
+                .Select(notification => new NotificationResponseDTO
+                {
+                    Id = notification.Id,
+                    Message = notification.Message,
+                    Date = notification.Date,
+                    StudentNIC = notification.StudentNIC
+                })
+                .ToList(); // Ensure materialization here
+
+            return responseList;
+        }
+
     }
 }
+
