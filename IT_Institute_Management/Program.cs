@@ -28,7 +28,6 @@ SampleDataIntializer seeder = new SampleDataIntializer();
 seeder.AddMasterAdminSampleData();
 // Add sample Admin data
 seeder.AddAdminSampleData();
-
 // Add sample Student data
 seeder.AddStudentSampleData();
 
