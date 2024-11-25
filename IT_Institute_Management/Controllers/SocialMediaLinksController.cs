@@ -87,17 +87,21 @@ namespace IT_Institute_Management.Controllers
             try
             {
                 var result = await _service.DeleteAsync(id);
+
+                // Check if deletion was successful
                 if (!result)
                 {
                     return NotFound(new { Message = $"No Social Media Links found for ID: {id}" });
                 }
-                return NoContent();
+
+                return Ok(new { Message = "Social Media Links deleted successfully." });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return BadRequest(new { Message = "Failed to delete Social Media Links.", Details = ex.Message });
             }
         }
+
     }
 }
 
