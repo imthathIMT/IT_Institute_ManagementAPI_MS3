@@ -18,6 +18,7 @@ namespace IT_Institute_Management.Database
         public DbSet<Enrollment> Enrollment { get; set; } 
         public DbSet<Payment> Payments { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<SocialMediaLinks> SocialMediaLinks { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -62,7 +63,12 @@ namespace IT_Institute_Management.Database
                 .HasOne(a => a.User)
                 .WithOne()
                 .HasForeignKey<Admin>(a => a.UserId)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SocialMediaLinks>()
+           .HasOne(s => s.Student)
+           .WithOne(u => u.SocialMediaLinks)
+           .HasForeignKey<SocialMediaLinks>(s => s.StudentNIC);
 
 
 

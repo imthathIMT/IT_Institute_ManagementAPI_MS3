@@ -47,7 +47,9 @@ namespace IT_Institute_Management.Entity
         //[JsonIgnore]
         public ICollection<Enrollment>? Enrollment { get; set; }
 
-       
+        public virtual SocialMediaLinks SocialMediaLinks { get; set; }
+
+
 
     }
 }
