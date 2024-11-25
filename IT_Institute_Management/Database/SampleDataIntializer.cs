@@ -56,7 +56,7 @@ namespace IT_Institute_Management.Database
             Guid userId = Guid.NewGuid();
             string nic = "987654321V";
             string password = "Admin@123";
-            string name = "Admin User";
+            string name = "Pppiragash";
             string email = "admin@example.com";
             string phone = "+123456789";
             string imagePath = "/images/admin.jpg";
@@ -95,8 +95,8 @@ namespace IT_Institute_Management.Database
             Guid userId = Guid.NewGuid();
             string nic = "123456789V";
             string password = "Student@123";
-            string firstName = "John";
-            string lastName = "Doe";
+            string firstName = "Mohamed";
+            string lastName = "safeek";
             string email = "student@example.com";
             string phone = "0761234567";
             string imagePath = "/images/student.jpg";

@@ -18,15 +18,17 @@ namespace IT_Institute_Management.Services
         private readonly IPasswordHasher _passwordHasher;
         private readonly IImageService _imageService;
         private readonly IUserService _userService;
+        private readonly ISocialMediaLinksService _socialMediaLinksService;
 
 
-        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher, IImageService imageService, IUserService userService)
+        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher, IImageService imageService, IUserService userService, ISocialMediaLinksService socialMediaLinksService)
         {
             _studentRepository = studentRepository;
             _emailService = emailService;
             _passwordHasher = passwordHasher;
             _imageService = imageService;
             _userService = userService;
+            _socialMediaLinksService = socialMediaLinksService;
         }
 
 
@@ -143,6 +145,16 @@ namespace IT_Institute_Management.Services
                     Country = studentDto.Address.Country
                 }
             };
+
+            if (_socialMediaLinksService == null)
+            {
+                throw new InvalidOperationException("SocialMediaLinks service not initialized.");
+            }
+
+            await _socialMediaLinksService.CreateAsync(new SocialMediaLinksRequestDto
+            {
+                StudentNIC = studentDto.NIC,
+            });
 
             if (_userService == null)
             {
