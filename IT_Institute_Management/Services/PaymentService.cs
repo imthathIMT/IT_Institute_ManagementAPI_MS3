@@ -398,6 +398,10 @@ namespace IT_Institute_Management.Services
             return payments.Sum(p => p.Amount);
         }
 
-
+        public async Task<decimal> GetTotalIncomeAsync()
+        {
+            var payments = await _paymentRepository.GetAllPaymentsAsync();
+            return payments.Sum(p => p.Amount); // Sum up the Amount from all payments
+        }
     }
 }
