@@ -128,7 +128,7 @@ namespace IT_Institute_Management.Controllers
             catch (Exception ex)
             {
                 // Log the error if needed
-                return StatusCode(500, new { Message = "An error occurred while calculating total income.", Details = ex.Message });
+                return BadRequest(new { Message = "An error occurred while calculating total income.", Details = ex.Message });
             }
         }
 
