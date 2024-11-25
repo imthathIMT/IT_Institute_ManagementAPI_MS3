@@ -41,7 +41,7 @@ namespace IT_Institute_Management.Entity
         public Guid UserId { get; set; }
         public User? User { get; set; }
 
-        public Address? Address { get; set; }
+        public Address Address { get; set; }
 
         public ICollection<Notification>? Notification { get; set; }
         //[JsonIgnore]

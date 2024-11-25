@@ -9,7 +9,7 @@
         public string Phone { get; set; }
         public bool IsLocked { get; set; }
         public string ImagePath { get; set; }
-        public AddressResponseDto? Address { get; set; }
+        public AddressResponseDto Address { get; set; }
     }
 
     public class AddressResponseDto

@@ -43,19 +43,16 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
-                
                 var validationResults = new List<ValidationResult>();
                 var validationContext = new ValidationContext(student);
                 bool isValid = Validator.TryValidateObject(student, validationContext, validationResults, true);
 
                 if (!isValid)
                 {
-                   
                     var errorMessages = validationResults.Select(vr => vr.ErrorMessage).ToList();
                     throw new ValidationException(string.Join(", ", errorMessages));
                 }
 
-              
                 var user = new User()
                 {
                     NIC = student.NIC,
@@ -63,12 +60,14 @@ namespace IT_Institute_Management.Repositories
                     Role = Role.Student
                 };
 
+               
                 await _context.Users.AddAsync(user);
-                await _context.SaveChangesAsync(); 
+                await _context.SaveChangesAsync();
 
                
                 student.UserId = user.Id;
 
+              
                 await _context.Students.AddAsync(student);
                 await _context.SaveChangesAsync();
             }
@@ -78,11 +77,11 @@ namespace IT_Institute_Management.Repositories
             }
             catch (Exception ex)
             {
-               
-
-                throw new Exception($"An error occurred while adding the student: {ex.Message}", ex);
+                var innerExceptionMessage = ex.InnerException?.Message ?? "No inner exception.";
+                throw new Exception($"An error occurred while adding the student: {ex.Message}. Inner Exception: {innerExceptionMessage}", ex);
             }
         }
+
 
         public async Task UpdateAsync(Student student)
         {
