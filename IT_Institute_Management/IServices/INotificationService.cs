@@ -11,5 +11,6 @@ namespace IT_Institute_Management.IServices
         Task UpdateNotificationAsync(Guid id, NotificationRequestDTO notificationRequest);
         Task DeleteNotificationAsync(Guid id);
         Task SendNotificationAsync(string studentNIC, string message);
+        Task<IEnumerable<NotificationResponseDTO>> GetAllNotificationsByStudentNicAsync(string studentNic);
     }
 }

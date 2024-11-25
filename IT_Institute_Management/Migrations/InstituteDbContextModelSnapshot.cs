@@ -430,7 +430,8 @@ namespace IT_Institute_Management.Migrations
 
             modelBuilder.Entity("IT_Institute_Management.Entity.Student", b =>
                 {
-                    b.Navigation("Address");
+                    b.Navigation("Address")
+                        .IsRequired();
 
                     b.Navigation("Enrollment");
 

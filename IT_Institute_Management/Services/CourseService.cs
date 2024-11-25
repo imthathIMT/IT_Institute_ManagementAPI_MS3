@@ -97,24 +97,27 @@ namespace IT_Institute_Management.Services
             var announcement = new Announcement
             {
                 Title = $"New Course offreing: {course.CourseName}",
-                Body = $"We are offrerring new course: {course.CourseName}. Level: {course.Level}, Duration: {course.Duration} months, Fees: {course.Fees}.",
+                Body = $"We are offrerring new course: {course.CourseName}." +
+                $" \n Level: {course.Level}, " +
+                $"\n Duration: {course.Duration} " +
+                $"\n months, Fees: {course.Fees}.",
                 Date = DateTime.UtcNow
             };
             await _announcementRepository.AddAsync(announcement);
 
-            var students = await _studentRepository.GetAllAsync();
-            foreach (var student in students)
-            {
-                var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
-                           $"We are pleased to inform you that a new course has been added:\n" +
-                           $"Course Name: {course.CourseName}\n" +
-                           $"Course Description: {course.Description}\n" +
-                           $"Level: {course.Level}\n" +
-                           $"Duration: {course.Duration} months\n" +
-                           $"Fees: {course.Fees}\n\n" +
-                           "Best Regards,\nIT Institute Management";
-                await _emailService.SendEmailAsync(student.Email, "New Course Available", body);
-            }
+            //var students = await _studentRepository.GetAllAsync();
+            //foreach (var student in students)
+            //{
+            //    var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
+            //               $"We are pleased to inform you that a new course has been added:\n" +
+            //               $"Course Name: {course.CourseName}\n" +
+            //               $"Course Description: {course.Description}\n" +
+            //               $"Level: {course.Level}\n" +
+            //               $"Duration: {course.Duration} months\n" +
+            //               $"Fees: {course.Fees}\n\n" +
+            //               "Best Regards,\nIT Institute Management";
+            //    await _emailService.SendEmailAsync(student.Email, "New Course Available", body);
+            //}
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.DTO.ResponseDTO;
 using IT_Institute_Management.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -126,6 +127,27 @@ namespace IT_Institute_Management.Controllers
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
+
+        [HttpGet("nic/{nic}")]
+        public async Task<IActionResult> GetAllNotificationsByStudentNicAsync(string nic)
+        {
+            try
+            {
+                var data = await _notificationService.GetAllNotificationsByStudentNicAsync(nic);
+
+                if (data == null || !data.Any())
+                {
+                    return NotFound(new { message = "Notifications not found." });
+                }
+
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
 
 
 

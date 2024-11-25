@@ -93,13 +93,32 @@ namespace IT_Institute_Management.Services
 
         public async Task AddStudentAsync(StudentRequestDto studentDto)
         {
+            if (studentDto == null)
+            {
+                throw new ArgumentNullException(nameof(studentDto), "StudentDto cannot be null.");
+            }
+
+            if (studentDto.Address == null)
+            {
+                throw new ArgumentNullException(nameof(studentDto.Address), "Address cannot be null.");
+            }
+
             var imagePath = string.Empty;
 
             if (studentDto.Image != null)
             {
+                if (_imageService == null)
+                {
+                    throw new InvalidOperationException("Image service is not initialized.");
+                }
+
                 imagePath = await _imageService.SaveImage(studentDto.Image, "students");
             }
 
+            if (_passwordHasher == null)
+            {
+                throw new InvalidOperationException("Password hasher is not initialized.");
+            }
 
             var hashedPassword = _passwordHasher.HashPassword(studentDto.Password);
 
@@ -125,6 +144,10 @@ namespace IT_Institute_Management.Services
                 }
             };
 
+            if (_userService == null)
+            {
+                throw new InvalidOperationException("User service is not initialized.");
+            }
 
             await _userService.AddAsync(new UserRequestDto
             {
@@ -132,11 +155,19 @@ namespace IT_Institute_Management.Services
                 Password = hashedPassword
             }, Role.Student);
 
+            if (_studentRepository == null)
+            {
+                throw new InvalidOperationException("Student repository is not initialized.");
+            }
 
             await _studentRepository.AddAsync(student);
 
+            if (_emailService == null)
+            {
+                throw new InvalidOperationException("Email service is not initialized.");
+            }
 
-            await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
+            //await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
         }
 
 

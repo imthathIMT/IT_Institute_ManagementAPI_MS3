@@ -9,6 +9,7 @@ namespace IT_Institute_Management.IRepositories
         Task AddNotificationAsync(Notification notification);
         Task UpdateNotificationAsync(Notification notification);
         Task DeleteNotificationAsync(Guid id);
+        Task<IEnumerable<Notification>> GetAllNotificationsByStudentNicAsync(string studentNic);
         Task<bool> NotificationExistsAsync(Guid id);
     }
 }
