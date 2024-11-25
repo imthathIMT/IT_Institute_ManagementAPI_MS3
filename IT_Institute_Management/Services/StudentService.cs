@@ -167,7 +167,7 @@ namespace IT_Institute_Management.Services
                 throw new InvalidOperationException("Email service is not initialized.");
             }
 
-            await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
+            //await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
         }
 
 
