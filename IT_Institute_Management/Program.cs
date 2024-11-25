@@ -23,6 +23,15 @@ var builder = WebApplication.CreateBuilder(args);
 //    });
 
 
+SampleDataIntializer seeder = new SampleDataIntializer();
+// Add sample Master Admin 
+seeder.AddMasterAdminSampleData();
+// Add sample Admin data
+seeder.AddAdminSampleData();
+
+// Add sample Student data
+seeder.AddStudentSampleData();
+
 
 
 // Add services to the container.
