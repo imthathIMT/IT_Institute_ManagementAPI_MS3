@@ -238,12 +238,12 @@ namespace IT_Institute_Management.Services
 
             await _studentRepository.UpdateAsync(student);
 
-            return "Student Updated Succesfuly";
+            //return "Student Updated Succesfuly";
 
 
 
             //await _emailService.SendEmailAsync(student.Email, "Profile Updated", $"{student.FirstName} {student.LastName}, your profile has been successfully updated.");
-            //return "Student profile update successful";
+            return "Student profile update successful";
 
         }
 
