@@ -113,6 +113,9 @@ builder.Services.AddScoped<IImageService, ImageService>();
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
+builder.Services.AddScoped<ISocialMediaLinksRepository, SocialMediaLinksRepository>();
+builder.Services.AddScoped<ISocialMediaLinksService, SocialMediaLinksService>();
+
 
 
 
