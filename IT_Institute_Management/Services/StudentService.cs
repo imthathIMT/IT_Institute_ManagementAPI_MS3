@@ -144,7 +144,7 @@ namespace IT_Institute_Management.Services
                     PostalCode = studentDto.Address.PostalCode,
                     Country = studentDto.Address.Country
                 }
-             
+
             };
 
             // Check for social media service
@@ -239,7 +239,7 @@ namespace IT_Institute_Management.Services
             await _studentRepository.UpdateAsync(student);
 
 
-            await _emailService.SendEmailAsync(student.Email, "Profile Updated", $"{student.FirstName} {student.LastName}, your profile has been successfully updated.");
+            //await _emailService.SendEmailAsync(student.Email, "Profile Updated", $"{student.FirstName} {student.LastName}, your profile has been successfully updated.");
             return "Student profile update successful";
         }
 
@@ -291,7 +291,7 @@ namespace IT_Institute_Management.Services
             await _studentRepository.UpdateAsync(student);
 
 
-            await _emailService.SendEmailAsync(student.Email, "Password Updated", $"{student.FirstName} {student.LastName}, your password has been successfully updated.");
+            //await _emailService.SendEmailAsync(student.Email, "Password Updated", $"{student.FirstName} {student.LastName}, your password has been successfully updated.");
         }
 
 
@@ -300,19 +300,19 @@ namespace IT_Institute_Management.Services
             var student = await _studentRepository.GetByNicAsync(nic);
             if (student == null)
             {
-                throw new Exception( "Student not found.");
+                throw new Exception("Student not found.");
             }
             else
             {
                 student.IsLocked = true;
                 await _studentRepository.UpdateStudentAccount(student);
 
-                await _emailService.SendEmailAsync(student.Email, "Account Locked",
-                 $"Dear {student.FirstName} {student.LastName},\n\n" +
-                 "your account has been locked by admin. please contact admin");
+                //await _emailService.SendEmailAsync(student.Email, "Account Locked",
+                // $"Dear {student.FirstName} {student.LastName},\n\n" +
+                // "your account has been locked by admin. please contact admin");
 
                 return "Account has been locked.";
-            }      
+            }
         }
 
 
@@ -325,32 +325,31 @@ namespace IT_Institute_Management.Services
             }
             else
             {
+                var hashedPassword = _passwordHasher.HashPassword(unlockDto.NewPassword);
+
+                await _userService.UpdateAsync(unlockDto.NIC, new UserRequestDto { Password = hashedPassword });
+
                 student.IsLocked = false;
-                student.Password = unlockDto.NewPassword;
+                student.Password = hashedPassword;
                 student.FailedLoginAttempts = 0;
 
-                if (!string.IsNullOrEmpty(unlockDto.NewPassword))
-                {
-                    student.Password = _passwordHasher.HashPassword(unlockDto.NewPassword);
 
-                    await _userService.UpdateAsync(unlockDto.NIC, new UserRequestDto { Password = unlockDto.NewPassword });
-                }
                 await _studentRepository.UpdateStudentAccount(student);
 
                 // Send unlock account email
-                await _emailService.SendEmailAsync(student.Email, "Account Unlocked",
-                    $"Dear {student.FirstName} {student.LastName},\n\n" +
-                    "Your account has been unlocked. Your password has been reset. Please login with your new password.");
+                //await _emailService.SendEmailAsync(student.Email, "Account Unlocked",
+                //    $"Dear {student.FirstName} {student.LastName},\n\n" +
+                //    "Your account has been unlocked. Your password has been reset. Please login with your new password.");
 
                 return "Account has been unlocked and password updated.";
             }
 
-           
+
         }
 
         public async Task<string> DirectUnlock(string nic)
         {
-            if(nic == null)
+            if (nic == null)
             {
                 throw new Exception("NIC is required");
             }
@@ -366,15 +365,15 @@ namespace IT_Institute_Management.Services
                     student.IsLocked = false;
                     await _studentRepository.UpdateStudentAccount(student);
 
-                    await _emailService.SendEmailAsync(student.Email, "Account Unlocked",
-                    $"Dear {student.FirstName} {student.LastName},\n\n" +
-                    "your account has been unlocked.Please login with your password and you can continue your studies");
+                    //await _emailService.SendEmailAsync(student.Email, "Account Unlocked",
+                    //$"Dear {student.FirstName} {student.LastName},\n\n" +
+                    //"your account has been unlocked.Please login with your password and you can continue your studies");
 
 
                     return "Account has been unlocked.";
                 }
             }
-            
+
 
         }
 
