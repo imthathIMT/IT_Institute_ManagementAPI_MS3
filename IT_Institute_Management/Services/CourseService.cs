@@ -189,18 +189,18 @@ namespace IT_Institute_Management.Services
             await _announcementRepository.AddAsync(announcement);
 
            
-            var students = await _studentRepository.GetAllAsync();
-            foreach (var student in students)
-            {
-                var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
-                           $"The following course has been updated:\n" +
-                           $"Course Name: {course.CourseName}\n" +
-                           $"Level: {course.Level}\n" +
-                           $"Duration: {course.Duration} months\n" +
-                           $"Fees: {course.Fees}\n\n" +
-                           "Best Regards,\nIT Institute Management";
-                await _emailService.SendEmailAsync(student.Email, "Course Update", body);
-            }
+            //var students = await _studentRepository.GetAllAsync();
+            //foreach (var student in students)
+            //{
+            //    var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
+            //               $"The following course has been updated:\n" +
+            //               $"Course Name: {course.CourseName}\n" +
+            //               $"Level: {course.Level}\n" +
+            //               $"Duration: {course.Duration} months\n" +
+            //               $"Fees: {course.Fees}\n\n" +
+            //               "Best Regards,\nIT Institute Management";
+            //    await _emailService.SendEmailAsync(student.Email, "Course Update", body);
+            //}
         }
 
         public async Task DeleteCourseAsync(Guid id)
