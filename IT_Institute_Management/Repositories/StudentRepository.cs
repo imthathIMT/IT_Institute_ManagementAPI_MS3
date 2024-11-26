@@ -43,6 +43,7 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
+                // Validate the student object
                 var validationResults = new List<ValidationResult>();
                 var validationContext = new ValidationContext(student);
                 bool isValid = Validator.TryValidateObject(student, validationContext, validationResults, true);
@@ -53,6 +54,7 @@ namespace IT_Institute_Management.Repositories
                     throw new ValidationException(string.Join(", ", errorMessages));
                 }
 
+                // Create a new user
                 var user = new User()
                 {
                     NIC = student.NIC,
@@ -60,20 +62,25 @@ namespace IT_Institute_Management.Repositories
                     Role = Role.Student
                 };
 
-               
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
 
-               
+                // Set the user ID in student
                 student.UserId = user.Id;
 
-              
+                // Add the student to the context
                 await _context.Students.AddAsync(student);
                 await _context.SaveChangesAsync();
             }
             catch (ValidationException validationEx)
             {
-                throw new Exception($"Validation failed: {validationEx.Message}");
+                throw new Exception($"Validation failed: {validationEx.Message}", validationEx);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                // Capture and log database errors like foreign key issues
+                var innerExceptionMessage = dbEx.InnerException?.Message ?? "No inner exception.";
+                throw new Exception($"Database error occurred: {dbEx.Message}. Inner Exception: {innerExceptionMessage}", dbEx);
             }
             catch (Exception ex)
             {

@@ -144,8 +144,10 @@ namespace IT_Institute_Management.Services
                     PostalCode = studentDto.Address.PostalCode,
                     Country = studentDto.Address.Country
                 }
+             
             };
 
+            // Check for social media service
             if (_socialMediaLinksService == null)
             {
                 throw new InvalidOperationException("SocialMediaLinks service not initialized.");
@@ -156,17 +158,20 @@ namespace IT_Institute_Management.Services
                 StudentNIC = studentDto.NIC,
             });
 
+            // Ensure UserService is initialized
             if (_userService == null)
             {
                 throw new InvalidOperationException("User service is not initialized.");
             }
 
+            // Add the user
             await _userService.AddAsync(new UserRequestDto
             {
                 NIC = studentDto.NIC,
                 Password = hashedPassword
             }, Role.Student);
 
+            // Ensure Student Repository is initialized
             if (_studentRepository == null)
             {
                 throw new InvalidOperationException("Student repository is not initialized.");
@@ -174,13 +179,16 @@ namespace IT_Institute_Management.Services
 
             await _studentRepository.AddAsync(student);
 
+            // Check Email Service initialization
             if (_emailService == null)
             {
                 throw new InvalidOperationException("Email service is not initialized.");
             }
 
-            //await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
+            // Uncomment the email service once setup is correct
+            // await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
         }
+
 
 
 

@@ -9,6 +9,7 @@ using IT_Institute_Management.Database;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.IServices;
+using System.ComponentModel.DataAnnotations;
 
 namespace IT_Institute_Management.Controllers
 {
@@ -56,20 +57,35 @@ namespace IT_Institute_Management.Controllers
         }
 
 
-
         [HttpPost]
-        public async Task<IActionResult> AddStudent( StudentRequestDto studentDto)
+        public async Task<IActionResult> AddStudent(StudentRequestDto studentDto)
         {
             try
             {
+                if (studentDto == null)
+                {
+                    return BadRequest("Student data is required.");
+                }
+
                 await _studentService.AddStudentAsync(studentDto);
                 return CreatedAtAction(nameof(GetStudentByNic), new { nic = studentDto.NIC }, studentDto);
             }
+            catch (ValidationException validationEx)
+            {
+                return BadRequest($"Validation failed: {validationEx.Message}");
+            }
+            catch (DbUpdateException dbEx)
+            {
+                // Log the database exception for better diagnostics
+                return BadRequest($"Database error occurred: {dbEx.Message}. Inner Exception: {dbEx.InnerException?.Message}");
+            }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                // Log general exceptions
+                return BadRequest($"An unexpected error occurred: {ex.Message}. Inner Exception: {ex.InnerException?.Message}");
             }
         }
+
 
 
 
