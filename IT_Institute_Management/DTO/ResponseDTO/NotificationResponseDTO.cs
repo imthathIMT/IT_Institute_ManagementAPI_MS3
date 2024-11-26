@@ -1,4 +1,6 @@
-﻿namespace IT_Institute_Management.DTO.ResponseDTO
+﻿using IT_Institute_Management.Entity;
+
+namespace IT_Institute_Management.DTO.ResponseDTO
 {
     public class NotificationResponseDTO
     {
@@ -6,5 +8,7 @@
         public string Message { get; set; }
         public DateTime Date { get; set; }
         public string StudentNIC { get; set; }
+
+        public StudentResponseDto Student { get; set; }
     }
 }

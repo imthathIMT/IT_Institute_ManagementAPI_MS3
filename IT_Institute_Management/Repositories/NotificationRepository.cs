@@ -16,7 +16,7 @@ namespace IT_Institute_Management.Repositories
        
         public async Task<IEnumerable<Notification>> GetAllNotificationsAsync()
         {
-            return await _context.Notification.ToListAsync();
+            return await _context.Notification.Include(s=>s.Student).ToListAsync();
         }
 
         public async Task<Notification> GetNotificationByIdAsync(Guid id)
