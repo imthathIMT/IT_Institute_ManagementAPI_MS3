@@ -236,7 +236,7 @@ namespace IT_Institute_Management.Services
                 var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
                            $"We regret to inform you that a course has been deleted from the system.\n\n" +
                            "Best Regards,\nIT Institute Management";
-                await _emailService.SendEmailAsync(student.Email, "Course Deleted", body);
+                //await _emailService.SendEmailAsync(student.Email, "Course Deleted", body);
             }
         }
 
