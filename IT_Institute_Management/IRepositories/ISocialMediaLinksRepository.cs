@@ -8,6 +8,6 @@ namespace IT_Institute_Management.IRepositories
         Task<SocialMediaLinks> GetByNICAsync(string nic);
         Task<SocialMediaLinks> CreateAsync(SocialMediaLinks socialMediaLinks);
         Task<SocialMediaLinks> UpdateAsync(SocialMediaLinks socialMediaLinks);
-        Task<bool> DeleteAsync(Guid id);
+        Task<bool> DeleteAsync(string nic);
     }
 }

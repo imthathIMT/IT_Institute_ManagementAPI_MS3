@@ -38,9 +38,9 @@ namespace IT_Institute_Management.Repositories
             return socialMediaLinks;
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(string nic)
         {
-            var entity = await _context.SocialMediaLinks.FindAsync(id);
+            var entity = await _context.SocialMediaLinks.FirstOrDefaultAsync(s => s.StudentNIC == nic);
             if (entity == null)
             {
                 return false;

@@ -9,6 +9,6 @@ namespace IT_Institute_Management.IServices
         Task<SocialMediaLinksResponseDto> GetByNICAsync(string nic);
         Task<SocialMediaLinksResponseDto> CreateAsync(SocialMediaLinksRequestDto requestDto);
         Task<SocialMediaLinksResponseDto> UpdateAsync(Guid id, SocialMediaLinksRequestDto requestDto);
-        Task<bool> DeleteAsync(Guid id);
+        Task<bool> DeleteAsync(string nic);
     }
 }

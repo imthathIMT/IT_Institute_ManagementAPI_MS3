@@ -124,6 +124,13 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
+                var socialMedia = _context.SocialMediaLinks.FirstOrDefaultAsync(s => s.StudentNIC == nic);
+                if(socialMedia != null)
+                {
+                    _context.SocialMediaLinks.Remove(await socialMedia);
+                }
+               
+
                 var student = await GetByNicAsync(nic);
                 if (student == null)
                 {

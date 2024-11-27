@@ -81,17 +81,17 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpDelete("{nic}")]
+        public async Task<IActionResult> Delete(string nic)
         {
             try
             {
-                var result = await _service.DeleteAsync(id);
+                var result = await _service.DeleteAsync(nic);
 
                 // Check if deletion was successful
                 if (!result)
                 {
-                    return NotFound(new { Message = $"No Social Media Links found for ID: {id}" });
+                    return NotFound(new { Message = $"No Social Media Links found for ID: {nic}" });
                 }
 
                 return Ok(new { Message = "Social Media Links deleted successfully." });

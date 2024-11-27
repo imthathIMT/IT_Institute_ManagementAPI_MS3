@@ -50,6 +50,7 @@ namespace IT_Institute_Management.Services
                     Email = student.Email,
                     Phone = student.Phone,
                     IsLocked = student.IsLocked,
+                    FailedLoginAttempts = student.FailedLoginAttempts,
                     ImagePath = student.ImagePath,
                     Address = new AddressResponseDto
                     {
@@ -80,6 +81,7 @@ namespace IT_Institute_Management.Services
                 Email = student.Email,
                 Phone = student.Phone,
                 IsLocked = student.IsLocked,
+                FailedLoginAttempts = student.FailedLoginAttempts,
                 ImagePath = student.ImagePath,
                 Address = new AddressResponseDto
                 {
@@ -251,21 +253,29 @@ namespace IT_Institute_Management.Services
 
         public async Task DeleteStudentAsync(string nic)
         {
+            if (string.IsNullOrWhiteSpace(nic))
+            {
+                throw new ArgumentException("NIC cannot be null or empty.", nameof(nic));
+            }
+
+            // Fetch the student record
             var student = await _studentRepository.GetByNicAsync(nic);
             if (student == null)
             {
                 throw new Exception($"Student with NIC {nic} not found.");
             }
 
-
+            // Delete the image if it exists
             if (!string.IsNullOrEmpty(student.ImagePath))
             {
                 _imageService.DeleteImage(student.ImagePath);
             }
 
-
+            // Delete related data
             await _userService.DeleteAsync(nic);
+            await _socialMediaLinksService.DeleteAsync(nic);
 
+            // Delete the student record
             await _studentRepository.DeleteAsync(nic);
         }
 

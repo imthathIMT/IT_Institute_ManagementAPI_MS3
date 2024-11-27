@@ -147,9 +147,9 @@ namespace IT_Institute_Management.Services
             };
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(string nic)
         {
-            return await _repository.DeleteAsync(id);
+            return await _repository.DeleteAsync(nic);
         }
     }
 }
