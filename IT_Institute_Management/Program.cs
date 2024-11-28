@@ -105,6 +105,11 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+builder.Services.AddScoped<IStudentMessageRepository, StudentMessageRepository>();
+builder.Services.AddScoped<IStudentMessageService, StudentMessageService>();
+
+builder.Services.AddScoped<ISocialMediaLinksRepository, SocialMediaLinksRepository>();
+builder.Services.AddScoped<ISocialMediaLinksService, SocialMediaLinksService>();
 
 
 builder.Services.AddScoped<IEmailService, EmailService>();
@@ -113,8 +118,7 @@ builder.Services.AddScoped<IImageService, ImageService>();
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
-builder.Services.AddScoped<ISocialMediaLinksRepository, SocialMediaLinksRepository>();
-builder.Services.AddScoped<ISocialMediaLinksService, SocialMediaLinksService>();
+
 
 
 
