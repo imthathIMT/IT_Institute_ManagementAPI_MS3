@@ -322,43 +322,46 @@ namespace IT_Institute_Management.Services
         }
 
 
-
-
-
         public async Task<IEnumerable<PaymentResponseDto>> GetPaymentsByStudentNICAsync(string nic)
         {
-            
             var student = await _studentRepository.GetByNicAsync(nic);
             if (student == null)
                 throw new KeyNotFoundException("Student not found.");
 
-            
             var enrollments = await _enrollmentRepository.GetEnrollmentByNICAsync(student.NIC);
             if (enrollments == null || !enrollments.Any())
                 throw new KeyNotFoundException("No enrollments found for this student.");
 
-           
             var paymentDtos = new List<PaymentResponseDto>();
+
             foreach (var enrollment in enrollments)
             {
-               
                 var payments = await _paymentRepository.GetPaymentsByEnrollmentIdAsync(enrollment.Id);
+
                 foreach (var payment in payments)
                 {
-                   
                     var totalPaid = (await _paymentRepository.GetPaymentsByEnrollmentIdAsync(payment.EnrollmentId.GetValueOrDefault()))
                                     .Sum(p => p.Amount);
 
-                   
                     var fullAmount = await CalculateFullAmountAsync(payment.EnrollmentId.GetValueOrDefault());
 
-                   
                     var dueAmount = fullAmount - totalPaid;
 
-                    
                     dueAmount = dueAmount < 0 ? 0 : dueAmount;
 
-                   
+                    // Map EnrollmentResponseDto
+                    var enrollmentDto = new EnrollmentResponseDto
+                    {
+                        Id = enrollment.Id,
+                        EnrollmentDate = enrollment.EnrollmentDate,
+                        PaymentPlan = enrollment.PaymentPlan,
+                        IsComplete = enrollment.IsComplete,
+                        StudentNIC = enrollment.StudentNIC,
+                        CourseId = enrollment.CourseId,
+                        payments = paymentDtos.FirstOrDefault(p => p.EnrollmentId == enrollment.Id)  // Optionally map payment
+                    };
+
+                    // Add the payment to the list with the mapped enrollment
                     paymentDtos.Add(new PaymentResponseDto
                     {
                         Id = payment.Id,
@@ -366,13 +369,15 @@ namespace IT_Institute_Management.Services
                         PaymentDate = payment.PaymentDate,
                         EnrollmentId = payment.EnrollmentId.GetValueOrDefault(),
                         TotalPaidAmount = totalPaid,
-                        DueAmount = dueAmount
+                        DueAmount = dueAmount,
+                        Enrollment = enrollmentDto  // Assign the EnrollmentResponseDto here
                     });
                 }
             }
 
             return paymentDtos;
         }
+
 
         public async Task DeletePaymentAsync(Guid id)
         {

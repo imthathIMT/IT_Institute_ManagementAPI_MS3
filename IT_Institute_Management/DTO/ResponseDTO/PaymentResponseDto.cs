@@ -8,5 +8,6 @@
         public decimal DueAmount { get; set; }
         public DateTime PaymentDate { get; set; }
         public Guid EnrollmentId { get; set; }
+        public EnrollmentResponseDto Enrollment { get; set; }
     }
 }
