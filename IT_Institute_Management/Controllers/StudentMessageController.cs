@@ -66,5 +66,30 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            try
+            {
+                var success = await _service.DeleteMessageAsync(id);
+                if (success)
+                {
+                    // Return a success message with a 200 OK response
+                    return Ok(new { message = "Delete successful" });
+                }
+                else
+                {
+                    // Return a 404 Not Found with a message if the entity was not found
+                    return NotFound(new { message = "Message not found for the given ID." });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Return a 400 Bad Request with the error message
+                return BadRequest(new { message = "Error deleting the message: " + ex.Message });
+            }
+        }
+
+
     }
 }

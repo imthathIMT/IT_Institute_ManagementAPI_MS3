@@ -58,6 +58,15 @@ namespace IT_Institute_Management.Repositories
             return data.Entity;
         }
 
+        public async Task DeleteAsync(Guid id)
+        {
+            var message = await _context.StudentMessages.FindAsync(id);
+            if (message != null)
+            {
+                _context.StudentMessages.Remove(message);
+            }
+        }
+
         public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() > 0;

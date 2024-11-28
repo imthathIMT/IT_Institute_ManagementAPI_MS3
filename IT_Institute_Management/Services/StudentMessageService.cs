@@ -131,6 +131,10 @@ namespace IT_Institute_Management.Services
             }
         }
 
-
+        public async Task<bool> DeleteMessageAsync(Guid id)
+        {
+            await _repository.DeleteAsync(id);
+            return await _repository.SaveAsync();
+        }
     }
 }

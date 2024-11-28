@@ -9,5 +9,6 @@ namespace IT_Institute_Management.IServices
         Task<IEnumerable<StudentMessageResponseDto>> GetAllMessagesAsync();
         Task<IEnumerable<StudentMessageResponseDto>> GetMessagesByStudentNICAsync(string studentNIC);
         Task<StudentMessageResponseDto> AddMessageAsync(StudentMessageRequestDto requestDto);
+        Task<bool> DeleteMessageAsync(Guid id);
     }
 }
