@@ -391,5 +391,86 @@ namespace IT_Institute_Management.Services
 
         }
 
+        //////Student profile get
+        public async Task<StudentResponseDto> GetStudentProfileByNICAsync(string nic)
+        {
+            var student = await _studentRepository.GetStudentProfileByNICAsync(nic);
+
+            if (student == null)
+            {
+                throw new KeyNotFoundException("Student not found");
+            }
+
+            // Mapping to DTO
+            var studentResponse = new StudentResponseDto
+            {
+                NIC = student.NIC,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                Phone = student.Phone,
+                IsLocked = student.IsLocked,
+                FailedLoginAttempts = student.FailedLoginAttempts,
+                ImagePath = student.ImagePath,
+                Address = new AddressResponseDto
+                {
+                    AddressLine1 = student.Address.AddressLine1,
+                    AddressLine2 = student.Address.AddressLine2,
+                    City = student.Address.City,
+                    State = student.Address.State,
+                    PostalCode = student.Address.PostalCode,
+                    Country = student.Address.Country
+                }
+            };
+
+            // Add Social Media Links
+            if (student.SocialMediaLinks != null)
+            {
+                studentResponse.SocialMediaLinks = new SocialMediaLinksResponseDto
+                {
+                    LinkedIn = student.SocialMediaLinks.LinkedIn,
+                    Instagram = student.SocialMediaLinks.Instagram,
+                    Facebook = student.SocialMediaLinks.Facebook,
+                    GitHub = student.SocialMediaLinks.GitHub,
+                    WhatsApp = student.SocialMediaLinks.WhatsApp,
+                    StudentNIC = student.NIC
+                };
+            }
+
+            // Add Enrollment and Course Data
+            studentResponse.Enrollments = student.Enrollment.Select(e => new EnrollmentResponseDto
+            {
+                Id = e.Id,
+                EnrollmentDate = e.EnrollmentDate,
+                PaymentPlan = e.PaymentPlan,
+                IsComplete = e.IsComplete,
+                StudentNIC = e.StudentNIC,
+                CourseId = e.CourseId,
+                course = new CourseResponseDTO
+                {
+                    Id = e.Course.Id,
+                    CourseName = e.Course.CourseName,
+                    Level = e.Course.Level,
+                    Duration = e.Course.Duration,
+                    Fees = e.Course.Fees,
+                    ImagePaths = e.Course.ImagePaths != null
+                                  ? e.Course.ImagePaths.Split(',').ToList()
+            :                     new List<string>(),
+                    Description = e.Course.Description
+                },
+                payments = e.payments.Select(p => new PaymentResponseDto
+                {
+                    Id = p.Id,
+                    TotalPaidAmount = p.TotalPaidAmount,
+                    Amount = p.Amount,
+                    DueAmount = p.DueAmount,
+                    PaymentDate = p.PaymentDate,
+                    EnrollmentId = (Guid)p.EnrollmentId
+                }).FirstOrDefault() // Assuming one payment per enrollment, adjust if needed
+            }).ToList();
+
+            return studentResponse;
+        }
+
     }
 }

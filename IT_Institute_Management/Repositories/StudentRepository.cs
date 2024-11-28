@@ -181,6 +181,20 @@ namespace IT_Institute_Management.Repositories
             }
         }
 
+        //student profile get
+        public async Task<Student> GetStudentProfileByNICAsync(string nic)
+        {
+            return await _context.Students
+                .Include(s => s.Address)
+                .Include(s => s.Notification)
+                .Include(s => s.Enrollment)
+                    .ThenInclude(e => e.Course)
+                .Include(s => s.Enrollment)
+                    .ThenInclude(e => e.payments)
+                .Include(s => s.SocialMediaLinks)
+                .FirstOrDefaultAsync(s => s.NIC == nic);
+        }
+
         public async Task UpdateStudentAccount(Student student)
         {
             _context.Students.Update(student);

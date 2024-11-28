@@ -189,5 +189,23 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
+        [HttpGet("profile/{nic}")]
+        public async Task<IActionResult> GetStudentProfileByNIC(string nic)
+        {
+            try
+            {
+                var studentProfile = await _studentService.GetStudentProfileByNICAsync(nic);
+                return Ok(studentProfile);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { message = "Student not found" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
     }
 }
