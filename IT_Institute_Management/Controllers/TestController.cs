@@ -20,7 +20,7 @@ namespace IT_Institute_Management.Controllers
         {
             try
             {
-               await _emailService.SendEmailAsync(email,subject, body);
+               await _emailService.SendEmail(email,subject, body);
                 return Ok();
             }
             catch (Exception ex)

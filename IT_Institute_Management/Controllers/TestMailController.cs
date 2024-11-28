@@ -26,7 +26,7 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest("Email, Subject, and Body are required.");
             }
 
-            await _emailService.SendEmailAsync(email, subject,body);
+            await _emailService.SendEmail(email, subject,body);
             return Ok("Email sent successfully.");
         }
 
