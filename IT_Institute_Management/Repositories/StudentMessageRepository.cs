@@ -50,7 +50,18 @@ namespace IT_Institute_Management.Repositories
             }
         }
 
+        public async Task<StudentMessage> AddAsync(StudentMessage studentMessage)
+        {
+            var data = await _context.StudentMessages.AddAsync(studentMessage);
+            await _context.SaveChangesAsync();
 
+            return data.Entity;
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
 
     }
 }

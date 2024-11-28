@@ -1,4 +1,5 @@
-﻿using IT_Institute_Management.DTO.ResponseDTO;
+﻿using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.DTO.ResponseDTO;
 using IT_Institute_Management.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -49,5 +50,21 @@ namespace IT_Institute_Management.Controllers
                 return NotFound(new { message = ex.Message });
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult<StudentMessageResponseDto>> Post([FromBody] StudentMessageRequestDto requestDto)
+        {
+            try
+            {
+                var result = await _service.AddMessageAsync(requestDto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                // Return a BadRequest response with the exception message
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 }

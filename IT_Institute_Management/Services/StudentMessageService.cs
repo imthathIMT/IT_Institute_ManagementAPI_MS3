@@ -1,4 +1,6 @@
-﻿using IT_Institute_Management.DTO.ResponseDTO;
+﻿using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.DTO.ResponseDTO;
+using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
 using SendGrid.Helpers.Errors.Model;
@@ -87,6 +89,46 @@ namespace IT_Institute_Management.Services
                     }
                 }
             });
+        }
+
+        public async Task<StudentMessageResponseDto> AddMessageAsync(StudentMessageRequestDto requestDto)
+        {
+            try
+            {
+                var studentMessage = new StudentMessage
+                {
+                    Id = Guid.NewGuid(),
+                    Message = requestDto.Message,
+                    Date = requestDto.Date,
+                    StudentNIC = requestDto.StudentNIC
+                };
+
+                // Await AddAsync to ensure the message is saved before we return
+                var message = await _repository.AddAsync(studentMessage);
+
+                // Save changes to the database
+                await _repository.SaveAsync();
+
+                // Return the response DTO
+                return new StudentMessageResponseDto
+                {
+                    Id = message.Id,
+                    Message = message.Message,
+                    Date = message.Date,
+                    StudentNIC = message.StudentNIC
+                };
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging (could use ILogger here)
+                Console.WriteLine($"Error: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+
+                throw new Exception("Error saving the message", ex);
+            }
         }
 
 
