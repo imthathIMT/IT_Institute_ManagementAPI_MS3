@@ -376,6 +376,7 @@ namespace IT_Institute_Management.Services
                 else
                 {
                     student.IsLocked = false;
+                    student.FailedLoginAttempts = 0;
                     await _studentRepository.UpdateStudentAccount(student);
 
                     //await _emailService.SendEmailAsync(student.Email, "Account Unlocked",

@@ -45,7 +45,7 @@ public class AuthService : IAuthService
             {
                 if (student.IsLocked)
                 {
-                    throw new Exception("Your account is locked. Please contact admin");
+                    throw new Exception("Your account is locked. Please contact admin.");
                 }
 
                 if (!_passwordHasher.VerifyHashedPassword(user.Password, request.Password))
@@ -55,9 +55,15 @@ public class AuthService : IAuthService
                     {
                         student.IsLocked = true;
                     }
-                    await _context.SaveChangesAsync(); // Save only once after updating failed attempts or locking
-                    throw new Exception(student.IsLocked ?
-                        "Your account has been locked due to too many failed login attempts." : "Incorrect password.");
+                    else
+                    {
+                        int remainingAttempts = MaxLoginAttempts - student.FailedLoginAttempts;
+                        await _context.SaveChangesAsync(); // Save only once after updating failed attempts or locking
+                        throw new Exception($"Incorrect password. Dear student you have {remainingAttempts} login attempt(s) remaining.");
+                    }
+
+                    await _context.SaveChangesAsync();
+                    throw new Exception("Your account has been locked due to too many failed login attempts.");
                 }
 
                 // Reset failed attempts if login is successful
@@ -77,7 +83,7 @@ public class AuthService : IAuthService
         }
         else
         {
-            throw new Exception("Incorrect password.");
+            throw new Exception("Incorrect nic or password.");
         }
     }
 
@@ -96,7 +102,7 @@ public class AuthService : IAuthService
             _configuration["Jwt:Issuer"],
             _configuration["Jwt:Audience"],
             claims: claimsList,
-            expires: DateTime.Now.AddDays(10),
+            expires: DateTime.Now.AddDays(1),
             signingCredentials: credentials
         );
 
