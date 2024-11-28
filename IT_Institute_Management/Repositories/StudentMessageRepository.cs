@@ -1,4 +1,5 @@
 ﻿using IT_Institute_Management.Database;
+using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,25 @@ namespace IT_Institute_Management.Repositories
         {
             _context = context;
         }
+
+        public async Task<IEnumerable<StudentMessage>> GetAllAsync()
+        {
+            var data = await _context.StudentMessages
+                                 .Include(sm => sm.Student)
+                                 .ThenInclude(s => s.Address)
+                                 .ToListAsync();
+
+            if (data != null)
+            {
+                return data;
+            }
+            else
+            {
+                throw new Exception("Student messages not found");
+            }
+        }
+
+
 
     }
 }
