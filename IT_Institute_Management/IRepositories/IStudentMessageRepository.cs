@@ -5,6 +5,7 @@ namespace IT_Institute_Management.IRepositories
     public interface IStudentMessageRepository
     {
         Task<IEnumerable<StudentMessage>> GetAllAsync();
+        Task<IEnumerable<StudentMessage>> GetByStudentNICAsync(string studentNIC);
 
     }
 }

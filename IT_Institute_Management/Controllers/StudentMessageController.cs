@@ -35,5 +35,19 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpGet("by-student/{studentNIC}")]
+        public async Task<ActionResult<IEnumerable<StudentMessageResponseDto>>> GetByStudentNIC(string studentNIC)
+        {
+            try
+            {
+                var result = await _service.GetMessagesByStudentNICAsync(studentNIC);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
     }
 }

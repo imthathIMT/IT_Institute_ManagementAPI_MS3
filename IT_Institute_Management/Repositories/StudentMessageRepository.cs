@@ -2,6 +2,7 @@
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Errors.Model;
 
 namespace IT_Institute_Management.Repositories
 {
@@ -27,7 +28,25 @@ namespace IT_Institute_Management.Repositories
             }
             else
             {
-                throw new Exception("Student messages not found");
+                throw new NotFoundException("Student messages not found");
+            }
+        }
+
+        public async Task<IEnumerable<StudentMessage>> GetByStudentNICAsync(string studentNIC)
+        {
+            var data =  await _context.StudentMessages
+                                 .Where(sm => sm.StudentNIC == studentNIC)
+                                 .Include(sm => sm.Student)
+                                 .ThenInclude(s => s.Address)
+                                 .ToListAsync();
+
+            if (data != null)
+            {
+                return data;
+            }
+            else
+            {
+                throw new NotFoundException("Student messages not found");
             }
         }
 
