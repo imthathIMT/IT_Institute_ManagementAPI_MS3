@@ -8,8 +8,12 @@
         public string Email { get; set; }
         public string Phone { get; set; }
         public bool IsLocked { get; set; }
+        public int FailedLoginAttempts { get; set; }
         public string ImagePath { get; set; }
         public AddressResponseDto Address { get; set; }
+        public SocialMediaLinksResponseDto SocialMediaLinks { get; set; }
+        public List<EnrollmentResponseDto> Enrollments { get; set; } // List to hold multiple enrollments
+
     }
 
     public class AddressResponseDto

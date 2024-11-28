@@ -275,6 +275,39 @@ namespace IT_Institute_Management.Migrations
                     b.ToTable("Payments");
                 });
 
+            modelBuilder.Entity("IT_Institute_Management.Entity.SocialMediaLinks", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Facebook")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GitHub")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Instagram")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LinkedIn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentNIC")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("WhatsApp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentNIC")
+                        .IsUnique()
+                        .HasFilter("[StudentNIC] IS NOT NULL");
+
+                    b.ToTable("SocialMediaLinks");
+                });
+
             modelBuilder.Entity("IT_Institute_Management.Entity.Student", b =>
                 {
                     b.Property<string>("NIC")
@@ -321,6 +354,29 @@ namespace IT_Institute_Management.Migrations
                         .IsUnique();
 
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("IT_Institute_Management.Entity.StudentMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentNIC")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentNIC");
+
+                    b.ToTable("StudentMessages");
                 });
 
             modelBuilder.Entity("IT_Institute_Management.Entity.User", b =>
@@ -407,6 +463,15 @@ namespace IT_Institute_Management.Migrations
                     b.Navigation("Enrollment");
                 });
 
+            modelBuilder.Entity("IT_Institute_Management.Entity.SocialMediaLinks", b =>
+                {
+                    b.HasOne("IT_Institute_Management.Entity.Student", "Student")
+                        .WithOne("SocialMediaLinks")
+                        .HasForeignKey("IT_Institute_Management.Entity.SocialMediaLinks", "StudentNIC");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("IT_Institute_Management.Entity.Student", b =>
                 {
                     b.HasOne("IT_Institute_Management.Entity.User", "User")
@@ -416,6 +481,16 @@ namespace IT_Institute_Management.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("IT_Institute_Management.Entity.StudentMessage", b =>
+                {
+                    b.HasOne("IT_Institute_Management.Entity.Student", "Student")
+                        .WithMany("StudentMessages")
+                        .HasForeignKey("StudentNIC")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("IT_Institute_Management.Entity.Course", b =>
@@ -436,6 +511,10 @@ namespace IT_Institute_Management.Migrations
                     b.Navigation("Enrollment");
 
                     b.Navigation("Notification");
+
+                    b.Navigation("SocialMediaLinks");
+
+                    b.Navigation("StudentMessages");
                 });
 
             modelBuilder.Entity("IT_Institute_Management.Entity.User", b =>

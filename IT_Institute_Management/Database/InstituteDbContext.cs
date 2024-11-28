@@ -18,13 +18,12 @@ namespace IT_Institute_Management.Database
         public DbSet<Enrollment> Enrollment { get; set; } 
         public DbSet<Payment> Payments { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<SocialMediaLinks> SocialMediaLinks { get; set; }
+        public DbSet<StudentMessage> StudentMessages { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-           
-
-           
+        {   
             modelBuilder.Entity<Student>()
                .HasOne(a => a.Address)
                .WithOne(s => s.Student)
@@ -62,10 +61,19 @@ namespace IT_Institute_Management.Database
                 .HasOne(a => a.User)
                 .WithOne()
                 .HasForeignKey<Admin>(a => a.UserId)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<SocialMediaLinks>()
+           .HasOne(s => s.Student)
+           .WithOne(u => u.SocialMediaLinks)
+           .HasForeignKey<SocialMediaLinks>(s => s.StudentNIC);
 
-
+            // Define the relationship between Student and StudentMessage
+            modelBuilder.Entity<StudentMessage>()
+                .HasOne(sm => sm.Student)
+                .WithMany(s => s.StudentMessages)
+                .HasForeignKey(sm => sm.StudentNIC)
+                .OnDelete(DeleteBehavior.Cascade); // Or another delete behavior as needed
         }
     }
 }

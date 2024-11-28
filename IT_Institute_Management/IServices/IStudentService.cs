@@ -14,6 +14,7 @@ namespace IT_Institute_Management.IServices
 
         Task<string> LockAccountAsync(string nic);
         Task<string> UnlockAccountAsync(UnlockAccountDto unlockDto);
+        Task<StudentResponseDto> GetStudentProfileByNICAsync(string nic);
 
         Task<string> DirectUnlock(string nic);
     }

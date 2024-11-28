@@ -8,7 +8,7 @@
         public bool IsComplete { get; set; }
         public string StudentNIC { get; set; }
         public Guid CourseId { get; set; }
-
         public PaymentResponseDto? payments { get; set; }
+        public CourseResponseDTO? course { get; set; }
     }
 }
