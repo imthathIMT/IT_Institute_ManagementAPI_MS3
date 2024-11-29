@@ -12,10 +12,12 @@ namespace IT_Institute_Management.Controllers
     public class StudentMessageController : ControllerBase
     {
         private readonly IStudentMessageService _service;
+        private readonly IStudentService _studentService;
 
-        public StudentMessageController(IStudentMessageService studentMessageService)
+        public StudentMessageController(IStudentMessageService studentMessageService, IStudentService studentService)
         {
             _service = studentMessageService;
+            _studentService = studentService;
         }
 
 
@@ -56,12 +58,16 @@ namespace IT_Institute_Management.Controllers
         {
             try
             {
+                // Call the AddMessageAsync method to add the message
                 var result = await _service.AddMessageAsync(requestDto);
+
+                // Return a success response with the result
                 return Ok(result);
             }
             catch (Exception ex)
             {
                 // Return a BadRequest response with the exception message
+                // You can also log the exception here for further debugging
                 return BadRequest(new { message = ex.Message });
             }
         }

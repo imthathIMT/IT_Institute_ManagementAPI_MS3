@@ -10,10 +10,12 @@ namespace IT_Institute_Management.Services
     public class StudentMessageService : IStudentMessageService
     {
         private readonly IStudentMessageRepository _repository;
+        private readonly IStudentRepository _studentRepository;
 
-        public StudentMessageService(IStudentMessageRepository studentMessageRepository)
+        public StudentMessageService(IStudentMessageRepository studentMessageRepository, IStudentRepository studentRepository)
         {
             _repository = studentMessageRepository;
+            _studentRepository = studentRepository;
         }
 
         public async Task<IEnumerable<StudentMessageResponseDto>> GetAllMessagesAsync()
@@ -95,6 +97,7 @@ namespace IT_Institute_Management.Services
         {
             try
             {
+                // Map request DTO to entity
                 var studentMessage = new StudentMessage
                 {
                     Id = Guid.NewGuid(),
@@ -103,10 +106,10 @@ namespace IT_Institute_Management.Services
                     StudentNIC = requestDto.StudentNIC
                 };
 
-                // Await AddAsync to ensure the message is saved before we return
+                // Add the student message asynchronously
                 var message = await _repository.AddAsync(studentMessage);
 
-                // Save changes to the database
+                // Save changes asynchronously
                 await _repository.SaveAsync();
 
                 // Return the response DTO
@@ -120,17 +123,18 @@ namespace IT_Institute_Management.Services
             }
             catch (Exception ex)
             {
-                // Log the exception for debugging (could use ILogger here)
+                // Log the exception for debugging
+                // You should use a logging framework such as ILogger, here we are simply printing to the console for simplicity
                 Console.WriteLine($"Error: {ex.Message}");
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
                 }
 
-                throw new Exception("Error saving the message", ex);
+                // Throw a more descriptive exception to inform the caller
+                throw new Exception("Error saving the message. Please try again later.", ex);
             }
         }
-
         public async Task<bool> DeleteMessageAsync(Guid id)
         {
             await _repository.DeleteAsync(id);
