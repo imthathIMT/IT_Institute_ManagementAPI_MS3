@@ -9,10 +9,12 @@ namespace IT_Institute_Management.Repositories
     public class StudentMessageRepository : IStudentMessageRepository
     {
         private readonly InstituteDbContext _context;
+        private readonly IStudentRepository _studentRepository;
 
-        public StudentMessageRepository(InstituteDbContext context)
+        public StudentMessageRepository(InstituteDbContext context, IStudentRepository studentRepository)
         {
             _context = context;
+            _studentRepository = studentRepository;
         }
 
         public async Task<IEnumerable<StudentMessage>> GetAllAsync()
@@ -52,10 +54,24 @@ namespace IT_Institute_Management.Repositories
 
         public async Task<StudentMessage> AddAsync(StudentMessage studentMessage)
         {
-            var data = await _context.StudentMessages.AddAsync(studentMessage);
-            await _context.SaveChangesAsync();
+            // Await the asynchronous call to get the student by NIC
+            var student = await _studentRepository.GetByNicAsync(studentMessage.StudentNIC!);
 
-            return data.Entity;
+            // Check if the student exists
+            if (student != null)
+            {
+                // Add the message to the context and save it
+                var data = await _context.StudentMessages.AddAsync(studentMessage);
+                await _context.SaveChangesAsync();
+
+                // Return the entity after saving it
+                return data.Entity;
+            }
+            else
+            {
+                throw new Exception($"Student not found with NIC: {studentMessage.StudentNIC}");
+            }
+            
         }
 
         public async Task DeleteAsync(Guid id)
@@ -69,6 +85,7 @@ namespace IT_Institute_Management.Repositories
 
         public async Task<bool> SaveAsync()
         {
+            // Save the changes to the database and return whether the save was successful
             return await _context.SaveChangesAsync() > 0;
         }
 
