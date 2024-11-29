@@ -187,7 +187,7 @@ namespace IT_Institute_Management.Services
         {
             var enrollments = await _repo.GetAllEnrollmentsAsync();
             var filteredEnrollments = enrollments
-                .Where(e => e.StudentNIC == nic)
+                .Where(e => e.Student.NIC == nic)
                 .ToList();
 
             if (!filteredEnrollments.Any())
