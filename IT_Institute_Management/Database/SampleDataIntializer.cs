@@ -54,12 +54,12 @@ namespace IT_Institute_Management.Database
             END";
 
             Guid userId = Guid.NewGuid();
-            string nic = "987654321V";
-            string password = "Admin@123";
-            string name = "Pppiragash";
-            string email = "admin@example.com";
-            string phone = "+123456789";
-            string imagePath = "/images/admin.jpg";
+            string nic = "200431400979";
+            string password = "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q==";
+            string name = "Pathmarasan Piragash";
+            string email = "pppiragash2004@gmail.com";
+            string phone = "0766931772";
+            string imagePath = "/images/students/fcdf0f4c-c81d-4908-97b7-3a13a7d190d6.jpg";
 
             ExecuteQuery(query, new Dictionary<string, object>
             {
