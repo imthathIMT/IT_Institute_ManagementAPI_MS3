@@ -118,7 +118,7 @@ namespace IT_Institute_Management.Services
 
                 if (paymentRequestDto.Amount != fullAmount)
                 {
-                    throw new InvalidOperationException($"For full payment, the amount must be equal to the full course fee ({fullAmount:C}).");
+                    throw new InvalidOperationException($"For full payment, the amount must be equal to the full course fee (LKR {fullAmount:N2}).");
                 }
             }
             else if (enrollment.PaymentPlan == "Installment")
@@ -131,12 +131,12 @@ namespace IT_Institute_Management.Services
 
                 if (paymentRequestDto.Amount < (monthlyInstallment - installmentTolerance))
                 {
-                    throw new InvalidOperationException($"Installment amount must be at least {monthlyInstallment:C}. Your payment is too low.");
+                    throw new InvalidOperationException($"Installment amount must be at least LKR {monthlyInstallment:N2}. Your payment is too low.");
                 }
 
                 if (paymentRequestDto.Amount > (monthlyInstallment + installmentTolerance))
                 {
-                    throw new InvalidOperationException($"Installment amount cannot exceed {monthlyInstallment:C}. Your payment is too high.");
+                    throw new InvalidOperationException($"Installment amount cannot exceed LKR {monthlyInstallment:N2}. Your payment is too high.");
                 }
 
                
@@ -149,14 +149,14 @@ namespace IT_Institute_Management.Services
                     var nextPaymentDate = lastPayment.PaymentDate.AddMonths(1).AddDays(7);  
                     if (paymentRequestDto.PaymentDate < nextPaymentDate)
                     {
-                        throw new InvalidOperationException($"Next installment can only be paid after 1 month + 1 week from the previous payment. The next payment date is {nextPaymentDate:MMMM dd, yyyy}.");
+                        throw new InvalidOperationException($"Next installment can only be paid after One Month from the previous payment. The next payment date is {nextPaymentDate:MMMM dd, yyyy}.");
                     }
                 }
 
                
                 if (totalPaid + paymentRequestDto.Amount > fullAmount)
                 {
-                    throw new InvalidOperationException($"The total amount paid cannot exceed the course fee ({fullAmount:C}). You have already paid {totalPaid:C}.");
+                    throw new InvalidOperationException($"The total amount paid cannot exceed the course fee (LKR {fullAmount:N2}). You have already paid LKR {totalPaid:N2}.");
                 }
 
                
@@ -176,7 +176,7 @@ namespace IT_Institute_Management.Services
 
             if (dueAmount < 0)
             {
-                throw new InvalidOperationException($"Amount paid exceeds the due amount for the course. Due amount remaining: {fullAmount - totalPaid:C}");
+                throw new InvalidOperationException($"Amount paid exceeds the due amount for the course. Due amount remaining: LKR {fullAmount - totalPaid:N2}");
             }
 
             
