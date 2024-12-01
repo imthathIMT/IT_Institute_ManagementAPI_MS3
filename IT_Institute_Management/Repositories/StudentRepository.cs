@@ -124,12 +124,9 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
-                var socialMedia = _context.SocialMediaLinks.FirstOrDefaultAsync(s => s.StudentNIC == nic);
-                if(socialMedia != null)
-                {
-                    _context.SocialMediaLinks.Remove(await socialMedia);
-                }
-               
+                
+
+            
 
                 var student = await GetByNicAsync(nic);
                 if (student == null)
@@ -137,29 +134,33 @@ namespace IT_Institute_Management.Repositories
                     throw new Exception($"Student with NIC {nic} not found.");
                 }
 
-                
-                _context.Students.Remove(student);
-
                 var user = await _context.Users
-                    .FirstOrDefaultAsync(u => u.NIC == student.NIC);
-
+                .FirstOrDefaultAsync(u => u.NIC == student.NIC);
                 if (user != null)
                 {
                     _context.Users.Remove(user);
                 }
 
                
+                _context.Students.Remove(student);
+
+                
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException ex)
             {
                
-                throw new Exception($"The entity was modified or deleted by another user. Please try again. {ex.Message}");
+                throw new Exception($"The entity was modified or deleted by another user. Please try again. {ex.Message}", ex);
+            }
+            catch (DbUpdateException ex)
+            {
+               
+                throw new Exception($"An error occurred while saving the entity changes. {ex.InnerException?.Message ?? ex.Message}", ex);
             }
             catch (Exception ex)
             {
-               
-                throw new Exception($"An error occurred while deleting the student with NIC {nic}. {ex.Message}");
+                
+                throw new Exception($"An error occurred while deleting the student with NIC {nic}. {ex.Message}", ex);
             }
         }
 

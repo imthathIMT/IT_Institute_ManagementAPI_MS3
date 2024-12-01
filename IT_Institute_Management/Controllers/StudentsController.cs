@@ -116,7 +116,11 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+               
+
+               
+                var errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                return BadRequest(new { message = errorMessage });
             }
         }
 

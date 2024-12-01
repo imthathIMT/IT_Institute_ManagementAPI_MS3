@@ -66,7 +66,8 @@ namespace IT_Institute_Management.Database
             modelBuilder.Entity<SocialMediaLinks>()
            .HasOne(s => s.Student)
            .WithOne(u => u.SocialMediaLinks)
-           .HasForeignKey<SocialMediaLinks>(s => s.StudentNIC);
+           .HasForeignKey<SocialMediaLinks>(s => s.StudentNIC)
+            .OnDelete(DeleteBehavior.Cascade);
 
             // Define the relationship between Student and StudentMessage
             modelBuilder.Entity<StudentMessage>()

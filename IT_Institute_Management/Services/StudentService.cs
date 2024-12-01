@@ -272,8 +272,8 @@ namespace IT_Institute_Management.Services
             }
 
             // Delete related data
-            await _userService.DeleteAsync(nic);
-            await _socialMediaLinksService.DeleteAsync(nic);
+            //await _userService.DeleteAsync(nic);
+            //await _socialMediaLinksService.DeleteAsync(nic);
 
             // Delete the student record
             await _studentRepository.DeleteAsync(nic);
