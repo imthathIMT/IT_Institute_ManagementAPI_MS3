@@ -455,7 +455,7 @@ namespace IT_Institute_Management.Services
                     Fees = e.Course.Fees,
                     ImagePaths = e.Course.ImagePaths != null
                                   ? e.Course.ImagePaths.Split(',').ToList()
-            :                     new List<string>(),
+            : new List<string>(),
                     Description = e.Course.Description
                 },
                 payments = e.payments.Select(p => new PaymentResponseDto
@@ -470,6 +470,58 @@ namespace IT_Institute_Management.Services
             }).ToList();
 
             return studentResponse;
+        }
+
+
+        public async Task<StudentResponseDto> UpdateStudentAsync(string nic, StudentUpdateRequestDto updateDto)
+        {
+            var student = await _studentRepository.GetByNicAsync(nic);
+            if (student == null)
+            {
+                throw new Exception($"Student with NIC {nic} not found.");
+            }
+
+            // Manually map properties from StudentUpdateRequestDto to Student entity
+            student.FirstName = updateDto.FirstName;
+            student.LastName = updateDto.LastName;
+            student.Email = updateDto.Email;
+            student.Phone = updateDto.Phone;
+
+            // Manually map Address fields
+            student.Address.AddressLine1 = updateDto.Address.AddressLine1;
+            student.Address.AddressLine2 = updateDto.Address.AddressLine2;
+            student.Address.City = updateDto.Address.City;
+            student.Address.State = updateDto.Address.State;
+            student.Address.PostalCode = updateDto.Address.PostalCode;
+            student.Address.Country = updateDto.Address.Country;
+
+            // Update the student in the repository
+            _studentRepository.Update(student);
+            await _studentRepository.SaveAsync();
+
+            // Manually map Student entity to StudentResponseDto
+            var responseDto = new StudentResponseDto
+            {
+                NIC = student.NIC,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                Phone = student.Phone,
+                IsLocked = student.IsLocked,
+                FailedLoginAttempts = student.FailedLoginAttempts,
+                ImagePath = student.ImagePath,
+                Address = new AddressResponseDto
+                {
+                    AddressLine1 = student.Address.AddressLine1,
+                    AddressLine2 = student.Address.AddressLine2,
+                    City = student.Address.City,
+                    State = student.Address.State,
+                    PostalCode = student.Address.PostalCode,
+                    Country = student.Address.Country
+                }
+            };
+
+            return responseDto;
         }
 
     }

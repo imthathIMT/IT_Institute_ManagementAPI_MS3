@@ -21,7 +21,7 @@ namespace IT_Institute_Management.Database
 
             Guid userId = Guid.NewGuid();
             string nic = "200206601718";
-            string password = "AQAAAAIAAYagAAAAENEU8PTCmOGdKOGoyJ/GereRGnBy0J7AB/YA2edgYRyn4+e0YMS1kchDulbdkH6MoA==";
+            string password = "AQAAAAIAAYagAAAAENEU8PTCmOGdKOGoyJ/GereRGnBy0J7AB/YA2edgYRyn4+e0YMS1kchDulbdkH6MoA==";//Imthath@2002
             string name = "Imthath";
             string email = "mhdimthathHameem@gmail.com";
             string phone = "0768210306";
@@ -55,7 +55,7 @@ namespace IT_Institute_Management.Database
 
             Guid userId = Guid.NewGuid();
             string nic = "200431400979";
-            string password = "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q==";
+            string password = "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q==";//911@Pira
             string name = "Pathmarasan Piragash";
             string email = "pppiragash2004@gmail.com";
             string phone = "0766931772";

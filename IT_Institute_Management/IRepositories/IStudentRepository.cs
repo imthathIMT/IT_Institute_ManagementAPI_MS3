@@ -13,5 +13,7 @@ namespace IT_Institute_Management.IRepositories
         Task<Student> GetStudentProfileByNICAsync(string nic);
 
         Task UpdateStudentAccount(Student student);
+        void Update(Student entity);
+        Task SaveAsync();
     }
 }
