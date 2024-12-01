@@ -54,12 +54,12 @@ namespace IT_Institute_Management.Database
             END";
 
             Guid userId = Guid.NewGuid();
-            string nic = "987654321V";
-            string password = "Admin@123";
-            string name = "Pppiragash";
-            string email = "admin@example.com";
-            string phone = "+123456789";
-            string imagePath = "/images/admin.jpg";
+            string nic = "200431400979";
+            string password = "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q==";
+            string name = "Pathmarasan Piragash";
+            string email = "pppiragash2004@gmail.com";
+            string phone = "0766931772";
+            string imagePath = "/images/students/fcdf0f4c-c81d-4908-97b7-3a13a7d190d6.jpg";
 
             ExecuteQuery(query, new Dictionary<string, object>
             {
@@ -93,30 +93,30 @@ namespace IT_Institute_Management.Database
             END";
 
             Guid userId = Guid.NewGuid();
-            string nic = "123456789V";
-            string password = "Student@123";
+            string nic = "200417002813";
+            string password = "AQAAAAIAAYagAAAAEFAeSIHG89Q+sYECoGAu3dQx4Pc2s+/m344EwdV6xSnK1sqMsxuUPUtc/gSB3N1Ipg==";//Safeek@3211
             string firstName = "Mohamed";
             string lastName = "safeek";
-            string email = "student@example.com";
-            string phone = "0761234567";
-            string imagePath = "/images/student.jpg";
+            string email = "ut03211tic@gmail.com";
+            string phone = "0743773745";
+            string imagePath = "/images/students/557b0251-1ede-49d6-90e2-0f8cc58a2408.jpg";
             bool isLocked = false;
             int failedLoginAttempts = 0;
 
             Guid addressId = Guid.NewGuid();
-            string addressLine1 = "123 Main Street";
-            string addressLine2 = "Apt 4B";
-            string city = "Colombo";
-            string state = "Western";
-            string postalCode = "12345";
+            string addressLine1 = "Old Village";
+            string addressLine2 = "Sooduventhe pilavu";
+            string city = "Vavumiya";
+            string state = "Northern";
+            string postalCode = "43000";
             string country = "Sri Lanka";
 
             Guid socialMediaId = Guid.NewGuid();
-            string linkedIn = "https://linkedin.com/in/student";
-            string instagram = "https://instagram.com/student";
+            string linkedIn = "https://www.linkedin.com/in/safeek-mohamed-0ab486302?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app ";
+            string instagram = "https://www.instagram.com/person_0618/";
             string facebook = "https://facebook.com/student";
-            string gitHub = "https://github.com/student";
-            string whatsapp = "https://wa.me/+947654321";
+            string gitHub = "https://github.com/SafeekMohamed18";
+            string whatsapp = "https://wa.me/+94743773745";
 
             ExecuteQuery(query, new Dictionary<string, object>
             {
