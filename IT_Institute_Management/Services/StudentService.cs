@@ -188,7 +188,7 @@ namespace IT_Institute_Management.Services
             }
 
             // Uncomment the email service once setup is correct
-            // await _emailService.SendEmailAsync(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName}, your registration was successful.");
+            await _emailService.SendEmail(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName},\n Your registration was successful.\n \n Your NIC: {studentDto.NIC}, \n Your Password: {studentDto.Password}");
         }
 
 
