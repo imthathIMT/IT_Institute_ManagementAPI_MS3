@@ -26,7 +26,7 @@ namespace IT_Institute_Management.Services
             var existingEnrollment = await _repo.GetEnrollmentByNICAsync(enrollmentRequest.StudentNIC);
             if (existingEnrollment.Any(e => e.CourseId == enrollmentRequest.CourseId))
             {
-                throw new Exception("Student is already enrolled in this course.");
+                throw new Exception("Student  is already enrolled in this course.");
             }
 
             if (enrollmentRequest.PaymentPlan != "Full" && enrollmentRequest.PaymentPlan != "Installment")

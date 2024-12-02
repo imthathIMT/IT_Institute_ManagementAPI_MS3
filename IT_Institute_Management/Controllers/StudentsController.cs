@@ -18,10 +18,12 @@ namespace IT_Institute_Management.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly IStudentService _studentService;
+        private readonly IUserService _userService;
 
-        public StudentsController(IStudentService studentService)
+        public StudentsController(IStudentService studentService, IUserService userService)
         {
             _studentService = studentService;
+            _userService = userService;
         }
 
 
@@ -65,6 +67,12 @@ namespace IT_Institute_Management.Controllers
                 if (studentDto == null)
                 {
                     return BadRequest("Student data is required.");
+                }
+
+                var studentExists = await _userService.CheckUserExistsByNic(studentDto.NIC);
+                if (studentExists)
+                {
+                    return BadRequest(new { message = $"Student with NIC {studentDto.NIC} already exists." });
                 }
 
                 await _studentService.AddStudentAsync(studentDto);
