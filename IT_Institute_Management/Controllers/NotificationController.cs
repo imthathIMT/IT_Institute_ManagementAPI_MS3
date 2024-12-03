@@ -108,9 +108,8 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
         [HttpPost("send")]
-        public async Task<IActionResult> SendNotificationAsync([FromQuery] string studentNIC, [FromBody] string message)
+        public async Task<IActionResult> SendNotificationAsync(string studentNIC, [FromBody] string message)
         {
             if (string.IsNullOrWhiteSpace(studentNIC) || string.IsNullOrWhiteSpace(message))
             {
@@ -120,13 +119,14 @@ namespace IT_Institute_Management.Controllers
             try
             {
                 await _notificationService.SendNotificationAsync(studentNIC, message);
-                return Ok(new { Message = "Notification sent successfully." });
+                return Ok("Notification sent successfully.");
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
+
 
         [HttpGet("nic/{nic}")]
         public async Task<IActionResult> GetAllNotificationsByStudentNicAsync(string nic)
