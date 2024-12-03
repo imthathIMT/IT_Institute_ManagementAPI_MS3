@@ -52,7 +52,7 @@ namespace IT_Institute_Management.Services
             var notification = new Notification
             {
                 Message = notificationRequest.Message,
-                Date = notificationRequest.Date,
+                Date = DateTime.UtcNow,
                 StudentNIC = notificationRequest.StudentNIC
             };
 
@@ -66,7 +66,7 @@ namespace IT_Institute_Management.Services
                 throw new KeyNotFoundException("Notification not found.");
 
             notification.Message = notificationRequest.Message;
-            notification.Date = notificationRequest.Date;
+            notification.Date = DateTime.UtcNow;
             notification.StudentNIC = notificationRequest.StudentNIC;
 
             await _notificationRepository.UpdateNotificationAsync(notification);
