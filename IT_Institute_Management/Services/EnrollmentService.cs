@@ -18,6 +18,7 @@ namespace IT_Institute_Management.Services
             _notificationService = notificationService;
         }
 
+
         public async Task<Enrollment> CreateEnrollmentAsync(EnrollmentRequestDto enrollmentRequest)
         {
             var course = await _courseRepo.GetCourseByIdAsync(enrollmentRequest.CourseId);
@@ -50,10 +51,10 @@ namespace IT_Institute_Management.Services
                 var paymentDueDate = enrollment.EnrollmentDate.AddDays(7);
                 if (DateTime.Now > paymentDueDate)
                 {
+                    DateTime utcNow = DateTime.UtcNow;
                     await _notificationService.CreateNotificationAsync(new NotificationRequestDTO
                     {
                         Message = "Full payment for the course is overdue.",
-                        Date = DateTime.Now,
                         StudentNIC = enrollment.StudentNIC
                     });
                 }
@@ -66,7 +67,6 @@ namespace IT_Institute_Management.Services
                     await _notificationService.CreateNotificationAsync(new NotificationRequestDTO
                     {
                         Message = "First installment payment is overdue.",
-                        Date = DateTime.Now,
                         StudentNIC = enrollment.StudentNIC
                     });
                 }
@@ -143,7 +143,6 @@ namespace IT_Institute_Management.Services
                         await _notificationService.CreateNotificationAsync(new NotificationRequestDTO
                         {
                             Message = "Full payment for the course is overdue.",
-                            Date = DateTime.Now,
                             StudentNIC = enrollment.StudentNIC
                         });
                     }
@@ -156,7 +155,6 @@ namespace IT_Institute_Management.Services
                         await _notificationService.CreateNotificationAsync(new NotificationRequestDTO
                         {
                             Message = "First installment payment is overdue.",
-                            Date = DateTime.Now,
                             StudentNIC = enrollment.StudentNIC
                         });
                     }
@@ -213,7 +211,6 @@ namespace IT_Institute_Management.Services
             await _notificationService.CreateNotificationAsync(new NotificationRequestDTO
             {
                 Message = "Your enrollment has been deleted.",
-                Date = DateTime.Now,
                 StudentNIC = enrollment.StudentNIC
             });
 
