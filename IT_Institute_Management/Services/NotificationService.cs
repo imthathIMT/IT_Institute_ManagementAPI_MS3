@@ -88,10 +88,18 @@ namespace IT_Institute_Management.Services
             if (student == null)
                 throw new KeyNotFoundException("Student not found.");
 
+
+            DateTime utcNow = DateTime.UtcNow;
+            TimeZoneInfo sriLankaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Sri Lanka Standard Time");
+            DateTime sriLankaTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, sriLankaTimeZone);
+
+            // You can now pass this sriLankaTime to the frontend
+
+
             var notification = new Notification
             {
                 Message = message,
-                Date = DateTime.UtcNow,
+                Date = sriLankaTime,
                 StudentNIC = studentNIC
             };
 
