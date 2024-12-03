@@ -188,7 +188,7 @@ namespace IT_Institute_Management.Services
             }
 
             // Uncomment the email service once setup is correct
-            await _emailService.SendEmail(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName},\n Your registration was successful.\n \n Your NIC: {studentDto.NIC}, \n Your Password: {studentDto.Password}");
+            _emailService.SendEmailInBackground(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName},\n Your registration was successful.\n \n Your NIC: {studentDto.NIC}, \n Your Password: {studentDto.Password}");
         }
 
 
@@ -243,7 +243,7 @@ namespace IT_Institute_Management.Services
 
 
 
-            //await _emailService.SendEmailAsync(student.Email, "Profile Updated", $"{student.FirstName} {student.LastName}, your profile has been successfully updated.");
+            _emailService.SendEmailInBackground(student.Email, "Profile Updated", $"{student.FirstName} {student.LastName}, your profile has been successfully updated.");
             return "Student profile update successful";
 
         }
@@ -304,7 +304,7 @@ namespace IT_Institute_Management.Services
             await _studentRepository.UpdateAsync(student);
 
 
-            //await _emailService.SendEmailAsync(student.Email, "Password Updated", $"{student.FirstName} {student.LastName}, your password has been successfully updated.");
+             _emailService.SendEmailInBackground(student.Email, "Password Updated", $"{student.FirstName} {student.LastName}, your password has been successfully updated.");
         }
 
 
@@ -320,9 +320,9 @@ namespace IT_Institute_Management.Services
                 student.IsLocked = true;
                 await _studentRepository.UpdateStudentAccount(student);
 
-                //await _emailService.SendEmailAsync(student.Email, "Account Locked",
-                // $"Dear {student.FirstName} {student.LastName},\n\n" +
-                // "your account has been locked by admin. please contact admin");
+                _emailService.SendEmailInBackground(student.Email, "Account Locked",
+                 $"Dear {student.FirstName} {student.LastName},\n\n" +
+                 "your account has been locked by admin. please contact admin");
 
                 return "Account has been locked.";
             }
@@ -350,9 +350,9 @@ namespace IT_Institute_Management.Services
                 await _studentRepository.UpdateStudentAccount(student);
 
                 // Send unlock account email
-                //await _emailService.SendEmailAsync(student.Email, "Account Unlocked",
-                //    $"Dear {student.FirstName} {student.LastName},\n\n" +
-                //    "Your account has been unlocked. Your password has been reset. Please login with your new password.");
+                _emailService.SendEmailInBackground(student.Email, "Account Unlocked",
+                    $"Dear {student.FirstName} {student.LastName},\n\n" +
+                    "Your account has been unlocked. Your password has been reset. Please login with your new password.");
 
                 return "Account has been unlocked and password updated.";
             }
@@ -379,9 +379,9 @@ namespace IT_Institute_Management.Services
                     student.FailedLoginAttempts = 0;
                     await _studentRepository.UpdateStudentAccount(student);
 
-                    //await _emailService.SendEmailAsync(student.Email, "Account Unlocked",
-                    //$"Dear {student.FirstName} {student.LastName},\n\n" +
-                    //"your account has been unlocked.Please login with your password and you can continue your studies");
+                    _emailService.SendEmailInBackground(student.Email, "Account Unlocked",
+                    $"Dear {student.FirstName} {student.LastName},\n\n" +
+                    "your account has been unlocked.Please login with your password and you can continue your studies");
 
 
                     return "Account has been unlocked.";
