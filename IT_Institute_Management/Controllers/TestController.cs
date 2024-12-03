@@ -1,4 +1,5 @@
 ﻿using IT_Institute_Management.EmailSerivice;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Email(string email, string subject, string body)
         {
             try

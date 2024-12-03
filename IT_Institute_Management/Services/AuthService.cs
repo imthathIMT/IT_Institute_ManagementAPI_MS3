@@ -93,7 +93,7 @@ public class AuthService : IAuthService
         var claimsList = new List<Claim>
         {
             new Claim("nic", user.NIC.ToString()),
-            new Claim("Role", user.Role.ToString())
+            new Claim("Role", user.Role.ToString()),
         };
 
         var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
