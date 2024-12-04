@@ -4,6 +4,7 @@ using IT_Institute_Management.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IT_Institute_Management.Migrations
 {
     [DbContext(typeof(InstituteDbContext))]
-    partial class InstituteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241204043630_jgjgfdtsteti")]
+    partial class jgjgfdtsteti
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,8 +178,7 @@ namespace IT_Institute_Management.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Fees")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ImagePaths")
                         .IsRequired()
@@ -255,12 +257,10 @@ namespace IT_Institute_Management.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("DueAmount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid?>("EnrollmentId")
                         .HasColumnType("uniqueidentifier");
@@ -269,8 +269,7 @@ namespace IT_Institute_Management.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("TotalPaidAmount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

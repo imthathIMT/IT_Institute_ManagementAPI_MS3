@@ -17,7 +17,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "MasterAdmin")]
         public async Task<IActionResult> Email(string email, string subject, string body)
         {
             try
@@ -30,6 +30,14 @@ namespace IT_Institute_Management.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+
+
+        [HttpGet("test")]
+        [Authorize(Roles = "MasterAdmin")]
+        public async Task<IActionResult> SampleTest()
+        {
+           return Ok("It's work bro");
         }
     }
 }

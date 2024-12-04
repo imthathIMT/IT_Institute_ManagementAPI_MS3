@@ -75,14 +75,6 @@ namespace IT_Institute_Management.Services
             return await _repo.AddEnrollmentAsync(enrollment);
         }
 
-
-
-
-
-
-
-
-
         public async Task<Enrollment> UpdateEnrollmentCompletionStatus(Guid id)
         {
             var enrollment = await _repo.GetEnrollmentByIdAsync(id);

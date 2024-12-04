@@ -94,6 +94,7 @@ public class AuthService : IAuthService
         {
             new Claim("nic", user.NIC.ToString()),
             new Claim("Role", user.Role.ToString()),
+            new Claim(ClaimTypes.Role,user.Role.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
@@ -102,7 +103,7 @@ public class AuthService : IAuthService
             _configuration["Jwt:Issuer"],
             _configuration["Jwt:Audience"],
             claims: claimsList,
-            expires: DateTime.Now.AddDays(1),
+            expires: DateTime.Now.AddDays(2),
             signingCredentials: credentials
         );
 
