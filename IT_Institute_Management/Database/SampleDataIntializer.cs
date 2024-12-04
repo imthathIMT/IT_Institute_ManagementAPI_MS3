@@ -282,6 +282,214 @@ namespace IT_Institute_Management.Database
         }
 
 
+        public void AddCourseSampleData()
+        {
+            string query = @"
+    IF NOT EXISTS (SELECT 1 FROM Courses WHERE CourseName = @CourseName)
+    BEGIN
+        INSERT INTO Courses (Id, CourseName, Level, Duration, Fees, ImagePaths, Description)
+        VALUES (@Id, @CourseName, @Level, @Duration, @Fees, @ImagePaths, @Description);
+    END";
+
+            List<Dictionary<string, object>> courses = new List<Dictionary<string, object>>
+    {
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@CourseName", "Python"},
+            {"@Level", "Beginner"},
+            {"@Duration", 6},
+            {"@Fees", 1500.00m},
+            {"@ImagePaths", "/images/courses/d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd.jpg"},
+            {"@Description", "Learn the fundamentals of Python programming, ideal for beginners."}
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@CourseName", "Java"},
+            {"@Level", "Intermediate"},
+            {"@Duration", 12},
+            {"@Fees", 2500.00m},
+            {"@ImagePaths", "/images/courses/d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd.jpg"},
+            {"@Description", "A deeper dive into Java programming, suitable for intermediate learners."}
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@CourseName", "C#"},
+            {"@Level", "Beginner"},
+            {"@Duration", 6},
+            {"@Fees", 1200.00m},
+            {"@ImagePaths", "/images/courses/d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd.jpg"},
+            {"@Description", "A beginner-friendly course on C# programming, focusing on the basics."}
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@CourseName", "HTML/CSS"},
+            {"@Level", "Beginner"},
+            {"@Duration", 6},
+            {"@Fees", 1000.00m},
+            {"@ImagePaths", "/images/courses/d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd.jpg"},
+            {"@Description", "Learn the basics of web development with HTML and CSS."}
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@CourseName", "JavaScript"},
+            {"@Level", "Intermediate"},
+            {"@Duration", 6},
+            {"@Fees", 1800.00m},
+            {"@ImagePaths", "/images/courses/d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd.jpg"},
+            {"@Description", "An intermediate course to master JavaScript for web development."}
+        }
+    };
+
+            foreach (var course in courses)
+            {
+                ExecuteQuery(query, course);
+            }
+        }
+
+
+        public void AddEnrollmentSampleData()
+        {
+            string query = @"
+    IF NOT EXISTS (SELECT 1 FROM Enrollments WHERE StudentNIC = @StudentNIC AND CourseId = @CourseId)
+    BEGIN
+        INSERT INTO Enrollments (Id, EnrollmentDate, PaymentPlan, IsComplete, StudentNIC, CourseId)
+        VALUES (@Id, @EnrollmentDate, @PaymentPlan, @IsComplete, @StudentNIC, @CourseId);
+    END";
+
+            List<Dictionary<string, object>> enrollments = new List<Dictionary<string, object>>
+    {
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@EnrollmentDate", new DateTime(2023, 5, 10)},  // Example: Old date (May 2023)
+            {"@PaymentPlan", "Full"},
+            {"@IsComplete", true},
+            {"@StudentNIC", "200417002813"},  // Example: Student NIC
+            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}  // Example: Course GUID
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@EnrollmentDate", new DateTime(2022, 8, 20)},  // Example: Older date (Aug 2022)
+            {"@PaymentPlan", "Installment"},
+            {"@IsComplete", false},
+            {"@StudentNIC", "200417002814"},
+            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@EnrollmentDate", new DateTime(2023, 11, 12)},  // Example: More recent date (Nov 2023)
+            {"@PaymentPlan", "Full"},
+            {"@IsComplete", true},
+            {"@StudentNIC", "200417002815"},
+            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@EnrollmentDate", new DateTime(2024, 1, 1)},  // Example: New year (Jan 2024)
+            {"@PaymentPlan", "Installment"},
+            {"@IsComplete", false},
+            {"@StudentNIC", "200417002816"},
+            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@EnrollmentDate", DateTime.Today},  // Example: Current date (today)
+            {"@PaymentPlan", "Full"},
+            {"@IsComplete", true},
+            {"@StudentNIC", "200417002817"},
+            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+        }
+    };
+
+            foreach (var enrollment in enrollments)
+            {
+                ExecuteQuery(query, enrollment);
+            }
+        }
+
+
+
+        public void AddPaymentSampleData()
+        {
+            string query = @"
+    IF NOT EXISTS (SELECT 1 FROM Payments WHERE PaymentId = @PaymentId)
+    BEGIN
+        INSERT INTO Payments (PaymentId, PaymentDate, Amount, PaymentMethod, Status, StudentNIC, CourseId)
+        VALUES (@PaymentId, @PaymentDate, @Amount, @PaymentMethod, @Status, @StudentNIC, @CourseId);
+    END";
+
+            List<Dictionary<string, object>> payments = new List<Dictionary<string, object>>
+    {
+        new Dictionary<string, object>
+        {
+            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentDate", new DateTime(2023, 5, 15)},  // Example: Payment date (May 2023)
+            {"@Amount", 1500.00m},
+            {"@PaymentMethod", "Credit Card"},
+            {"@Status", "Completed"},
+            {"@StudentNIC", "200417002813"},  // Example: Student NIC
+            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}  // Example: Course GUID
+        },
+        new Dictionary<string, object>
+        {
+            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentDate", new DateTime(2023, 8, 20)},  // Example: Payment date (Aug 2023)
+            {"@Amount", 1200.00m},
+            {"@PaymentMethod", "Bank Transfer"},
+            {"@Status", "Completed"},
+            {"@StudentNIC", "200417002814"},
+            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+        },
+        new Dictionary<string, object>
+        {
+            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentDate", new DateTime(2023, 11, 12)},  // Example: Payment date (Nov 2023)
+            {"@Amount", 2500.00m},
+            {"@PaymentMethod", "Debit Card"},
+            {"@Status", "Pending"},
+            {"@StudentNIC", "200417002815"},
+            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+        },
+        new Dictionary<string, object>
+        {
+            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentDate", new DateTime(2024, 1, 1)},  // Example: Payment date (Jan 2024)
+            {"@Amount", 1800.00m},
+            {"@PaymentMethod", "Cash"},
+            {"@Status", "Completed"},
+            {"@StudentNIC", "200417002816"},
+            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+        },
+        new Dictionary<string, object>
+        {
+            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentDate", DateTime.Today},  // Example: Payment date (today)
+            {"@Amount", 1000.00m},
+            {"@PaymentMethod", "Online Transfer"},
+            {"@Status", "Completed"},
+            {"@StudentNIC", "200417002817"},
+            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+        }
+    };
+
+            foreach (var payment in payments)
+            {
+                ExecuteQuery(query, payment);
+            }
+        }
+
+
+
+
         private void ExecuteQuery(string query, Dictionary<string, object> parameters)
         {
             try
