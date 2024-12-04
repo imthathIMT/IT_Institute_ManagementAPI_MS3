@@ -356,9 +356,9 @@ namespace IT_Institute_Management.Database
         public void AddEnrollmentSampleData()
         {
             string query = @"
-    IF NOT EXISTS (SELECT 1 FROM Enrollments WHERE StudentNIC = @StudentNIC AND CourseId = @CourseId)
+    IF NOT EXISTS (SELECT 1 FROM Enrollment WHERE StudentNIC = @StudentNIC AND CourseId = @CourseId)
     BEGIN
-        INSERT INTO Enrollments (Id, EnrollmentDate, PaymentPlan, IsComplete, StudentNIC, CourseId)
+        INSERT INTO Enrollment (Id, EnrollmentDate, PaymentPlan, IsComplete, StudentNIC, CourseId)
         VALUES (@Id, @EnrollmentDate, @PaymentPlan, @IsComplete, @StudentNIC, @CourseId);
     END";
 
@@ -371,7 +371,7 @@ namespace IT_Institute_Management.Database
             {"@PaymentPlan", "Full"},
             {"@IsComplete", true},
             {"@StudentNIC", "200417002813"},
-            {"@CourseId", new Guid("D701D6A0-8060-4EB9-9B43-0C1FA1D5D80D")}
+            {"@CourseId", new Guid("FCCAD0D6-64DF-4CF0-9CA1-1B7AC60E2C82")}
         },
         new Dictionary<string, object>
         {
@@ -380,7 +380,7 @@ namespace IT_Institute_Management.Database
             {"@PaymentPlan", "Installment"},
             {"@IsComplete", false},
             {"@StudentNIC", "200417002813"},
-            {"@CourseId", new Guid("24A88EEF-816E-41B5-B744-7AE808CCFE42")}
+            {"@CourseId", new Guid("B60806D6-930C-4B81-A170-451A1CC00598")}
         },
         new Dictionary<string, object>
         {
@@ -389,7 +389,7 @@ namespace IT_Institute_Management.Database
             {"@PaymentPlan", "Full"},
             {"@IsComplete", true},
             {"@StudentNIC", "200417002814"},
-            {"@CourseId", new Guid("450E2C1F-A7D2-48DD-9437-53060B888849")}
+            {"@CourseId", new Guid("FC2E17D9-EF71-4338-A9F0-57C1A8D27FB7")}
         },
         new Dictionary<string, object>
         {
@@ -398,7 +398,7 @@ namespace IT_Institute_Management.Database
             {"@PaymentPlan", "Installment"},
             {"@IsComplete", false},
             {"@StudentNIC", "200417002816"},
-            {"@CourseId", new Guid("F3EC46F3-A45F-4567-A5CE-D27828272470")}
+            {"@CourseId", new Guid("DE5E98E9-E0FA-4754-AED6-C8F983F34621")}
         },
         new Dictionary<string, object>
         {
@@ -407,7 +407,7 @@ namespace IT_Institute_Management.Database
             {"@PaymentPlan", "Full"},
             {"@IsComplete", true},
             {"@StudentNIC", "200417002817"},
-            {"@CourseId", new Guid("97C0153A-73A1-4469-8FC7-BB90FC14B3D4")}
+            {"@CourseId", new Guid("E3743C02-BA07-4414-BF12-FDB7B7DE8162")}
         }
     };
 
@@ -419,69 +419,70 @@ namespace IT_Institute_Management.Database
 
 
 
-        //    public void AddPaymentSampleData()
-        //    {
-        //        string query = @"
-        //IF NOT EXISTS (SELECT 1 FROM Payments WHERE PaymentId = @PaymentId)
-        //BEGIN
-        //    INSERT INTO Payments (PaymentId, PaymentDate, Amount, Status, StudentNIC, CourseId)
-        //    VALUES (@PaymentId, @PaymentDate, @Amount, @Status, @StudentNIC, @CourseId);
-        //END";
+        public void AddPaymentSampleData()
+        {
+            string query = @"
+    IF NOT EXISTS (SELECT 1 FROM Payments WHERE Id = @PaymentId)
+    BEGIN
+        INSERT INTO Payments (Id, Amount, PaymentDate, EnrollmentId, DueAmount, TotalPaidAmount)
+        VALUES (@PaymentId, @Amount, @PaymentDate, @EnrollmentId, @DueAmount, @TotalPaidAmount);
+    END";
 
-        //        List<Dictionary<string, object>> payments = new List<Dictionary<string, object>>
-        //{
-        //    new Dictionary<string, object>
-        //    {
-        //        {"@PaymentId", Guid.NewGuid()},
-        //        {"@PaymentDate", new DateTime(2024, 9, 12)},
-        //        {"@Amount", 1500.00m},
-        //        {"@Status", "Completed"},
-        //        {"@StudentNIC", "200417002813"},
-        //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
-        //    },
-        //    new Dictionary<string, object>
-        //    {
-        //        {"@PaymentId", Guid.NewGuid()},
-        //        {"@PaymentDate", new DateTime(2024, 9, 23)},
-        //        {"@Amount", 1200.00m},
-        //        {"@Status", "Completed"},
-        //        {"@StudentNIC", "200417002814"},
-        //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
-        //    },
-        //    new Dictionary<string, object>
-        //    {
-        //        {"@PaymentId", Guid.NewGuid()},
-        //        {"@PaymentDate", new DateTime(2024, 10, 10)},
-        //        {"@Amount", 2500.00m},
-        //        {"@Status", "Pending"},
-        //        {"@StudentNIC", "200417002815"},
-        //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
-        //    },
-        //    new Dictionary<string, object>
-        //    {
-        //        {"@PaymentId", Guid.NewGuid()},
-        //        {"@PaymentDate", new DateTime(2024, 10, 22)},
-        //        {"@Amount", 1800.00m},
-        //        {"@Status", "Completed"},
-        //        {"@StudentNIC", "200417002816"},
-        //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
-        //    },
-        //    new Dictionary<string, object>
-        //    {
-        //        {"@PaymentId", Guid.NewGuid()},
-        //        {"@PaymentDate", DateTime.Today},
-        //        {"@Amount", 1000.00m},
-        //        {"@Status", "Completed"},
-        //        {"@StudentNIC", "200417002817"},
-        //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
-        //    }
-        //};
+            List<Dictionary<string, object>> payments = new List<Dictionary<string, object>>
+    {
+        new Dictionary<string, object>
+        {
+            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentDate", new DateTime(2024, 9, 12)},
+            {"@Amount", 12000.00m},
+            {"@DueAmount", 0.00m}, // Example of remaining balance
+            {"@TotalPaidAmount", 12000.00m}, // Paid amount
+            {"@EnrollmentId", new Guid("E42B3273-E8D5-4399-B446-443088CB1943")}, // EnrollmentId for Python course
+        },
+        new Dictionary<string, object>
+        {
+            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentDate", new DateTime(2024, 9, 23)},
+            {"@Amount", 1000.00m},
+            {"@DueAmount", 5000.00m},
+            {"@TotalPaidAmount", 1000.00m},
+            {"@EnrollmentId", new Guid("6BE764C5-74D5-42FE-A905-047663C8614C")}, // EnrollmentId for Java course
+        },
+        new Dictionary<string, object>
+        {
+            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentDate", new DateTime(2024, 12, 05)},
+            {"@Amount", 24000.00m},
+            {"@DueAmount", 0.00m},
+            {"@TotalPaidAmount", 24000.00m},
+            {"@EnrollmentId", new Guid("4C49274B-89D5-4CEC-83FA-B10EC9FBC917")}, // EnrollmentId for C# course
+        },
+        new Dictionary<string, object>
+        {
+            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentDate", new DateTime(2024, 10, 15)},
+            {"@Amount", 18000.00m},
+            {"@DueAmount", 0},
+            {"@TotalPaidAmount", 18000.00m},
+            {"@EnrollmentId", new Guid("818946DC-68A3-4BFF-8D0E-CE06AEC495C7")}, // EnrollmentId for HTML/CSS course
+        },
+        new Dictionary<string, object>
+        {
+            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentDate", DateTime.Today},
+            {"@Amount", 15000.00m},
+            {"@DueAmount", 15000.00m},
+            {"@TotalPaidAmount", 15000.00m},
+            {"@EnrollmentId", new Guid("0C13EA6F-3A3B-4DB0-8CA4-D3323EF54ABD")}, // EnrollmentId for JavaScript course
+        }
+    };
 
-        //        foreach (var payment in payments)
-        //        {
-        //            ExecuteQuery(query, payment);
-        //        }
-        //    }
+            foreach (var payment in payments)
+            {
+                ExecuteQuery(query, payment);
+            }
+        }
+
 
 
         //    public void AddAnnouncementSampleData()
