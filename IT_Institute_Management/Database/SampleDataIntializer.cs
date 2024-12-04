@@ -424,7 +424,7 @@ namespace IT_Institute_Management.Database
             {"@Id", new Guid("2F1DEDA6-B249-4491-ACE5-09EBE07E8163")},
             {"@EnrollmentDate", DateTime.Today},
             {"@PaymentPlan", "Full"},
-            {"@IsComplete", true},
+            {"@IsComplete", false},
             {"@StudentNIC", "200417002817"},
             {"@CourseId", new Guid("F0A3CE56-62F6-4974-9C14-8CF258E33520")}
         }

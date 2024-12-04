@@ -32,39 +32,39 @@ SampleDataIntializer seeder = new SampleDataIntializer();
 
 // Add sample Master Admin 
 
-//seeder.AddMasterAdminSampleData();
+seeder.AddMasterAdminSampleData();
 
 // Add sample Admin data
 
-//seeder.AddAdminSampleData();
+seeder.AddAdminSampleData();
 
 // Add sample Student data
 
-//seeder.AddStudentSampleData();
+seeder.AddStudentSampleData();
 
 // Add sample Course data
 
-//seeder.AddCourseSampleData();
+seeder.AddCourseSampleData();
 
 // Add sample Enrollment data
 
-//seeder.AddEnrollmentSampleData();
+seeder.AddEnrollmentSampleData();
 
 // Add sample Payment data
 
-//seeder.AddPaymentSampleData();
+seeder.AddPaymentSampleData();
 
 // Add sample Announment data
 
-//seeder.AddAnnouncementSampleData();
+seeder.AddAnnouncementSampleData();
 
 // Add sample Contact us data
 
-//seeder.AddContactUsSampleData();
+seeder.AddContactUsSampleData();
 
 // Add sample Notification data
 
-//seeder.AddNotificationSampleData();
+seeder.AddNotificationSampleData();
 
 // Add services to the container.
 
