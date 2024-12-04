@@ -60,7 +60,7 @@ namespace IT_Institute_Management.Database
             modelBuilder.Entity<Admin>()
                 .HasOne(a => a.User)
                 .WithOne()
-                .HasForeignKey<Admin>(a => a.UserId)
+                .HasForeignKey<Admin>(a => a.UserId);
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<SocialMediaLinks>()
@@ -69,12 +69,33 @@ namespace IT_Institute_Management.Database
            .HasForeignKey<SocialMediaLinks>(s => s.StudentNIC)
             .OnDelete(DeleteBehavior.Cascade);
 
-            // Define the relationship between Student and StudentMessage
+          
             modelBuilder.Entity<StudentMessage>()
                 .HasOne(sm => sm.Student)
                 .WithMany(s => s.StudentMessages)
                 .HasForeignKey(sm => sm.StudentNIC)
-                .OnDelete(DeleteBehavior.Cascade); // Or another delete behavior as needed
+                .OnDelete(DeleteBehavior.Cascade); 
+
+
+            modelBuilder.Entity<Course>()
+                    .Property(c => c.Fees)
+                   .HasColumnType("decimal(18, 2)")  
+                   .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Payment>()
+                   .Property(p => p.Amount)
+                   .HasColumnType("decimal(18, 2)")
+                   .HasPrecision(18, 2);  
+
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.DueAmount)
+                .HasColumnType("decimal(18, 2)") 
+                .HasPrecision(18, 2);  
+
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.TotalPaidAmount)
+                .HasColumnType("decimal(18, 2)") 
+                .HasPrecision(18, 2);  
         }
     }
 }
