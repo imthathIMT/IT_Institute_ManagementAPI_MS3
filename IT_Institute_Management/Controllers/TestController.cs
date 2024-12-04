@@ -31,5 +31,13 @@ namespace IT_Institute_Management.Controllers
             }
 
         }
+
+
+        [HttpGet("test")]
+        [Authorize(Roles = "MasterAdmin")]
+        public async Task<IActionResult> SampleTest()
+        {
+           return Ok("It's work bro");
+        }
     }
 }
