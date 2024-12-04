@@ -27,19 +27,43 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 SampleDataIntializer seeder = new SampleDataIntializer();
+
+// New Database in Devhub delete Your Old Devhub Database and One By Un Comment Function One By One Run 
+
 // Add sample Master Admin 
+
 //seeder.AddMasterAdminSampleData();
+
 // Add sample Admin data
+
 //seeder.AddAdminSampleData();
+
 // Add sample Student data
+
 //seeder.AddStudentSampleData();
 
+// Add sample Course data
+
 //seeder.AddCourseSampleData();
+
+// Add sample Enrollment data
+
 //seeder.AddEnrollmentSampleData();
 
+// Add sample Payment data
+
 //seeder.AddPaymentSampleData();
+
+// Add sample Announment data
+
 //seeder.AddAnnouncementSampleData();
+
+// Add sample Contact us data
+
 //seeder.AddContactUsSampleData();
+
+// Add sample Notification data
+
 //seeder.AddNotificationSampleData();
 
 // Add services to the container.

@@ -7,6 +7,8 @@ namespace IT_Institute_Management.Database
     {
         private readonly string _connectionString = "Server =(localdb)\\MSSQLLocalDB; Database=DevHub; Trusted_Connection=True; TrustServerCertificate=True;";
 
+        // Master Admin Data
+
         public void AddMasterAdminSampleData()
         {
             string query = @"
@@ -40,6 +42,8 @@ namespace IT_Institute_Management.Database
                 {"@UserId", userId}
             });
         }
+
+        // Admin Data
 
         public void AddAdminSampleData()
         {
@@ -117,6 +121,8 @@ namespace IT_Institute_Management.Database
                 ExecuteQuery(query, admin);
             }
         }
+
+        // Student Data
 
         public void AddStudentSampleData()
         {
@@ -281,6 +287,8 @@ namespace IT_Institute_Management.Database
             }
         }
 
+        // Course Data
+
 
         public void AddCourseSampleData()
         {
@@ -298,8 +306,8 @@ namespace IT_Institute_Management.Database
                         {"@Id", Guid.NewGuid()},
                         {"@CourseName", "Python"},
                         {"@Level", "Beginner"},
-                        {"@Duration", 6}, // Duration in months
-                        {"@Fees", 12000}, // Course fee in your currency
+                        {"@Duration", 6}, 
+                        {"@Fees", 12000}, 
                         {"@ImagePaths", "/images/courses/ff20c3e3-67b3-4d9e-8312-fa03acecd363.png"},
                         {"@Description", "Learn the fundamentals of Python programming, ideal for beginners."}
                     },
@@ -308,8 +316,8 @@ namespace IT_Institute_Management.Database
                         {"@Id", Guid.NewGuid()},
                         {"@CourseName", "Java"},
                         {"@Level", "Intermediate"},
-                        {"@Duration", 2}, // Duration in months
-                        {"@Fees", 24000}, // Course fee
+                        {"@Duration", 2}, 
+                        {"@Fees", 24000}, 
                         {"@ImagePaths", "/images/courses/1d5c0cb9-f8ee-47e6-b1f5-82feaaaab3b2.jpg"},
                         {"@Description", "A deeper dive into Java programming, suitable for intermediate learners."}
                     },
@@ -350,6 +358,8 @@ namespace IT_Institute_Management.Database
                 ExecuteQuery(query, course);
             }
         }
+
+        // Enrollment Data
 
 
 
@@ -426,6 +436,8 @@ namespace IT_Institute_Management.Database
             }
         }
 
+        // Payment Data 
+
 
 
         public void AddPaymentSampleData()
@@ -494,6 +506,8 @@ namespace IT_Institute_Management.Database
             }
         }
 
+        // Announcement Data
+
 
 
         public void AddAnnouncementSampleData()
@@ -551,7 +565,7 @@ namespace IT_Institute_Management.Database
         }
 
 
-
+        // Contact us Data
 
         public void AddContactUsSampleData()
         {
@@ -612,6 +626,7 @@ namespace IT_Institute_Management.Database
             }
         }
 
+        // Notification Data
 
         public void AddNotificationSampleData()
         {
