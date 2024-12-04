@@ -60,7 +60,7 @@ namespace IT_Institute_Management.Database
             modelBuilder.Entity<Admin>()
                 .HasOne(a => a.User)
                 .WithOne()
-                .HasForeignKey<Admin>(a => a.UserId);
+                .HasForeignKey<Admin>(a => a.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<SocialMediaLinks>()
