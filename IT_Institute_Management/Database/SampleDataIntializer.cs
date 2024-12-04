@@ -121,75 +121,166 @@ namespace IT_Institute_Management.Database
         public void AddStudentSampleData()
         {
             string query = @"
-            IF NOT EXISTS (SELECT 1 FROM Users WHERE NIC = @NIC)
-            BEGIN
-                INSERT INTO Users (Id, NIC, Password, Role) 
-                VALUES (@UserId, @NIC, @Password, @Role);
+        IF NOT EXISTS (SELECT 1 FROM Users WHERE NIC = @NIC)
+    BEGIN
+        INSERT INTO Users (Id, NIC, Password, Role) 
+        VALUES (@UserId, @NIC, @Password, @Role);
 
-                INSERT INTO Students (NIC, FirstName, LastName, Email, Phone, Password, ImagePath, IsLocked, FailedLoginAttempts, UserId) 
-                VALUES (@NIC, @FirstName, @LastName, @Email, @Phone, @Password, @ImagePath, @IsLocked, @FailedLoginAttempts, @UserId);
+        INSERT INTO Students (NIC, FirstName, LastName, Email, Phone, Password, ImagePath, IsLocked, FailedLoginAttempts, UserId) 
+        VALUES (@NIC, @FirstName, @LastName, @Email, @Phone, @Password, @ImagePath, @IsLocked, @FailedLoginAttempts, @UserId);
 
-                INSERT INTO Address (Id, AddressLine1, AddressLine2, City, State, PostalCode, Country, StudentNIC)
-                VALUES (@AddressId, @AddressLine1, @AddressLine2, @City, @State, @PostalCode, @Country, @NIC);
+        INSERT INTO Address (Id, AddressLine1, AddressLine2, City, State, PostalCode, Country, StudentNIC)
+        VALUES (@AddressId, @AddressLine1, @AddressLine2, @City, @State, @PostalCode, @Country, @NIC);
 
-                INSERT INTO SocialMediaLinks (Id, LinkedIn, Instagram, Facebook, GitHub, WhatsApp, StudentNIC)
-                VALUES (@SocialMediaId, @LinkedIn, @Instagram, @Facebook, @GitHub, @WhatsApp, @NIC);
-            END";
+        INSERT INTO SocialMediaLinks (Id, LinkedIn, Instagram, Facebook, GitHub, WhatsApp, StudentNIC)
+        VALUES (@SocialMediaId, @LinkedIn, @Instagram, @Facebook, @GitHub, @WhatsApp, @NIC);
+    END";
 
-            Guid userId = Guid.NewGuid();
-            string nic = "200417002813";
-            string password = "AQAAAAIAAYagAAAAEFAeSIHG89Q+sYECoGAu3dQx4Pc2s+/m344EwdV6xSnK1sqMsxuUPUtc/gSB3N1Ipg==";//Safeek@3211
-            string firstName = "Mohamed";
-            string lastName = "safeek";
-            string email = "ut03211tic@gmail.com";
-            string phone = "0743773745";
-            string imagePath = "/images/students/557b0251-1ede-49d6-90e2-0f8cc58a2408.jpg";
-            bool isLocked = false;
-            int failedLoginAttempts = 0;
-
-            Guid addressId = Guid.NewGuid();
-            string addressLine1 = "Old Village";
-            string addressLine2 = "Sooduventhe pilavu";
-            string city = "Vavumiya";
-            string state = "Northern";
-            string postalCode = "43000";
-            string country = "Sri Lanka";
-
-            Guid socialMediaId = Guid.NewGuid();
-            string linkedIn = "https://www.linkedin.com/in/safeek-mohamed-0ab486302?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app ";
-            string instagram = "https://www.instagram.com/person_0618/";
-            string facebook = "https://facebook.com/student";
-            string gitHub = "https://github.com/SafeekMohamed18";
-            string whatsapp = "https://wa.me/+94743773745";
-
-            ExecuteQuery(query, new Dictionary<string, object>
-            {
-                {"@UserId", userId},
-                {"@NIC", nic},
-                {"@Password", password},
-                {"@Role", (int)Role.Student},
-                {"@FirstName", firstName},
-                {"@LastName", lastName},
-                {"@Email", email},
-                {"@Phone", phone},
-                {"@ImagePath", imagePath},
-                {"@IsLocked", isLocked},
-                {"@FailedLoginAttempts", failedLoginAttempts},
-                {"@AddressId", addressId},
-                {"@AddressLine1", addressLine1},
-                {"@AddressLine2", addressLine2},
-                {"@City", city},
-                {"@State", state},
-                {"@PostalCode", postalCode},
-                {"@Country", country},
-                {"@SocialMediaId", socialMediaId},
-                {"@LinkedIn", linkedIn},
-                {"@Instagram", instagram},
-                {"@Facebook", facebook},
-                {"@GitHub", gitHub},
-                {"@WhatsApp", whatsapp}
-            });
+            List<Dictionary<string, object>> students = new List<Dictionary<string, object>>
+    {
+        new Dictionary<string, object>
+        {
+            {"@UserId", Guid.NewGuid()},
+            {"@NIC", "200417002813"},
+            {"@Password", "AQAAAAIAAYagAAAAEFAeSIHG89Q+sYECoGAu3dQx4Pc2s+/m344EwdV6xSnK1sqMsxuUPUtc/gSB3N1Ipg=="}, // Safeek@3211
+            {"@Role", (int)Role.Student},
+            {"@FirstName", "Mohamed"},
+            {"@LastName", "Safeek"},
+            {"@Email", "ut03211tic@gmail.com"},
+            {"@Phone", "0743773745"},
+            {"@ImagePath", "/images/students/557b0251-1ede-49d6-90e2-0f8cc58a2408.jpg"},
+            {"@IsLocked", false},
+            {"@FailedLoginAttempts", 0},
+            {"@AddressId", Guid.NewGuid()},
+            {"@AddressLine1", "Old Village"},
+            {"@AddressLine2", "Sooduventhe pilavu"},
+            {"@City", "Vavumiya"},
+            {"@State", "Northern"},
+            {"@PostalCode", "43000"},
+            {"@Country", "Sri Lanka"},
+            {"@SocialMediaId", Guid.NewGuid()},
+            {"@LinkedIn", "https://www.linkedin.com/in/safeek-mohamed-0ab486302"},
+            {"@Instagram", "https://www.instagram.com/person_0618/"},
+            {"@Facebook", "https://facebook.com/student"},
+            {"@GitHub", "https://github.com/SafeekMohamed18"},
+            {"@WhatsApp", "https://wa.me/+94743773745"}
+        },
+        new Dictionary<string, object>
+        {
+            {"@UserId", Guid.NewGuid()},
+            {"@NIC", "200417002814"},
+            {"@Password", "AQAAAAIAAYagAAAAEFAeSIHG89Q+sYECoGAu3dQx4Pc2s+/m344EwdV6xSnK1sqMsxuUPUtc/gSB3N1Ipg=="},
+            {"@Role", (int)Role.Student},
+            {"@FirstName", "John"},
+            {"@LastName", "Doe"},
+            {"@Email", "john.doe@student.com"},
+            {"@Phone", "0781234567"},
+            {"@ImagePath", "/images/students/john_doe.jpg"},
+            {"@IsLocked", false},
+            {"@FailedLoginAttempts", 0},
+            {"@AddressId", Guid.NewGuid()},
+            {"@AddressLine1", "Main Street"},
+            {"@AddressLine2", "Near the park"},
+            {"@City", "Colombo"},
+            {"@State", "Western"},
+            {"@PostalCode", "10100"},
+            {"@Country", "Sri Lanka"},
+            {"@SocialMediaId", Guid.NewGuid()},
+            {"@LinkedIn", "https://www.linkedin.com/in/johndoe"},
+            {"@Instagram", "https://www.instagram.com/johndoe/"},
+            {"@Facebook", "https://facebook.com/johndoe"},
+            {"@GitHub", "https://github.com/johndoe"},
+            {"@WhatsApp", "https://wa.me/+94781234567"}
+        },
+        new Dictionary<string, object>
+        {
+            {"@UserId", Guid.NewGuid()},
+            {"@NIC", "200417002815"},
+            {"@Password", "AQAAAAIAAYagAAAAEFAeSIHG89Q+sYECoGAu3dQx4Pc2s+/m344EwdV6xSnK1sqMsxuUPUtc/gSB3N1Ipg=="},
+            {"@Role", (int)Role.Student},
+            {"@FirstName", "Sara"},
+            {"@LastName", "Kumari"},
+            {"@Email", "sara.kumari@student.com"},
+            {"@Phone", "0778765432"},
+            {"@ImagePath", "/images/students/sara_kumari.jpg"},
+            {"@IsLocked", false},
+            {"@FailedLoginAttempts", 0},
+            {"@AddressId", Guid.NewGuid()},
+            {"@AddressLine1", "Queen Street"},
+            {"@AddressLine2", "Near the temple"},
+            {"@City", "Kandy"},
+            {"@State", "Central"},
+            {"@PostalCode", "20000"},
+            {"@Country", "Sri Lanka"},
+            {"@SocialMediaId", Guid.NewGuid()},
+            {"@LinkedIn", "https://www.linkedin.com/in/sara-kumari"},
+            {"@Instagram", "https://www.instagram.com/sara_kumari/"},
+            {"@Facebook", "https://facebook.com/sara.kumari"},
+            {"@GitHub", "https://github.com/sarakumari"},
+            {"@WhatsApp", "https://wa.me/+94778765432"}
+        },
+        new Dictionary<string, object>
+        {
+            {"@UserId", Guid.NewGuid()},
+            {"@NIC", "200417002816"},
+            {"@Password", "AQAAAAIAAYagAAAAEFAeSIHG89Q+sYECoGAu3dQx4Pc2s+/m344EwdV6xSnK1sqMsxuUPUtc/gSB3N1Ipg=="},
+            {"@Role", (int)Role.Student},
+            {"@FirstName", "David"},
+            {"@LastName", "Fernando"},
+            {"@Email", "david.fernando@student.com"},
+            {"@Phone", "0789988776"},
+            {"@ImagePath", "/images/students/david_fernando.jpg"},
+            {"@IsLocked", false},
+            {"@FailedLoginAttempts", 0},
+            {"@AddressId", Guid.NewGuid()},
+            {"@AddressLine1", "Sunset Boulevard"},
+            {"@AddressLine2", "Opposite the mall"},
+            {"@City", "Galle"},
+            {"@State", "Southern"},
+            {"@PostalCode", "80000"},
+            {"@Country", "Sri Lanka"},
+            {"@SocialMediaId", Guid.NewGuid()},
+            {"@LinkedIn", "https://www.linkedin.com/in/david-fernando"},
+            {"@Instagram", "https://www.instagram.com/david_fernando/"},
+            {"@Facebook", "https://facebook.com/david.fernando"},
+            {"@GitHub", "https://github.com/davidfernando"},
+            {"@WhatsApp", "https://wa.me/+94789988776"}
+        },
+        new Dictionary<string, object>
+        {
+            {"@UserId", Guid.NewGuid()},
+            {"@NIC", "200417002817"},
+            {"@Password", "AQAAAAIAAYagAAAAEFAeSIHG89Q+sYECoGAu3dQx4Pc2s+/m344EwdV6xSnK1sqMsxuUPUtc/gSB3N1Ipg=="},
+            {"@Role", (int)Role.Student},
+            {"@FirstName", "Nadeesha"},
+            {"@LastName", "Perera"},
+            {"@Email", "nadeesha.perera@student.com"},
+            {"@Phone", "0773344556"},
+            {"@ImagePath", "/images/students/nadeesha_perera.jpg"},
+            {"@IsLocked", false},
+            {"@FailedLoginAttempts", 0},
+            {"@AddressId", Guid.NewGuid()},
+            {"@AddressLine1", "River Road"},
+            {"@AddressLine2", "Next to the bridge"},
+            {"@City", "Anuradhapura"},
+            {"@State", "North Central"},
+            {"@PostalCode", "50000"},
+            {"@Country", "Sri Lanka"},
+            {"@SocialMediaId", Guid.NewGuid()},
+            {"@LinkedIn", "https://www.linkedin.com/in/nadeesha-perera"},
+            {"@Instagram", "https://www.instagram.com/nadeesha_perera/"},
+            {"@Facebook", "https://facebook.com/nadeesha.perera"},
+            {"@GitHub", "https://github.com/nadeeshaperera"},
+            {"@WhatsApp", "https://wa.me/+94773344556"}
         }
+    };
+
+            foreach (var student in students)
+            {
+                ExecuteQuery(query, student);
+            }
+        }
+
 
         private void ExecuteQuery(string query, Dictionary<string, object> parameters)
         {
