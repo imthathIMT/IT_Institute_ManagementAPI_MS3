@@ -18,6 +18,11 @@ namespace IT_Institute_Management.Services
             _studentRepository = studentRepository;
         }
 
+        public static DateTime ConvertUtcToSriLankaTime(DateTime utcTime)
+        {
+            TimeZoneInfo sriLankaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Sri Lanka Standard Time");
+            return TimeZoneInfo.ConvertTimeFromUtc(utcTime, sriLankaTimeZone);
+        }
 
         public async Task<IEnumerable<NotificationResponseDTO>> GetAllNotificationsAsync()
         {
@@ -49,10 +54,13 @@ namespace IT_Institute_Management.Services
 
         public async Task CreateNotificationAsync(NotificationRequestDTO notificationRequest)
         {
+
+            DateTime utcNow = DateTime.UtcNow;
+
             var notification = new Notification
             {
                 Message = notificationRequest.Message,
-                Date = notificationRequest.Date,
+                Date = ConvertUtcToSriLankaTime(utcNow),
                 StudentNIC = notificationRequest.StudentNIC
             };
 
@@ -61,12 +69,15 @@ namespace IT_Institute_Management.Services
 
         public async Task UpdateNotificationAsync(Guid id, NotificationRequestDTO notificationRequest)
         {
+
+            DateTime utcNow = DateTime.UtcNow;
+
             var notification = await _notificationRepository.GetNotificationByIdAsync(id);
             if (notification == null)
                 throw new KeyNotFoundException("Notification not found.");
 
             notification.Message = notificationRequest.Message;
-            notification.Date = notificationRequest.Date;
+            notification.Date = ConvertUtcToSriLankaTime(utcNow);
             notification.StudentNIC = notificationRequest.StudentNIC;
 
             await _notificationRepository.UpdateNotificationAsync(notification);
@@ -88,10 +99,17 @@ namespace IT_Institute_Management.Services
             if (student == null)
                 throw new KeyNotFoundException("Student not found.");
 
+
+            DateTime utcNow = DateTime.UtcNow;
+           
+
+            // You can now pass this sriLankaTime to the frontend
+
+
             var notification = new Notification
             {
                 Message = message,
-                Date = DateTime.UtcNow,
+                Date = ConvertUtcToSriLankaTime(utcNow),
                 StudentNIC = studentNIC
             };
 

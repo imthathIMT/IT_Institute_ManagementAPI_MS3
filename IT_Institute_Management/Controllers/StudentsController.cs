@@ -18,10 +18,12 @@ namespace IT_Institute_Management.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly IStudentService _studentService;
+        private readonly IUserService _userService;
 
-        public StudentsController(IStudentService studentService)
+        public StudentsController(IStudentService studentService, IUserService userService)
         {
             _studentService = studentService;
+            _userService = userService;
         }
 
 
@@ -67,6 +69,12 @@ namespace IT_Institute_Management.Controllers
                     return BadRequest("Student data is required.");
                 }
 
+                var studentExists = await _userService.CheckUserExistsByNic(studentDto.NIC);
+                if (studentExists)
+                {
+                    return BadRequest(new { message = $"Student with NIC {studentDto.NIC} already exists." });
+                }
+
                 await _studentService.AddStudentAsync(studentDto);
                 return CreatedAtAction(nameof(GetStudentByNic), new { nic = studentDto.NIC }, studentDto);
             }
@@ -94,7 +102,7 @@ namespace IT_Institute_Management.Controllers
         {
             try
             {
-               
+
                 await _studentService.UpdateStudentAsync(nic, studentDto);
                 return Ok(new { message = "Student Successfully Updated." });
             }
@@ -116,22 +124,26 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+               
+
+               
+                var errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                return BadRequest(new { message = errorMessage });
             }
         }
 
 
 
-       
+
         [HttpPut("{nic}/update-password")]
         public async Task<IActionResult> UpdatePassword(string nic, UpdatePasswordRequestDto updatePasswordDto)
         {
             try
             {
-                
+
                 await _studentService.UpdatePasswordAsync(nic, updatePasswordDto);
 
-                
+
                 return Ok(new { message = "Password updated successfully." });
             }
             catch (ApplicationException ex)
@@ -179,7 +191,7 @@ namespace IT_Institute_Management.Controllers
         {
             try
             {
-               
+
                 var message = await _studentService.DirectUnlock(nic);
                 return Ok(new { message });
             }
@@ -203,6 +215,26 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("update/{nic}")]
+        public async Task<IActionResult> UpdateStudent(string nic, [FromBody] StudentUpdateRequestDto updateDto)
+        {
+            if (updateDto == null)
+            {
+                return BadRequest("Invalid data.");
+            }
+
+            try
+            {
+                var updatedStudent = await _studentService.UpdateStudentAsync(nic, updateDto);
+                return Ok(updatedStudent);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception details (not shown here)
                 return StatusCode(500, new { message = ex.Message });
             }
         }

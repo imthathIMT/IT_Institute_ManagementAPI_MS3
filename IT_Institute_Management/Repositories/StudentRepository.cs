@@ -31,7 +31,7 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
-                return await _context.Students.Include(s => s.Address).Include(e => e.Enrollment).Include(n=>n.Notification).FirstOrDefaultAsync(s => s.NIC == nic);
+                return await _context.Students.Include(s => s.Address).Include(e => e.Enrollment).Include(n => n.Notification).FirstOrDefaultAsync(s => s.NIC == nic);
             }
             catch (Exception ex)
             {
@@ -103,7 +103,7 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
-                
+
                 var user = new User()
                 {
                     NIC = student.NIC,
@@ -115,7 +115,7 @@ namespace IT_Institute_Management.Repositories
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
-            {            
+            {
                 throw new Exception("An error occurred while updating the student.");
             }
         }
@@ -125,11 +125,11 @@ namespace IT_Institute_Management.Repositories
             try
             {
                 var socialMedia = _context.SocialMediaLinks.FirstOrDefaultAsync(s => s.StudentNIC == nic);
-                if(socialMedia != null)
+                if (socialMedia != null)
                 {
                     _context.SocialMediaLinks.Remove(await socialMedia);
                 }
-               
+
 
                 var student = await GetByNicAsync(nic);
                 if (student == null)
@@ -137,28 +137,27 @@ namespace IT_Institute_Management.Repositories
                     throw new Exception($"Student with NIC {nic} not found.");
                 }
 
-                
+
                 _context.Students.Remove(student);
 
                 var user = await _context.Users
-                    .FirstOrDefaultAsync(u => u.NIC == student.NIC);
-
+                .FirstOrDefaultAsync(u => u.NIC == student.NIC);
                 if (user != null)
                 {
                     _context.Users.Remove(user);
                 }
 
-               
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException ex)
             {
-               
+
                 throw new Exception($"The entity was modified or deleted by another user. Please try again. {ex.Message}");
             }
             catch (Exception ex)
             {
-               
+
                 throw new Exception($"An error occurred while deleting the student with NIC {nic}. {ex.Message}");
             }
         }
@@ -168,15 +167,15 @@ namespace IT_Institute_Management.Repositories
             try
             {
                 var studentEmails = await _context.Students
-                                                  .Where(s => !string.IsNullOrEmpty(s.Email)) 
-                                                  .Select(s => s.Email) 
+                                                  .Where(s => !string.IsNullOrEmpty(s.Email))
+                                                  .Select(s => s.Email)
                                                   .ToListAsync();
 
                 return studentEmails;
             }
             catch (Exception ex)
             {
-                
+
                 throw new Exception("An error occurred while fetching the student emails.", ex);
             }
         }
@@ -198,6 +197,17 @@ namespace IT_Institute_Management.Repositories
         public async Task UpdateStudentAccount(Student student)
         {
             _context.Students.Update(student);
+            await _context.SaveChangesAsync();
+        }
+
+        public void Update(Student entity)
+        {
+            _context.Students.Update(entity);
+            
+        }
+
+        public async Task SaveAsync()
+        {
             await _context.SaveChangesAsync();
         }
 

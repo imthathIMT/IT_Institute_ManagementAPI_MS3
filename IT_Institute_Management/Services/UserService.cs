@@ -36,6 +36,13 @@ namespace IT_Institute_Management.Services
             };
         }
 
+        public async Task<bool> CheckUserExistsByNic(string nic)
+        {
+            var user = await _userRepository.GetByIdAsync(nic);
+            return user != null; 
+        }
+
+
         public async Task AddAsync(UserRequestDto userDto, Role role)
         {
            

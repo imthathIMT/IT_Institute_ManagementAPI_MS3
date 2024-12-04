@@ -87,7 +87,7 @@ namespace IT_Institute_Management.Services
                 }
 
                 // Attempt to send the email
-                await _emailService.SendEmail(emailRequestDto.Email, emailRequestDto.Subject, emailRequestDto.Body);
+                 _emailService.SendEmailInBackground(emailRequestDto.Email, emailRequestDto.Subject, emailRequestDto.Body);
 
                 // If sending email succeeds, return success message
                 return "Email sent successfully.";

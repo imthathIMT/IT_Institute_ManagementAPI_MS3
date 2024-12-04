@@ -56,5 +56,27 @@ namespace IT_Institute_Management.DTO.RequestDTO
         public string Country { get; set; }
     }
 
+    public class StudentUpdateRequestDto
+    {
+        [Required(ErrorMessage = "First Name is required.")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Last Name is required.")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid email address format.")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Phone number is required.")]
+        [RegularExpression(@"^\+?(\d{1,4})?[\s\-]?\(?\d{1,4}?\)?[\s\-]?\d{1,4}[\s\-]?\d{1,4}[\s\-]?\d{1,4}$",
+            ErrorMessage = "Phone number must be in a valid international format. Example format: +44 20 7946 0958.")]
+        public string Phone { get; set; }
+
+        [Required(ErrorMessage = "Address is required.")]
+        public AddressRequestDto Address { get; set; }
+
+    }
+
 
 }
