@@ -53,25 +53,69 @@ namespace IT_Institute_Management.Database
                 VALUES (@NIC, @Name, @Password, @Email, @Phone, @ImagePath, @UserId);
             END";
 
-            Guid userId = Guid.NewGuid();
-            string nic = "200431400979";
-            string password = "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q==";//911@Pira
-            string name = "Pathmarasan Piragash";
-            string email = "pppiragash2004@gmail.com";
-            string phone = "0766931772";
-            string imagePath = "/images/students/fcdf0f4c-c81d-4908-97b7-3a13a7d190d6.jpg";
-
-            ExecuteQuery(query, new Dictionary<string, object>
+            List<Dictionary<string, object>> admins = new List<Dictionary<string, object>>
             {
-                {"@UserId", userId},
-                {"@NIC", nic},
-                {"@Password", password},
-                {"@Role", (int)Role.Admin},
-                {"@Name", name},
-                {"@Email", email},
-                {"@Phone", phone},
-                {"@ImagePath", imagePath}
-            });
+                new Dictionary<string, object>
+                {
+                    {"@UserId", Guid.NewGuid()},
+                    {"@NIC", "200431400979"},
+                    {"@Password", "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q=="}, // 911@Pira
+                    {"@Role", (int)Role.Admin},
+                    {"@Name", "Pathmarasan Piragash"},
+                    {"@Email", "pppiragash2004@gmail.com"},
+                    {"@Phone", "0766931772"},
+                    {"@ImagePath", "/images/students/fcdf0f4c-c81d-4908-97b7-3a13a7d190d6.jpg"}
+                },
+                new Dictionary<string, object>
+                {
+                    {"@UserId", Guid.NewGuid()},
+                    {"@NIC", "200431400980"},
+                    {"@Password", "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q=="},
+                    {"@Role", (int)Role.Admin},
+                    {"@Name", "John Doe"},
+                    {"@Email", "johndoe@gmail.com"},
+                    {"@Phone", "0770000000"},
+                    {"@ImagePath", "/images/students/john_doe.jpg"}
+                },
+                new Dictionary<string, object>
+                {
+                    {"@UserId", Guid.NewGuid()},
+                    {"@NIC", "200431400981"},
+                    {"@Password", "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q=="},
+                    {"@Role", (int)Role.Admin},
+                    {"@Name", "Alice Brown"},
+                    {"@Email", "alicebrown@gmail.com"},
+                    {"@Phone", "0781112222"},
+                    {"@ImagePath", "/images/students/alice_brown.jpg"}
+                },
+                new Dictionary<string, object>
+                {
+                    {"@UserId", Guid.NewGuid()},
+                    {"@NIC", "200431400982"},
+                    {"@Password", "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q=="},
+                    {"@Role", (int)Role.Admin},
+                    {"@Name", "Bob Smith"},
+                    {"@Email", "bobsmith@gmail.com"},
+                    {"@Phone", "0792233445"},
+                    {"@ImagePath", "/images/students/bob_smith.jpg"}
+                },
+                new Dictionary<string, object>
+                {
+                    {"@UserId", Guid.NewGuid()},
+                    {"@NIC", "200431400983"},
+                    {"@Password", "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q=="},
+                    {"@Role", (int)Role.Admin},
+                    {"@Name", "Eve White"},
+                    {"@Email", "evewhite@gmail.com"},
+                    {"@Phone", "0784455667"},
+                    {"@ImagePath", "/images/students/eve_white.jpg"}
+                }
+            };
+
+            foreach (var admin in admins)
+            {
+                ExecuteQuery(query, admin);
+            }
         }
 
         public void AddStudentSampleData()
