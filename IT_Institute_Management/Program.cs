@@ -34,6 +34,7 @@ seeder.AddAdminSampleData();
 // Add sample Student data
 seeder.AddStudentSampleData();
 
+seeder.AddCourseSampleData();
 
 
 // Add services to the container.
