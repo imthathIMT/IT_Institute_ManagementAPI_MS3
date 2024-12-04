@@ -303,7 +303,7 @@ namespace IT_Institute_Management.Database
               {
                     new Dictionary<string, object>
                     {
-                        {"@Id", Guid.NewGuid()},
+                        {"@Id", new Guid("7E19C61E-598C-4DBD-B796-701D19DD1C22")},
                         {"@CourseName", "Python"},
                         {"@Level", "Beginner"},
                         {"@Duration", 6}, 
@@ -313,7 +313,7 @@ namespace IT_Institute_Management.Database
                     },
                     new Dictionary<string, object>
                     {
-                        {"@Id", Guid.NewGuid()},
+                        {"@Id", new Guid("A3EF7D27-A78B-476D-92C0-A3687389CA11")},
                         {"@CourseName", "Java"},
                         {"@Level", "Intermediate"},
                         {"@Duration", 2}, 
@@ -323,31 +323,31 @@ namespace IT_Institute_Management.Database
                     },
                     new Dictionary<string, object>
                     {
-                        {"@Id", Guid.NewGuid()},
+                        {"@Id", new Guid("E7668F28-C24D-4861-B7CC-F96C2F97C1AE")},
                         {"@CourseName", "C#"},
                         {"@Level", "Beginner"},
-                        {"@Duration", 6}, // Duration in months
-                        {"@Fees", 6000}, // Course fee
+                        {"@Duration", 6}, 
+                        {"@Fees", 6000}, 
                         {"@ImagePaths", "/images/courses/6cadc346-67ad-4856-af1f-e4ee13f46667.webp"},
                         {"@Description", "A beginner-friendly course on C# programming, focusing on the basics."}
                     },
                     new Dictionary<string, object>
                     {
-                        {"@Id", Guid.NewGuid()},
+                        {"@Id", new Guid("F0A3CE56-62F6-4974-9C14-8CF258E33520")},
                         {"@CourseName", "HTML/CSS"},
                         {"@Level", "Beginner"},
-                        {"@Duration", 2}, // Duration in months
-                        {"@Fees", 30000}, // Course fee
+                        {"@Duration", 2}, 
+                        {"@Fees", 30000}, 
                         {"@ImagePaths", "/images/courses/0adeaedf-35d1-4278-a66e-1736e33c0154.png"},
                         {"@Description", "Learn the basics of web development with HTML and CSS."}
                     },
                     new Dictionary<string, object>
                     {
-                        {"@Id", Guid.NewGuid()},
+                        {"@Id", new Guid("08BAEA62-DFAA-44A8-B03F-811A24AB2CA0")},
                         {"@CourseName", "JavaScript"},
                         {"@Level", "Intermediate"},
-                        {"@Duration", 6}, // Duration in months
-                        {"@Fees", 18000}, // Course fee
+                        {"@Duration", 6}, 
+                        {"@Fees", 18000}, 
                         {"@ImagePaths", "/images/courses/fdaf92fe-5dbe-4724-8ffc-bbb6d5783c35.png"},
                         {"@Description", "An intermediate course to master JavaScript for web development."}
                     }
@@ -376,7 +376,7 @@ namespace IT_Institute_Management.Database
     {
         new Dictionary<string, object>
         {
-            {"@Id", Guid.NewGuid()},
+            {"@Id", new Guid("64F431E2-3807-462E-88D6-33687430C085")},
             {"@EnrollmentDate", new DateTime(2024, 9, 10)},
             {"@PaymentPlan", "Full"},
             {"@IsComplete", false},
@@ -385,7 +385,7 @@ namespace IT_Institute_Management.Database
         },
         new Dictionary<string, object>
         {
-            {"@Id", Guid.NewGuid()},
+            {"@Id", new Guid("BD289E94-D3F2-4207-9492-8E0278CBF01E")},
             {"@EnrollmentDate", new DateTime(2024, 11, 20)},
             {"@PaymentPlan", "Installment"},
             {"@IsComplete", false},
@@ -394,7 +394,7 @@ namespace IT_Institute_Management.Database
         },
         new Dictionary<string, object>
         {
-            {"@Id", Guid.NewGuid()},
+            {"@Id", new Guid("B2556571-A32F-4CD5-8249-F9707E04D166")},
             {"@EnrollmentDate", new DateTime(2024, 10, 01)},
             {"@PaymentPlan", "Full"},
             {"@IsComplete", true},
@@ -403,7 +403,7 @@ namespace IT_Institute_Management.Database
         },
         new Dictionary<string, object>
         {
-            {"@Id", Guid.NewGuid()},
+            {"@Id", new Guid("31BF6DFC-9DEB-4E79-B714-A91D5F767F75")},
             {"@EnrollmentDate", new DateTime(2024, 10, 10)},
             {"@PaymentPlan", "Full"},
             {"@IsComplete", false},
@@ -412,7 +412,7 @@ namespace IT_Institute_Management.Database
         },
         new Dictionary<string, object>
         {
-            {"@Id", Guid.NewGuid()},
+            {"@Id", new Guid("2D4FC108-6496-4D87-B72E-1C6BF9B9792C")},
             {"@EnrollmentDate", new DateTime(2024, 12, 01)},
             {"@PaymentPlan", "Installment"},
             {"@IsComplete", false},
@@ -421,7 +421,7 @@ namespace IT_Institute_Management.Database
         },
         new Dictionary<string, object>
         {
-            {"@Id", Guid.NewGuid()},
+            {"@Id", new Guid("2F1DEDA6-B249-4491-ACE5-09EBE07E8163")},
             {"@EnrollmentDate", DateTime.Today},
             {"@PaymentPlan", "Full"},
             {"@IsComplete", true},
@@ -453,7 +453,7 @@ namespace IT_Institute_Management.Database
     {
         new Dictionary<string, object>
         {
-            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentId", new Guid("D277EB4A-6AC9-4BEC-AC79-81BEB52B58BF")},
             {"@PaymentDate", new DateTime(2024, 9, 12)},
             {"@Amount", 12000.00m},
             {"@DueAmount", 0.00m}, 
@@ -464,16 +464,7 @@ namespace IT_Institute_Management.Database
         
         new Dictionary<string, object>
         {
-            {"@PaymentId", Guid.NewGuid()},
-            {"@PaymentDate", new DateTime(2024, 10, 03)},
-            {"@Amount", 24000.00m},
-            {"@DueAmount", 0.00m},
-            {"@TotalPaidAmount", 24000.00m},
-            {"@EnrollmentId", new Guid("6BE764C5-74D5-42FE-A905-047663C8614C")}, 
-        },
-        new Dictionary<string, object>
-        {
-            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentId", new Guid("1646B0DE-FAF4-49FE-A164-4D774741DFF6")},
             {"@PaymentDate", new DateTime(2024, 12, 03)},
             {"@Amount", 24000.00m},
             {"@DueAmount", 0.00m},
@@ -482,7 +473,7 @@ namespace IT_Institute_Management.Database
         },
         new Dictionary<string, object>
         {
-            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentId", new Guid("03677F5F-D6A4-4D6F-9352-091AA4D0DD1E")},
             {"@PaymentDate", new DateTime(2024, 10, 15)},
             {"@Amount", 18000.00m},
             {"@DueAmount", 0},
@@ -491,7 +482,7 @@ namespace IT_Institute_Management.Database
         },
         new Dictionary<string, object>
         {
-            {"@PaymentId", Guid.NewGuid()},
+            {"@PaymentId", new Guid("84C01704-F566-415E-B70B-47ACDFB37F9F")},
             {"@PaymentDate", DateTime.Today},
             {"@Amount", 15000.00m},
             {"@DueAmount", 15000.00m},
