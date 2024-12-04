@@ -38,7 +38,9 @@ SampleDataIntializer seeder = new SampleDataIntializer();
 //seeder.AddEnrollmentSampleData();
 
 //seeder.AddPaymentSampleData();
-seeder.AddAnnouncementSampleData();
+//seeder.AddAnnouncementSampleData();
+//seeder.AddContactUsSampleData();
+//seeder.AddNotificationSampleData();
 
 // Add services to the container.
 
