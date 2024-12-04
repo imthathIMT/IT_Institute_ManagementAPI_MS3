@@ -488,6 +488,180 @@ namespace IT_Institute_Management.Database
         }
 
 
+        public void AddAnnouncementSampleData()
+        {
+            string query = @"
+    IF NOT EXISTS (SELECT 1 FROM Announcements WHERE Id = @Id)
+    BEGIN
+        INSERT INTO Announcements (Id, Title, Body, Date)
+        VALUES (@Id, @Title, @Body, @Date);
+    END";
+
+            List<Dictionary<string, object>> announcements = new List<Dictionary<string, object>>
+    {
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Title", "New Course Created: Java Programming"},
+            {"@Body", "We are excited to announce that a new course, 'Java Programming for Beginners', has been created. Start your learning journey with us today!"},
+            {"@Date", new DateTime(2023, 5, 10)}  // Example: Announcement date (May 2023)
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Title", "New Course Launched: Web Development"},
+            {"@Body", "A new course on 'Web Development' has been launched. Learn to build websites and enhance your programming skills."},
+            {"@Date", new DateTime(2023, 8, 20)}  // Example: Announcement date (Aug 2023)
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Title", "New Course Available: Data Science Basics"},
+            {"@Body", "We are pleased to announce a new course on 'Data Science Basics'. Get started with the world of data science and analytics."},
+            {"@Date", new DateTime(2023, 11, 12)}  // Example: Announcement date (Nov 2023)
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Title", "New Course Open: Digital Marketing 101"},
+            {"@Body", "Enroll in our newly launched 'Digital Marketing 101' course. Learn the fundamentals of digital marketing and grow your business."},
+            {"@Date", new DateTime(2024, 1, 1)}  // Example: Announcement date (Jan 2024)
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Title", "Course Alert: Advanced Machine Learning"},
+            {"@Body", "The 'Advanced Machine Learning' course is now available. Explore deep learning techniques and advance your AI knowledge."},
+            {"@Date", DateTime.Today}  // Example: Announcement date (today)
+        }
+    };
+
+            foreach (var announcement in announcements)
+            {
+                ExecuteQuery(query, announcement);
+            }
+        }
+
+
+
+
+        public void AddContactUsSampleData()
+        {
+            string query = @"
+    IF NOT EXISTS (SELECT 1 FROM ContactUs WHERE Id = @Id)
+    BEGIN
+        INSERT INTO ContactUs (Id, Name, Email, Message, Date)
+        VALUES (@Id, @Name, @Email, @Message, @Date);
+    END";
+
+            List<Dictionary<string, object>> contactUsEntries = new List<Dictionary<string, object>>
+    {
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Name", "John Doe"},
+            {"@Email", "johndoe@example.com"},
+            {"@Message", "I am interested in enrolling in the 'Web Development' course. Could you provide more details about the course schedule?"},
+            {"@Date", new DateTime(2023, 5, 10)}  // Example: Date (May 2023)
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Name", "Alice Smith"},
+            {"@Email", "alice.smith@example.com"},
+            {"@Message", "Could you please assist me with resetting my password for the student portal?"},
+            {"@Date", new DateTime(2023, 8, 20)}  // Example: Date (Aug 2023)
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Name", "Bob Johnson"},
+            {"@Email", "bob.johnson@example.com"},
+            {"@Message", "I have a question regarding the 'Data Science' course. Can I enroll even though I have no prior experience?"},
+            {"@Date", new DateTime(2023, 11, 12)}  // Example: Date (Nov 2023)
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Name", "Emma Wilson"},
+            {"@Email", "emma.wilson@example.com"},
+            {"@Message", "I would like to know if there are any upcoming workshops on 'Digital Marketing' that I can attend."},
+            {"@Date", new DateTime(2024, 1, 1)}  // Example: Date (Jan 2024)
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Name", "Liam Brown"},
+            {"@Email", "liam.brown@example.com"},
+            {"@Message", "I am a current student and need assistance with accessing course materials for 'Machine Learning 101'. Can you help?"},
+            {"@Date", DateTime.Today}  // Example: Date (today)
+        }
+    };
+
+            foreach (var contactUs in contactUsEntries)
+            {
+                ExecuteQuery(query, contactUs);
+            }
+        }
+
+
+        public void AddNotificationSampleData()
+        {
+            string query = @"
+    IF NOT EXISTS (SELECT 1 FROM Notifications WHERE Id = @Id)
+    BEGIN
+        INSERT INTO Notifications (Id, Message, Date, StudentNIC)
+        VALUES (@Id, @Message, @Date, @StudentNIC);
+    END";
+
+            List<Dictionary<string, object>> notifications = new List<Dictionary<string, object>>
+    {
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Message", "Reminder: Your 'Web Development' course starts tomorrow. Please ensure you have access to the course materials."},
+            {"@Date", new DateTime(2023, 5, 9)},  // Example: Reminder before course start (May 2023)
+            {"@StudentNIC", "200417002813"}  // Example: Student NIC
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Message", "Your 'Data Science' course payment is due next week. Kindly make the payment before the due date."},
+            {"@Date", new DateTime(2023, 8, 18)},  // Example: Payment reminder (Aug 2023)
+            {"@StudentNIC", "200417002814"}
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Message", "Good news! You have successfully completed the 'Machine Learning 101' course. Check your results on the portal."},
+            {"@Date", new DateTime(2023, 11, 15)},  // Example: Completion notification (Nov 2023)
+            {"@StudentNIC", "200417002815"}
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Message", "Your enrollment for the 'Digital Marketing' course has been confirmed. You can now access the materials."},
+            {"@Date", new DateTime(2024, 1, 2)},  // Example: Enrollment confirmation (Jan 2024)
+            {"@StudentNIC", "200417002816"}
+        },
+        new Dictionary<string, object>
+        {
+            {"@Id", Guid.NewGuid()},
+            {"@Message", "Urgent: The 'Advanced Python' course has been rescheduled. Please check your email for the new schedule."},
+            {"@Date", DateTime.Today},  // Example: Urgent notification (today)
+            {"@StudentNIC", "200417002817"}
+        }
+    };
+
+            foreach (var notification in notifications)
+            {
+                ExecuteQuery(query, notification);
+            }
+        }
+
+
+
+
 
 
         private void ExecuteQuery(string query, Dictionary<string, object> parameters)
