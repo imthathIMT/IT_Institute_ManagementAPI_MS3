@@ -72,10 +72,10 @@ namespace IT_Institute_Management.Database
                     {"@NIC", "200431400980"},
                     {"@Password", "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q=="},
                     {"@Role", (int)Role.Admin},
-                    {"@Name", "John Doe"},
-                    {"@Email", "johndoe@gmail.com"},
-                    {"@Phone", "0770000000"},
-                    {"@ImagePath", "/images/students/john_doe.jpg"}
+                    {"@Name", "Thuvakaran"},
+                    {"@Email", "thuvakaran@gmail.com"},
+                    {"@Phone", "0778400521"},
+                    {"@ImagePath", "/images/students/d5f04527-0499-48ff-a32c-4bdb55c75de7.jpg"}
                 },
                 new Dictionary<string, object>
                 {
@@ -83,10 +83,10 @@ namespace IT_Institute_Management.Database
                     {"@NIC", "200431400981"},
                     {"@Password", "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q=="},
                     {"@Role", (int)Role.Admin},
-                    {"@Name", "Alice Brown"},
-                    {"@Email", "alicebrown@gmail.com"},
+                    {"@Name", "Jathushan"},
+                    {"@Email", "jathu@gmail.com"},
                     {"@Phone", "0781112222"},
-                    {"@ImagePath", "/images/students/alice_brown.jpg"}
+                    {"@ImagePath", "/images/students/d5f04527-0499-48ff-a32c-4bdb55c75de7.jpg"}
                 },
                 new Dictionary<string, object>
                 {
@@ -94,10 +94,10 @@ namespace IT_Institute_Management.Database
                     {"@NIC", "200431400982"},
                     {"@Password", "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q=="},
                     {"@Role", (int)Role.Admin},
-                    {"@Name", "Bob Smith"},
-                    {"@Email", "bobsmith@gmail.com"},
+                    {"@Name", "Denojan"},
+                    {"@Email", "denojan@gmail.com"},
                     {"@Phone", "0792233445"},
-                    {"@ImagePath", "/images/students/bob_smith.jpg"}
+                    {"@ImagePath", "/images/students/d5f04527-0499-48ff-a32c-4bdb55c75de7.jpg"}
                 },
                 new Dictionary<string, object>
                 {
@@ -105,10 +105,10 @@ namespace IT_Institute_Management.Database
                     {"@NIC", "200431400983"},
                     {"@Password", "AQAAAAIAAYagAAAAEK/02L5TSdJsZbs8SYprqGDT8rXK5jzPnfrKy0bQANoS27C7sg/5pov7R/U1EuUn5Q=="},
                     {"@Role", (int)Role.Admin},
-                    {"@Name", "Eve White"},
-                    {"@Email", "evewhite@gmail.com"},
+                    {"@Name", "Divyesh"},
+                    {"@Email", "divyeshe@gmail.com"},
                     {"@Phone", "0784455667"},
-                    {"@ImagePath", "/images/students/eve_white.jpg"}
+                    {"@ImagePath", "/images/students/d5f04527-0499-48ff-a32c-4bdb55c75de7.jpg"}
                 }
             };
 
@@ -171,11 +171,11 @@ namespace IT_Institute_Management.Database
             {"@NIC", "200417002814"},
             {"@Password", "AQAAAAIAAYagAAAAEFAeSIHG89Q+sYECoGAu3dQx4Pc2s+/m344EwdV6xSnK1sqMsxuUPUtc/gSB3N1Ipg=="},
             {"@Role", (int)Role.Student},
-            {"@FirstName", "John"},
-            {"@LastName", "Doe"},
-            {"@Email", "john.doe@student.com"},
+            {"@FirstName", "Thangarasa"},
+            {"@LastName", "Kanistan"},
+            {"@Email", "kani@gmail.com"},
             {"@Phone", "0781234567"},
-            {"@ImagePath", "/images/students/john_doe.jpg"},
+            {"@ImagePath", "/images/students/e13371cb-0b16-463b-8b56-15d156e42544.jpg"},
             {"@IsLocked", false},
             {"@FailedLoginAttempts", 0},
             {"@AddressId", Guid.NewGuid()},
@@ -200,9 +200,9 @@ namespace IT_Institute_Management.Database
             {"@Role", (int)Role.Student},
             {"@FirstName", "Sara"},
             {"@LastName", "Kumari"},
-            {"@Email", "sara.kumari@student.com"},
+            {"@Email", "sarakumari@gmail.com"},
             {"@Phone", "0778765432"},
-            {"@ImagePath", "/images/students/sara_kumari.jpg"},
+            {"@ImagePath", "/images/students/e13371cb-0b16-463b-8b56-15d156e42544.jpg"},
             {"@IsLocked", false},
             {"@FailedLoginAttempts", 0},
             {"@AddressId", Guid.NewGuid()},
@@ -227,9 +227,9 @@ namespace IT_Institute_Management.Database
             {"@Role", (int)Role.Student},
             {"@FirstName", "David"},
             {"@LastName", "Fernando"},
-            {"@Email", "david.fernando@student.com"},
+            {"@Email", "davidfernando@gmail.com"},
             {"@Phone", "0789988776"},
-            {"@ImagePath", "/images/students/david_fernando.jpg"},
+            {"@ImagePath", "/images/students/e13371cb-0b16-463b-8b56-15d156e42544.jpg"},
             {"@IsLocked", false},
             {"@FailedLoginAttempts", 0},
             {"@AddressId", Guid.NewGuid()},
@@ -254,9 +254,9 @@ namespace IT_Institute_Management.Database
             {"@Role", (int)Role.Student},
             {"@FirstName", "Nadeesha"},
             {"@LastName", "Perera"},
-            {"@Email", "nadeesha.perera@student.com"},
+            {"@Email", "nadeeshaperera@gmail.com"},
             {"@Phone", "0773344556"},
-            {"@ImagePath", "/images/students/nadeesha_perera.jpg"},
+            {"@ImagePath", "/images/students/e13371cb-0b16-463b-8b56-15d156e42544.jpg"},
             {"@IsLocked", false},
             {"@FailedLoginAttempts", 0},
             {"@AddressId", Guid.NewGuid()},
@@ -299,8 +299,8 @@ namespace IT_Institute_Management.Database
             {"@CourseName", "Python"},
             {"@Level", "Beginner"},
             {"@Duration", 6},
-            {"@Fees", 1500.00m},
-            {"@ImagePaths", "/images/courses/d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd.jpg"},
+            {"@Fees", 12000.00m},
+            {"@ImagePaths", "/images/courses/ff20c3e3-67b3-4d9e-8312-fa03acecd363.png"},
             {"@Description", "Learn the fundamentals of Python programming, ideal for beginners."}
         },
         new Dictionary<string, object>
@@ -309,8 +309,8 @@ namespace IT_Institute_Management.Database
             {"@CourseName", "Java"},
             {"@Level", "Intermediate"},
             {"@Duration", 12},
-            {"@Fees", 2500.00m},
-            {"@ImagePaths", "/images/courses/d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd.jpg"},
+            {"@Fees", 24000.00m},
+            {"@ImagePaths", "/images/courses/1d5c0cb9-f8ee-47e6-b1f5-82feaaaab3b2.jpg"},
             {"@Description", "A deeper dive into Java programming, suitable for intermediate learners."}
         },
         new Dictionary<string, object>
@@ -319,8 +319,8 @@ namespace IT_Institute_Management.Database
             {"@CourseName", "C#"},
             {"@Level", "Beginner"},
             {"@Duration", 6},
-            {"@Fees", 1200.00m},
-            {"@ImagePaths", "/images/courses/d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd.jpg"},
+            {"@Fees", 6000.00m},
+            {"@ImagePaths", "/images/courses/6cadc346-67ad-4856-af1f-e4ee13f46667.webp"},
             {"@Description", "A beginner-friendly course on C# programming, focusing on the basics."}
         },
         new Dictionary<string, object>
@@ -329,8 +329,8 @@ namespace IT_Institute_Management.Database
             {"@CourseName", "HTML/CSS"},
             {"@Level", "Beginner"},
             {"@Duration", 6},
-            {"@Fees", 1000.00m},
-            {"@ImagePaths", "/images/courses/d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd.jpg"},
+            {"@Fees", 30000.00m},
+            {"@ImagePaths", "/images/courses/0adeaedf-35d1-4278-a66e-1736e33c0154.png"},
             {"@Description", "Learn the basics of web development with HTML and CSS."}
         },
         new Dictionary<string, object>
@@ -339,8 +339,8 @@ namespace IT_Institute_Management.Database
             {"@CourseName", "JavaScript"},
             {"@Level", "Intermediate"},
             {"@Duration", 6},
-            {"@Fees", 1800.00m},
-            {"@ImagePaths", "/images/courses/d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd.jpg"},
+            {"@Fees", 18000.00m},
+            {"@ImagePaths", "/images/courses/fdaf92fe-5dbe-4724-8ffc-bbb6d5783c35.png"},
             {"@Description", "An intermediate course to master JavaScript for web development."}
         }
     };
@@ -352,140 +352,135 @@ namespace IT_Institute_Management.Database
         }
 
 
-        public void AddEnrollmentSampleData()
-        {
-            string query = @"
-    IF NOT EXISTS (SELECT 1 FROM Enrollments WHERE StudentNIC = @StudentNIC AND CourseId = @CourseId)
-    BEGIN
-        INSERT INTO Enrollments (Id, EnrollmentDate, PaymentPlan, IsComplete, StudentNIC, CourseId)
-        VALUES (@Id, @EnrollmentDate, @PaymentPlan, @IsComplete, @StudentNIC, @CourseId);
-    END";
+    //    public void AddEnrollmentSampleData()
+    //    {
+    //        string query = @"
+    //IF NOT EXISTS (SELECT 1 FROM Enrollments WHERE StudentNIC = @StudentNIC AND CourseId = @CourseId)
+    //BEGIN
+    //    INSERT INTO Enrollments (Id, EnrollmentDate, PaymentPlan, IsComplete, StudentNIC, CourseId)
+    //    VALUES (@Id, @EnrollmentDate, @PaymentPlan, @IsComplete, @StudentNIC, @CourseId);
+    //END";
 
-            List<Dictionary<string, object>> enrollments = new List<Dictionary<string, object>>
-    {
-        new Dictionary<string, object>
-        {
-            {"@Id", Guid.NewGuid()},
-            {"@EnrollmentDate", new DateTime(2023, 5, 10)},  // Example: Old date (May 2023)
-            {"@PaymentPlan", "Full"},
-            {"@IsComplete", true},
-            {"@StudentNIC", "200417002813"},  // Example: Student NIC
-            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}  // Example: Course GUID
-        },
-        new Dictionary<string, object>
-        {
-            {"@Id", Guid.NewGuid()},
-            {"@EnrollmentDate", new DateTime(2022, 8, 20)},  // Example: Older date (Aug 2022)
-            {"@PaymentPlan", "Installment"},
-            {"@IsComplete", false},
-            {"@StudentNIC", "200417002814"},
-            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
-        },
-        new Dictionary<string, object>
-        {
-            {"@Id", Guid.NewGuid()},
-            {"@EnrollmentDate", new DateTime(2023, 11, 12)},  // Example: More recent date (Nov 2023)
-            {"@PaymentPlan", "Full"},
-            {"@IsComplete", true},
-            {"@StudentNIC", "200417002815"},
-            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
-        },
-        new Dictionary<string, object>
-        {
-            {"@Id", Guid.NewGuid()},
-            {"@EnrollmentDate", new DateTime(2024, 1, 1)},  // Example: New year (Jan 2024)
-            {"@PaymentPlan", "Installment"},
-            {"@IsComplete", false},
-            {"@StudentNIC", "200417002816"},
-            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
-        },
-        new Dictionary<string, object>
-        {
-            {"@Id", Guid.NewGuid()},
-            {"@EnrollmentDate", DateTime.Today},  // Example: Current date (today)
-            {"@PaymentPlan", "Full"},
-            {"@IsComplete", true},
-            {"@StudentNIC", "200417002817"},
-            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
-        }
-    };
+    //        List<Dictionary<string, object>> enrollments = new List<Dictionary<string, object>>
+    //{
+    //    new Dictionary<string, object>
+    //    {
+    //        {"@Id", Guid.NewGuid()},
+    //        {"@EnrollmentDate", new DateTime(2024, 9, 10)}, 
+    //        {"@PaymentPlan", "Full"},
+    //        {"@IsComplete", true},
+    //        {"@StudentNIC", "200417002813"}, 
+    //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}  
+    //    },
+    //    new Dictionary<string, object>
+    //    {
+    //        {"@Id", Guid.NewGuid()},
+    //        {"@EnrollmentDate", new DateTime(2024, 9, 20)},  
+    //        {"@PaymentPlan", "Installment"},
+    //        {"@IsComplete", false},
+    //        {"@StudentNIC", "200417002814"},
+    //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+    //    },
+    //    new Dictionary<string, object>
+    //    {
+    //        {"@Id", Guid.NewGuid()},
+    //        {"@EnrollmentDate", new DateTime(2024, 10, 10)},  
+    //        {"@PaymentPlan", "Full"},
+    //        {"@IsComplete", true},
+    //        {"@StudentNIC", "200417002815"},
+    //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+    //    },
+    //    new Dictionary<string, object>
+    //    {
+    //        {"@Id", Guid.NewGuid()},
+    //        {"@EnrollmentDate", new DateTime(2024, 10, 22)}, 
+    //        {"@PaymentPlan", "Installment"},
+    //        {"@IsComplete", false},
+    //        {"@StudentNIC", "200417002816"},
+    //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+    //    },
+    //    new Dictionary<string, object>
+    //    {
+    //        {"@Id", Guid.NewGuid()},
+    //        {"@EnrollmentDate", DateTime.Today}, 
+    //        {"@PaymentPlan", "Full"},
+    //        {"@IsComplete", true},
+    //        {"@StudentNIC", "200417002817"},
+    //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+    //    }
+    //};
 
-            foreach (var enrollment in enrollments)
-            {
-                ExecuteQuery(query, enrollment);
-            }
-        }
+    //        foreach (var enrollment in enrollments)
+    //        {
+    //            ExecuteQuery(query, enrollment);
+    //        }
+    //    }
 
 
 
-        public void AddPaymentSampleData()
-        {
-            string query = @"
-    IF NOT EXISTS (SELECT 1 FROM Payments WHERE PaymentId = @PaymentId)
-    BEGIN
-        INSERT INTO Payments (PaymentId, PaymentDate, Amount, PaymentMethod, Status, StudentNIC, CourseId)
-        VALUES (@PaymentId, @PaymentDate, @Amount, @PaymentMethod, @Status, @StudentNIC, @CourseId);
-    END";
+    //    public void AddPaymentSampleData()
+    //    {
+    //        string query = @"
+    //IF NOT EXISTS (SELECT 1 FROM Payments WHERE PaymentId = @PaymentId)
+    //BEGIN
+    //    INSERT INTO Payments (PaymentId, PaymentDate, Amount, Status, StudentNIC, CourseId)
+    //    VALUES (@PaymentId, @PaymentDate, @Amount, @Status, @StudentNIC, @CourseId);
+    //END";
 
-            List<Dictionary<string, object>> payments = new List<Dictionary<string, object>>
-    {
-        new Dictionary<string, object>
-        {
-            {"@PaymentId", Guid.NewGuid()},
-            {"@PaymentDate", new DateTime(2023, 5, 15)},  // Example: Payment date (May 2023)
-            {"@Amount", 1500.00m},
-            {"@PaymentMethod", "Credit Card"},
-            {"@Status", "Completed"},
-            {"@StudentNIC", "200417002813"},  // Example: Student NIC
-            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}  // Example: Course GUID
-        },
-        new Dictionary<string, object>
-        {
-            {"@PaymentId", Guid.NewGuid()},
-            {"@PaymentDate", new DateTime(2023, 8, 20)},  // Example: Payment date (Aug 2023)
-            {"@Amount", 1200.00m},
-            {"@PaymentMethod", "Bank Transfer"},
-            {"@Status", "Completed"},
-            {"@StudentNIC", "200417002814"},
-            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
-        },
-        new Dictionary<string, object>
-        {
-            {"@PaymentId", Guid.NewGuid()},
-            {"@PaymentDate", new DateTime(2023, 11, 12)},  // Example: Payment date (Nov 2023)
-            {"@Amount", 2500.00m},
-            {"@PaymentMethod", "Debit Card"},
-            {"@Status", "Pending"},
-            {"@StudentNIC", "200417002815"},
-            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
-        },
-        new Dictionary<string, object>
-        {
-            {"@PaymentId", Guid.NewGuid()},
-            {"@PaymentDate", new DateTime(2024, 1, 1)},  // Example: Payment date (Jan 2024)
-            {"@Amount", 1800.00m},
-            {"@PaymentMethod", "Cash"},
-            {"@Status", "Completed"},
-            {"@StudentNIC", "200417002816"},
-            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
-        },
-        new Dictionary<string, object>
-        {
-            {"@PaymentId", Guid.NewGuid()},
-            {"@PaymentDate", DateTime.Today},  // Example: Payment date (today)
-            {"@Amount", 1000.00m},
-            {"@PaymentMethod", "Online Transfer"},
-            {"@Status", "Completed"},
-            {"@StudentNIC", "200417002817"},
-            {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
-        }
-    };
+    //        List<Dictionary<string, object>> payments = new List<Dictionary<string, object>>
+    //{
+    //    new Dictionary<string, object>
+    //    {
+    //        {"@PaymentId", Guid.NewGuid()},
+    //        {"@PaymentDate", new DateTime(2024, 9, 12)},  
+    //        {"@Amount", 1500.00m},
+    //        {"@Status", "Completed"},
+    //        {"@StudentNIC", "200417002813"}, 
+    //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")} 
+    //    },
+    //    new Dictionary<string, object>
+    //    {
+    //        {"@PaymentId", Guid.NewGuid()},
+    //        {"@PaymentDate", new DateTime(2024, 9, 23)}, 
+    //        {"@Amount", 1200.00m},
+    //        {"@Status", "Completed"},
+    //        {"@StudentNIC", "200417002814"},
+    //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+    //    },
+    //    new Dictionary<string, object>
+    //    {
+    //        {"@PaymentId", Guid.NewGuid()},
+    //        {"@PaymentDate", new DateTime(2024, 10, 10)},  
+    //        {"@Amount", 2500.00m},
+    //        {"@Status", "Pending"},
+    //        {"@StudentNIC", "200417002815"},
+    //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+    //    },
+    //    new Dictionary<string, object>
+    //    {
+    //        {"@PaymentId", Guid.NewGuid()},
+    //        {"@PaymentDate", new DateTime(2024, 10, 22)},  
+    //        {"@Amount", 1800.00m},
+    //        {"@Status", "Completed"},
+    //        {"@StudentNIC", "200417002816"},
+    //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+    //    },
+    //    new Dictionary<string, object>
+    //    {
+    //        {"@PaymentId", Guid.NewGuid()},
+    //        {"@PaymentDate", DateTime.Today},  
+    //        {"@Amount", 1000.00m},
+    //        {"@Status", "Completed"},
+    //        {"@StudentNIC", "200417002817"},
+    //        {"@CourseId", new Guid("d5aa3ab1-c0e2-4919-b576-76a7d6e1e5fd")}
+    //    }
+    //};
 
-            foreach (var payment in payments)
-            {
-                ExecuteQuery(query, payment);
-            }
-        }
+    //        foreach (var payment in payments)
+    //        {
+    //            ExecuteQuery(query, payment);
+    //        }
+    //    }
 
 
         public void AddAnnouncementSampleData()
@@ -504,35 +499,35 @@ namespace IT_Institute_Management.Database
             {"@Id", Guid.NewGuid()},
             {"@Title", "New Course Created: Java Programming"},
             {"@Body", "We are excited to announce that a new course, 'Java Programming for Beginners', has been created. Start your learning journey with us today!"},
-            {"@Date", new DateTime(2023, 5, 10)}  // Example: Announcement date (May 2023)
+            {"@Date", new DateTime(2024, 9, 10)}  
         },
         new Dictionary<string, object>
         {
             {"@Id", Guid.NewGuid()},
             {"@Title", "New Course Launched: Web Development"},
             {"@Body", "A new course on 'Web Development' has been launched. Learn to build websites and enhance your programming skills."},
-            {"@Date", new DateTime(2023, 8, 20)}  // Example: Announcement date (Aug 2023)
+            {"@Date", new DateTime(2024, 11, 20)}  
         },
         new Dictionary<string, object>
         {
             {"@Id", Guid.NewGuid()},
             {"@Title", "New Course Available: Data Science Basics"},
             {"@Body", "We are pleased to announce a new course on 'Data Science Basics'. Get started with the world of data science and analytics."},
-            {"@Date", new DateTime(2023, 11, 12)}  // Example: Announcement date (Nov 2023)
+            {"@Date", new DateTime(2024, 11, 22)}  
         },
         new Dictionary<string, object>
         {
             {"@Id", Guid.NewGuid()},
             {"@Title", "New Course Open: Digital Marketing 101"},
             {"@Body", "Enroll in our newly launched 'Digital Marketing 101' course. Learn the fundamentals of digital marketing and grow your business."},
-            {"@Date", new DateTime(2024, 1, 1)}  // Example: Announcement date (Jan 2024)
+            {"@Date", new DateTime(2024, 12, 2)}  
         },
         new Dictionary<string, object>
         {
             {"@Id", Guid.NewGuid()},
             {"@Title", "Course Alert: Advanced Machine Learning"},
             {"@Body", "The 'Advanced Machine Learning' course is now available. Explore deep learning techniques and advance your AI knowledge."},
-            {"@Date", DateTime.Today}  // Example: Announcement date (today)
+            {"@Date", DateTime.Today} 
         }
     };
 
@@ -562,39 +557,39 @@ namespace IT_Institute_Management.Database
             {"@Name", "John Doe"},
             {"@Email", "johndoe@example.com"},
             {"@Message", "I am interested in enrolling in the 'Web Development' course. Could you provide more details about the course schedule?"},
-            {"@Date", new DateTime(2023, 5, 10)}  // Example: Date (May 2023)
+            {"@Date", new DateTime(2024, 9, 10)}  
         },
         new Dictionary<string, object>
         {
             {"@Id", Guid.NewGuid()},
             {"@Name", "Alice Smith"},
-            {"@Email", "alice.smith@example.com"},
+            {"@Email", "alicesmith@example.com"},
             {"@Message", "Could you please assist me with resetting my password for the student portal?"},
-            {"@Date", new DateTime(2023, 8, 20)}  // Example: Date (Aug 2023)
+            {"@Date", new DateTime(2024, 10, 20)}  
         },
         new Dictionary<string, object>
         {
             {"@Id", Guid.NewGuid()},
             {"@Name", "Bob Johnson"},
-            {"@Email", "bob.johnson@example.com"},
+            {"@Email", "bobjohnson@example.com"},
             {"@Message", "I have a question regarding the 'Data Science' course. Can I enroll even though I have no prior experience?"},
-            {"@Date", new DateTime(2023, 11, 12)}  // Example: Date (Nov 2023)
+            {"@Date", new DateTime(2024, 11, 12)}  
         },
         new Dictionary<string, object>
         {
             {"@Id", Guid.NewGuid()},
             {"@Name", "Emma Wilson"},
-            {"@Email", "emma.wilson@example.com"},
+            {"@Email", "emmawilson@example.com"},
             {"@Message", "I would like to know if there are any upcoming workshops on 'Digital Marketing' that I can attend."},
-            {"@Date", new DateTime(2024, 1, 1)}  // Example: Date (Jan 2024)
+            {"@Date", new DateTime(2024, 12, 2)}  
         },
         new Dictionary<string, object>
         {
             {"@Id", Guid.NewGuid()},
             {"@Name", "Liam Brown"},
-            {"@Email", "liam.brown@example.com"},
+            {"@Email", "liambrown@example.com"},
             {"@Message", "I am a current student and need assistance with accessing course materials for 'Machine Learning 101'. Can you help?"},
-            {"@Date", DateTime.Today}  // Example: Date (today)
+            {"@Date", DateTime.Today}  
         }
     };
 
@@ -620,35 +615,35 @@ namespace IT_Institute_Management.Database
         {
             {"@Id", Guid.NewGuid()},
             {"@Message", "Reminder: Your 'Web Development' course starts tomorrow. Please ensure you have access to the course materials."},
-            {"@Date", new DateTime(2023, 5, 9)},  // Example: Reminder before course start (May 2023)
-            {"@StudentNIC", "200417002813"}  // Example: Student NIC
+            {"@Date", new DateTime(2024, 10, 9)},  
+            {"@StudentNIC", "200417002813"}  
         },
         new Dictionary<string, object>
         {
             {"@Id", Guid.NewGuid()},
             {"@Message", "Your 'Data Science' course payment is due next week. Kindly make the payment before the due date."},
-            {"@Date", new DateTime(2023, 8, 18)},  // Example: Payment reminder (Aug 2023)
+            {"@Date", new DateTime(2024, 11, 18)}, 
             {"@StudentNIC", "200417002814"}
         },
         new Dictionary<string, object>
         {
             {"@Id", Guid.NewGuid()},
             {"@Message", "Good news! You have successfully completed the 'Machine Learning 101' course. Check your results on the portal."},
-            {"@Date", new DateTime(2023, 11, 15)},  // Example: Completion notification (Nov 2023)
+            {"@Date", new DateTime(2024, 12, 1)},  
             {"@StudentNIC", "200417002815"}
         },
         new Dictionary<string, object>
         {
             {"@Id", Guid.NewGuid()},
             {"@Message", "Your enrollment for the 'Digital Marketing' course has been confirmed. You can now access the materials."},
-            {"@Date", new DateTime(2024, 1, 2)},  // Example: Enrollment confirmation (Jan 2024)
+            {"@Date", new DateTime(2024, 12, 3)},  
             {"@StudentNIC", "200417002816"}
         },
         new Dictionary<string, object>
         {
             {"@Id", Guid.NewGuid()},
             {"@Message", "Urgent: The 'Advanced Python' course has been rescheduled. Please check your email for the new schedule."},
-            {"@Date", DateTime.Today},  // Example: Urgent notification (today)
+            {"@Date", DateTime.Today},  
             {"@StudentNIC", "200417002817"}
         }
     };
