@@ -28,16 +28,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 SampleDataIntializer seeder = new SampleDataIntializer();
 // Add sample Master Admin 
-seeder.AddMasterAdminSampleData();
+//seeder.AddMasterAdminSampleData();
 // Add sample Admin data
-seeder.AddAdminSampleData();
+//seeder.AddAdminSampleData();
 // Add sample Student data
-seeder.AddStudentSampleData();
+//seeder.AddStudentSampleData();
 
 //seeder.AddCourseSampleData();
 //seeder.AddEnrollmentSampleData();
 
 //seeder.AddPaymentSampleData();
+seeder.AddAnnouncementSampleData();
 
 // Add services to the container.
 

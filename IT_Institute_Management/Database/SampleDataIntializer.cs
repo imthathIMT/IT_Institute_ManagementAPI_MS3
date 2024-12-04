@@ -485,59 +485,59 @@ namespace IT_Institute_Management.Database
 
 
 
-        //    public void AddAnnouncementSampleData()
-        //    {
-        //        string query = @"
-        //IF NOT EXISTS (SELECT 1 FROM Announcements WHERE Id = @Id)
-        //BEGIN
-        //    INSERT INTO Announcements (Id, Title, Body, Date)
-        //    VALUES (@Id, @Title, @Body, @Date);
-        //END";
+        public void AddAnnouncementSampleData()
+        {
+            string query = @"
+        IF NOT EXISTS (SELECT 1 FROM Announcements WHERE Id = @Id)
+        BEGIN
+            INSERT INTO Announcements (Id, Title, Body, Date)
+            VALUES (@Id, @Title, @Body, @Date);
+        END";
 
-        //        List<Dictionary<string, object>> announcements = new List<Dictionary<string, object>>
-        //{
-        //    new Dictionary<string, object>
-        //    {
-        //        {"@Id", Guid.NewGuid()},
-        //        {"@Title", "New Course Created: Java Programming"},
-        //        {"@Body", "We are excited to announce that a new course, 'Java Programming for Beginners', has been created. Start your learning journey with us today!"},
-        //        {"@Date", new DateTime(2024, 9, 10)}
-        //    },
-        //    new Dictionary<string, object>
-        //    {
-        //        {"@Id", Guid.NewGuid()},
-        //        {"@Title", "New Course Launched: Web Development"},
-        //        {"@Body", "A new course on 'Web Development' has been launched. Learn to build websites and enhance your programming skills."},
-        //        {"@Date", new DateTime(2024, 11, 20)}
-        //    },
-        //    new Dictionary<string, object>
-        //    {
-        //        {"@Id", Guid.NewGuid()},
-        //        {"@Title", "New Course Available: Data Science Basics"},
-        //        {"@Body", "We are pleased to announce a new course on 'Data Science Basics'. Get started with the world of data science and analytics."},
-        //        {"@Date", new DateTime(2024, 11, 22)}
-        //    },
-        //    new Dictionary<string, object>
-        //    {
-        //        {"@Id", Guid.NewGuid()},
-        //        {"@Title", "New Course Open: Digital Marketing 101"},
-        //        {"@Body", "Enroll in our newly launched 'Digital Marketing 101' course. Learn the fundamentals of digital marketing and grow your business."},
-        //        {"@Date", new DateTime(2024, 12, 2)}
-        //    },
-        //    new Dictionary<string, object>
-        //    {
-        //        {"@Id", Guid.NewGuid()},
-        //        {"@Title", "Course Alert: Advanced Machine Learning"},
-        //        {"@Body", "The 'Advanced Machine Learning' course is now available. Explore deep learning techniques and advance your AI knowledge."},
-        //        {"@Date", DateTime.Today}
-        //    }
-        //};
+            List<Dictionary<string, object>> announcements = new List<Dictionary<string, object>>
+        {
+            new Dictionary<string, object>
+            {
+                {"@Id", Guid.NewGuid()},
+                {"@Title", "New Course Created: Java Programming"},
+                {"@Body", "We are excited to announce that a new course, 'Java Programming for Beginners', has been created. Start your learning journey with us today!"},
+                {"@Date", new DateTime(2024, 9, 10)}
+            },
+            new Dictionary<string, object>
+            {
+                {"@Id", Guid.NewGuid()},
+                {"@Title", "New Course Launched: Web Development"},
+                {"@Body", "A new course on 'Web Development' has been launched. Learn to build websites and enhance your programming skills."},
+                {"@Date", new DateTime(2024, 11, 20)}
+            },
+            new Dictionary<string, object>
+            {
+                {"@Id", Guid.NewGuid()},
+                {"@Title", "New Course Available: Data Science Basics"},
+                {"@Body", "We are pleased to announce a new course on 'Data Science Basics'. Get started with the world of data science and analytics."},
+                {"@Date", new DateTime(2024, 11, 22)}
+            },
+            new Dictionary<string, object>
+            {
+                {"@Id", Guid.NewGuid()},
+                {"@Title", "New Course Open: Digital Marketing 101"},
+                {"@Body", "Enroll in our newly launched 'Digital Marketing 101' course. Learn the fundamentals of digital marketing and grow your business."},
+                {"@Date", new DateTime(2024, 12, 2)}
+            },
+            new Dictionary<string, object>
+            {
+                {"@Id", Guid.NewGuid()},
+                {"@Title", "Course Alert: Advanced Machine Learning"},
+                {"@Body", "The 'Advanced Machine Learning' course is now available. Explore deep learning techniques and advance your AI knowledge."},
+                {"@Date", DateTime.Today}
+            }
+        };
 
-        //        foreach (var announcement in announcements)
-        //        {
-        //            ExecuteQuery(query, announcement);
-        //        }
-        //    }
+            foreach (var announcement in announcements)
+            {
+                ExecuteQuery(query, announcement);
+            }
+        }
 
 
 
