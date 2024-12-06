@@ -1,12 +1,14 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.IServices;
 using IT_Institute_Management.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace IT_Institute_Management.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -21,6 +23,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "MasterAdmin")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -56,6 +59,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "MasterAdmin")]
         public async Task<IActionResult> Add(AdminRequestDto adminDto)
         {
 
@@ -95,6 +99,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPut("{nic}")]
+        [Authorize(Roles = "MasterAdmin")]
         public async Task<IActionResult> UpdateAdmin(string nic, [FromForm] AdminRequestDto adminDto)
         {
             try
@@ -129,7 +134,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpDelete("{nic}")]
-
+        [Authorize(Roles = "MasterAdmin")]
         public async Task<IActionResult> Delete([FromRoute] string nic)
         {
             try
