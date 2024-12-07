@@ -27,6 +27,8 @@ namespace IT_Institute_Management.Controllers
         }
 
 
+       
+
 
         [HttpGet]
         public async Task<IActionResult> GetAllStudents()
@@ -238,6 +240,32 @@ namespace IT_Institute_Management.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
+
+
+        [HttpPut("{nic}/update-image")]
+        public async Task<IActionResult> UpdateStudentProfileImage(string nic, IFormFile image)
+        {
+            try
+            {
+                
+                if (image == null || image.Length == 0)
+                {
+                    return BadRequest("No image file uploaded.");
+                }
+
+                
+                var message = await _studentService.UpdateStudentImageAsync(nic, image);
+                return Ok(new { message });
+            }
+            catch (Exception ex)
+            {
+               
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
 
     }
 }

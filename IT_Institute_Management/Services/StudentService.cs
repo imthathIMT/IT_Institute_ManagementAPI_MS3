@@ -524,5 +524,41 @@ namespace IT_Institute_Management.Services
             return responseDto;
         }
 
+
+
+        public async Task<string> UpdateStudentImageAsync(string nic, IFormFile image)
+        {
+            
+            var student = await _studentRepository.GetByNicAsync(nic);
+            if (student == null)
+            {
+                throw new Exception($"Student with NIC {nic} not found.");
+            }
+
+           
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image), "Image cannot be null.");
+            }
+
+           
+            if (!string.IsNullOrEmpty(student.ImagePath))
+            {
+                _imageService.DeleteImage(student.ImagePath);
+            }
+
+           
+            var imagePath = await _imageService.SaveImage(image, "students");
+
+          
+            student.ImagePath = imagePath;
+
+           
+            await _studentRepository.UpdateAsync(student);
+
+            return "Image updated successfully.";
+        }
+
+
     }
 }
