@@ -514,35 +514,35 @@ namespace IT_Institute_Management.Database
         {
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("151C1049-D07E-4881-8CD3-AA380E348EFF")},
                 {"@Title", "New Course Created: Java"},
                 {"@Body", "We are excited to announce that a new course, 'Java  for Beginners', has been created. Start your learning journey with us today!"},
                 {"@Date", new DateTime(2024, 9, 10)}
             },
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("6B36FF64-DCAB-442C-A27B-2AA87238B35B")},
                 {"@Title", "New Course Launched: Python"},
                 {"@Body", "A new course on 'Python' has been launched. Learn to build websites and enhance your programming skills."},
                 {"@Date", new DateTime(2024, 11, 20)}
             },
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("991A8082-F1CC-4513-ABD5-013FFC585546")},
                 {"@Title", "New Course Available: C#"},
                 {"@Body", "We are pleased to announce a new course on 'Data Science Basics'. Get started with the world of data science and analytics."},
                 {"@Date", new DateTime(2024, 11, 22)}
             },
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("26DD1070-E379-412F-818C-4DCB2549BD61")},
                 {"@Title", "New Course Open: C#"},
                 {"@Body", "Enroll in our newly launched 'Digital Marketing 101' course. Learn the fundamentals of digital marketing and grow your business."},
                 {"@Date", new DateTime(2024, 12, 2)}
             },
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("4D2A0FD8-4B9B-43AE-B8F1-5688D87D7189")},
                 {"@Title", "Course Alert: C++"},
                 {"@Body", "The 'C++' course is now available. Explore deep learning techniques and advance your AI knowledge."},
                 {"@Date", DateTime.Today}
@@ -571,7 +571,7 @@ namespace IT_Institute_Management.Database
         {
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("42CF7FC8-C6F7-4AFE-93B0-36953D704945")},
                 {"@Name", "Rahulan"},
                 {"@Email", "rahulan@gmail.com"},
                 {"@Message", "I am interested in enrolling in the 'Python' course. Could you provide more details about the course schedule?"},
@@ -579,7 +579,7 @@ namespace IT_Institute_Management.Database
             },
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("6338EDC3-5650-40C2-AEC7-A5F36672657C")},
                 {"@Name", "Rasmilan"},
                 {"@Email", "rasmilan@gmail.com"},
                 {"@Message", "Could you please assist me with resetting my password for the student portal?"},
@@ -587,7 +587,7 @@ namespace IT_Institute_Management.Database
             },
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("CFD5774A-C263-40DF-8958-0D6BBA6BFD09")},
                 {"@Name", "Branavan"},
                 {"@Email", "branavan@gmail.com"},
                 {"@Message", "I have a question regarding the 'C#' course. Can I enroll even though I have no prior experience?"},
@@ -595,7 +595,7 @@ namespace IT_Institute_Management.Database
             },
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("E5E4262B-1165-4EE1-96C8-0F2035CBAE81")},
                 {"@Name", "HKM"},
                 {"@Email", "hkm@gmail.com"},
                 {"@Message", "I would like to know if there are any upcoming workshops on 'Digital Marketing' that I can attend."},
@@ -603,7 +603,7 @@ namespace IT_Institute_Management.Database
             },
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("27C47140-8156-4059-BAFB-4BDEBA3A49FA")},
                 {"@Name", "Arthykan"},
                 {"@Email", "arthy@gmail.com"},
                 {"@Message", "I am a current student and need assistance with accessing course materials for 'Machine Learning 101'. Can you help?"},
@@ -632,35 +632,35 @@ namespace IT_Institute_Management.Database
         {
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("AAFEE62A-D315-4BB7-90B7-7E2D02A36B97")},
                 {"@Message", "Reminder: Your 'Python' course starts tomorrow. Please ensure you have access to the course materials."},
                 {"@Date", new DateTime(2024, 10, 9)},
                 {"@StudentNIC", "200417002813"}
             },
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("DE11DAB4-D5FD-4D69-8BC4-45A646157D03")},
                 {"@Message", "Your 'C#' course payment is due next week. Kindly make the payment before the due date."},
                 {"@Date", new DateTime(2024, 11, 18)},
                 {"@StudentNIC", "200417002813"}
             },
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("1BB38FE4-CCBE-431C-9717-40A38C791E22")},
                 {"@Message", "Good news! You have successfully completed the 'Java' course. Check your results on the portal."},
                 {"@Date", new DateTime(2024, 12, 1)},
                 {"@StudentNIC", "200417002813"}
             },
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("14C0B012-3BEF-40B6-BA5B-04ACF1609EB8")},
                 {"@Message", "Your enrollment for the 'JavaScript' course has been confirmed. You can now access the materials."},
                 {"@Date", new DateTime(2024, 12, 3)},
                 {"@StudentNIC", "200417002816"}
             },
             new Dictionary<string, object>
             {
-                {"@Id", Guid.NewGuid()},
+                {"@Id", new Guid("65F72F90-9648-41B4-A45C-732094317306")},
                 {"@Message", "Urgent: The 'Python' course has been rescheduled. Please check your email for the new schedule."},
                 {"@Date", DateTime.Today},
                 {"@StudentNIC", "200417002817"}

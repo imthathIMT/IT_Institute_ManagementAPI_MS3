@@ -28,7 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 SampleDataIntializer seeder = new SampleDataIntializer();
 
-// New Database in Devhub delete Your Old Devhub Database and One By Un Comment Function One By One Run 
+// Sample Data
 
 // Add sample Master Admin 
 
