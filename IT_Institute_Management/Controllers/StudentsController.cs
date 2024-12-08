@@ -10,9 +10,11 @@ using IT_Institute_Management.Entity;
 using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.IServices;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IT_Institute_Management.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StudentsController : ControllerBase

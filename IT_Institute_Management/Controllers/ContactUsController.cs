@@ -1,5 +1,6 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var contacts = await _contactUsService.GetAllAsync();
@@ -24,6 +26,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetById(Guid id)
         {
             var contact = await _contactUsService.GetByIdAsync(id);
@@ -53,7 +56,9 @@ namespace IT_Institute_Management.Controllers
             await _contactUsService.UpdateAsync(id, contactUsDto);
             return NoContent();
         }
+
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(Guid id)
         {
             try
@@ -69,6 +74,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPost("send-email")]
+        [Authorize]
         public async Task<IActionResult> SendEmail([FromBody] EmailRequestDTO emailRequestDto)
         {
             try

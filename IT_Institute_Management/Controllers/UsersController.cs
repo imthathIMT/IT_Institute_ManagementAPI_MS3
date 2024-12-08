@@ -12,6 +12,7 @@ using System.Text;
 
 namespace IT_Institute_Management.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
