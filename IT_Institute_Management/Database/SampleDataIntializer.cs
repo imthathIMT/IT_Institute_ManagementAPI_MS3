@@ -160,7 +160,7 @@ namespace IT_Institute_Management.Database
             {"@AddressId", Guid.NewGuid()},
             {"@AddressLine1", "Old Village"},
             {"@AddressLine2", "Sooduventhe pilavu"},
-            {"@City", "Vavumiya"},
+            {"@City", "Vavuniya"},
             {"@State", "Northern"},
             {"@PostalCode", "43000"},
             {"@Country", "Sri Lanka"},
@@ -169,7 +169,7 @@ namespace IT_Institute_Management.Database
             {"@Instagram", "https://www.instagram.com/person_0618/"},
             {"@Facebook", "https://facebook.com/student"},
             {"@GitHub", "https://github.com/SafeekMohamed18"},
-            {"@WhatsApp", "https://wa.me/+94743773745"}
+            {"@WhatsApp", "94743773745"}
         },
         new Dictionary<string, object>
         {
@@ -196,7 +196,7 @@ namespace IT_Institute_Management.Database
             {"@Instagram", "https://www.instagram.com/johndoe/"},
             {"@Facebook", "https://facebook.com/johndoe"},
             {"@GitHub", "https://github.com/johndoe"},
-            {"@WhatsApp", "https://wa.me/+94781234567"}
+            {"@WhatsApp", "94781234567"}
         },
         new Dictionary<string, object>
         {
@@ -223,7 +223,7 @@ namespace IT_Institute_Management.Database
             {"@Instagram", "https://www.instagram.com/sara_kumari/"},
             {"@Facebook", "https://facebook.com/sara.kumari"},
             {"@GitHub", "https://github.com/sarakumari"},
-            {"@WhatsApp", "https://wa.me/+94778765432"}
+            {"@WhatsApp", "94778765432"}
         },
         new Dictionary<string, object>
         {
@@ -250,7 +250,7 @@ namespace IT_Institute_Management.Database
             {"@Instagram", "https://www.instagram.com/david_fernando/"},
             {"@Facebook", "https://facebook.com/david.fernando"},
             {"@GitHub", "https://github.com/davidfernando"},
-            {"@WhatsApp", "https://wa.me/+94789988776"}
+            {"@WhatsApp", "94789988776"}
         },
         new Dictionary<string, object>
         {
@@ -277,7 +277,7 @@ namespace IT_Institute_Management.Database
             {"@Instagram", "https://www.instagram.com/nadeesha_perera/"},
             {"@Facebook", "https://facebook.com/nadeesha.perera"},
             {"@GitHub", "https://github.com/nadeeshaperera"},
-            {"@WhatsApp", "https://wa.me/+94773344556"}
+            {"@WhatsApp", "94773344556"}
         }
     };
 
