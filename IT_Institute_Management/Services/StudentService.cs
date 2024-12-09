@@ -188,7 +188,7 @@ namespace IT_Institute_Management.Services
             }
 
             // Uncomment the email service once setup is correct
-            _emailService.SendEmailInBackground(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName},\n Your registration was successful.\n \n Your NIC: {studentDto.NIC}, \n Your Password: {studentDto.Password}");
+            _emailService.SendRegistraionMail(studentDto.Email, studentDto);
         }
 
 

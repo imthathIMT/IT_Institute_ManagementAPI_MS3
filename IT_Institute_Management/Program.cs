@@ -28,6 +28,10 @@ seeder.AddAnnouncementSampleData();
 seeder.AddContactUsSampleData();
 seeder.AddNotificationSampleData();
 
+//Email Template Initialization
+EmailTemplateInitializer initializer = new EmailTemplateInitializer();
+initializer?.InitializeRegistrationEmailTemplateAsync();
+
 // Add services to the container.
 builder.Services.AddControllers().AddJsonOptions(option =>
 {
