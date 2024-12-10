@@ -18,7 +18,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> GetAll()
         {
             var contacts = await _contactUsService.GetAllAsync();
@@ -26,7 +26,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var contact = await _contactUsService.GetByIdAsync(id);
@@ -58,7 +58,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try
@@ -74,7 +74,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPost("send-email")]
-        [Authorize]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> SendEmail([FromBody] EmailRequestDTO emailRequestDto)
         {
             try
