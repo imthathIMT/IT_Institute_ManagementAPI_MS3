@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IT_Institute_Management.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "MasterAdmin, Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class PaymentController : ControllerBase

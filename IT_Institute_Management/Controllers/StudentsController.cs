@@ -64,6 +64,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> AddStudent(StudentRequestDto studentDto)
         {
             try
@@ -119,6 +120,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpDelete("{nic}")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> DeleteStudent(string nic)
         {
             try
