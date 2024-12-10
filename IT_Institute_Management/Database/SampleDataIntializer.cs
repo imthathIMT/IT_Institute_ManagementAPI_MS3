@@ -488,6 +488,16 @@ namespace IT_Institute_Management.Database
             {"@DueAmount", 15000.00m},
             {"@TotalPaidAmount", 15000.00m},
             {"@EnrollmentId", new Guid("2F1DEDA6-B249-4491-ACE5-09EBE07E8163")}, 
+        },
+
+         new Dictionary<string, object>
+        {
+            {"@PaymentId", new Guid("A2556571-A32F-4CD5-8249-F9707E04D166")}, 
+            {"@PaymentDate", new DateTime(2024, 10, 03)}, 
+            {"@Amount", 24000.00m}, 
+            {"@DueAmount", 0}, 
+            {"@TotalPaidAmount", 24000.00m}, 
+            {"@EnrollmentId", new Guid("B2556571-A32F-4CD5-8249-F9707E04D166")}, 
         }
     };
 
