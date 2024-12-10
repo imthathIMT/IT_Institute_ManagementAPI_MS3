@@ -1,4 +1,4 @@
-﻿namespace IT_Institute_Management.DTO.ResponseDTO
+﻿namespace IT_Institute_Management.DTO.ResponseDTO.SummeryDTO
 {
     public class SummaryResponseDto
     {

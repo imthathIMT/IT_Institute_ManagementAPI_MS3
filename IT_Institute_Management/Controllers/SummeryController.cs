@@ -1,7 +1,6 @@
-﻿using IT_Institute_Management.DTO.ResponseDTO;
-using IT_Institute_Management.DTO.ResponseDTO.SummeryDTO;
+﻿using IT_Institute_Management.DTO.ResponseDTO.SummeryDTO;
 using IT_Institute_Management.IServices;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IT_Institute_Management.Controllers
@@ -13,13 +12,15 @@ namespace IT_Institute_Management.Controllers
         private readonly IStudentService _studentService;
         private readonly ICourseService _courseService;
         private readonly IEnrollmentService _enrollmentService;
+        private readonly IPaymentService _paymentService;
 
         // Inject services through constructor
-        public SummeryController(IStudentService studentService, ICourseService courseService, IEnrollmentService enrollmentService)
+        public SummeryController(IStudentService studentService, ICourseService courseService, IEnrollmentService enrollmentService, IPaymentService paymentService)
         {
             _studentService = studentService;
             _courseService = courseService;
             _enrollmentService = enrollmentService;
+            _paymentService = paymentService;
         }
 
         // Get the summary (Total Students and Total Courses)
@@ -62,6 +63,38 @@ namespace IT_Institute_Management.Controllers
             };
 
             return Ok(summary);
+        }
+
+        // Get Revenue Summary (Total Revenue, Current Year Revenue, Current Month Revenue)
+        [HttpGet("revenue-summary")]
+        //[Authorize(Roles = "MasterAdmin, Admin")]
+        public async Task<ActionResult<RevenueSummaryResponseDto>> GetRevenueSummary()
+        {
+            // Fetch all payments
+            var allPayments = await _paymentService.GetAllPaymentsAsync();
+
+            // Calculate total revenue
+            var totalRevenue = allPayments.Sum(p => p.Amount);
+
+            // Get current year (we can use DateTime.Now.Year)
+            var currentYear = DateTime.Now.Year;
+            var currentYearPayments = allPayments.Where(p => p.PaymentDate.Year == currentYear);
+            var currentYearRevenue = currentYearPayments.Sum(p => p.Amount);
+
+            // Get current month (we can use DateTime.Now.Month)
+            var currentMonth = DateTime.Now.Month;
+            var currentMonthPayments = currentYearPayments.Where(p => p.PaymentDate.Month == currentMonth);
+            var currentMonthRevenue = currentMonthPayments.Sum(p => p.Amount);
+
+            // Create the revenue summary response DTO
+            var revenueSummary = new RevenueSummaryResponseDto
+            {
+                TotalRevenue = totalRevenue,
+                CurrentYearRevenue = currentYearRevenue,
+                CurrentMonthRevenue = currentMonthRevenue
+            };
+
+            return Ok(revenueSummary);
         }
     }
 }

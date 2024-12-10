@@ -33,6 +33,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> GetAllStudents()
         {
             try
@@ -103,6 +104,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPut("{nic}")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> UpdateStudent(string nic, [FromForm] StudentRequestDto studentDto)
         {
             try
@@ -164,6 +166,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPut("{nic}/lock")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> LockStudentAccount(string nic)
         {
             try
@@ -178,6 +181,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPut("{nic}/unlock")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> UnlockStudentAccount(string nic, [FromBody] UnlockAccountDto unlockDto)
         {
             try
@@ -193,6 +197,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPut("{nic}/Directunlock")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> DirectUnlockAccount(string nic)
         {
             try
