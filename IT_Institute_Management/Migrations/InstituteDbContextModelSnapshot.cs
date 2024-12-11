@@ -22,6 +22,28 @@ namespace IT_Institute_Management.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("IT_Institute_Management.EmailSerivice.EmailTemplate", b =>
+                {
+                    b.Property<int>("TemplateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TemplateId"));
+
+                    b.Property<string>("TemplateBody")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TemplateName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TemplateSubject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TemplateId");
+
+                    b.ToTable("EmailTemplates");
+                });
+
             modelBuilder.Entity("IT_Institute_Management.Entity.Address", b =>
                 {
                     b.Property<Guid>("Id")
@@ -175,7 +197,8 @@ namespace IT_Institute_Management.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Fees")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("ImagePaths")
                         .IsRequired()
@@ -254,10 +277,12 @@ namespace IT_Institute_Management.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<decimal>("DueAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<Guid?>("EnrollmentId")
                         .HasColumnType("uniqueidentifier");
@@ -266,7 +291,8 @@ namespace IT_Institute_Management.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("TotalPaidAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
 
@@ -467,7 +493,8 @@ namespace IT_Institute_Management.Migrations
                 {
                     b.HasOne("IT_Institute_Management.Entity.Student", "Student")
                         .WithOne("SocialMediaLinks")
-                        .HasForeignKey("IT_Institute_Management.Entity.SocialMediaLinks", "StudentNIC");
+                        .HasForeignKey("IT_Institute_Management.Entity.SocialMediaLinks", "StudentNIC")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Student");
                 });

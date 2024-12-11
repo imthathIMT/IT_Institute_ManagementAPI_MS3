@@ -17,5 +17,7 @@ namespace IT_Institute_Management.IServices
         Task<StudentResponseDto> GetStudentProfileByNICAsync(string nic);
 
         Task<string> DirectUnlock(string nic);
+        Task<StudentResponseDto> UpdateStudentAsync(string nic, StudentUpdateRequestDto updateDto);
+        Task<string> UpdateStudentImageAsync(string nic, IFormFile image);
     }
 }

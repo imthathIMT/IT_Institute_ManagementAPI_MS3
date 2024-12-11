@@ -10,5 +10,6 @@ namespace IT_Institute_Management.IServices
         Task AddAsync(ContactUsRequestDto contactUsDto);
         Task UpdateAsync(Guid id, ContactUsRequestDto contactUsDto);
         Task DeleteAsync(Guid id);
+        Task<string> ReplyMail(EmailRequestDTO emailRequestDto);
     }
 }

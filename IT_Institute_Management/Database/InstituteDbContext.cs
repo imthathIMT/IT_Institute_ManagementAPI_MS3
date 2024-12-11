@@ -1,4 +1,5 @@
-﻿using IT_Institute_Management.Entity;
+﻿using IT_Institute_Management.EmailSerivice;
+using IT_Institute_Management.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace IT_Institute_Management.Database
@@ -20,6 +21,9 @@ namespace IT_Institute_Management.Database
         public DbSet<User> Users { get; set; }
         public DbSet<SocialMediaLinks> SocialMediaLinks { get; set; }
         public DbSet<StudentMessage> StudentMessages { get; set; }
+
+        //email Template table
+        public DbSet<EmailTemplate> EmailTemplates { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -66,14 +70,36 @@ namespace IT_Institute_Management.Database
             modelBuilder.Entity<SocialMediaLinks>()
            .HasOne(s => s.Student)
            .WithOne(u => u.SocialMediaLinks)
-           .HasForeignKey<SocialMediaLinks>(s => s.StudentNIC);
+           .HasForeignKey<SocialMediaLinks>(s => s.StudentNIC)
+            .OnDelete(DeleteBehavior.Cascade);
 
-            // Define the relationship between Student and StudentMessage
+          
             modelBuilder.Entity<StudentMessage>()
                 .HasOne(sm => sm.Student)
                 .WithMany(s => s.StudentMessages)
                 .HasForeignKey(sm => sm.StudentNIC)
-                .OnDelete(DeleteBehavior.Cascade); // Or another delete behavior as needed
+                .OnDelete(DeleteBehavior.Cascade); 
+
+
+            modelBuilder.Entity<Course>()
+                    .Property(c => c.Fees)
+                   .HasColumnType("decimal(18, 2)")  
+                   .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Payment>()
+                   .Property(p => p.Amount)
+                   .HasColumnType("decimal(18, 2)")
+                   .HasPrecision(18, 2);  
+
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.DueAmount)
+                .HasColumnType("decimal(18, 2)") 
+                .HasPrecision(18, 2);  
+
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.TotalPaidAmount)
+                .HasColumnType("decimal(18, 2)") 
+                .HasPrecision(18, 2);
         }
     }
 }

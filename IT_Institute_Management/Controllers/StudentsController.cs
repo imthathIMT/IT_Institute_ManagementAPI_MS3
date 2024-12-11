@@ -10,23 +10,30 @@ using IT_Institute_Management.Entity;
 using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.IServices;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IT_Institute_Management.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StudentsController : ControllerBase
     {
         private readonly IStudentService _studentService;
+        private readonly IUserService _userService;
 
-        public StudentsController(IStudentService studentService)
+        public StudentsController(IStudentService studentService, IUserService userService)
         {
             _studentService = studentService;
+            _userService = userService;
         }
 
 
+       
+
 
         [HttpGet]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> GetAllStudents()
         {
             try
@@ -58,6 +65,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> AddStudent(StudentRequestDto studentDto)
         {
             try
@@ -65,6 +73,12 @@ namespace IT_Institute_Management.Controllers
                 if (studentDto == null)
                 {
                     return BadRequest("Student data is required.");
+                }
+
+                var studentExists = await _userService.CheckUserExistsByNic(studentDto.NIC);
+                if (studentExists)
+                {
+                    return BadRequest(new { message = $"Student with NIC {studentDto.NIC} already exists." });
                 }
 
                 await _studentService.AddStudentAsync(studentDto);
@@ -90,11 +104,12 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPut("{nic}")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> UpdateStudent(string nic, [FromForm] StudentRequestDto studentDto)
         {
             try
             {
-               
+
                 await _studentService.UpdateStudentAsync(nic, studentDto);
                 return Ok(new { message = "Student Successfully Updated." });
             }
@@ -107,6 +122,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpDelete("{nic}")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> DeleteStudent(string nic)
         {
             try
@@ -116,22 +132,26 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+               
+
+               
+                var errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                return BadRequest(new { message = errorMessage });
             }
         }
 
 
 
-       
+
         [HttpPut("{nic}/update-password")]
         public async Task<IActionResult> UpdatePassword(string nic, UpdatePasswordRequestDto updatePasswordDto)
         {
             try
             {
-                
+
                 await _studentService.UpdatePasswordAsync(nic, updatePasswordDto);
 
-                
+
                 return Ok(new { message = "Password updated successfully." });
             }
             catch (ApplicationException ex)
@@ -146,6 +166,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPut("{nic}/lock")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> LockStudentAccount(string nic)
         {
             try
@@ -160,6 +181,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPut("{nic}/unlock")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> UnlockStudentAccount(string nic, [FromBody] UnlockAccountDto unlockDto)
         {
             try
@@ -175,11 +197,12 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPut("{nic}/Directunlock")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> DirectUnlockAccount(string nic)
         {
             try
             {
-               
+
                 var message = await _studentService.DirectUnlock(nic);
                 return Ok(new { message });
             }
@@ -206,6 +229,52 @@ namespace IT_Institute_Management.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
+        [HttpPut("update/{nic}")]
+        public async Task<IActionResult> UpdateStudent(string nic, [FromBody] StudentUpdateRequestDto updateDto)
+        {
+            if (updateDto == null)
+            {
+                return BadRequest("Invalid data.");
+            }
+
+            try
+            {
+                var updatedStudent = await _studentService.UpdateStudentAsync(nic, updateDto);
+                return Ok(updatedStudent);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception details (not shown here)
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+
+
+        [HttpPut("{nic}/update-image")]
+        public async Task<IActionResult> UpdateStudentProfileImage(string nic, IFormFile image)
+        {
+            try
+            {
+                
+                if (image == null || image.Length == 0)
+                {
+                    return BadRequest("No image file uploaded.");
+                }
+
+                
+                var message = await _studentService.UpdateStudentImageAsync(nic, image);
+                return Ok(new { message });
+            }
+            catch (Exception ex)
+            {
+               
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
 
     }
 }
