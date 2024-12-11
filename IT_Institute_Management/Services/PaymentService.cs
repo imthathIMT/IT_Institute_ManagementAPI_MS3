@@ -164,7 +164,7 @@ namespace IT_Institute_Management.Services
                         var nextInstallmentDate = lastPayment.PaymentDate.AddDays(37); 
                         if (paymentRequestDto.PaymentDate < nextInstallmentDate)
                         {
-                            throw new InvalidOperationException($"Next installment can only be paid after 37 days from the previous payment. The next payment date is {nextInstallmentDate:MMMM dd, yyyy}.");
+                            throw new InvalidOperationException($"Next installment can only be paid after One Month from the previous payment. The next payment date is {nextInstallmentDate:MMMM dd, yyyy}.");
                         }
                     }
                 }
@@ -287,7 +287,7 @@ namespace IT_Institute_Management.Services
                     var nextPaymentDate = lastPayment.PaymentDate.AddMonths(1).AddDays(7); 
                     if (paymentRequestDto.PaymentDate < nextPaymentDate)
                     {
-                        throw new InvalidOperationException($"Next installment can only be paid after 1 month + 1 week from the previous payment. The next payment date is {nextPaymentDate:MMMM dd, yyyy}.");
+                        throw new InvalidOperationException($"Next installment can only be paid after One Month from the previous payment. The next payment date is {nextPaymentDate:MMMM dd, yyyy}.");
                     }
                 }
 
