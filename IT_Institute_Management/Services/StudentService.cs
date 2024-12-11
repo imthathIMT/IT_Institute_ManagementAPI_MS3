@@ -270,8 +270,6 @@ namespace IT_Institute_Management.Services
         }
 
 
-
-
         public async Task DeleteStudentAsync(string nic)
         {
             if (string.IsNullOrWhiteSpace(nic))
@@ -341,9 +339,27 @@ namespace IT_Institute_Management.Services
                 student.IsLocked = true;
                 await _studentRepository.UpdateStudentAccount(student);
 
-                _emailService.SendEmailInBackground(student.Email, "Account Locked",
-                 $"Dear {student.FirstName} {student.LastName},\n\n" +
-                 "your account has been locked by admin. please contact admin");
+                //_emailService.SendEmailInBackground(student.Email, "Account Locked",
+                // $"Dear {student.FirstName} {student.LastName},\n\n" +
+                // "your account has been locked by admin. please contact admin");
+
+                var sendMailRequest = new SendMailRequest
+                {
+                    NIC = student.NIC,
+                    FirstName = student.FirstName,
+                    LastName = student.LastName,
+                    Email = student.Email,
+                    TemplateName = "AccountLockedByAdmin"
+
+                };
+
+                if (_sendmailService == null)
+                {
+                    throw new InvalidOperationException("_sendmailService is not initialized.");
+                }
+
+                // Uncomment the email service once setup is correct
+                await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
 
                 return "Account has been locked.";
             }
@@ -400,10 +416,24 @@ namespace IT_Institute_Management.Services
                     student.FailedLoginAttempts = 0;
                     await _studentRepository.UpdateStudentAccount(student);
 
-                    _emailService.SendEmailInBackground(student.Email, "Account Unlocked",
-                    $"Dear {student.FirstName} {student.LastName},\n\n" +
-                    "your account has been unlocked.Please login with your password and you can continue your studies");
+                    
+                    var sendMailRequest = new SendMailRequest
+                    {
+                        NIC = student.NIC,
+                        FirstName = student.FirstName,
+                        LastName = student.LastName,
+                        Email = student.Email,
+                        TemplateName = "AccountUnlockSuccessfully"
 
+                    };
+
+                    if (_sendmailService == null)
+                    {
+                        throw new InvalidOperationException("_sendmailService is not initialized.");
+                    }
+
+                    // Uncomment the email service once setup is correct
+                    await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
 
                     return "Account has been unlocked.";
                 }

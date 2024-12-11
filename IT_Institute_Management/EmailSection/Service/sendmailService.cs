@@ -21,7 +21,7 @@ namespace IT_Institute_Management.EmailSection.Service
         {
             if (sendMailRequest == null) throw new ArgumentNullException(nameof(sendMailRequest));
 
-            var template = await _sendMailRepository.GetTemplate(sendMailRequest.TemplateName).ConfigureAwait(false);
+            var template = await _sendMailRepository.GetTemplate(sendMailRequest.TemplateName!).ConfigureAwait(false);
             if (template == null) throw new Exception("Template not found");
 
             var bodyGenerated = await EmailBodyGenerate(template.TemplateBody!, sendMailRequest);
@@ -30,7 +30,7 @@ namespace IT_Institute_Management.EmailSection.Service
             {
                 Subject = template.TemplateSubject ?? string.Empty,
                 Body = bodyGenerated ?? string.Empty,
-                SenderName = "Sample System",
+                SenderName = "DevHub Institute",
                 To = sendMailRequest.Email ?? throw new Exception("Recipient email address is required")
             };
 
@@ -46,7 +46,7 @@ namespace IT_Institute_Management.EmailSection.Service
                 { "{{FirstName}}", sendMailRequest.FirstName },
                  {"{{LastName}}", sendMailRequest.LastName },
                   { "{{NICNumber}}", sendMailRequest.NIC },
-                   { "{{Password}}", sendMailRequest.Password },
+                   { "{{Password}}", sendMailRequest.Password ?? "Not provided"  },
             };
 
             foreach (var replacement in replacements)

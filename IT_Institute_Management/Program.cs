@@ -34,7 +34,7 @@ seeder.AddNotificationSampleData();
 
 //Email Template Initialization
 EmailTemplateInitializer initializer = new EmailTemplateInitializer();
-initializer?.InitializeRegistrationEmailTemplateAsync();
+initializer?.InitializeEmailTemplates();
 
 // Add services to the container.
 builder.Services.AddControllers().AddJsonOptions(option =>

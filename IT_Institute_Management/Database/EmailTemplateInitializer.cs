@@ -2227,5 +2227,22 @@ namespace IT_Institute_Management.Database
             }
         }
 
+
+        public async Task InitializeEmailTemplates()
+        {
+            await InitializeAccountUnlockWithNewPasswordEmailTemplateAsync();
+            await InitializePaymentReminderEmailTemplateAsync();
+            await InitializePaymentConfirmedEmailTemplateAsync();
+            await InitializeEnrollmentCompleteEmailTemplateAsync();
+            await InitializeEnrollmentConfirmationEmailTemplateAsync();
+            await InitializeCourseUpdateEmailTemplateAsync();
+            await InitializeNewCourseEmailTemplateAsync();
+            await InitializePasswordUpdatedEmailTemplateAsync();
+            await InitializeAccountLockedFailedLoginEmailTemplateAsync();
+            await InitializeAccountLockedEmailTemplateAsync();
+            await InitializeAccountUnlockEmailTemplateAsync();
+            await InitializeRegistrationEmailTemplateAsync();
+
+        }
     }
 }
