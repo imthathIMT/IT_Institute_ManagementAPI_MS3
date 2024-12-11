@@ -43,8 +43,8 @@ namespace IT_Institute_Management.EmailSection.Service
         {
             var replacements = new Dictionary<string, string?>
             {
-                { "{{FirstName}}", sendMailRequest.firstName },
-                 {"{{LastName}}", sendMailRequest.lastName },
+                { "{{FirstName}}", sendMailRequest.FirstName },
+                 {"{{LastName}}", sendMailRequest.LastName },
                   { "{{NICNumber}}", sendMailRequest.NIC },
                    { "{{Password}}", sendMailRequest.Password },
             };

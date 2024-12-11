@@ -194,8 +194,8 @@ namespace IT_Institute_Management.Services
             var sendMailRequest = new SendMailRequest
             {
                 NIC = studentDto.NIC,
-                firstName = studentDto.FirstName,
-                lastName = studentDto.LastName,
+                FirstName = studentDto.FirstName,
+                LastName = studentDto.LastName,
                 Password = studentDto.Password,
                 Email = studentDto.Email,
                 TemplateName = "RegistrationWelcome"
