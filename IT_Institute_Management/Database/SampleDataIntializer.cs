@@ -386,7 +386,7 @@ namespace IT_Institute_Management.Database
         new Dictionary<string, object>
         {
             {"@Id", new Guid("BD289E94-D3F2-4207-9492-8E0278CBF01E")},
-            {"@EnrollmentDate", new DateTime(2024, 11, 20)},
+            {"@EnrollmentDate", new DateTime(2024, 12, 11)},
             {"@PaymentPlan", "Installment"},
             {"@IsComplete", false},
             {"@StudentNIC", "200417002813"},
