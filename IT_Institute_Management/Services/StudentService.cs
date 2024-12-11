@@ -1,5 +1,7 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.DTO.ResponseDTO;
+using IT_Institute_Management.EmailSection.Models;
+using IT_Institute_Management.EmailSection.Service;
 using IT_Institute_Management.EmailSerivice;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.ImageService;
@@ -19,9 +21,10 @@ namespace IT_Institute_Management.Services
         private readonly IImageService _imageService;
         private readonly IUserService _userService;
         private readonly ISocialMediaLinksService _socialMediaLinksService;
+        private readonly sendmailService _sendmailService;
 
 
-        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher, IImageService imageService, IUserService userService, ISocialMediaLinksService socialMediaLinksService)
+        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher, IImageService imageService, IUserService userService, ISocialMediaLinksService socialMediaLinksService, sendmailService sendmailService)
         {
             _studentRepository = studentRepository;
             _emailService = emailService;
@@ -29,6 +32,7 @@ namespace IT_Institute_Management.Services
             _imageService = imageService;
             _userService = userService;
             _socialMediaLinksService = socialMediaLinksService;
+            _sendmailService = sendmailService;
         }
 
 
@@ -187,8 +191,25 @@ namespace IT_Institute_Management.Services
                 throw new InvalidOperationException("Email service is not initialized.");
             }
 
+            var sendMailRequest = new SendMailRequest
+            {
+                NIC = studentDto.NIC,
+                firstName = studentDto.FirstName,
+                lastName = studentDto.LastName,
+                Password = studentDto.Password,
+                Email = studentDto.Email,
+                TemplateName = "RegistrationWelcome"
+
+            };
+
+            if (_sendmailService == null)
+            {
+                throw new InvalidOperationException("_sendmailService is not initialized.");
+            }
+
             // Uncomment the email service once setup is correct
-            _emailService.SendRegistraionMail(studentDto.Email, studentDto);
+            // _emailService.SendRegistraionMail(studentDto.Email, studentDto);
+            _sendmailService.sendmail(sendMailRequest);
         }
 
 
