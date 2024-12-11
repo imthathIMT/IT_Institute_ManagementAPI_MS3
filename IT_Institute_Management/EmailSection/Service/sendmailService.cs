@@ -6,6 +6,17 @@ namespace IT_Institute_Management.EmailSection.Service
 {
     public class sendmailService(SendMailRepository _sendMailRepository, EmailServiceProvider _emailServiceProvider)
     {
+
+
+        public void sendmail(SendMailRequest sendMailRequest)
+        {
+            Task.Run(async () =>
+            {
+                await Sendmail(sendMailRequest);
+            });
+        }
+
+
         public async Task<string> Sendmail(SendMailRequest sendMailRequest)
         {
             if (sendMailRequest == null) throw new ArgumentNullException(nameof(sendMailRequest));

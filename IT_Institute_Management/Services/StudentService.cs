@@ -209,7 +209,7 @@ namespace IT_Institute_Management.Services
 
             // Uncomment the email service once setup is correct
             // _emailService.SendRegistraionMail(studentDto.Email, studentDto);
-             await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
+            _sendmailService.sendmail(sendMailRequest);
         }
 
 
