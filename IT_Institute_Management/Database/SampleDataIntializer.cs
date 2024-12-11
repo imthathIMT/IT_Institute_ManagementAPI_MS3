@@ -21,7 +21,7 @@ namespace IT_Institute_Management.Database
 
             Guid userId = Guid.NewGuid();
             string nic = "200206601718";
-            string password = "AQAAAAIAAYagAAAAENEU8PTCmOGdKOGoyJ/GereRGnBy0J7AB/YA2edgYRyn4+e0YMS1kchDulbdkH6MoA==";
+            string password = "AQAAAAIAAYagAAAAENEU8PTCmOGdKOGoyJ/GereRGnBy0J7AB/YA2edgYRyn4+e0YMS1kchDulbdkH6MoA==";//Imthath@2002
             string name = "Imthath";
             string email = "mhdimthathHameem@gmail.com";
             string phone = "0768210306";
