@@ -1,4 +1,7 @@
 using IT_Institute_Management.Database;
+using IT_Institute_Management.EmailSection.Models;
+using IT_Institute_Management.EmailSection.Repo;
+using IT_Institute_Management.EmailSection.Service;
 using IT_Institute_Management.EmailSerivice;
 using IT_Institute_Management.EmailService;
 using IT_Institute_Management.ImageService;
@@ -10,6 +13,7 @@ using IT_Institute_Management.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -69,8 +73,20 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
+
+// Register EmailConfig
+builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("EMAIL_CONFIGURATION"));
+
+// Register services
+builder.Services.AddScoped<sendmailService>();
+builder.Services.AddScoped<SendMailRepository>();
+builder.Services.AddScoped<EmailServiceProvider>();
+
 // Database Context
 builder.Services.AddDbContext<InstituteDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DevHubDB")));
+
+// Ensure EmailConfig is available as a singleton if needed
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<EmailConfig>>().Value);
 
 // Register Repositories and Services
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
