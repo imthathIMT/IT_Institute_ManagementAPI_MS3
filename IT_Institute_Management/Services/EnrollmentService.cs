@@ -45,34 +45,28 @@ namespace IT_Institute_Management.Services
                 IsComplete = false
             };
 
-           
-            if (enrollmentRequest.PaymentPlan == "Full")
+
+            
+            var paymentDueDate = enrollment.EnrollmentDate.AddDays(7);
+            if (DateTime.Now > paymentDueDate)
             {
-                var paymentDueDate = enrollment.EnrollmentDate.AddDays(7);
-                if (DateTime.Now > paymentDueDate)
+               
+                await _repo.DeleteEnrollmentAsync(enrollment.Id);
+
+                
+                await _notificationService.CreateNotificationAsync(new NotificationRequestDTO
                 {
-                    DateTime utcNow = DateTime.UtcNow;
-                    await _notificationService.CreateNotificationAsync(new NotificationRequestDTO
-                    {
-                        Message = "Full payment for the course is overdue.",
-                        StudentNIC = enrollment.StudentNIC
-                    });
-                }
+                    Message = "Your enrollment has been deleted due to missed payment deadlines.",
+                    StudentNIC = enrollment.StudentNIC
+                });
             }
-            else if (enrollmentRequest.PaymentPlan == "Installment")
+            else
             {
-                var firstInstallmentDueDate = enrollment.EnrollmentDate.AddDays(7);
-                if (DateTime.Now > firstInstallmentDueDate)
-                {
-                    await _notificationService.CreateNotificationAsync(new NotificationRequestDTO
-                    {
-                        Message = "First installment payment is overdue.",
-                        StudentNIC = enrollment.StudentNIC
-                    });
-                }
+               
+                return await _repo.AddEnrollmentAsync(enrollment);
             }
 
-            return await _repo.AddEnrollmentAsync(enrollment);
+            return null;
         }
 
         public async Task<Enrollment> UpdateEnrollmentCompletionStatus(Guid id)
