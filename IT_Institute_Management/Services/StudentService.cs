@@ -2,7 +2,6 @@
 using IT_Institute_Management.DTO.ResponseDTO;
 using IT_Institute_Management.EmailSection.Models;
 using IT_Institute_Management.EmailSection.Service;
-using IT_Institute_Management.EmailSerivice;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.ImageService;
 using IT_Institute_Management.IRepositories;
@@ -16,7 +15,6 @@ namespace IT_Institute_Management.Services
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _studentRepository;
-        private readonly IEmailService _emailService;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IImageService _imageService;
         private readonly IUserService _userService;
@@ -24,10 +22,9 @@ namespace IT_Institute_Management.Services
         private readonly sendmailService _sendmailService;
 
 
-        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher, IImageService imageService, IUserService userService, ISocialMediaLinksService socialMediaLinksService, sendmailService sendmailService)
+        public StudentService(IStudentRepository studentRepository, IPasswordHasher passwordHasher, IImageService imageService, IUserService userService, ISocialMediaLinksService socialMediaLinksService, sendmailService sendmailService)
         {
             _studentRepository = studentRepository;
-            _emailService = emailService;
             _passwordHasher = passwordHasher;
             _imageService = imageService;
             _userService = userService;
@@ -258,7 +255,7 @@ namespace IT_Institute_Management.Services
 
 
 
-            _emailService.SendEmailInBackground(student.Email, "Profile Updated", $"{student.FirstName} {student.LastName}, your profile has been successfully updated.");
+            //_emailService.SendEmailInBackground(student.Email, "Profile Updated", $"{student.FirstName} {student.LastName}, your profile has been successfully updated.");
             return "Student profile update successful";
 
         }

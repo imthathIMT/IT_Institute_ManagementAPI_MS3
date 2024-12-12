@@ -2,12 +2,16 @@
 using IT_Institute_Management.EmailSection.Models;
 using IT_Institute_Management.EmailSection.Repo;
 using IT_Institute_Management.IRepositories;
+using System.Configuration;
+using System.Net.Mail;
+using System.Net;
 
 namespace IT_Institute_Management.EmailSection.Service
 {
-    public class sendmailService(SendMailRepository _sendMailRepository, EmailServiceProvider _emailServiceProvider, IStudentRepository _studentRepository)
+    public class sendmailService(SendMailRepository _sendMailRepository, EmailServiceProvider _emailServiceProvider, IStudentRepository _studentRepository, IConfiguration _Configuration)
     {
-
+        private object configuration;
+         
 
         public void sendmail(SendMailRequest sendMailRequest)
         {
@@ -122,6 +126,39 @@ namespace IT_Institute_Management.EmailSection.Service
             return emailbody;
         }
 
-       
+
+
+
+        public void SendEmailInBackground(string receptor, string subject, string body)
+        {
+            // Run the SendEmail method in a background task
+            Task.Run(async () =>
+            {
+                await SendEmail(receptor, subject, body);
+            });
+        }
+
+        public async Task SendEmail(string receptor, string subject, string body)
+        {
+            var email = _Configuration.GetValue<string>("EMAIL_CONFIGURATION:EMAIL");
+            var password = _Configuration.GetValue<string>("EMAIL_CONFIGURATION:PASSWORD");
+            var host = _Configuration.GetValue<string>("EMAIL_CONFIGURATION:HOST");
+            var port = _Configuration.GetValue<int>("EMAIL_CONFIGURATION:PORT");
+
+            // Use the 'using' statement to ensure proper disposal of resources
+            using (var smtpClient = new SmtpClient(host, port)
+            {
+                EnableSsl = true,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(email, password)
+            })
+            using (var message = new MailMessage(email, receptor, subject, body))
+            {
+                // Send the email asynchronously
+                await smtpClient.SendMailAsync(message);
+            }
+        }
+
+
     }
 }

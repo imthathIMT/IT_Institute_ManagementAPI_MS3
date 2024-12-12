@@ -1,6 +1,5 @@
 ﻿using IT_Institute_Management.EmailSection.Models;
 using IT_Institute_Management.EmailSection.Service;
-using IT_Institute_Management.EmailSerivice;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,22 +10,21 @@ namespace IT_Institute_Management.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        private readonly IEmailService _emailService;
         private readonly sendmailService _sendmailService;
 
-        public TestController(IEmailService emailService, sendmailService sendmailService)
+        public TestController( sendmailService sendmailService)
         {
-            _emailService = emailService;
+           
             _sendmailService = sendmailService;
         }
 
         [HttpGet]
-        [Authorize(Roles = "MasterAdmin")]
+        //[Authorize(Roles = "MasterAdmin")]
         public async Task<IActionResult> Email(string email, string subject, string body)
         {
             try
             {
-               await _emailService.SendEmail(email,subject, body);
+                await _sendmailService.SendEmail(email, subject, body);
                 return Ok();
             }
             catch (Exception ex)

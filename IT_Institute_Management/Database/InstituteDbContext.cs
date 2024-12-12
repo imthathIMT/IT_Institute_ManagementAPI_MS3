@@ -1,4 +1,4 @@
-﻿using IT_Institute_Management.EmailSerivice;
+﻿using IT_Institute_Management.EmailSection.Models;
 using IT_Institute_Management.Entity;
 using Microsoft.EntityFrameworkCore;
 
