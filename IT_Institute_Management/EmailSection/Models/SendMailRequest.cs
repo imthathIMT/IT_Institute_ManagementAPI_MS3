@@ -23,8 +23,8 @@
         //public string? DueDate { get; set; }
 
         //// Enrollment Email
-        //public string? StartDate { get; set; }
-        //public string? PaymentPlan { get; set; }
+        public DateTime? StartDate { get; set; }
+        public string? PaymentPlan { get; set; }
 
 
         //// Payment Success Email

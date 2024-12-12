@@ -1318,7 +1318,7 @@ namespace IT_Institute_Management.Database
 
             // Email template details for Enrollment Confirmation
             string templateName = "EnrollmentConfirmation";
-            string subject = "Congratulations, {{LastName}}! You’ve Successfully Enrolled";
+            string subject = "Congratulations,You’ve Successfully Enrolled";
             string body = @"
     <!DOCTYPE html>
     <html lang=""en"">
