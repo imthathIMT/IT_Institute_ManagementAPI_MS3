@@ -18,22 +18,6 @@ namespace IT_Institute_Management.Controllers
             _sendmailService = sendmailService;
         }
 
-        [HttpGet]
-        //[Authorize(Roles = "MasterAdmin")]
-        public async Task<IActionResult> Email(string email, string subject, string body)
-        {
-            try
-            {
-                await _sendmailService.SendEmail(email, subject, body);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-        }
-
 
         [HttpGet("test")]
         [Authorize(Roles = "MasterAdmin")]

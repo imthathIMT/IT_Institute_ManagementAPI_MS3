@@ -59,7 +59,7 @@ namespace IT_Institute_Management.Services
             {
                 FirstName = contactUsDto.Name,
                 Email = contactUsDto.Email,
-                TemplateName = "AccountLockedFailedLogin"
+                TemplateName = "EnquiryResponse"
 
             };
 
@@ -102,9 +102,25 @@ namespace IT_Institute_Management.Services
                     return "Invalid email request data: " + string.Join(", ", validationResults.Select(vr => vr.ErrorMessage));
                 }
 
-                // Attempt to send the email
-                _sendmailService.SendEmailInBackground(emailRequestDto.Email, emailRequestDto.Subject, emailRequestDto.Body);
+                var enquiry = await _contactUsRepository.GetByEmail(emailRequestDto.Email);
 
+                // Attempt to send the email
+                var sendMailRequest = new SendMailRequest
+                {
+                    FirstName = enquiry.Name,
+                    Email = enquiry.Email,
+                    AdminMessage = emailRequestDto.Body,
+                    TemplateName = "AdminResponse"
+
+                };
+
+                if (_sendmailService == null)
+                {
+                    throw new InvalidOperationException("_sendmailService is not initialized.");
+                }
+
+                // Uncomment the email service once setup is correct
+                await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
                 // If sending email succeeds, return success message
                 return "Email sent successfully.";
             }

@@ -2621,6 +2621,8 @@ namespace IT_Institute_Management.Database
             await InitializeAccountLockedEmailTemplateAsync();
             await InitializeAccountUnlockEmailTemplateAsync();
             await InitializeRegistrationEmailTemplateAsync();
+            await InitializeAdminResponseEmailTemplateAsync();
+            await InitializeEnquiryResponseEmailTemplateAsync();
 
         }
     }

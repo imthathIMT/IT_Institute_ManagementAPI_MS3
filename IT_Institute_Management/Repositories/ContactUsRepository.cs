@@ -46,5 +46,17 @@ namespace IT_Institute_Management.Repositories
         }
 
 
+        public async Task<ContactUs> GetByEmail(string email)
+        {
+            var enquiry = await _instituteDbContext.ContactUs.FirstOrDefaultAsync(x => x.Email == email);
+            if (enquiry == null)
+            {
+                throw new Exception("Enquiry not found");
+            }
+
+            return enquiry;
+        }
+
+
     }
 }
