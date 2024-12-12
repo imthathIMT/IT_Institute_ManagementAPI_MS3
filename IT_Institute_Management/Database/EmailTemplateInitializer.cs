@@ -1061,9 +1061,7 @@ namespace IT_Institute_Management.Database
                         <p><strong>Level:</strong> {{Level}}</p>
                     </div>
 
-                    <p>If you're interested in enrolling, click the button below to get started!</p>
-                    
-                    <!-- <p><a href=""http://localhost:4200/enroll"" class=""button"">Enroll Now</a></p> -->
+                    <p>If you're interested in enrolling, get started!</p>
 
                     <p class=""footer"">Best regards,<br>The DevHub Team</p>
                     <p class=""footer"">For more information, visit our website at <a href=""http://localhost:4200"" style=""color: #4CAF50;"">DevHub</a>.</p>

@@ -1,6 +1,8 @@
 ﻿using IT_Institute_Management.Database;
 using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.DTO.ResponseDTO;
+using IT_Institute_Management.EmailSection.Models;
+using IT_Institute_Management.EmailSection.Service;
 using IT_Institute_Management.EmailSerivice;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.ImageService;
@@ -18,8 +20,9 @@ namespace IT_Institute_Management.Services
         private readonly IImageService _imageService;
         private readonly IHostEnvironment _hostEnvironment;
         private readonly InstituteDbContext _context;
+        private readonly sendmailService _sendmailService;
 
-        public CourseService(ICourseRepository courseRepository, IStudentRepository studentRepository, IAnnouncementRepository announcementRepository, IEmailService emailService, IImageService imageService, IHostEnvironment hostEnvironment,InstituteDbContext context)
+        public CourseService(ICourseRepository courseRepository, IStudentRepository studentRepository, IAnnouncementRepository announcementRepository, IEmailService emailService, IImageService imageService, IHostEnvironment hostEnvironment, InstituteDbContext context, sendmailService sendmailService)
         {
             _courseRepository = courseRepository;
             _studentRepository = studentRepository;
@@ -28,6 +31,7 @@ namespace IT_Institute_Management.Services
             _imageService = imageService;
             _hostEnvironment = hostEnvironment;
             _context = context;
+            _sendmailService = sendmailService;
         }
 
         public async Task<IEnumerable<CourseResponseDTO>> GetAllCoursesAsync()
@@ -59,7 +63,7 @@ namespace IT_Institute_Management.Services
                 Level = course.Level,
                 Duration = course.Duration,
                 Fees = course.Fees,
-                ImagePaths = course.ImagePaths.Split(',').ToList() ,
+                ImagePaths = course.ImagePaths.Split(',').ToList(),
                 Description = course.Description,
             };
         }
@@ -73,7 +77,7 @@ namespace IT_Institute_Management.Services
                 throw new Exception("Level must be either 'Beginner' or 'Intermediate'.");
             }
 
-            
+
             if (courseRequest.Duration != 2 && courseRequest.Duration != 6)
             {
                 throw new Exception("Duration must be either '2' or '6' months.");
@@ -93,7 +97,7 @@ namespace IT_Institute_Management.Services
 
             await _courseRepository.AddCourseAsync(course);
 
-            
+
             var announcement = new Announcement
             {
                 Title = $"New Course offreing: {course.CourseName}",
@@ -105,19 +109,28 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-            //var students = await _studentRepository.GetAllAsync();
-            //foreach (var student in students)
-            //{
-            //    var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
-            //               $"We are pleased to inform you that a new course has been added:\n" +
-            //               $"Course Name: {course.CourseName}\n" +
-            //               $"Course Description: {course.Description}\n" +
-            //               $"Level: {course.Level}\n" +
-            //               $"Duration: {course.Duration} months\n" +
-            //               $"Fees: {course.Fees}\n\n" +
-            //               "Best Regards,\nIT Institute Management";
-            //    await _emailService.SendEmailAsync(student.Email, "New Course Available", body);
-            //}
+                var sendMailRequest = new SendMailRequest
+            {
+                CourseName = course.CourseName,
+                Duration = course.Duration,
+                Fees = course.Fees,
+                Level = course.Level,
+                TemplateName = "NewCourseOffering"
+
+                };
+
+            if (_sendmailService == null)
+            {
+                throw new InvalidOperationException("_sendmailService is not initialized.");
+            }
+
+            // Uncomment the email service once setup is correct
+            // _emailService.SendRegistraionMail(studentDto.Email, studentDto);
+            await _sendmailService.SendBulkCourseEmail(sendMailRequest);
+
+            
+
+
         }
 
 
@@ -127,7 +140,7 @@ namespace IT_Institute_Management.Services
 
             foreach (var image in images)
             {
-                
+
                 var imagePath = await _imageService.SaveImage(image, "courses");
                 imagePaths.Add(imagePath);
             }
@@ -145,7 +158,7 @@ namespace IT_Institute_Management.Services
             var imagePaths = new List<string>();
             if (images != null && images.Any())
             {
-               
+
                 foreach (var image in images)
                 {
                     var imagePath = await _imageService.SaveImage(image, "courses");
@@ -154,7 +167,7 @@ namespace IT_Institute_Management.Services
             }
             else
             {
-                
+
                 imagePaths = course.ImagePaths.Split(",").ToList();
             }
 
@@ -179,7 +192,7 @@ namespace IT_Institute_Management.Services
 
             await _courseRepository.UpdateCourseAsync(course);
 
-           
+
             var announcement = new Announcement
             {
                 Title = $"Updated Course: {course.CourseName}",
@@ -188,19 +201,24 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-           
-            //var students = await _studentRepository.GetAllAsync();
-            //foreach (var student in students)
-            //{
-            //    var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
-            //               $"The following course has been updated:\n" +
-            //               $"Course Name: {course.CourseName}\n" +
-            //               $"Level: {course.Level}\n" +
-            //               $"Duration: {course.Duration} months\n" +
-            //               $"Fees: {course.Fees}\n\n" +
-            //               "Best Regards,\nIT Institute Management";
-            //    await _emailService.SendEmailAsync(student.Email, "Course Update", body);
-            //}
+            var sendMailRequest = new SendMailRequest
+            {
+                CourseName = course.CourseName,
+                Duration = course.Duration,
+                Fees = course.Fees,
+                Level = course.Level,
+                TemplateName = "CourseUpdateNotification"
+
+            };
+
+            if (_sendmailService == null)
+            {
+                throw new InvalidOperationException("_sendmailService is not initialized.");
+            }
+
+            // Uncomment the email service once setup is correct
+            // _emailService.SendRegistraionMail(studentDto.Email, studentDto);
+            await _sendmailService.SendBulkCourseEmail(sendMailRequest);
         }
 
         public async Task DeleteCourseAsync(Guid id)
@@ -211,7 +229,7 @@ namespace IT_Institute_Management.Services
 
             var course = await _courseRepository.GetCourseByIdAsync(id);
 
-            
+
             var imagePaths = course.ImagePaths.Split(',');
             foreach (var imagePath in imagePaths)
             {
@@ -220,7 +238,7 @@ namespace IT_Institute_Management.Services
 
             await _courseRepository.DeleteCourseAsync(id);
 
-           
+
             var announcement = new Announcement
             {
                 Title = "Course Deleted",
@@ -229,15 +247,8 @@ namespace IT_Institute_Management.Services
             };
             await _announcementRepository.AddAsync(announcement);
 
-          
-            var students = await _studentRepository.GetAllAsync();
-            foreach (var student in students)
-            {
-                var body = $"Dear {student.FirstName} {student.LastName},\n\n" +
-                           $"We regret to inform you that a course has been deleted from the system.\n\n" +
-                           "Best Regards,\nIT Institute Management";
-                //await _emailService.SendEmailAsync(student.Email, "Course Deleted", body);
-            }
+            
+
         }
 
 

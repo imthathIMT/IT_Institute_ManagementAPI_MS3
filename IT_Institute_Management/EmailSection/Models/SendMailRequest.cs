@@ -12,11 +12,11 @@
         // Template Name to identify the email type
         public string? TemplateName { get; set; }
 
-        //// New course offering
-        //public string? CourseName { get; set; }
-        //public string? Duration { get; set; }
-        //public string? Fees { get; set; }
-        //public string? Level { get; set; }
+        // New course offering
+        public string? CourseName { get; set; }
+        public int? Duration { get; set; }
+        public decimal? Fees { get; set; }
+        public string? Level { get; set; }
 
         //// Payment Reminder Email
         //public string? AmountDue { get; set; }

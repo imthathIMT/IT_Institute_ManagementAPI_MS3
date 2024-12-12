@@ -185,12 +185,6 @@ namespace IT_Institute_Management.Services
                 Password = hashedPassword
             }, Role.Student);
 
-            // Check Email Service initialization
-            if (_emailService == null)
-            {
-                throw new InvalidOperationException("Email service is not initialized.");
-            }
-
             var sendMailRequest = new SendMailRequest
             {
                 NIC = studentDto.NIC,
@@ -209,7 +203,7 @@ namespace IT_Institute_Management.Services
 
             // Uncomment the email service once setup is correct
             // _emailService.SendRegistraionMail(studentDto.Email, studentDto);
-            _sendmailService.sendmail(sendMailRequest);
+            await _sendmailService.Sendmail(sendMailRequest);
         }
 
 
