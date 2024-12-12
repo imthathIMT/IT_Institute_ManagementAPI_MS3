@@ -1,5 +1,7 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.DTO.ResponseDTO;
+using IT_Institute_Management.EmailSection.Models;
+using IT_Institute_Management.EmailSection.Service;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
@@ -13,14 +15,16 @@ namespace IT_Institute_Management.Services
         private readonly IEnrollmentRepository _enrollmentRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly INotificationService _notificationService;
+        private readonly sendmailService _sendmailService;
 
-        public PaymentService(IPaymentRepository paymentRepository, ICourseRepository courseRepository, IEnrollmentRepository enrollmentRepository, IStudentRepository studentRepository, INotificationService notificationService)
+        public PaymentService(IPaymentRepository paymentRepository, ICourseRepository courseRepository, IEnrollmentRepository enrollmentRepository, IStudentRepository studentRepository, INotificationService notificationService, sendmailService sendmailService)
         {
             _paymentRepository = paymentRepository;
             _courseRepository = courseRepository;
             _enrollmentRepository = enrollmentRepository;
             _studentRepository = studentRepository;
             _notificationService = notificationService;
+            _sendmailService = sendmailService;
         }
 
         public async Task<IEnumerable<PaymentResponseDto>> GetAllPaymentsAsync()
@@ -208,8 +212,37 @@ namespace IT_Institute_Management.Services
             };
 
             await _paymentRepository.CreatePaymentAsync(payment);
+            var student = await _studentRepository.GetByNicAsync(enrollment.StudentNIC);
+            if (student == null)
+            {
+                throw new Exception($"Student with NIC {enrollment.StudentNIC} not found.");
+            }
+            var sendMailRequest = new SendMailRequest
+            {
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                CourseName = course.CourseName,
+                Duration = course.Duration,
+                Level = course.Level,
+                Fees = course.Fees,
+                AmountPaid = paymentRequestDto.Amount,
+                PaymentPlan = enrollment.PaymentPlan,
 
-           
+                TemplateName = "PaymentConfirmed"
+
+            };
+
+            if (_sendmailService == null)
+            {
+                throw new InvalidOperationException("_sendmailService is not initialized.");
+            }
+
+            // Uncomment the email service once setup is correct
+            // _emailService.SendRegistraionMail(studentDto.Email, studentDto);
+            await _sendmailService.Sendmail(sendMailRequest);
+
+
             if (enrollment.PaymentPlan == "Installment")
             {
                 var nextInstallmentDueDate = paymentRequestDto.PaymentDate.AddMonths(1).AddDays(7); 

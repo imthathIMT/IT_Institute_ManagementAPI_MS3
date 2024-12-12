@@ -28,7 +28,7 @@
 
 
         //// Payment Success Email
-        //public string? AmountPaid { get; set; }
+        public decimal? AmountPaid { get; set; }
         //public string? PaymentMethod { get; set; }
 
     }

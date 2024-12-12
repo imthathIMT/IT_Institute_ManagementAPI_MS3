@@ -95,6 +95,7 @@ namespace IT_Institute_Management.EmailSection.Service
             var fees = sendMailRequest.Fees + ".00 LKR";
             var duration = sendMailRequest.Duration + "Months";
             var EnrollmentDate = sendMailRequest.StartDate.ToString();
+            var amountPaid = sendMailRequest.AmountPaid + ".00 LKR";
             var replacements = new Dictionary<string, string?>
             {
                 { "{{FirstName}}", sendMailRequest.FirstName },
@@ -107,6 +108,7 @@ namespace IT_Institute_Management.EmailSection.Service
                 { "{{Level}}",sendMailRequest.Level },
                 { "{{StartDate}}",EnrollmentDate },
                 { "{{Payment plan}}",sendMailRequest.PaymentPlan },
+                { "{{AmountPaid}}", amountPaid },
             };
 
             foreach (var replacement in replacements)

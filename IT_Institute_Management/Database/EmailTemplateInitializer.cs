@@ -1702,7 +1702,7 @@ namespace IT_Institute_Management.Database
                             VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
 
             string templateName = "PaymentConfirmed";
-            string subject = "Payment Confirmed for {{CourseName}}!";
+            string subject = "Payment Successful!";
             string body = @"
     <!DOCTYPE html>
     <html lang=""en"">
@@ -1827,7 +1827,7 @@ namespace IT_Institute_Management.Database
                         <p><strong>Course Name:</strong> {{CourseName}}</p>
                         <p><strong>Level:</strong> {{Level}}</p>
                         <p><strong>Amount Paid:</strong> {{AmountPaid}}</p>
-                        <p><strong>Payment Method:</strong> {{PaymentMethod}}</p>
+                        <p><strong>Payment Plan:</strong> {{Payment plan}}</p>
                     </div>
 
                     <p>Your enrollment is now fully confirmed. Get ready to embark on an exciting learning journey with us!</p>
