@@ -665,7 +665,7 @@ namespace IT_Institute_Management.Database
                 <td>
                     <h1>Your Account Has Been Locked Due to Multiple Failed Login Attempts</h1>
                     <p>Dear {{LastName}},</p>
-                    <p>Your account has been automatically locked due to multiple unsuccessful login attempts. This is a security measure to protect your account from unauthorized access.</p>
+                    <p>Your account has been locked due to multiple unsuccessful login attempts. This is a security measure to protect your account from unauthorized access.</p>
                     
                     <div class=""lock-details"">
                         <h2>Account Details:</h2>
@@ -675,11 +675,10 @@ namespace IT_Institute_Management.Database
 
                     <p>If you believe this lock was triggered in error, please reach out to our admin team to have your account unlocked.</p>
                     
-                    <p><a href=""http://localhost:4200/contact-admin"" class=""button"">Contact Admin Team</a></p>
+                    <p><a href=""http://localhost:4200/#contact"" class=""button"">Contact Admin Team</a></p>
 
                     <p class=""footer"">Best regards,<br>The DevHub Team</p>
                     <p class=""footer"">If you have any questions, please contact us at support@devhub.com.</p>
-                    <!-- <p class=""footer"">To unsubscribe, click <a href=""http://localhost:4200/unsubscribe"">here</a>.</p> -->
                 </td>
             </tr>
         </table>
@@ -2221,6 +2220,388 @@ namespace IT_Institute_Management.Database
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error: {ex.Message}");
+                }
+            }
+        }
+
+
+        public async Task InitializeAdminResponseEmailTemplateAsync()
+        {
+            // SQL query to check if the template already exists
+            string checkQuery = @"SELECT COUNT(1) FROM EmailTemplates WHERE TemplateName = @TemplateName";
+
+            // SQL query to insert the template into the database
+            string insertQuery = @"INSERT INTO EmailTemplates (TemplateName, TemplateSubject, TemplateBody)
+                           VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
+
+            // Email template details
+            string templateName = "AdminResponse";
+            string subject = "Admin Response to Your Enquiry";
+            string body = @"
+                     <!DOCTYPE html>
+                     <html lang=""en"">
+                     <head>
+                         <meta charset=""UTF-8"">
+                         <meta http-equiv=""X-UA-Compatible"" content=""IE=edge"">
+                         <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                         <style>
+                             /* General styling for the email */
+                             body {
+                                 font-family: Arial, sans-serif;
+                                 margin: 0;
+                                 padding: 0;
+                                 color: white; /* White Text */
+                             }
+                             table {
+                                 padding: auto;
+                                 width: 100%;
+                                 max-width: 600px;
+                                 margin: 0 auto;
+                                 background-color: #ffffff;
+                                 border-spacing: 0;
+                                 height: 100vh;
+                             }
+                             td {
+                                 padding: 20px;
+                                 text-align: center;
+                                 vertical-align: top;
+                             }
+                             h1, h2 {
+                                 color: white;
+                                 font-size: 24px;
+                             }
+                             p {
+                                 color: white;
+                                 font-size: 16px;
+                             }
+                             .button {
+                                 display: inline-block;
+                                 padding: 12px 24px;
+                                 background-color: #4CAF50;
+                                 color: white;
+                                 text-decoration: none;
+                                 border-radius: 5px;
+                             }
+                             .footer {
+                                 font-size: 12px;
+                                 color: #bbbbbb;
+                             }
+                             .message-details {
+                                 text-align: left;
+                                 padding: 20px;
+                                 background-color: #0e2963;
+                                 border-radius: 8px;
+                             }
+                             .message-details p {
+                                 margin: 10px 0;
+                                 font-size: 16px;
+                             }
+                             .message-details strong {
+                                 color: white;
+                             }
+                             /* Media Query for smaller screens */
+                             @media only screen and (max-width: 600px) {
+                                 table {
+                                     width: 100% !important;
+                                 }
+                                 td {
+                                     padding: 10px !important;
+                                 }
+                                 h1 {
+                                     font-size: 22px !important;
+                                 }
+                                 h2 {
+                                     font-size: 20px !important;
+                                 }
+                                 p {
+                                     font-size: 14px !important;
+                                 }
+                                 .button {
+                                     padding: 10px 20px !important;
+                                     font-size: 14px !important;
+                                 }
+                                 .message-details {
+                                     padding: 15px !important;
+                                 }
+                             }
+                             /* Media Query for very small screens */
+                             @media only screen and (max-width: 400px) {
+                                 h1 {
+                                     font-size: 20px !important;
+                                 }
+                                 h2 {
+                                     font-size: 18px !important;
+                                 }
+                                 p {
+                                     font-size: 12px !important;
+                                 }
+                                 .button {
+                                     padding: 8px 16px !important;
+                                     font-size: 12px !important;
+                                 }
+                                 .message-details {
+                                     padding: 10px !important;
+                                 }
+                             }
+                         </style>
+                         <title>Admin Response - DevHub</title>
+                     </head>
+                     <body>
+                         <table style=""background-color: #0d1e4c;"">
+                             <tr>
+                                 <td>
+                                     <h1>Admin Response to Your Enquiry</h1>
+                                     <p>Dear {{FirstName}},</p>
+                                     <p>We have received your enquiry, and our admin team has responded below:</p>
+                                     
+                                     <!-- Message Section -->
+                                     <div class=""message-details"">
+                                         <p><strong>Message:</strong></p>
+                                         <p>{{AdminMessage}}</p>
+                                     </div>
+
+                                     <p>If you need further assistance or clarification, please don't hesitate to <a href=""mailto:devhubinstitute@gmail.com"" style=""color: #ffffff;"">contact us</a>.</p>
+
+                                     <p><a href=""http://localhost:4200/#contact"" class=""button"">Contact Us</a></p>
+                                     <p class=""footer"">Best regards,<br>The DevHub Team</p>
+                                     <p class=""footer"">For further assistance, please contact us at <a href=""mailto:devhubinstitute@gmail.com"" style=""color: #ffffff;"">devhubinstitute@gmail.com</a>.</p>
+                                 </td>
+                             </tr>
+                         </table>
+                     </body>
+                     </html>";
+
+            // Create a new SqlConnection using the provided connection string
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                try
+                {
+                    // Open the database connection
+                    await connection.OpenAsync();
+
+                    // First, check if the template already exists
+                    using (var checkCommand = new SqlCommand(checkQuery, connection))
+                    {
+                        checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
+
+                        var exists = (int)await checkCommand.ExecuteScalarAsync() > 0;
+
+                        if (exists)
+                        {
+                            Console.WriteLine("Template already exists.");
+                            return; // Exit the method if the template exists
+                        }
+                    }
+
+                    // Create a SqlCommand to execute the insert query
+                    using (var command = new SqlCommand(insertQuery, connection))
+                    {
+                        // Add parameters to prevent SQL injection
+                        command.Parameters.AddWithValue("@TemplateName", templateName);
+                        command.Parameters.AddWithValue("@TemplateSubject", subject);
+                        command.Parameters.AddWithValue("@TemplateBody", body);
+                        //command.Parameters.AddWithValue("@DateCreated", DateTime.Now);
+
+                        // Execute the insert query asynchronously
+                        await command.ExecuteNonQueryAsync();
+                        Console.WriteLine("Template inserted successfully.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle any exceptions (e.g., connection errors, query errors)
+                    Console.WriteLine($"Error inserting email template: {ex.Message}");
+                }
+            }
+        }
+
+
+        public async Task InitializeEnquiryResponseEmailTemplateAsync()
+        {
+            // SQL query to check if the template already exists
+            string checkQuery = @"SELECT COUNT(1) FROM EmailTemplates WHERE TemplateName = @TemplateName";
+
+            // SQL query to insert the template into the database
+            string insertQuery = @"INSERT INTO EmailTemplates (TemplateName, TemplateSubject, TemplateBody)
+                           VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
+
+            // Email template details
+            string templateName = "EnquiryResponse";
+            string subject = "Enquiry Response - DevHub";
+            string body = @"
+                     <!DOCTYPE html>
+                     <html lang=""en"">
+                     <head>
+                         <meta charset=""UTF-8"">
+                         <meta http-equiv=""X-UA-Compatible"" content=""IE=edge"">
+                         <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                         <style>
+                             /* General styling for the email */
+                             body {
+                                 font-family: Arial, sans-serif;
+                                 margin: 0;
+                                 padding: 0;
+                                 color: white; /* White Text */
+                             }
+                             table {
+                                 padding: auto;
+                                 width: 100%;
+                                 max-width: 600px;
+                                 margin: 0 auto;
+                                 background-color: #ffffff;
+                                 border-spacing: 0;
+                                 height: 100vh;
+                             }
+                             td {
+                                 padding: 20px;
+                                 text-align: center;
+                                 vertical-align: top;
+                             }
+                             h1, h2 {
+                                 color: white;
+                                 font-size: 24px;
+                             }
+                             p {
+                                 color: white;
+                                 font-size: 16px;
+                             }
+                             .button {
+                                 display: inline-block;
+                                 padding: 12px 24px;
+                                 background-color: #4CAF50;
+                                 color: white;
+                                 text-decoration: none;
+                                 border-radius: 5px;
+                             }
+                             .footer {
+                                 font-size: 12px;
+                                 color: #bbbbbb;
+                             }
+                             .enquiry-details {
+                                 text-align: left;
+                                 padding: 20px;
+                                 background-color: #0e2963;
+                                 border-radius: 8px;
+                             }
+                             .enquiry-details p {
+                                 margin: 10px 0;
+                                 font-size: 16px;
+                             }
+                             .enquiry-details strong {
+                                 color: white;
+                             }
+                             .alert{
+                                 color: rgb(255, 208, 0);
+                             }
+
+                             /* Media Query for smaller screens */
+                             @media only screen and (max-width: 600px) {
+                                 table {
+                                     width: 100% !important;
+                                 }
+                                 td {
+                                     padding: 10px !important;
+                                 }
+                                 h1 {
+                                     font-size: 22px !important;
+                                 }
+                                 h2 {
+                                     font-size: 20px !important;
+                                 }
+                                 p {
+                                     font-size: 14px !important;
+                                 }
+                                 .button {
+                                     padding: 10px 20px !important;
+                                     font-size: 14px !important;
+                                 }
+                                 .enquiry-details {
+                                     padding: 15px !important;
+                                 }
+                             }
+
+                             /* Media Query for very small screens */
+                             @media only screen and (max-width: 400px) {
+                                 h1 {
+                                     font-size: 20px !important;
+                                 }
+                                 h2 {
+                                     font-size: 18px !important;
+                                 }
+                                 p {
+                                     font-size: 12px !important;
+                                 }
+                                 .button {
+                                     padding: 8px 16px !important;
+                                     font-size: 12px !important;
+                                 }
+                                 .enquiry-details {
+                                     padding: 10px !important;
+                                 }
+                             }
+                         </style>
+                         <title>Enquiry Response - DevHub</title>
+                     </head>
+                     <body>
+                         <table style=""background-color: #0d1e4c;"">
+                             <tr>
+                                 <td>
+                                     <h1>We're Here to Help, {{FirstName}}!</h1>
+                                     <p>Thank you for reaching out. We're happy to assist you with your enquiry.</p>
+                                     <div class=""enquiry-details"">
+                                         <h2>Your Enquiry Details:</h2>
+                                         <p><strong>Dear,</strong> {{FirstName}}</p>
+                                         <p><strong>Response:</strong> We are currently reviewing your enquiry and will get back to you within 24 hours. If you need immediate assistance, please feel free to contact our support team at <a href=""mailto:devhubinstitute@gmail.com"" style=""color: #ffffff;"">support@devhub.com</a>.</p>
+                                     </div>
+                                     <p><a href=""http://localhost:4200/#contact"" class=""button"">Contact Us</a></p>
+                                     <p class=""footer"">Best regards,<br>The DevHub Team</p>
+                                     <p class=""footer"">For further assistance, please contact us at support@devhub.com.</p>
+                                 </td>
+                             </tr>
+                         </table>
+                     </body>
+                     </html>";
+
+            // Create a new SqlConnection using the provided connection string
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                try
+                {
+                    // Open the database connection
+                    await connection.OpenAsync();
+
+                    // First, check if the template already exists
+                    using (var checkCommand = new SqlCommand(checkQuery, connection))
+                    {
+                        checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
+
+                        var exists = (int)await checkCommand.ExecuteScalarAsync() > 0;
+
+                        if (exists)
+                        {
+                            Console.WriteLine("Template already exists.");
+                            return; // Exit the method if the template exists
+                        }
+                    }
+
+                    // Create a SqlCommand to execute the insert query
+                    using (var command = new SqlCommand(insertQuery, connection))
+                    {
+                        // Add parameters to prevent SQL injection
+                        command.Parameters.AddWithValue("@TemplateName", templateName);
+                        command.Parameters.AddWithValue("@TemplateSubject", subject);
+                        command.Parameters.AddWithValue("@TemplateBody", body);
+                        //command.Parameters.AddWithValue("@DateCreated", DateTime.Now);
+
+                        // Execute the insert query asynchronously
+                        await command.ExecuteNonQueryAsync();
+                        Console.WriteLine("Template inserted successfully.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle any exceptions (e.g., connection errors, query errors)
+                    Console.WriteLine($"Error inserting email template: {ex.Message}");
                 }
             }
         }

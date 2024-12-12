@@ -1,5 +1,7 @@
 ﻿using IT_Institute_Management.Database;
 using IT_Institute_Management.DTO.RequestDTO;
+using IT_Institute_Management.EmailSection.Models;
+using IT_Institute_Management.EmailSection.Service;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
@@ -16,16 +18,18 @@ public class AuthService : IAuthService
     private readonly IConfiguration _configuration;
     private readonly IStudentRepository _studentRepository;
     private readonly InstituteDbContext _context;
+    private readonly sendmailService _sendmailService;
 
     private const int MaxLoginAttempts = 5;
 
-    public AuthService(IAuthRepository authRepository, IPasswordHasher passwordHasher, IConfiguration configuration, IStudentRepository studentRepository, InstituteDbContext context)
+    public AuthService(IAuthRepository authRepository, IPasswordHasher passwordHasher, IConfiguration configuration, IStudentRepository studentRepository, InstituteDbContext context, sendmailService sendmailService)
     {
         _authRepository = authRepository;
         _passwordHasher = passwordHasher;
         _configuration = configuration;
         _studentRepository = studentRepository;
         _context = context;
+        _sendmailService = sendmailService;
     }
 
     public async Task<string> GetLoginUserToken(UserLoginModal request)
@@ -63,6 +67,24 @@ public class AuthService : IAuthService
                     }
 
                     await _context.SaveChangesAsync();
+
+                    var sendMailRequest = new SendMailRequest
+                    {
+                        NIC = student.NIC,
+                        FirstName = student.FirstName,
+                        LastName = student.LastName,
+                        Email = student.Email,
+                        TemplateName = "AccountLockedFailedLogin"
+
+                    };
+
+                    if (_sendmailService == null)
+                    {
+                        throw new InvalidOperationException("_sendmailService is not initialized.");
+                    }
+
+                    // Uncomment the email service once setup is correct
+                    await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
                     throw new Exception("Your account has been locked due to too many failed login attempts.");
                 }
 

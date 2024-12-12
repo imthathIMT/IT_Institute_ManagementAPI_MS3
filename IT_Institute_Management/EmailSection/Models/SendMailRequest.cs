@@ -31,6 +31,15 @@
         public decimal? AmountPaid { get; set; }
         //public string? PaymentMethod { get; set; }
 
+        ////Enquiry response
+        
+        
+
+        ///admin response
+        public string? AdminMessage { get; set; }
+
+
+
     }
 
 }
