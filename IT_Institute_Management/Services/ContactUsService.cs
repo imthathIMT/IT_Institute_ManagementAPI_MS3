@@ -1,6 +1,6 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.DTO.ResponseDTO;
-using IT_Institute_Management.EmailSerivice;
+using IT_Institute_Management.EmailSection.Service;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
@@ -11,12 +11,12 @@ namespace IT_Institute_Management.Services
     public class ContactUsService : IContactUsService
     {
         private readonly IContactUsRepository _contactUsRepository;
-        private readonly IEmailService _emailService;
+        private readonly sendmailService _sendmailService;
 
-        public ContactUsService(IContactUsRepository contactUsRepository,IEmailService emailService)
+        public ContactUsService(IContactUsRepository contactUsRepository, sendmailService sendmailService)
         {
             _contactUsRepository = contactUsRepository;
-            _emailService = emailService;
+            _sendmailService = sendmailService;
         }
 
         public async Task<IEnumerable<ContactUsResponseDto>> GetAllAsync()
@@ -87,7 +87,7 @@ namespace IT_Institute_Management.Services
                 }
 
                 // Attempt to send the email
-                 _emailService.SendEmailInBackground(emailRequestDto.Email, emailRequestDto.Subject, emailRequestDto.Body);
+                _sendmailService.SendEmailInBackground(emailRequestDto.Email, emailRequestDto.Subject, emailRequestDto.Body);
 
                 // If sending email succeeds, return success message
                 return "Email sent successfully.";

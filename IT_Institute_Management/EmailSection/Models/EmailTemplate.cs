@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IT_Institute_Management.EmailSerivice
+namespace IT_Institute_Management.EmailSection.Models
 {
     public class EmailTemplate
     {
