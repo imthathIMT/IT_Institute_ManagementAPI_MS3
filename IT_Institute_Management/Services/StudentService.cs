@@ -323,7 +323,24 @@ namespace IT_Institute_Management.Services
             await _studentRepository.UpdateAsync(student);
 
 
-             _emailService.SendEmailInBackground(student.Email, "Password Updated", $"{student.FirstName} {student.LastName}, your password has been successfully updated.");
+            // _emailService.SendEmailInBackground(student.Email, "Password Updated", $"{student.FirstName} {student.LastName}, your password has been successfully updated.");
+            var sendMailRequest = new SendMailRequest
+            {
+                NIC = student.NIC,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                TemplateName = "PasswordUpdatedSuccessfully"
+
+            };
+
+            if (_sendmailService == null)
+            {
+                throw new InvalidOperationException("_sendmailService is not initialized.");
+            }
+
+            // Uncomment the email service once setup is correct
+            await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
         }
 
 
@@ -387,9 +404,27 @@ namespace IT_Institute_Management.Services
                 await _studentRepository.UpdateStudentAccount(student);
 
                 // Send unlock account email
-                _emailService.SendEmailInBackground(student.Email, "Account Unlocked",
-                    $"Dear {student.FirstName} {student.LastName},\n\n" +
-                    "Your account has been unlocked. Your password has been reset. Please login with your new password.");
+                //_emailService.SendEmailInBackground(student.Email, "Account Unlocked",
+                //    $"Dear {student.FirstName} {student.LastName},\n\n" +
+                //    "Your account has been unlocked. Your password has been reset. Please login with your new password.");
+
+                var sendMailRequest = new SendMailRequest
+                {
+                    NIC = student.NIC,
+                    FirstName = student.FirstName,
+                    LastName = student.LastName,
+                    Email = student.Email,
+                    TemplateName = "AccountUnlockAndPasswordUpdate"
+
+                };
+
+                if (_sendmailService == null)
+                {
+                    throw new InvalidOperationException("_sendmailService is not initialized.");
+                }
+
+                // Uncomment the email service once setup is correct
+                await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
 
                 return "Account has been unlocked and password updated.";
             }
