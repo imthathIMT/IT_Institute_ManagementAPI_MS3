@@ -1,6 +1,7 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.DTO.ResponseDTO;
-using IT_Institute_Management.EmailSerivice;
+using IT_Institute_Management.EmailSection.Models;
+using IT_Institute_Management.EmailSection.Service;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
@@ -11,12 +12,12 @@ namespace IT_Institute_Management.Services
     public class ContactUsService : IContactUsService
     {
         private readonly IContactUsRepository _contactUsRepository;
-        private readonly IEmailService _emailService;
+        private readonly sendmailService _sendmailService;
 
-        public ContactUsService(IContactUsRepository contactUsRepository,IEmailService emailService)
+        public ContactUsService(IContactUsRepository contactUsRepository, sendmailService sendmailService)
         {
             _contactUsRepository = contactUsRepository;
-            _emailService = emailService;
+            _sendmailService = sendmailService;
         }
 
         public async Task<IEnumerable<ContactUsResponseDto>> GetAllAsync()
@@ -54,6 +55,21 @@ namespace IT_Institute_Management.Services
                 Date = contactUsDto.Date
             };
             await _contactUsRepository.AddAsync(contactUs);
+            var sendMailRequest = new SendMailRequest
+            {
+                FirstName = contactUsDto.Name,
+                Email = contactUsDto.Email,
+                TemplateName = "EnquiryResponse"
+
+            };
+
+            if (_sendmailService == null)
+            {
+                throw new InvalidOperationException("_sendmailService is not initialized.");
+            }
+
+            // Uncomment the email service once setup is correct
+            await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
         }
         public async Task UpdateAsync(Guid id, ContactUsRequestDto contactUsDto)
         {
@@ -86,9 +102,25 @@ namespace IT_Institute_Management.Services
                     return "Invalid email request data: " + string.Join(", ", validationResults.Select(vr => vr.ErrorMessage));
                 }
 
-                // Attempt to send the email
-                 _emailService.SendEmailInBackground(emailRequestDto.Email, emailRequestDto.Subject, emailRequestDto.Body);
+                var enquiry = await _contactUsRepository.GetByEmail(emailRequestDto.Email);
 
+                // Attempt to send the email
+                var sendMailRequest = new SendMailRequest
+                {
+                    FirstName = enquiry.Name,
+                    Email = enquiry.Email,
+                    AdminMessage = emailRequestDto.Body,
+                    TemplateName = "AdminResponse"
+
+                };
+
+                if (_sendmailService == null)
+                {
+                    throw new InvalidOperationException("_sendmailService is not initialized.");
+                }
+
+                // Uncomment the email service once setup is correct
+                await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
                 // If sending email succeeds, return success message
                 return "Email sent successfully.";
             }

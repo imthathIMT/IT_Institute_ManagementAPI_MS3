@@ -1,5 +1,6 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,6 +53,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateCourse(
                    [FromForm] CourseRequestDTO courseRequest,
                    [FromForm] List<IFormFile> images)
@@ -70,6 +72,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateCourse(
                    Guid id,
                    [FromForm] CourseRequestDTO courseRequest,
@@ -95,6 +98,7 @@ namespace IT_Institute_Management.Controllers
 
         
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteCourse(Guid id)
         {
             try

@@ -1,10 +1,12 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IT_Institute_Management.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AnnouncementController : ControllerBase
@@ -46,6 +48,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> Add([FromBody] AnnouncementRequestDto announcementDto)
         {
             try
@@ -60,6 +63,7 @@ namespace IT_Institute_Management.Controllers
 
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> Update(Guid id, [FromBody] AnnouncementRequestDto announcementDto)
         {
             try
@@ -76,6 +80,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try

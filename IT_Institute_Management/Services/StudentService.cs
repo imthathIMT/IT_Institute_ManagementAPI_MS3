@@ -1,6 +1,7 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.DTO.ResponseDTO;
-using IT_Institute_Management.EmailSerivice;
+using IT_Institute_Management.EmailSection.Models;
+using IT_Institute_Management.EmailSection.Service;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.ImageService;
 using IT_Institute_Management.IRepositories;
@@ -14,21 +15,21 @@ namespace IT_Institute_Management.Services
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _studentRepository;
-        private readonly IEmailService _emailService;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IImageService _imageService;
         private readonly IUserService _userService;
         private readonly ISocialMediaLinksService _socialMediaLinksService;
+        private readonly sendmailService _sendmailService;
 
 
-        public StudentService(IStudentRepository studentRepository, IEmailService emailService, IPasswordHasher passwordHasher, IImageService imageService, IUserService userService, ISocialMediaLinksService socialMediaLinksService)
+        public StudentService(IStudentRepository studentRepository, IPasswordHasher passwordHasher, IImageService imageService, IUserService userService, ISocialMediaLinksService socialMediaLinksService, sendmailService sendmailService)
         {
             _studentRepository = studentRepository;
-            _emailService = emailService;
             _passwordHasher = passwordHasher;
             _imageService = imageService;
             _userService = userService;
             _socialMediaLinksService = socialMediaLinksService;
+            _sendmailService = sendmailService;
         }
 
 
@@ -181,14 +182,25 @@ namespace IT_Institute_Management.Services
                 Password = hashedPassword
             }, Role.Student);
 
-            // Check Email Service initialization
-            if (_emailService == null)
+            var sendMailRequest = new SendMailRequest
             {
-                throw new InvalidOperationException("Email service is not initialized.");
+                NIC = studentDto.NIC,
+                FirstName = studentDto.FirstName,
+                LastName = studentDto.LastName,
+                Password = studentDto.Password,
+                Email = studentDto.Email,
+                TemplateName = "RegistrationWelcome"
+
+            };
+
+            if (_sendmailService == null)
+            {
+                throw new InvalidOperationException("_sendmailService is not initialized.");
             }
 
             // Uncomment the email service once setup is correct
-            _emailService.SendEmailInBackground(student.Email, "Student Registration", $"Welcome {student.FirstName} {student.LastName},\n Your registration was successful.\n \n Your NIC: {studentDto.NIC}, \n Your Password: {studentDto.Password}");
+            // _emailService.SendRegistraionMail(studentDto.Email, studentDto);
+            await _sendmailService.Sendmail(sendMailRequest);
         }
 
 
@@ -243,12 +255,10 @@ namespace IT_Institute_Management.Services
 
 
 
-            _emailService.SendEmailInBackground(student.Email, "Profile Updated", $"{student.FirstName} {student.LastName}, your profile has been successfully updated.");
+            //_emailService.SendEmailInBackground(student.Email, "Profile Updated", $"{student.FirstName} {student.LastName}, your profile has been successfully updated.");
             return "Student profile update successful";
 
         }
-
-
 
 
         public async Task DeleteStudentAsync(string nic)
@@ -304,7 +314,24 @@ namespace IT_Institute_Management.Services
             await _studentRepository.UpdateAsync(student);
 
 
-             _emailService.SendEmailInBackground(student.Email, "Password Updated", $"{student.FirstName} {student.LastName}, your password has been successfully updated.");
+            // _emailService.SendEmailInBackground(student.Email, "Password Updated", $"{student.FirstName} {student.LastName}, your password has been successfully updated.");
+            var sendMailRequest = new SendMailRequest
+            {
+                NIC = student.NIC,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                TemplateName = "PasswordUpdatedSuccessfully"
+
+            };
+
+            if (_sendmailService == null)
+            {
+                throw new InvalidOperationException("_sendmailService is not initialized.");
+            }
+
+            // Uncomment the email service once setup is correct
+            await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
         }
 
 
@@ -320,9 +347,27 @@ namespace IT_Institute_Management.Services
                 student.IsLocked = true;
                 await _studentRepository.UpdateStudentAccount(student);
 
-                _emailService.SendEmailInBackground(student.Email, "Account Locked",
-                 $"Dear {student.FirstName} {student.LastName},\n\n" +
-                 "your account has been locked by admin. please contact admin");
+                //_emailService.SendEmailInBackground(student.Email, "Account Locked",
+                // $"Dear {student.FirstName} {student.LastName},\n\n" +
+                // "your account has been locked by admin. please contact admin");
+
+                var sendMailRequest = new SendMailRequest
+                {
+                    NIC = student.NIC,
+                    FirstName = student.FirstName,
+                    LastName = student.LastName,
+                    Email = student.Email,
+                    TemplateName = "AccountLockedByAdmin"
+
+                };
+
+                if (_sendmailService == null)
+                {
+                    throw new InvalidOperationException("_sendmailService is not initialized.");
+                }
+
+                // Uncomment the email service once setup is correct
+                await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
 
                 return "Account has been locked.";
             }
@@ -350,9 +395,27 @@ namespace IT_Institute_Management.Services
                 await _studentRepository.UpdateStudentAccount(student);
 
                 // Send unlock account email
-                _emailService.SendEmailInBackground(student.Email, "Account Unlocked",
-                    $"Dear {student.FirstName} {student.LastName},\n\n" +
-                    "Your account has been unlocked. Your password has been reset. Please login with your new password.");
+                //_emailService.SendEmailInBackground(student.Email, "Account Unlocked",
+                //    $"Dear {student.FirstName} {student.LastName},\n\n" +
+                //    "Your account has been unlocked. Your password has been reset. Please login with your new password.");
+
+                var sendMailRequest = new SendMailRequest
+                {
+                    NIC = student.NIC,
+                    FirstName = student.FirstName,
+                    LastName = student.LastName,
+                    Email = student.Email,
+                    TemplateName = "AccountUnlockAndPasswordUpdate"
+
+                };
+
+                if (_sendmailService == null)
+                {
+                    throw new InvalidOperationException("_sendmailService is not initialized.");
+                }
+
+                // Uncomment the email service once setup is correct
+                await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
 
                 return "Account has been unlocked and password updated.";
             }
@@ -379,10 +442,24 @@ namespace IT_Institute_Management.Services
                     student.FailedLoginAttempts = 0;
                     await _studentRepository.UpdateStudentAccount(student);
 
-                    _emailService.SendEmailInBackground(student.Email, "Account Unlocked",
-                    $"Dear {student.FirstName} {student.LastName},\n\n" +
-                    "your account has been unlocked.Please login with your password and you can continue your studies");
+                    
+                    var sendMailRequest = new SendMailRequest
+                    {
+                        NIC = student.NIC,
+                        FirstName = student.FirstName,
+                        LastName = student.LastName,
+                        Email = student.Email,
+                        TemplateName = "AccountUnlockSuccessfully"
 
+                    };
+
+                    if (_sendmailService == null)
+                    {
+                        throw new InvalidOperationException("_sendmailService is not initialized.");
+                    }
+
+                    // Uncomment the email service once setup is correct
+                    await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
 
                     return "Account has been unlocked.";
                 }
@@ -523,6 +600,42 @@ namespace IT_Institute_Management.Services
 
             return responseDto;
         }
+
+
+
+        public async Task<string> UpdateStudentImageAsync(string nic, IFormFile image)
+        {
+            
+            var student = await _studentRepository.GetByNicAsync(nic);
+            if (student == null)
+            {
+                throw new Exception($"Student with NIC {nic} not found.");
+            }
+
+           
+            if (image == null)
+            {
+                throw new ArgumentNullException(nameof(image), "Image cannot be null.");
+            }
+
+           
+            if (!string.IsNullOrEmpty(student.ImagePath))
+            {
+                _imageService.DeleteImage(student.ImagePath);
+            }
+
+           
+            var imagePath = await _imageService.SaveImage(image, "students");
+
+          
+            student.ImagePath = imagePath;
+
+           
+            await _studentRepository.UpdateAsync(student);
+
+            return "Image updated successfully.";
+        }
+
 
     }
 }

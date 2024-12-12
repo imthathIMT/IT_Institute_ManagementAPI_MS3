@@ -1,5 +1,7 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.DTO.ResponseDTO;
+using IT_Institute_Management.EmailSection.Models;
+using IT_Institute_Management.EmailSection.Service;
 using IT_Institute_Management.Entity;
 using IT_Institute_Management.IRepositories;
 using IT_Institute_Management.IServices;
@@ -13,14 +15,16 @@ namespace IT_Institute_Management.Services
         private readonly IEnrollmentRepository _enrollmentRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly INotificationService _notificationService;
+        private readonly sendmailService _sendmailService;
 
-        public PaymentService(IPaymentRepository paymentRepository, ICourseRepository courseRepository, IEnrollmentRepository enrollmentRepository, IStudentRepository studentRepository, INotificationService notificationService)
+        public PaymentService(IPaymentRepository paymentRepository, ICourseRepository courseRepository, IEnrollmentRepository enrollmentRepository, IStudentRepository studentRepository, INotificationService notificationService, sendmailService sendmailService)
         {
             _paymentRepository = paymentRepository;
             _courseRepository = courseRepository;
             _enrollmentRepository = enrollmentRepository;
             _studentRepository = studentRepository;
             _notificationService = notificationService;
+            _sendmailService = sendmailService;
         }
 
         public async Task<IEnumerable<PaymentResponseDto>> GetAllPaymentsAsync()
@@ -100,14 +104,7 @@ namespace IT_Institute_Management.Services
             var enrollmentDate = enrollment.EnrollmentDate;
             var maxPaymentDate = enrollmentDate.AddDays(7); 
 
-            if (paymentRequestDto.PaymentDate > maxPaymentDate)
-            {
-               
-                await _enrollmentRepository.DeleteEnrollmentAsync(enrollment.Id);
-                
-                await _notificationService.SendNotificationAsync(enrollment.StudentNIC, "Your enrollment has been deleted due to missed payment deadlines.");
-                throw new InvalidOperationException("Payment deadline has passed. Your enrollment has been deleted.");
-            }
+           
 
             if (enrollment.PaymentPlan == "Full")
             {
@@ -120,36 +117,59 @@ namespace IT_Institute_Management.Services
                 {
                     throw new InvalidOperationException($"For full payment, the amount must be equal to the full course fee (LKR {fullAmount:N2}).");
                 }
+
+                if (paymentRequestDto.PaymentDate > maxPaymentDate)
+                {
+
+                    await _enrollmentRepository.DeleteEnrollmentAsync(enrollment.Id);
+
+                    await _notificationService.SendNotificationAsync(enrollment.StudentNIC, "Your enrollment has been deleted due to missed payment deadlines.");
+                    throw new InvalidOperationException("Payment deadline has passed. Your enrollment has been deleted.");
+                }
             }
             else if (enrollment.PaymentPlan == "Installment")
             {
-               
                 if (totalPaid == 0 && paymentRequestDto.PaymentDate > maxPaymentDate)
                 {
-                    throw new InvalidOperationException("The first installment must be paid within 1 week of enrollment.");
-                }
-
-                if (paymentRequestDto.Amount < (monthlyInstallment - installmentTolerance))
-                {
-                    throw new InvalidOperationException($"Installment amount must be at least LKR {monthlyInstallment:N2}. Your payment is too low.");
-                }
-
-                if (paymentRequestDto.Amount > (monthlyInstallment + installmentTolerance))
-                {
-                    throw new InvalidOperationException($"Installment amount cannot exceed LKR {monthlyInstallment:N2}. Your payment is too high.");
+                    await _enrollmentRepository.DeleteEnrollmentAsync(enrollment.Id);
+                    await _notificationService.SendNotificationAsync(enrollment.StudentNIC, "Your enrollment has been deleted due to missed payment deadlines.");
+                    throw new InvalidOperationException("Payment deadline has passed. Your enrollment has been deleted.");
                 }
 
                
-                var lastPayment = (await _paymentRepository.GetPaymentsByEnrollmentIdAsync(paymentRequestDto.EnrollmentId))
-                                    .OrderByDescending(p => p.PaymentDate)
-                                    .FirstOrDefault();
-
-                if (lastPayment != null)
+                if (totalPaid == 0)
                 {
-                    var nextPaymentDate = lastPayment.PaymentDate.AddMonths(1).AddDays(7);  
-                    if (paymentRequestDto.PaymentDate < nextPaymentDate)
+                    if (paymentRequestDto.PaymentDate > maxPaymentDate)
                     {
-                        throw new InvalidOperationException($"Next installment can only be paid after One Month from the previous payment. The next payment date is {nextPaymentDate:MMMM dd, yyyy}.");
+                        await _enrollmentRepository.DeleteEnrollmentAsync(enrollment.Id);
+                        await _notificationService.SendNotificationAsync(enrollment.StudentNIC, "Your enrollment has been deleted due to missed first payment deadline.");
+                        throw new InvalidOperationException("First installment payment deadline has passed. Your enrollment has been deleted.");
+                    }
+
+                    if (paymentRequestDto.Amount < (monthlyInstallment - installmentTolerance))
+                    {
+                        throw new InvalidOperationException($"First installment amount must be at least LKR {monthlyInstallment:N2}. Your payment is too low.");
+                    }
+
+                    if (paymentRequestDto.Amount > (monthlyInstallment + installmentTolerance))
+                    {
+                        throw new InvalidOperationException($"First installment amount cannot exceed LKR {monthlyInstallment:N2}. Your payment is too high.");
+                    }
+                }
+                else
+                {
+                  
+                    var lastPayment = (await _paymentRepository.GetPaymentsByEnrollmentIdAsync(paymentRequestDto.EnrollmentId))
+                                        .OrderByDescending(p => p.PaymentDate)
+                                        .FirstOrDefault();
+
+                    if (lastPayment != null)
+                    {
+                        var nextInstallmentDate = lastPayment.PaymentDate.AddDays(37); 
+                        if (paymentRequestDto.PaymentDate < nextInstallmentDate)
+                        {
+                            throw new InvalidOperationException($"Next installment can only be paid after One Month from the previous payment. The next payment date is {nextInstallmentDate:MMMM dd, yyyy}.");
+                        }
                     }
                 }
 
@@ -159,17 +179,19 @@ namespace IT_Institute_Management.Services
                     throw new InvalidOperationException($"The total amount paid cannot exceed the course fee (LKR {fullAmount:N2}). You have already paid LKR {totalPaid:N2}.");
                 }
 
-               
                 var remainingMonths = courseDurationMonths - (totalPaid / monthlyInstallment);
                 if (remainingMonths <= 0)
                 {
                     throw new InvalidOperationException("All installments have been paid. No further payments are allowed.");
                 }
             }
+
             else
             {
                 throw new InvalidOperationException("Unknown payment plan type.");
             }
+
+
 
            
             var dueAmount = fullAmount - totalPaid - paymentRequestDto.Amount;
@@ -190,8 +212,37 @@ namespace IT_Institute_Management.Services
             };
 
             await _paymentRepository.CreatePaymentAsync(payment);
+            var student = await _studentRepository.GetByNicAsync(enrollment.StudentNIC);
+            if (student == null)
+            {
+                throw new Exception($"Student with NIC {enrollment.StudentNIC} not found.");
+            }
+            var sendMailRequest = new SendMailRequest
+            {
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                CourseName = course.CourseName,
+                Duration = course.Duration,
+                Level = course.Level,
+                Fees = course.Fees,
+                AmountPaid = paymentRequestDto.Amount,
+                PaymentPlan = enrollment.PaymentPlan,
 
-           
+                TemplateName = "PaymentConfirmed"
+
+            };
+
+            if (_sendmailService == null)
+            {
+                throw new InvalidOperationException("_sendmailService is not initialized.");
+            }
+
+            // Uncomment the email service once setup is correct
+            // _emailService.SendRegistraionMail(studentDto.Email, studentDto);
+            await _sendmailService.Sendmail(sendMailRequest);
+
+
             if (enrollment.PaymentPlan == "Installment")
             {
                 var nextInstallmentDueDate = paymentRequestDto.PaymentDate.AddMonths(1).AddDays(7); 
@@ -203,6 +254,7 @@ namespace IT_Institute_Management.Services
             {
                 await _notificationService.SendNotificationAsync(enrollment.StudentNIC, "Congratulations! Your course has been fully paid.");
             }
+
         }
 
 
@@ -268,7 +320,7 @@ namespace IT_Institute_Management.Services
                     var nextPaymentDate = lastPayment.PaymentDate.AddMonths(1).AddDays(7); 
                     if (paymentRequestDto.PaymentDate < nextPaymentDate)
                     {
-                        throw new InvalidOperationException($"Next installment can only be paid after 1 month + 1 week from the previous payment. The next payment date is {nextPaymentDate:MMMM dd, yyyy}.");
+                        throw new InvalidOperationException($"Next installment can only be paid after One Month from the previous payment. The next payment date is {nextPaymentDate:MMMM dd, yyyy}.");
                     }
                 }
 

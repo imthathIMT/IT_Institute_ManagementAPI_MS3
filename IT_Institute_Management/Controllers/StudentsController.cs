@@ -10,9 +10,11 @@ using IT_Institute_Management.Entity;
 using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.IServices;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IT_Institute_Management.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StudentsController : ControllerBase
@@ -27,8 +29,11 @@ namespace IT_Institute_Management.Controllers
         }
 
 
+       
+
 
         [HttpGet]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> GetAllStudents()
         {
             try
@@ -60,6 +65,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> AddStudent(StudentRequestDto studentDto)
         {
             try
@@ -98,6 +104,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPut("{nic}")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> UpdateStudent(string nic, [FromForm] StudentRequestDto studentDto)
         {
             try
@@ -115,6 +122,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpDelete("{nic}")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> DeleteStudent(string nic)
         {
             try
@@ -158,6 +166,7 @@ namespace IT_Institute_Management.Controllers
 
 
         [HttpPut("{nic}/lock")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> LockStudentAccount(string nic)
         {
             try
@@ -172,6 +181,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPut("{nic}/unlock")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> UnlockStudentAccount(string nic, [FromBody] UnlockAccountDto unlockDto)
         {
             try
@@ -187,6 +197,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPut("{nic}/Directunlock")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> DirectUnlockAccount(string nic)
         {
             try
@@ -238,6 +249,32 @@ namespace IT_Institute_Management.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
+
+
+        [HttpPut("{nic}/update-image")]
+        public async Task<IActionResult> UpdateStudentProfileImage(string nic, IFormFile image)
+        {
+            try
+            {
+                
+                if (image == null || image.Length == 0)
+                {
+                    return BadRequest("No image file uploaded.");
+                }
+
+                
+                var message = await _studentService.UpdateStudentImageAsync(nic, image);
+                return Ok(new { message });
+            }
+            catch (Exception ex)
+            {
+               
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
 
     }
 }

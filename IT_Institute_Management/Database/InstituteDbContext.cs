@@ -1,4 +1,5 @@
-﻿using IT_Institute_Management.Entity;
+﻿using IT_Institute_Management.EmailSection.Models;
+using IT_Institute_Management.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace IT_Institute_Management.Database
@@ -20,6 +21,9 @@ namespace IT_Institute_Management.Database
         public DbSet<User> Users { get; set; }
         public DbSet<SocialMediaLinks> SocialMediaLinks { get; set; }
         public DbSet<StudentMessage> StudentMessages { get; set; }
+
+        //email Template table
+        public DbSet<EmailTemplate> EmailTemplates { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -95,7 +99,7 @@ namespace IT_Institute_Management.Database
             modelBuilder.Entity<Payment>()
                 .Property(p => p.TotalPaidAmount)
                 .HasColumnType("decimal(18, 2)") 
-                .HasPrecision(18, 2);  
+                .HasPrecision(18, 2);
         }
     }
 }

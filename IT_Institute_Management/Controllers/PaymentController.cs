@@ -1,10 +1,12 @@
 ﻿using IT_Institute_Management.DTO.RequestDTO;
 using IT_Institute_Management.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IT_Institute_Management.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PaymentController : ControllerBase
@@ -17,6 +19,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> GetAllPayments()
         {
             try
@@ -67,6 +70,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> CreatePayment([FromBody] PaymentRequestDto paymentRequestDto)
         {
             try
@@ -99,6 +103,7 @@ namespace IT_Institute_Management.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "MasterAdmin, Admin")]
         public async Task<IActionResult> DeletePayment(Guid id)
         {
             try
