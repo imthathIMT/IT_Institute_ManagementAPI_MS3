@@ -121,7 +121,7 @@ namespace IT_Institute_Management.Controllers
             }
         }
 
-        // GET: api/Payment/total-income
+      
         [HttpGet("total-income")]
         public async Task<IActionResult> GetTotalIncome()
         {
@@ -132,7 +132,7 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error if needed
+             
                 return BadRequest(new { Message = "An error occurred while calculating total income.", Details = ex.Message });
             }
         }

@@ -308,7 +308,7 @@ namespace IT_Institute_Management.Database
                         {"@Level", "Beginner"},
                         {"@Duration", 6}, 
                         {"@Fees", 12000}, 
-                        {"@ImagePaths", "/images/courses/ff20c3e3-67b3-4d9e-8312-fa03acecd363.png"},
+                        {"@ImagePaths", "/images/courses/2141cef2-caa1-4869-9328-17fa419fc91c.png"},
                         {"@Description", "Learn the fundamentals of Python programming, ideal for beginners."}
                     },
                     new Dictionary<string, object>
@@ -338,7 +338,7 @@ namespace IT_Institute_Management.Database
                         {"@Level", "Beginner"},
                         {"@Duration", 2}, 
                         {"@Fees", 30000}, 
-                        {"@ImagePaths", "/images/courses/0adeaedf-35d1-4278-a66e-1736e33c0154.png"},
+                        {"@ImagePaths", "/images/courses/59485ef1-6375-43fb-ac15-831c060063da.webp"},
                         {"@Description", "Learn the basics of web development with HTML and CSS."}
                     },
                     new Dictionary<string, object>

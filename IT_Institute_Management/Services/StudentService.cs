@@ -149,16 +149,16 @@ namespace IT_Institute_Management.Services
                 }
             };
 
-            // Ensure Student Repository is initialized
+          
             if (_studentRepository == null)
             {
                 throw new InvalidOperationException("Student repository is not initialized.");
             }
 
-            // Save the student first
+           
             await _studentRepository.AddAsync(student);
 
-            // Add social media links after the student is saved
+          
             if (_socialMediaLinksService == null)
             {
                 throw new InvalidOperationException("SocialMediaLinks service not initialized.");
@@ -169,13 +169,13 @@ namespace IT_Institute_Management.Services
                 StudentNIC = studentDto.NIC,
             });
 
-            // Ensure UserService is initialized
+           
             if (_userService == null)
             {
                 throw new InvalidOperationException("User service is not initialized.");
             }
 
-            // Add the user
+          
             await _userService.AddAsync(new UserRequestDto
             {
                 NIC = studentDto.NIC,
@@ -268,14 +268,14 @@ namespace IT_Institute_Management.Services
                 throw new ArgumentException("NIC cannot be null or empty.", nameof(nic));
             }
 
-            // Fetch the student record
+        
             var student = await _studentRepository.GetByNicAsync(nic);
             if (student == null)
             {
                 throw new Exception($"Student with NIC {nic} not found.");
             }
 
-            // Delete the image if it exists
+        
             if (!string.IsNullOrEmpty(student.ImagePath))
             {
                 _imageService.DeleteImage(student.ImagePath);
@@ -543,7 +543,7 @@ namespace IT_Institute_Management.Services
                     DueAmount = p.DueAmount,
                     PaymentDate = p.PaymentDate,
                     EnrollmentId = (Guid)p.EnrollmentId
-                }).FirstOrDefault() // Assuming one payment per enrollment, adjust if needed
+                }).FirstOrDefault() 
             }).ToList();
 
             return studentResponse;
@@ -558,13 +558,13 @@ namespace IT_Institute_Management.Services
                 throw new Exception($"Student with NIC {nic} not found.");
             }
 
-            // Manually map properties from StudentUpdateRequestDto to Student entity
+         
             student.FirstName = updateDto.FirstName;
             student.LastName = updateDto.LastName;
             student.Email = updateDto.Email;
             student.Phone = updateDto.Phone;
 
-            // Manually map Address fields
+         
             student.Address.AddressLine1 = updateDto.Address.AddressLine1;
             student.Address.AddressLine2 = updateDto.Address.AddressLine2;
             student.Address.City = updateDto.Address.City;
@@ -572,11 +572,11 @@ namespace IT_Institute_Management.Services
             student.Address.PostalCode = updateDto.Address.PostalCode;
             student.Address.Country = updateDto.Address.Country;
 
-            // Update the student in the repository
+         
             _studentRepository.Update(student);
             await _studentRepository.SaveAsync();
 
-            // Manually map Student entity to StudentResponseDto
+          
             var responseDto = new StudentResponseDto
             {
                 NIC = student.NIC,

@@ -103,7 +103,7 @@ namespace IT_Institute_Management.Services
             DateTime utcNow = DateTime.UtcNow;
            
 
-            // You can now pass this sriLankaTime to the frontend
+         
 
 
             var notification = new Notification
@@ -139,7 +139,7 @@ namespace IT_Institute_Management.Services
                     Date = notification.Date,
                     StudentNIC = notification.StudentNIC
                 })
-                .ToList(); // Ensure materialization here
+                .ToList(); 
 
             return responseList;
         }

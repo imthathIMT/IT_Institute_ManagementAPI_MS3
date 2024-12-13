@@ -68,7 +68,7 @@ namespace IT_Institute_Management.Services
                 throw new InvalidOperationException("_sendmailService is not initialized.");
             }
 
-            // Uncomment the email service once setup is correct
+          
             await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
         }
         public async Task UpdateAsync(Guid id, ContactUsRequestDto contactUsDto)
@@ -92,19 +92,19 @@ namespace IT_Institute_Management.Services
         {
             try
             {
-                // Validate the DTO (optional, but can help ensure the data is correct)
+                
                 var validationResults = new List<ValidationResult>();
                 bool isValid = Validator.TryValidateObject(emailRequestDto, new ValidationContext(emailRequestDto), validationResults, true);
 
                 if (!isValid)
                 {
-                    // If validation fails, return a meaningful error message
+                  
                     return "Invalid email request data: " + string.Join(", ", validationResults.Select(vr => vr.ErrorMessage));
                 }
 
                 var enquiry = await _contactUsRepository.GetByEmail(emailRequestDto.Email);
 
-                // Attempt to send the email
+              
                 var sendMailRequest = new SendMailRequest
                 {
                     FirstName = enquiry.Name,
@@ -119,24 +119,24 @@ namespace IT_Institute_Management.Services
                     throw new InvalidOperationException("_sendmailService is not initialized.");
                 }
 
-                // Uncomment the email service once setup is correct
+              
                 await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
-                // If sending email succeeds, return success message
+               
                 return "Email sent successfully.";
             }
             catch (ArgumentNullException ex)
             {
-                // Handle specific error if needed (e.g., email or subject is null)
+               
                 return "Error: Missing required information. " + ex.Message;
             }
             catch (FormatException ex)
             {
-                // Handle invalid format (e.g., email format issue)
+               
                 return "Error: Invalid email format. " + ex.Message;
             }
             catch (Exception ex)
             {
-                // Catch any other unexpected exceptions
+                
                 return "An unexpected error occurred while sending the email: " + ex.Message;
             }
         }

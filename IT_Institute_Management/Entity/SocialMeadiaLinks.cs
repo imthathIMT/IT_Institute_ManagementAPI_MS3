@@ -6,23 +6,23 @@ namespace IT_Institute_Management.Entity
     public class SocialMediaLinks
     {
         [Key]
-        public Guid Id { get; set; } // Primary Key
+        public Guid Id { get; set; }
 
-        public string? LinkedIn { get; set; } // LinkedIn link
+        public string? LinkedIn { get; set; } 
 
-        public string? Instagram { get; set; } // Instagram link
+        public string? Instagram { get; set; } 
 
-        public string? Facebook { get; set; } // Facebook link
+        public string? Facebook { get; set; } 
 
-        public string? GitHub { get; set; } // GitHub link
+        public string? GitHub { get; set; } 
 
-        public string? WhatsApp { get; set; } // WhatsApp link
+        public string? WhatsApp { get; set; } 
 
-        // Foreign key relationship to User table
+      
         [ForeignKey("User")]
-        public string? StudentNIC { get; set; } // Foreign key field
+        public string? StudentNIC { get; set; } 
 
-        // Navigation property to the User entity
+        
         public virtual Student? Student { get; set; }
     }
 }
