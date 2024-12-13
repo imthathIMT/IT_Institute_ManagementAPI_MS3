@@ -122,11 +122,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidateLifetime = true, // Ensures the token expiration is validated
+            ValidateLifetime = true, 
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"])),
-            ClockSkew = TimeSpan.Zero // Optional: to avoid clock skew, set to 0
+            ClockSkew = TimeSpan.Zero 
         };
 
         // Custom event for handling expired tokens
@@ -136,7 +136,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             {
                 if (context.Exception is SecurityTokenExpiredException)
                 {
-                    context.Response.StatusCode = 401; // Unauthorized
+                    context.Response.StatusCode = 401; 
                     context.Response.ContentType = "application/json";
                     return context.Response.WriteAsync("{\"message\": \"Token has expired\"}");
                 }

@@ -54,17 +54,17 @@ namespace IT_Institute_Management.Repositories
 
         public async Task<StudentMessage> AddAsync(StudentMessage studentMessage)
         {
-            // Await the asynchronous call to get the student by NIC
+         
             var student = await _studentRepository.GetByNicAsync(studentMessage.StudentNIC!);
 
-            // Check if the student exists
+           
             if (student != null)
             {
-                // Add the message to the context and save it
+             
                 var data = await _context.StudentMessages.AddAsync(studentMessage);
                 await _context.SaveChangesAsync();
 
-                // Return the entity after saving it
+              
                 return data.Entity;
             }
             else
@@ -85,7 +85,7 @@ namespace IT_Institute_Management.Repositories
 
         public async Task<bool> SaveAsync()
         {
-            // Save the changes to the database and return whether the save was successful
+           
             return await _context.SaveChangesAsync() > 0;
         }
 

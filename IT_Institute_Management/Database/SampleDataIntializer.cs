@@ -179,7 +179,7 @@ namespace IT_Institute_Management.Database
             {"@Role", (int)Role.Student},
             {"@FirstName", "Thangarasa"},
             {"@LastName", "Kanistan"},
-            {"@Email", "kani@gmail.com"},
+            {"@Email", "thuva471@gmail.com"},
             {"@Phone", "0781234567"},
             {"@ImagePath", "/images/students/e13371cb-0b16-463b-8b56-15d156e42544.jpg"},
             {"@IsLocked", false},
@@ -206,7 +206,7 @@ namespace IT_Institute_Management.Database
             {"@Role", (int)Role.Student},
             {"@FirstName", "Sara"},
             {"@LastName", "Kumari"},
-            {"@Email", "sarakumari@gmail.com"},
+            {"@Email", "jathushanj2003@gmail.com"},
             {"@Phone", "0778765432"},
             {"@ImagePath", "/images/students/e13371cb-0b16-463b-8b56-15d156e42544.jpg"},
             {"@IsLocked", false},
@@ -233,7 +233,7 @@ namespace IT_Institute_Management.Database
             {"@Role", (int)Role.Student},
             {"@FirstName", "David"},
             {"@LastName", "Fernando"},
-            {"@Email", "davidfernando@gmail.com"},
+            {"@Email", "denojan003@gmail.com"},
             {"@Phone", "0789988776"},
             {"@ImagePath", "/images/students/e13371cb-0b16-463b-8b56-15d156e42544.jpg"},
             {"@IsLocked", false},
@@ -260,7 +260,7 @@ namespace IT_Institute_Management.Database
             {"@Role", (int)Role.Student},
             {"@FirstName", "Nadeesha"},
             {"@LastName", "Perera"},
-            {"@Email", "nadeeshaperera@gmail.com"},
+            {"@Email", "dithakshan7529@gmail.com"},
             {"@Phone", "0773344556"},
             {"@ImagePath", "/images/students/e13371cb-0b16-463b-8b56-15d156e42544.jpg"},
             {"@IsLocked", false},
@@ -308,8 +308,8 @@ namespace IT_Institute_Management.Database
                         {"@Level", "Beginner"},
                         {"@Duration", 6}, 
                         {"@Fees", 12000}, 
-                        {"@ImagePaths", "/images/courses/ff20c3e3-67b3-4d9e-8312-fa03acecd363.png"},
-                        {"@Description", "Learn the fundamentals of Python programming, ideal for beginners."}
+                        {"@ImagePaths", "/images/courses/2141cef2-caa1-4869-9328-17fa419fc91c.png"},
+                        {"@Description", "Learn Python programming fundamentals, perfect for beginners, covering basic syntax, data types, loops, functions, and more essential concepts ulti-threading for intermediate learners."}
                     },
                     new Dictionary<string, object>
                     {
@@ -319,7 +319,7 @@ namespace IT_Institute_Management.Database
                         {"@Duration", 2}, 
                         {"@Fees", 24000}, 
                         {"@ImagePaths", "/images/courses/1d5c0cb9-f8ee-47e6-b1f5-82feaaaab3b2.jpg"},
-                        {"@Description", "A deeper dive into Java programming, suitable for intermediate learners."}
+                        {"@Description", "Explore advanced Java programming concepts, including object-oriented principles, data structures, algorithms, exception handling, and multi-threading for intermediate learners."}
                     },
                     new Dictionary<string, object>
                     {
@@ -329,7 +329,7 @@ namespace IT_Institute_Management.Database
                         {"@Duration", 6}, 
                         {"@Fees", 6000}, 
                         {"@ImagePaths", "/images/courses/6cadc346-67ad-4856-af1f-e4ee13f46667.webp"},
-                        {"@Description", "A beginner-friendly course on C# programming, focusing on the basics."}
+                        {"@Description", "A beginner-friendly C# programming course covering fundamentals like syntax, variables, loops, conditionals, and basic object-oriented concepts for beginner intermediate learners."}
                     },
                     new Dictionary<string, object>
                     {
@@ -338,8 +338,8 @@ namespace IT_Institute_Management.Database
                         {"@Level", "Beginner"},
                         {"@Duration", 2}, 
                         {"@Fees", 30000}, 
-                        {"@ImagePaths", "/images/courses/0adeaedf-35d1-4278-a66e-1736e33c0154.png"},
-                        {"@Description", "Learn the basics of web development with HTML and CSS."}
+                        {"@ImagePaths", "/images/courses/59485ef1-6375-43fb-ac15-831c060063da.webp"},
+                        {"@Description", "Learn web development fundamentals using HTML and CSS, covering structure, styling, layouts, and design principles for creating websites for web development intermediate learners."}
                     },
                     new Dictionary<string, object>
                     {
@@ -349,7 +349,7 @@ namespace IT_Institute_Management.Database
                         {"@Duration", 6}, 
                         {"@Fees", 18000}, 
                         {"@ImagePaths", "/images/courses/fdaf92fe-5dbe-4724-8ffc-bbb6d5783c35.png"},
-                        {"@Description", "An intermediate course to master JavaScript for web development."}
+                        {"@Description", "An intermediate JavaScript course focused on mastering functions, DOM manipulation, events, asynchronous programming, and advanced techniques for web development."}
                     }
                };
 

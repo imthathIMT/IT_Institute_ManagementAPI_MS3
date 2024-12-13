@@ -41,7 +41,7 @@ public class AuthService : IAuthService
             throw new Exception("User not found.");
         }
 
-        // Check if the user is a student and handle login attempts
+       
         if (user.Role == Role.Student)
         {
             var student = await _studentRepository.GetByNicAsync(user.NIC);
@@ -62,7 +62,7 @@ public class AuthService : IAuthService
                     else
                     {
                         int remainingAttempts = MaxLoginAttempts - student.FailedLoginAttempts;
-                        await _context.SaveChangesAsync(); // Save only once after updating failed attempts or locking
+                        await _context.SaveChangesAsync(); 
                         throw new Exception($"Incorrect password. Dear student you have {remainingAttempts} login attempt(s) remaining.");
                     }
 
@@ -83,12 +83,12 @@ public class AuthService : IAuthService
                         throw new InvalidOperationException("_sendmailService is not initialized.");
                     }
 
-                    // Uncomment the email service once setup is correct
+                  
                     await _sendmailService.Sendmail(sendMailRequest).ConfigureAwait(false);
                     throw new Exception("Your account has been locked due to too many failed login attempts.");
                 }
 
-                // Reset failed attempts if login is successful
+             
                 student.FailedLoginAttempts = 0;
                 await _context.SaveChangesAsync();
 
@@ -97,7 +97,7 @@ public class AuthService : IAuthService
             }
         }
 
-        // If the password is valid for any user, create the token
+      
         if (_passwordHasher.VerifyHashedPassword(user.Password, request.Password))
         {
             var token = CreateToken(user);

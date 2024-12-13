@@ -97,7 +97,7 @@ namespace IT_Institute_Management.Services
         {
             try
             {
-                // Map request DTO to entity
+              
                 var studentMessage = new StudentMessage
                 {
                     Id = Guid.NewGuid(),
@@ -106,13 +106,13 @@ namespace IT_Institute_Management.Services
                     StudentNIC = requestDto.StudentNIC
                 };
 
-                // Add the student message asynchronously
+             
                 var message = await _repository.AddAsync(studentMessage);
 
-                // Save changes asynchronously
+               
                 await _repository.SaveAsync();
 
-                // Return the response DTO
+              
                 return new StudentMessageResponseDto
                 {
                     Id = message.Id,
@@ -123,15 +123,14 @@ namespace IT_Institute_Management.Services
             }
             catch (Exception ex)
             {
-                // Log the exception for debugging
-                // You should use a logging framework such as ILogger, here we are simply printing to the console for simplicity
+                
                 Console.WriteLine($"Error: {ex.Message}");
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
                 }
 
-                // Throw a more descriptive exception to inform the caller
+               
                 throw new Exception("Error saving the message. Please try again later.", ex);
             }
         }
