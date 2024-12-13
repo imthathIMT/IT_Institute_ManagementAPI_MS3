@@ -90,12 +90,12 @@ namespace IT_Institute_Management.Controllers
             }
             catch (DbUpdateException dbEx)
             {
-                // Log the database exception for better diagnostics
+               
                 return BadRequest($"Database error occurred: {dbEx.Message}. Inner Exception: {dbEx.InnerException?.Message}");
             }
             catch (Exception ex)
             {
-                // Log general exceptions
+               
                 return BadRequest($"An unexpected error occurred: {ex.Message}. Inner Exception: {ex.InnerException?.Message}");
             }
         }
@@ -186,7 +186,7 @@ namespace IT_Institute_Management.Controllers
         {
             try
             {
-                unlockDto.NIC = nic;  // Ensure the NIC matches the path
+                unlockDto.NIC = nic; 
                 var message = await _studentService.UnlockAccountAsync(unlockDto);
                 return Ok(new { message });
             }
@@ -245,7 +245,7 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception details (not shown here)
+                
                 return StatusCode(500, new { message = ex.Message });
             }
         }

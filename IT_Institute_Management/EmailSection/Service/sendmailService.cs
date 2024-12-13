@@ -54,28 +54,28 @@ namespace IT_Institute_Management.EmailSection.Service
         }
 
 
-        // Bulk email sending function
+        
         public async Task<string> SendBulkCourseEmail(SendMailRequest sendMailRequest)
         {
             if (sendMailRequest == null) throw new ArgumentNullException(nameof(sendMailRequest));
 
            
 
-            // Get all students (you can customize this query as needed)
-            var students = await _studentRepository.GetAllAsync(); // Fetch students from the database
+          
+            var students = await _studentRepository.GetAllAsync(); 
 
             if (students == null || students.Count == 0)
             {
                 return "No students found to send emails to.";
             }
 
-            // Loop through each student and send an email
+           
             foreach (var student in students)
             {
                 var template = await _sendMailRepository.GetTemplate(sendMailRequest.TemplateName!).ConfigureAwait(false);
                 if (template == null) throw new Exception("Template not found"); 
 
-                // Generate the email content for each student
+               
                 var emailBody = await EmailBodyGenerate(template.TemplateBody!, sendMailRequest);
 
                 var mailModel = new MailModel
@@ -83,10 +83,10 @@ namespace IT_Institute_Management.EmailSection.Service
                     Subject = template.TemplateSubject ?? string.Empty,
                     Body = emailBody,
                     SenderName = "DevHub Institute",
-                    To = student.Email // Assuming students have an Email field
+                    To = student.Email 
                 };
 
-                // Send email to the student
+            
                 await _emailServiceProvider.SendMail(mailModel);
             }
 

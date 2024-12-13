@@ -6,17 +6,17 @@ namespace IT_Institute_Management.Database
     {
         private readonly string _connectionString = "Server =(localdb)\\MSSQLLocalDB; Database=DevHub; Trusted_Connection=True; TrustServerCertificate=True;";
 
-        // Method to insert the email template into the database
+        
         public async Task InitializeRegistrationEmailTemplateAsync()
         {
-            // SQL query to check if the template already exists
+          
             string checkQuery = @"SELECT COUNT(1) FROM EmailTemplates WHERE TemplateName = @TemplateName";
 
-            // SQL query to insert the template into the database
+        
             string insertQuery = @"INSERT INTO EmailTemplates (TemplateName, TemplateSubject, TemplateBody)
                            VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
 
-            // Email template details
+           
             string templateName = "RegistrationWelcome";
             string subject = "Welcome to DevHub";
             string body = @"
@@ -155,15 +155,15 @@ namespace IT_Institute_Management.Database
                         </body>
                         </html>";
 
-            // Create a new SqlConnection using the provided connection string
+          
             using (var connection = new SqlConnection(_connectionString))
             {
                 try
                 {
-                    // Open the database connection
+                  
                     await connection.OpenAsync();
 
-                    // First, check if the template already exists
+                   
                     using (var checkCommand = new SqlCommand(checkQuery, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
@@ -173,27 +173,27 @@ namespace IT_Institute_Management.Database
                         if (exists)
                         {
                             Console.WriteLine("Template already exists.");
-                            return; // Exit the method if the template exists
+                            return; 
                         }
                     }
 
-                    // Create a SqlCommand to execute the insert query
+                  
                     using (var command = new SqlCommand(insertQuery, connection))
                     {
-                        // Add parameters to prevent SQL injection
+                       
                         command.Parameters.AddWithValue("@TemplateName", templateName);
                         command.Parameters.AddWithValue("@TemplateSubject", subject);
                         command.Parameters.AddWithValue("@TemplateBody", body);
                         //command.Parameters.AddWithValue("@DateCreated", DateTime.Now);
 
-                        // Execute the insert query asynchronously
+                        
                         await command.ExecuteNonQueryAsync();
                         Console.WriteLine("Template inserted successfully.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle any exceptions (e.g., connection errors, query errors)
+                   
                     Console.WriteLine($"Error inserting email template: {ex.Message}");
                 }
             }
@@ -202,14 +202,14 @@ namespace IT_Institute_Management.Database
 
         public async Task InitializeAccountUnlockEmailTemplateAsync()
         {
-            // SQL query to check if the template already exists
+           
             string checkQuery = @"SELECT COUNT(1) FROM EmailTemplates WHERE TemplateName = @TemplateName";
 
-            // SQL query to insert the template into the database
+           
             string insertQuery = @"INSERT INTO EmailTemplates (TemplateName, TemplateSubject, TemplateBody)
                             VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
 
-            // Email template details for Account Unlock Successfully
+           
             string templateName = "AccountUnlockSuccessfully";
             string subject = "Student Account Unlock Successfully";
             string body = @"
@@ -349,15 +349,15 @@ namespace IT_Institute_Management.Database
     </body>
     </html>";
 
-            // Create a new SqlConnection using the provided connection string
+          
             using (var connection = new SqlConnection(_connectionString))
             {
                 try
                 {
-                    // Open the database connection
+                   
                     await connection.OpenAsync();
 
-                    // First, check if the template already exists
+                  
                     using (var checkCommand = new SqlCommand(checkQuery, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
@@ -367,26 +367,26 @@ namespace IT_Institute_Management.Database
                         if (exists)
                         {
                             Console.WriteLine("Template already exists.");
-                            return; // Exit the method if the template exists
+                            return;
                         }
                     }
 
-                    // Create a SqlCommand to execute the insert query
+                 
                     using (var command = new SqlCommand(insertQuery, connection))
                     {
-                        // Add parameters to prevent SQL injection
+                       
                         command.Parameters.AddWithValue("@TemplateName", templateName);
                         command.Parameters.AddWithValue("@TemplateSubject", subject);
                         command.Parameters.AddWithValue("@TemplateBody", body);
 
-                        // Execute the insert query asynchronously
+                      
                         await command.ExecuteNonQueryAsync();
                         Console.WriteLine("Template inserted successfully.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle any exceptions (e.g., connection errors, query errors)
+                   
                     Console.WriteLine($"Error inserting email template: {ex.Message}");
                 }
             }
@@ -395,14 +395,14 @@ namespace IT_Institute_Management.Database
 
         public async Task InitializeAccountLockedEmailTemplateAsync()
         {
-            // SQL query to check if the template already exists
+           
             string checkQuery = @"SELECT COUNT(1) FROM EmailTemplates WHERE TemplateName = @TemplateName";
 
-            // SQL query to insert the template into the database
+          
             string insertQuery = @"INSERT INTO EmailTemplates (TemplateName, TemplateSubject, TemplateBody)
                             VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
 
-            // Email template details for Account Locked by Admin
+           
             string templateName = "AccountLockedByAdmin";
             string subject = "Your Account Has Been Locked by Admin";
             string body = @"
@@ -543,15 +543,15 @@ namespace IT_Institute_Management.Database
     </body>
     </html>";
 
-            // Create a new SqlConnection using the provided connection string
+            
             using (var connection = new SqlConnection(_connectionString))
             {
                 try
                 {
-                    // Open the database connection
+                   
                     await connection.OpenAsync();
 
-                    // First, check if the template already exists
+                   
                     using (var checkCommand = new SqlCommand(checkQuery, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
@@ -561,26 +561,26 @@ namespace IT_Institute_Management.Database
                         if (exists)
                         {
                             Console.WriteLine("Template already exists.");
-                            return; // Exit the method if the template exists
+                            return; 
                         }
                     }
 
-                    // Create a SqlCommand to execute the insert query
+                  
                     using (var command = new SqlCommand(insertQuery, connection))
                     {
-                        // Add parameters to prevent SQL injection
+                       
                         command.Parameters.AddWithValue("@TemplateName", templateName);
                         command.Parameters.AddWithValue("@TemplateSubject", subject);
                         command.Parameters.AddWithValue("@TemplateBody", body);
 
-                        // Execute the insert query asynchronously
+                     
                         await command.ExecuteNonQueryAsync();
                         Console.WriteLine("Template inserted successfully.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle any exceptions (e.g., connection errors, query errors)
+                   
                     Console.WriteLine($"Error inserting email template: {ex.Message}");
                 }
             }
@@ -589,14 +589,14 @@ namespace IT_Institute_Management.Database
 
         public async Task InitializeAccountLockedFailedLoginEmailTemplateAsync()
         {
-            // SQL query to check if the template already exists
+            
             string checkQuery = @"SELECT COUNT(1) FROM EmailTemplates WHERE TemplateName = @TemplateName";
 
-            // SQL query to insert the template into the database
+           
             string insertQuery = @"INSERT INTO EmailTemplates (TemplateName, TemplateSubject, TemplateBody)
                             VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
 
-            // Email template details for Account Locked Due to Multiple Failed Login Attempts
+           
             string templateName = "AccountLockedFailedLogin";
             string subject = "Your Account Has Been Locked Due to Multiple Failed Login Attempts";
             string body = @"
@@ -736,15 +736,15 @@ namespace IT_Institute_Management.Database
     </body>
     </html>";
 
-            // Create a new SqlConnection using the provided connection string
+          
             using (var connection = new SqlConnection(_connectionString))
             {
                 try
                 {
-                    // Open the database connection
+                    
                     await connection.OpenAsync();
 
-                    // First, check if the template already exists
+                  
                     using (var checkCommand = new SqlCommand(checkQuery, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
@@ -754,26 +754,26 @@ namespace IT_Institute_Management.Database
                         if (exists)
                         {
                             Console.WriteLine("Template already exists.");
-                            return; // Exit the method if the template exists
+                            return; 
                         }
                     }
 
-                    // Create a SqlCommand to execute the insert query
+                   
                     using (var command = new SqlCommand(insertQuery, connection))
                     {
-                        // Add parameters to prevent SQL injection
+                       
                         command.Parameters.AddWithValue("@TemplateName", templateName);
                         command.Parameters.AddWithValue("@TemplateSubject", subject);
                         command.Parameters.AddWithValue("@TemplateBody", body);
 
-                        // Execute the insert query asynchronously
+                       
                         await command.ExecuteNonQueryAsync();
                         Console.WriteLine("Template inserted successfully.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle any exceptions (e.g., connection errors, query errors)
+                   
                     Console.WriteLine($"Error inserting email template: {ex.Message}");
                 }
             }
@@ -782,14 +782,14 @@ namespace IT_Institute_Management.Database
 
         public async Task InitializePasswordUpdatedEmailTemplateAsync()
         {
-            // SQL query to check if the template already exists
+           
             string checkQuery = @"SELECT COUNT(1) FROM EmailTemplates WHERE TemplateName = @TemplateName";
 
-            // SQL query to insert the template into the database
+           
             string insertQuery = @"INSERT INTO EmailTemplates (TemplateName, TemplateSubject, TemplateBody)
                             VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
 
-            // Email template details for Password Updated Successfully
+          
             string templateName = "PasswordUpdatedSuccessfully";
             string subject = "Password Updated Successfully";
             string body = @"
@@ -929,15 +929,15 @@ namespace IT_Institute_Management.Database
     </body>
     </html>";
 
-            // Create a new SqlConnection using the provided connection string
+           
             using (var connection = new SqlConnection(_connectionString))
             {
                 try
                 {
-                    // Open the database connection
+                   
                     await connection.OpenAsync();
 
-                    // First, check if the template already exists
+                   
                     using (var checkCommand = new SqlCommand(checkQuery, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
@@ -947,26 +947,26 @@ namespace IT_Institute_Management.Database
                         if (exists)
                         {
                             Console.WriteLine("Template already exists.");
-                            return; // Exit the method if the template exists
+                            return; 
                         }
                     }
 
-                    // Create a SqlCommand to execute the insert query
+                   
                     using (var command = new SqlCommand(insertQuery, connection))
                     {
-                        // Add parameters to prevent SQL injection
+                       
                         command.Parameters.AddWithValue("@TemplateName", templateName);
                         command.Parameters.AddWithValue("@TemplateSubject", subject);
                         command.Parameters.AddWithValue("@TemplateBody", body);
 
-                        // Execute the insert query asynchronously
+                     
                         await command.ExecuteNonQueryAsync();
                         Console.WriteLine("Template inserted successfully.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle any exceptions (e.g., connection errors, query errors)
+                   
                     Console.WriteLine($"Error inserting email template: {ex.Message}");
                 }
             }
@@ -975,14 +975,14 @@ namespace IT_Institute_Management.Database
 
         public async Task InitializeNewCourseEmailTemplateAsync()
         {
-            // SQL query to check if the template already exists
+           
             string checkQuery = @"SELECT COUNT(1) FROM EmailTemplates WHERE TemplateName = @TemplateName";
 
-            // SQL query to insert the template into the database
+           
             string insertQuery = @"INSERT INTO EmailTemplates (TemplateName, TemplateSubject, TemplateBody)
                             VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
 
-            // Email template details for New Course Offering
+           
             string templateName = "NewCourseOffering";
             string subject = "We Are Offering a New Course!";
             string body = @"
@@ -1121,15 +1121,15 @@ namespace IT_Institute_Management.Database
     </body>
     </html>";
 
-            // Create a new SqlConnection using the provided connection string
+          
             using (var connection = new SqlConnection(_connectionString))
             {
                 try
                 {
-                    // Open the database connection
+                 
                     await connection.OpenAsync();
 
-                    // First, check if the template already exists
+                 
                     using (var checkCommand = new SqlCommand(checkQuery, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
@@ -1139,26 +1139,26 @@ namespace IT_Institute_Management.Database
                         if (exists)
                         {
                             Console.WriteLine("Template already exists.");
-                            return; // Exit the method if the template exists
+                            return;
                         }
                     }
 
-                    // Create a SqlCommand to execute the insert query
+              
                     using (var command = new SqlCommand(insertQuery, connection))
                     {
-                        // Add parameters to prevent SQL injection
+                       
                         command.Parameters.AddWithValue("@TemplateName", templateName);
                         command.Parameters.AddWithValue("@TemplateSubject", subject);
                         command.Parameters.AddWithValue("@TemplateBody", body);
 
-                        // Execute the insert query asynchronously
+                       
                         await command.ExecuteNonQueryAsync();
                         Console.WriteLine("Template inserted successfully.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle any exceptions (e.g., connection errors, query errors)
+                   
                     Console.WriteLine($"Error inserting email template: {ex.Message}");
                 }
             }
@@ -1167,14 +1167,14 @@ namespace IT_Institute_Management.Database
 
         public async Task InitializeCourseUpdateEmailTemplateAsync()
         {
-            // SQL query to check if the template already exists
+            
             string checkQuery = @"SELECT COUNT(1) FROM EmailTemplates WHERE TemplateName = @TemplateName";
 
-            // SQL query to insert the template into the database
+         
             string insertQuery = @"INSERT INTO EmailTemplates (TemplateName, TemplateSubject, TemplateBody)
                             VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
 
-            // Email template details for Course Update Notification
+           
             string templateName = "CourseUpdateNotification";
             string subject = "Important Update: Course Information";
             string body = @"
@@ -1313,15 +1313,15 @@ namespace IT_Institute_Management.Database
     </body>
     </html>";
 
-            // Create a new SqlConnection using the provided connection string
+          
             using (var connection = new SqlConnection(_connectionString))
             {
                 try
                 {
-                    // Open the database connection
+                  
                     await connection.OpenAsync();
 
-                    // First, check if the template already exists
+                 
                     using (var checkCommand = new SqlCommand(checkQuery, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
@@ -1331,26 +1331,26 @@ namespace IT_Institute_Management.Database
                         if (exists)
                         {
                             Console.WriteLine("Template already exists.");
-                            return; // Exit the method if the template exists
+                            return; 
                         }
                     }
 
-                    // Create a SqlCommand to execute the insert query
+                  
                     using (var command = new SqlCommand(insertQuery, connection))
                     {
-                        // Add parameters to prevent SQL injection
+                       
                         command.Parameters.AddWithValue("@TemplateName", templateName);
                         command.Parameters.AddWithValue("@TemplateSubject", subject);
                         command.Parameters.AddWithValue("@TemplateBody", body);
 
-                        // Execute the insert query asynchronously
+                     
                         await command.ExecuteNonQueryAsync();
                         Console.WriteLine("Template inserted successfully.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle any exceptions (e.g., connection errors, query errors)
+                  
                     Console.WriteLine($"Error inserting email template: {ex.Message}");
                 }
             }
@@ -1359,14 +1359,14 @@ namespace IT_Institute_Management.Database
 
         public async Task InitializeEnrollmentConfirmationEmailTemplateAsync()
         {
-            // SQL query to check if the template already exists
+           
             string checkQuery = @"SELECT COUNT(1) FROM EmailTemplates WHERE TemplateName = @TemplateName";
 
-            // SQL query to insert the template into the database
+          
             string insertQuery = @"INSERT INTO EmailTemplates (TemplateName, TemplateSubject, TemplateBody)
                             VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
 
-            // Email template details for Enrollment Confirmation
+           
             string templateName = "EnrollmentConfirmation";
             string subject = "Congratulations,You’ve Successfully Enrolled";
             string body = @"
@@ -1507,15 +1507,15 @@ namespace IT_Institute_Management.Database
     </body>
     </html>";
 
-            // Create a new SqlConnection using the provided connection string
+          
             using (var connection = new SqlConnection(_connectionString))
             {
                 try
                 {
-                    // Open the database connection
+                    
                     await connection.OpenAsync();
 
-                    // First, check if the template already exists
+                  
                     using (var checkCommand = new SqlCommand(checkQuery, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
@@ -1525,26 +1525,26 @@ namespace IT_Institute_Management.Database
                         if (exists)
                         {
                             Console.WriteLine("Template already exists.");
-                            return; // Exit the method if the template exists
+                            return; 
                         }
                     }
 
-                    // Create a SqlCommand to execute the insert query
+                   
                     using (var command = new SqlCommand(insertQuery, connection))
                     {
-                        // Add parameters to prevent SQL injection
+                      
                         command.Parameters.AddWithValue("@TemplateName", templateName);
                         command.Parameters.AddWithValue("@TemplateSubject", subject);
                         command.Parameters.AddWithValue("@TemplateBody", body);
 
-                        // Execute the insert query asynchronously
+                      
                         await command.ExecuteNonQueryAsync();
                         Console.WriteLine("Template inserted successfully.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle any exceptions (e.g., connection errors, query errors)
+                    
                     Console.WriteLine($"Error inserting email template: {ex.Message}");
                 }
             }
@@ -1553,14 +1553,14 @@ namespace IT_Institute_Management.Database
 
         public async Task InitializeEnrollmentCompleteEmailTemplateAsync()
         {
-            // SQL query to check if the template already exists
+            
             string checkQuery = @"SELECT COUNT(1) FROM EmailTemplates WHERE TemplateName = @TemplateName";
 
-            // SQL query to insert the template into the database
+           
             string insertQuery = @"INSERT INTO EmailTemplates (TemplateName, TemplateSubject, TemplateBody)
                             VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
 
-            // Email template details for Enrollment Complete
+          
             string templateName = "EnrollmentComplete";
             string subject = "Congratulations, {{FirstName}}! Enrollment Complete";
             string body = @"
@@ -1701,15 +1701,15 @@ namespace IT_Institute_Management.Database
     </body>
     </html>";
 
-            // Create a new SqlConnection using the provided connection string
+           
             using (var connection = new SqlConnection(_connectionString))
             {
                 try
                 {
-                    // Open the database connection
+                   
                     await connection.OpenAsync();
 
-                    // First, check if the template already exists
+                  
                     using (var checkCommand = new SqlCommand(checkQuery, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
@@ -1719,26 +1719,26 @@ namespace IT_Institute_Management.Database
                         if (exists)
                         {
                             Console.WriteLine("Template already exists.");
-                            return; // Exit the method if the template exists
+                            return;
                         }
                     }
 
-                    // Create a SqlCommand to execute the insert query
+                   
                     using (var command = new SqlCommand(insertQuery, connection))
                     {
-                        // Add parameters to prevent SQL injection
+                       
                         command.Parameters.AddWithValue("@TemplateName", templateName);
                         command.Parameters.AddWithValue("@TemplateSubject", subject);
                         command.Parameters.AddWithValue("@TemplateBody", body);
 
-                        // Execute the insert query asynchronously
+                      
                         await command.ExecuteNonQueryAsync();
                         Console.WriteLine("Template inserted successfully.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle any exceptions (e.g., connection errors, query errors)
+                 
                     Console.WriteLine($"Error inserting email template: {ex.Message}");
                 }
             }
@@ -2257,7 +2257,7 @@ namespace IT_Institute_Management.Database
                     {
                         checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
                         var exists = (int)await checkCommand.ExecuteScalarAsync() > 0;
-                        if (exists) return; // Exit if the template already exists
+                        if (exists) return; 
                     }
 
                     using (var command = new SqlCommand(insertQuery, connection))
@@ -2278,14 +2278,14 @@ namespace IT_Institute_Management.Database
 
         public async Task InitializeAdminResponseEmailTemplateAsync()
         {
-            // SQL query to check if the template already exists
+            
             string checkQuery = @"SELECT COUNT(1) FROM EmailTemplates WHERE TemplateName = @TemplateName";
 
-            // SQL query to insert the template into the database
+          
             string insertQuery = @"INSERT INTO EmailTemplates (TemplateName, TemplateSubject, TemplateBody)
                            VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
 
-            // Email template details
+            
             string templateName = "AdminResponse";
             string subject = "Admin Response to Your Enquiry";
             string body = @"
@@ -2422,15 +2422,15 @@ namespace IT_Institute_Management.Database
                      </body>
                      </html>";
 
-            // Create a new SqlConnection using the provided connection string
+          
             using (var connection = new SqlConnection(_connectionString))
             {
                 try
                 {
-                    // Open the database connection
+                   
                     await connection.OpenAsync();
 
-                    // First, check if the template already exists
+                
                     using (var checkCommand = new SqlCommand(checkQuery, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
@@ -2440,27 +2440,27 @@ namespace IT_Institute_Management.Database
                         if (exists)
                         {
                             Console.WriteLine("Template already exists.");
-                            return; // Exit the method if the template exists
+                            return; 
                         }
                     }
 
-                    // Create a SqlCommand to execute the insert query
+               
                     using (var command = new SqlCommand(insertQuery, connection))
                     {
-                        // Add parameters to prevent SQL injection
+                      
                         command.Parameters.AddWithValue("@TemplateName", templateName);
                         command.Parameters.AddWithValue("@TemplateSubject", subject);
                         command.Parameters.AddWithValue("@TemplateBody", body);
                         //command.Parameters.AddWithValue("@DateCreated", DateTime.Now);
 
-                        // Execute the insert query asynchronously
+                       
                         await command.ExecuteNonQueryAsync();
                         Console.WriteLine("Template inserted successfully.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle any exceptions (e.g., connection errors, query errors)
+                  
                     Console.WriteLine($"Error inserting email template: {ex.Message}");
                 }
             }
@@ -2469,14 +2469,14 @@ namespace IT_Institute_Management.Database
 
         public async Task InitializeEnquiryResponseEmailTemplateAsync()
         {
-            // SQL query to check if the template already exists
+           
             string checkQuery = @"SELECT COUNT(1) FROM EmailTemplates WHERE TemplateName = @TemplateName";
 
-            // SQL query to insert the template into the database
+            
             string insertQuery = @"INSERT INTO EmailTemplates (TemplateName, TemplateSubject, TemplateBody)
                            VALUES (@TemplateName, @TemplateSubject, @TemplateBody)";
 
-            // Email template details
+          
             string templateName = "EnquiryResponse";
             string subject = "Enquiry Response - DevHub";
             string body = @"
@@ -2613,15 +2613,15 @@ namespace IT_Institute_Management.Database
                      </body>
                      </html>";
 
-            // Create a new SqlConnection using the provided connection string
+          
             using (var connection = new SqlConnection(_connectionString))
             {
                 try
                 {
-                    // Open the database connection
+                    
                     await connection.OpenAsync();
 
-                    // First, check if the template already exists
+                  
                     using (var checkCommand = new SqlCommand(checkQuery, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@TemplateName", templateName);
@@ -2631,27 +2631,27 @@ namespace IT_Institute_Management.Database
                         if (exists)
                         {
                             Console.WriteLine("Template already exists.");
-                            return; // Exit the method if the template exists
+                            return; 
                         }
                     }
 
-                    // Create a SqlCommand to execute the insert query
+                  
                     using (var command = new SqlCommand(insertQuery, connection))
                     {
-                        // Add parameters to prevent SQL injection
+                       
                         command.Parameters.AddWithValue("@TemplateName", templateName);
                         command.Parameters.AddWithValue("@TemplateSubject", subject);
                         command.Parameters.AddWithValue("@TemplateBody", body);
                         //command.Parameters.AddWithValue("@DateCreated", DateTime.Now);
 
-                        // Execute the insert query asynchronously
+                      
                         await command.ExecuteNonQueryAsync();
                         Console.WriteLine("Template inserted successfully.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Handle any exceptions (e.g., connection errors, query errors)
+                    
                     Console.WriteLine($"Error inserting email template: {ex.Message}");
                 }
             }

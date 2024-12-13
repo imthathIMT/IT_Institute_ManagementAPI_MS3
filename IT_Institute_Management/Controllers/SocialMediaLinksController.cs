@@ -28,7 +28,7 @@ namespace IT_Institute_Management.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception (use a logging framework like Serilog, NLog, or log to a file/database)
+               
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
@@ -90,7 +90,7 @@ namespace IT_Institute_Management.Controllers
             {
                 var result = await _service.DeleteAsync(nic);
 
-                // Check if deletion was successful
+              
                 if (!result)
                 {
                     return NotFound(new { Message = $"No Social Media Links found for ID: {nic}" });

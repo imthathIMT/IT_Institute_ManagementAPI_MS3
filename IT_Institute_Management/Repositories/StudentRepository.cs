@@ -43,7 +43,7 @@ namespace IT_Institute_Management.Repositories
         {
             try
             {
-                // Validate the student object
+                
                 var validationResults = new List<ValidationResult>();
                 var validationContext = new ValidationContext(student);
                 bool isValid = Validator.TryValidateObject(student, validationContext, validationResults, true);
@@ -54,13 +54,13 @@ namespace IT_Institute_Management.Repositories
                     throw new ValidationException(string.Join(", ", errorMessages));
                 }
 
-                // Ensure the context is initialized (optional safeguard)
+             
                 if (_context == null)
                 {
                     throw new InvalidOperationException("Database context is not initialized.");
                 }
 
-                // Create a new user and add it to the context
+            
                 var user = new User
                 {
                     NIC = student.NIC,
@@ -69,29 +69,29 @@ namespace IT_Institute_Management.Repositories
                 };
 
                 await _context.Users.AddAsync(user);
-                await _context.SaveChangesAsync(); // Save here to ensure User.Id is generated
+                await _context.SaveChangesAsync(); 
 
-                // Set the UserId in the Student object
+             
                 student.UserId = user.Id;
 
-                // Add the student to the database
+              
                 await _context.Students.AddAsync(student);
                 await _context.SaveChangesAsync();
             }
             catch (ValidationException validationEx)
             {
-                // Improve error messaging by including field-specific validation issues
+               
                 throw new Exception($"Validation failed: {validationEx.Message}", validationEx);
             }
             catch (DbUpdateException dbEx)
             {
-                // Capture and log database errors like foreign key issues
+               
                 var innerExceptionMessage = dbEx.InnerException?.Message ?? "No inner exception.";
                 throw new Exception($"Database error occurred: {dbEx.Message}. Inner Exception: {innerExceptionMessage}", dbEx);
             }
             catch (Exception ex)
             {
-                // Ensure unexpected errors are logged and rethrown
+            
                 var innerExceptionMessage = ex.InnerException?.Message ?? "No inner exception.";
                 throw new Exception($"An error occurred while adding the student: {ex.Message}. Inner Exception: {innerExceptionMessage}", ex);
             }
@@ -180,7 +180,7 @@ namespace IT_Institute_Management.Repositories
             }
         }
 
-        //student profile get
+     
         public async Task<Student> GetStudentProfileByNICAsync(string nic)
         {
             return await _context.Students

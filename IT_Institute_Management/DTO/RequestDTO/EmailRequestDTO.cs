@@ -6,15 +6,15 @@
     {
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email address format")]
-        public string Email { get; set; }  // Email address of the recipient
+        public string Email { get; set; }  
 
         [Required(ErrorMessage = "Body is required")]
         [StringLength(500, ErrorMessage = "Body cannot exceed 500 characters")]
-        public string Body { get; set; }   // Body of the email
+        public string Body { get; set; }  
 
         [Required(ErrorMessage = "Subject is required")]
         [StringLength(100, ErrorMessage = "Subject cannot exceed 100 characters")]
-        public string Subject { get; set; } // Subject of the email
+        public string Subject { get; set; }
     }
 
 }

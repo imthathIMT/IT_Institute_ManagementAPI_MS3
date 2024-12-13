@@ -401,7 +401,7 @@ namespace IT_Institute_Management.Services
 
                     dueAmount = dueAmount < 0 ? 0 : dueAmount;
 
-                    // Map EnrollmentResponseDto
+                  
                     var enrollmentDto = new EnrollmentResponseDto
                     {
                         Id = enrollment.Id,
@@ -410,10 +410,10 @@ namespace IT_Institute_Management.Services
                         IsComplete = enrollment.IsComplete,
                         StudentNIC = enrollment.StudentNIC,
                         CourseId = enrollment.CourseId,
-                        payments = paymentDtos.FirstOrDefault(p => p.EnrollmentId == enrollment.Id)  // Optionally map payment
+                        payments = paymentDtos.FirstOrDefault(p => p.EnrollmentId == enrollment.Id)  
                     };
 
-                    // Add the payment to the list with the mapped enrollment
+                   
                     paymentDtos.Add(new PaymentResponseDto
                     {
                         Id = payment.Id,
@@ -422,7 +422,7 @@ namespace IT_Institute_Management.Services
                         EnrollmentId = payment.EnrollmentId.GetValueOrDefault(),
                         TotalPaidAmount = totalPaid,
                         DueAmount = dueAmount,
-                        Enrollment = enrollmentDto  // Assign the EnrollmentResponseDto here
+                        Enrollment = enrollmentDto  
                     });
                 }
             }
@@ -458,7 +458,7 @@ namespace IT_Institute_Management.Services
         public async Task<decimal> GetTotalIncomeAsync()
         {
             var payments = await _paymentRepository.GetAllPaymentsAsync();
-            return payments.Sum(p => p.Amount); // Sum up the Amount from all payments
+            return payments.Sum(p => p.Amount); 
         }
     }
 }

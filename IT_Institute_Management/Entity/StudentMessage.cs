@@ -14,11 +14,11 @@ namespace IT_Institute_Management.Entity
         [Required(ErrorMessage = "Date is required.")]
         public DateTime Date { get; set; }
 
-        // Student NIC as foreign key
+     
         [ForeignKey("Student")]
         public string? StudentNIC { get; set; }
 
-        // Navigation property to the Student entity
+       
         public Student? Student { get; set; }
     }
 }

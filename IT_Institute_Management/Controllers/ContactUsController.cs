@@ -79,7 +79,7 @@ namespace IT_Institute_Management.Controllers
         {
             try
             {
-                // Validate the emailRequestDto here if needed
+               
                 if (emailRequestDto == null)
                 {
                     return BadRequest("Email request data is missing.");
@@ -87,28 +87,28 @@ namespace IT_Institute_Management.Controllers
 
                 var result = await _contactUsService.ReplyMail(emailRequestDto);
 
-                // If sending is successful, return a success message
+               
                 if (result == "Email sent successfully.")
                 {
                     return Ok(result);
                 }
 
-                // Return validation or specific error messages
+               
                 return BadRequest(result);
             }
             catch (ArgumentNullException ex)
             {
-                // Handle null argument errors
+               
                 return BadRequest($"Error: Missing required information. {ex.Message}");
             }
             catch (FormatException ex)
             {
-                // Handle format issues (e.g., invalid email format)
+               
                 return BadRequest($"Error: Invalid email format. {ex.Message}");
             }
             catch (Exception ex)
             {
-                // Catch any other unexpected errors
+               
                 return StatusCode(500, $"An unexpected error occurred: {ex.Message}");
             }
         }

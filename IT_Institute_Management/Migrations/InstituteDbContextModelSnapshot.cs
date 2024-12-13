@@ -22,7 +22,7 @@ namespace IT_Institute_Management.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("IT_Institute_Management.EmailSerivice.EmailTemplate", b =>
+            modelBuilder.Entity("IT_Institute_Management.EmailSection.Models.EmailTemplate", b =>
                 {
                     b.Property<int>("TemplateId")
                         .ValueGeneratedOnAdd()
