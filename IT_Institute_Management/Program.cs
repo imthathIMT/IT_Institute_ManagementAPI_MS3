@@ -146,17 +146,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 // Enable CORS
-builder.Services.AddCors(option =>
+builder.Services.AddCors(options =>
 {
-    option.AddPolicy("AllowSpecificOrigins",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:4200")
-                   .AllowAnyHeader()
-                   .AllowAnyMethod()
-                   .AllowCredentials();
-        });
+    options.AddPolicy(
+      name: "CORSOpenPolicy",
+      builder => {
+          builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+      });
 });
+
 
 // Add Authorization
 builder.Services.AddAuthorization();
@@ -178,7 +176,7 @@ app.UseAuthorization();
 
 // Enable static files and CORS
 app.UseStaticFiles();
-app.UseCors("AllowSpecificOrigins");
+app.UseCors("CORSOpenPolicy");
 
 // Map controllers
 app.MapControllers();
