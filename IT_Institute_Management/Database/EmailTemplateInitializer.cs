@@ -20,89 +20,140 @@ namespace IT_Institute_Management.Database
             string templateName = "RegistrationWelcome";
             string subject = "Welcome to DevHub";
             string body = @"
-                            <!DOCTYPE html>
-                            <html lang=""en"">
-                            <head>
-                                <meta charset=""UTF-8"">
-                                <meta http-equiv=""X-UA-Compatible"" content=""IE=edge"">
-                                <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
-                                <style>
-                                    /* General styling for the email */
-                                    body {
-                                        font-family: Arial, sans-serif;
-                                        margin: 0;
-                                        padding: 0;
-                                        color: white; /* White Text */
-                                    }
+                        <!DOCTYPE html>
+                        <html lang=""en"">
+                        <head>
+                            <meta charset=""UTF-8"">
+                            <meta http-equiv=""X-UA-Compatible"" content=""IE=edge"">
+                            <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                            <style>
+                                /* General styling for the email */
+                                body {
+                                    font-family: Arial, sans-serif;
+                                    margin: 0;
+                                    padding: 0;
+                                    color: white; /* White Text */
+                                }
+                                table {
+                                    padding: auto;
+                                    width: 100%;
+                                    max-width: 600px;
+                                    margin: 0 auto;
+                                    background-color: #ffffff;
+                                    border-spacing: 0;
+                                    height: 100vh;
+                                }
+                                td {
+                                    padding: 20px;
+                                    text-align: center;
+                                    vertical-align: top;
+                                }
+                                h1, h2 {
+                                    color: white;
+                                    font-size: 24px;
+                                }
+                                p {
+                                    color: white;
+                                    font-size: 16px;
+                                }
+                                .button {
+                                    display: inline-block;
+                                    padding: 12px 24px;
+                                    background-color: #4CAF50;
+                                    color: white;
+                                    text-decoration: none;
+                                    border-radius: 5px;
+                                }
+                                .footer {
+                                    font-size: 12px;
+                                    color: #bbbbbb;
+                                }
+                                .registration-details {
+                                    text-align: left;
+                                    padding: 20px;
+                                    background-color: #0e2963;
+                                    border-radius: 8px;
+                                }
+                                .registration-details p {
+                                    margin: 10px 0;
+                                    font-size: 16px;
+                                }
+                                .registration-details strong {
+                                    color: white;
+                                }
+                                .alert{
+                                    color: rgb(255, 208, 0);
+                                }
+
+                                /* Media Query for smaller screens */
+                                @media only screen and (max-width: 600px) {
                                     table {
-                                        padding: auto;
-                                        width: 100%;
-                                        max-width: 600px;
-                                        margin: 0 auto;
-                                        background-color: #ffffff;
-                                        border-spacing: 0;
-                                        height: 100vh;
+                                        width: 100% !important;
                                     }
                                     td {
-                                        padding: 20px;
-                                        text-align: center;
-                                        vertical-align: top;
+                                        padding: 10px !important;
                                     }
-                                    h1, h2 {
-                                        color: white;
-                                        font-size: 24px;
+                                    h1 {
+                                        font-size: 22px !important;
+                                    }
+                                    h2 {
+                                        font-size: 20px !important;
                                     }
                                     p {
-                                        color: white;
-                                        font-size: 16px;
+                                        font-size: 14px !important;
                                     }
                                     .button {
-                                        display: inline-block;
-                                        padding: 12px 24px;
-                                        background-color: #4CAF50;
-                                        color: white;
-                                        text-decoration: none;
-                                        border-radius: 5px;
-                                    }
-                                    .footer {
-                                        font-size: 12px;
-                                        color: #bbbbbb;
+                                        padding: 10px 20px !important;
+                                        font-size: 14px !important;
                                     }
                                     .registration-details {
-                                        text-align: left;
-                                        padding: 20px;
-                                        background-color: #0e2963;
-                                        border-radius: 8px;
+                                        padding: 15px !important;
                                     }
-                                    .registration-details p {
-                                        margin: 10px 0;
-                                        font-size: 16px;
+                                }
+
+                                /* Media Query for very small screens */
+                                @media only screen and (max-width: 400px) {
+                                    h1 {
+                                        font-size: 20px !important;
                                     }
-                                    .registration-details strong {
-                                        color: white;
+                                    h2 {
+                                        font-size: 18px !important;
                                     }
-                                </style>
-                                <title>Welcome to DevHub</title>
-                            </head>
-                            <body>
-                                <table style=""background-color: #0d1e4c;"">
-                                    <tr>
-                                        <td>
-                                            <h1>Welcome to DevHub, {{FirstName}}!</h1>
-                                            <p>We're excited to welcome you to the DevHub Institute!</p>
-                                            <div class=""registration-details"">
-                                                <h2>Your Registration Details:</h2>
-                                                <p><strong>Name:</strong> {{FirstName}} {{LastName}}</p>
-                                                <p><strong>NIC Number:</strong> {{NICNumber}}</p>
-                                                <p><strong>Password:</strong> {{Password}}</p>
-                                            </div>
-                                            <p><a href=""http://localhost:4200/login"" class=""button"">Login to DevHub</a></p>
-                                            <p class=""footer"">Best regards,<br>The DevHub Team</p>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </body>
-                            </html>";
+                                    p {
+                                        font-size: 12px !important;
+                                    }
+                                    .button {
+                                        padding: 8px 16px !important;
+                                        font-size: 12px !important;
+                                    }
+                                    .registration-details {
+                                        padding: 10px !important;
+                                    }
+                                }
+                            </style>
+                            <title>Welcome to DevHub</title>
+                        </head>
+                        <body>
+                            <table style=""background-color: #0d1e4c;"">
+                                <tr>
+                                    <td>
+                                        <h1>Welcome to DevHub, {{FirstName}}!</h1>
+                                        <p>We're excited to welcome you to the DevHub Institute!</p>
+                                        <div class=""registration-details"">
+                                            <h2>Your Registration Details:</h2>
+                                            <p><strong>Name:</strong> {{FirstName}} {{LastName}}</p>
+                                            <p><strong>NIC Number:</strong> {{NICNumber}}</p>
+                                            <p><strong>Password:</strong>{{Password}}</p>
+                                            <p class=""alert"">Please set your password after logging in for the first time.</p>
+                                        </div>
+                                        <p><a href=""http://localhost:4200/login"" class=""button"">Login to DevHub</a></p>
+                                        <p class=""footer"">Best regards,<br>The DevHub Team</p>
+                                        <p class=""footer"">If you need help, please contact us at devhubinstitue@gmail.com.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </body>
+                        </html>";
 
           
             using (var connection = new SqlConnection(_connectionString))
